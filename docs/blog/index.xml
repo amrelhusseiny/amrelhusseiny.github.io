@@ -6,7 +6,36 @@
     <description>Recent content in Blogs on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</guid>
+      <description>Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
+We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</description>
+    </item>
+    
+    <item>
+      <title>gNMI Network Automation (2/3) : gNMI Configuration of network devices</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:10 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</guid>
+      <description>Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash). 2- Next article , we will use gNMI telemetry for gathering interface data and BGP/ISIS adjacency and collect them using Telegraf/InfluxDB and visualize them using Grafana.</description>
+    </item>
+    
+    <item>
+      <title>gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:06 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</guid>
+      <description>Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.
+But beware, unlike traditional containers which replaces the resource intensive Virtual Machine with only the needed parts inside a container form, here are only converting those VM to run as VM emulating container, so those containers will use the same amount of resource as the EVE-NG VM if not a little bit more, but you get to optimize the deplyment of these labs.</description>
+    </item>
+    
     <item>
       <title>Networks - RPKI , securing BGP Infrastructure</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</link>

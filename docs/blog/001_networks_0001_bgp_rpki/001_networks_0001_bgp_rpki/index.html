@@ -172,12 +172,12 @@ Remember RPKI Validators downloads the whole RPKI Repository from the RIRs datab
 <p>For now we are going to use Routinator, but feel free to use any of these packages.</p>
 <h3 id="steps">steps</h3>
 <p>Update and install gcc C compiler, then installing Rust as Routinator is written in Rust, after that we run it .</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    $ sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade
-</span></span><span style="display:flex;"><span>    $ sudo apt-get gcc
-</span></span><span style="display:flex;"><span>    $ curl https://sh.rustup.rs -sSf | sh 
-</span></span><span style="display:flex;"><span>    $ source $HOME/.cargo/env 
-</span></span><span style="display:flex;"><span>    $ cargo install routinator 
-</span></span></code></pre></div><p>All RIRs repos are by default open to be queried with no issue, but for ARIN, you have to acknowledge you have read the terms and accept, to accept the ARIN&rsquo;s aggreement :</p>
+<pre tabindex="0"><code>    $ sudo apt update &amp;&amp; sudo apt upgrade
+    $ sudo apt-get gcc
+    $ curl https://sh.rustup.rs -sSf | sh 
+    $ source $HOME/.cargo/env 
+    $ cargo install routinator 
+</code></pre><p>All RIRs repos are by default open to be queried with no issue, but for ARIN, you have to acknowledge you have read the terms and accept, to accept the ARIN&rsquo;s aggreement :</p>
 <pre><code>`$ routinator init --accept-arin-rpa`
 </code></pre>
 <p>Following command will show and print out the whole Global IP Address allocation (ROAs) , it could some time , i would advise to run it in the background :</p>
@@ -199,29 +199,29 @@ Remember RPKI Validators downloads the whole RPKI Repository from the RIRs datab
 </li>
 </ul>
 <p>Now on the Cisco router I am connected to the validator server and able to see the established session</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Router#show ip bgp rpki servers 
-</span></span><span style="display:flex;"><span>BGP SOVC neighbor is 192.168.1.143/3323 connected to port <span style="color:#ae81ff">3323</span>
-</span></span><span style="display:flex;"><span>Flags 64, Refresh time is 900, Serial number is 0, Session ID is <span style="color:#ae81ff">30149</span>
-</span></span><span style="display:flex;"><span>InQ has <span style="color:#ae81ff">0</span> messages, OutQ has <span style="color:#ae81ff">0</span> messages, formatted msg <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>Session IO flags 3, Session flags <span style="color:#ae81ff">4008</span>
-</span></span><span style="display:flex;"><span> Neighbor Statistics:
-</span></span><span style="display:flex;"><span>  Prefixes <span style="color:#ae81ff">299821</span>
-</span></span><span style="display:flex;"><span>  Connection attempts: <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>  Connection failures: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>  Errors sent: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>  Errors received: 0<span style="color:#e6db74">`</span>
-</span></span><span style="display:flex;"><span>and you can see the whole ROA table 
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>Router<span style="color:#f92672">(</span>config-router<span style="color:#f92672">)</span><span style="color:#75715e">#do show ip bgp rpki tab</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">228256</span> BGP sovc network entries using <span style="color:#ae81ff">36520960</span> bytes of memory
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">250017</span> BGP sovc record entries using <span style="color:#ae81ff">8000544</span> bytes of memory
-</span></span><span style="display:flex;"><span>Network              Maxlen  Origin-AS  Source  Neighbor
-</span></span><span style="display:flex;"><span>1.0.0.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">13335</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
-</span></span><span style="display:flex;"><span>1.0.4.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
-</span></span><span style="display:flex;"><span>1.0.4.0/22           <span style="color:#ae81ff">22</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
-</span></span><span style="display:flex;"><span>1.0.5.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
-</span></span><span style="display:flex;"><span>1.0.6.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
-</span></span><span style="display:flex;"><span>....... 
-</span></span></code></pre></div><p>Note that this table is not your routing table, its for validation not for route reflection.
+<pre tabindex="0"><code>Router#show ip bgp rpki servers 
+BGP SOVC neighbor is 192.168.1.143/3323 connected to port 3323
+Flags 64, Refresh time is 900, Serial number is 0, Session ID is 30149
+InQ has 0 messages, OutQ has 0 messages, formatted msg 1
+Session IO flags 3, Session flags 4008
+ Neighbor Statistics:
+  Prefixes 299821
+  Connection attempts: 1
+  Connection failures: 0
+  Errors sent: 0
+  Errors received: 0`
+and you can see the whole ROA table 
+`Router(config-router)#do show ip bgp rpki tab
+228256 BGP sovc network entries using 36520960 bytes of memory
+250017 BGP sovc record entries using 8000544 bytes of memory
+Network              Maxlen  Origin-AS  Source  Neighbor
+1.0.0.0/24           24      13335      0       192.168.1.143/3323
+1.0.4.0/24           24      38803      0       192.168.1.143/3323
+1.0.4.0/22           22      38803      0       192.168.1.143/3323
+1.0.5.0/24           24      38803      0       192.168.1.143/3323
+1.0.6.0/24           24      38803      0       192.168.1.143/3323
+....... 
+</code></pre><p>Note that this table is not your routing table, its for validation not for route reflection.
 Now to further have a look about the PDUs , i setup a wireshark capture, after that, you need to go to the capture stream of the port 3323 and click decode as/current/RPKI-Router-Protocol like the following screenshot</p>
 <p><img src="rpki_wireshark_capture_1.png" alt="rpki_wireshark_capture_1.png" title="rpki_wireshark_capture_1.png"></p>
 <p><img src="rpki_wireshark_capture_2.png" alt="rpki_wireshark_capture_2.png"></p>
@@ -229,16 +229,16 @@ Now to further have a look about the PDUs , i setup a wireshark capture, after t
 <h2 id="3-validating-rpki-operations">3) Validating RPKI operations</h2>
 <p>eBGP configured between Router_1 (RPKI Client) and Router_2 (Hijacking router) , and network 1.0.0.0/24 is advertised from Router_2 to Router_1, when we inspect Router_1&rsquo;s routing table we see the subnet not present, meaning RPKI is working.
 To see the reason for rejecting the route on Router_1</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Router_1#show bgp 1.0.0.0
-</span></span><span style="display:flex;"><span>BGP routing table entry <span style="color:#66d9ef">for</span> 1.0.0.0/24, version <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>Paths: <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> available, no best path<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>  Not advertised to any peer
-</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">65004</span>
-</span></span><span style="display:flex;"><span>    10.0.0.2 from 10.0.0.2 <span style="color:#f92672">(</span>10.0.0.2<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>      Origin IGP, metric 0, localpref 100, valid, external
-</span></span><span style="display:flex;"><span>     path 7FA8A922B2E8 RPKI State invalid  <span style="color:#f92672">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
-</span></span><span style="display:flex;"><span>      rx pathid: 0, tx pathid: <span style="color:#ae81ff">0</span>
-</span></span></code></pre></div><h1 id="manrs">MANRS</h1>
+<pre tabindex="0"><code>Router_1#show bgp 1.0.0.0
+BGP routing table entry for 1.0.0.0/24, version 0
+Paths: (1 available, no best path)
+  Not advertised to any peer
+  65004
+    10.0.0.2 from 10.0.0.2 (10.0.0.2)
+      Origin IGP, metric 0, localpref 100, valid, external
+     path 7FA8A922B2E8 RPKI State invalid  &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+      rx pathid: 0, tx pathid: 0
+</code></pre><h1 id="manrs">MANRS</h1>
 <p><em>(Mutually Agreed Norms for Routing Security)</em>
 MANRS is a group of operators initiative pushing for route security and security actions, they publish an Actions whitepaper for service providers how to participate and which actions is compulsory and which actions are options.
 You can find detailed explanation in their publication on manrs.org.</p>
