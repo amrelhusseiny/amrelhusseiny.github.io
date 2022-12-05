@@ -1,4 +1,4 @@
 .DS_Store
 .gitmodules
 .hugo_build.lock
-themes/m10c
+# themes/m10c
