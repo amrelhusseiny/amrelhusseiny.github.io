@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Amr ElHusseiny&#39;s Blog</title>
+    <link>https://amrelhusseiny.github.io/blog/</link>
+    <description>Recent content in Blogs on Amr ElHusseiny&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RPKI , securing BGP Infrastructure</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</link>
+      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</guid>
+      <description>Table Of Contents What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&amp;rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy.</description>
+    </item>
+    
+  </channel>
+</rss>

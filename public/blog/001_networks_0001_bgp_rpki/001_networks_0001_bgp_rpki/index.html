@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>RPKI , securing BGP Infrastructure // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RPKI , securing BGP Infrastructure"/>
+<meta name="twitter:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy."/>
+
+    <meta property="og:title" content="RPKI , securing BGP Infrastructure" />
+<meta property="og:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-12-04T23:40:47+02:00" />
+<meta property="article:modified_time" content="2022-12-04T23:40:47+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+             - 
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">RPKI , securing BGP Infrastructure</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 4, 2022
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          10 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what--why-rpki-resource-public-key-infrastructure">What &amp; Why RPKI (Resource Public Key Infrastructure)?</a></li>
+    <li><a href="#signing-roas">Signing ROAs</a>
+      <ul>
+        <li><a href="#what-is-an-roa-">what is an ROA ?</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-you-deploy-">How you deploy ?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#pdus-structure-rpki-rtr-pdu">PDUs Structure (rpki-rtr-pdu)</a></li>
+    <li><a href="#protocol-workings">Protocol workings</a>
+      <ul>
+        <li><a href="#serial-querycache-response">Serial Query/Cache Response</a></li>
+        <li><a href="#serial-notify">Serial Notify</a></li>
+        <li><a href="#end-of-data">End of data</a></li>
+        <li><a href="#reset-query">Reset Query</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#1-setup-a-validator">1) Setup a Validator</a>
+      <ul>
+        <li><a href="#steps">steps</a></li>
+        <li><a href="#allow-list">Allow List</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-discarding-bgp-invalids--configuring-routers">2) Discarding BGP invalids / configuring routers</a></li>
+    <li><a href="#3-validating-rpki-operations">3) Validating RPKI operations</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#compulsory-actions-to-join">Compulsory Actions to join</a></li>
+  </ul>
+</nav>
+</div>
+<h1 id="introduction">Introduction</h1>
+<h2 id="what--why-rpki-resource-public-key-infrastructure">What &amp; Why RPKI (Resource Public Key Infrastructure)?</h2>
+<p>BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is <em>Route Hijacking</em> in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in <a href="https://www.catchpoint.com/blog/bgp-hijacking">Taiwan&rsquo;s TWNIC hijack</a> in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy.</p>
+<p>In order to overcome this, and RFC was created <strong>RFC-6810</strong> and a work group was spun up to push for the implementation of this. feature represented by <strong>MANRS</strong> (Mutually Agreed Norms for Routing Security).</p>
+<p>What happens that the BGP running device validates the recieved BGP route againt the RPKI local database to confirm the validty of the originating AS.</p>
+<p><strong>RPKI is used for Origin Validation and not AS-Path validation</strong> , RPKI validation process only looks at the OriginAS in the Route NLRI, however it does not look in AS Path, so you may have a hijacker start a malicious router with your AS number behind his own AS and use that to advertise your prefix, or AS-Path, you should be doing Prefix filtering on your boundaries anyways.</p>
+<h2 id="signing-roas">Signing ROAs</h2>
+<p>1st you need to understand that there is 5 Certificate Authorities in conjunction with the RIRs (Regional Internet Registry) charged with creating and validating the carriers certificates, you should register ROAs with your RIR, using your already created service provider account.</p>
+<p>side note - Certificate providers are AFRINIC, APNIC, RIPE NCC, LACNIC, ARIN.</p>
+<p><img src="https://www.iana.org/_img/2013.1/rir-map.svg" alt="RIRs"></p>
+<h3 id="what-is-an-roa-">what is an ROA ?</h3>
+<p>The Route of Origin Authorization simply consists of a Prefix and its Origin, indicating which AS (Autonomous System) is authorised to advertise this Prefix.
+Multiple ROAs can exist for the same Prefix, ROAs can overlap.</p>
+<p>I can better show you how an ROA looks like from a captured RPKI Route Update :</p>
+<p><img src="RPKI_ROA.png" alt="Image not found: RPKI_ROA.png" title="Image not found: RPKI_ROA.png"></p>
+<p>in the above snapshot, means you can advertise any network in between the /22 and /24 subnet mask, so its not only allowing you advertise one subnet, but a range of subnet masks.</p>
+<p>Cool way to search for the registered prefixes on <a href="https://irrexplorer.nlnog.net">NLNOG&rsquo;s IRR Exp</a> , this enables you to see which IRR is a particular ROA is registered with:</p>
+<p><img src="RPKI_ROA_eplorer.png" alt="RPKI_ROA_eplorer.png"></p>
+<p>You can do the same validation of a prefix on your created validator (which we will do later in this in article) using :</p>
+<h2 id="how-you-deploy-">How you deploy ?</h2>
+<p>Simply you will need to do the following, we will go more in detail later:</p>
+<ol>
+<li>Create ROAs (Route of Origin Authorization).</li>
+<li>Setting up Validators (Validation Cache Servers).</li>
+<li>Discarding BGP invalids on boundry routers .</li>
+</ol>
+<h1 id="rpki-rtr--architecture">RPKI-RTR  architecture</h1>
+<p>RPKI-RTR is the protocol used in between the validator and the Client routers, the RFCs states the structure to deploy the RPKI service as per the following driagram :
+Note : Local Cache = Validator</p>
+<p><img src="RPKI_deployment_structure.png" alt="RPKI_deployment_structure.png"></p>
+<h2 id="pdus-structure-rpki-rtr-pdu">PDUs Structure (rpki-rtr-pdu)</h2>
+<p><img src="rpki_pdu.png" alt="rpki_pdu.png"></p>
+<p>The update header includes the following :</p>
+<ul>
+<li><strong>Protcol Version</strong> : currently version 0</li>
+<li><strong>PDU Type</strong> : IPv4 for example</li>
+<li><strong>Serial Number</strong> : Indicates the last update number recieved from the upstream Cache or Global RPKI server, so if the downstream client router sends his last PDU Serial number to the upstream Cache , the Cache will send the client router all PDUs with greater Serial number which correspinds to the the updates that this client router did not recieve yet .</li>
+<li><strong>Session ID</strong> : Used in conjunction with the Serial number to identify these Serial Numbers are still attached to the same session that is established with the upstream server.</li>
+<li><strong>Length</strong> : length of the whole PDU</li>
+<li><strong>Flags</strong> : 1 for Announcement - 0 for Withdraw</li>
+<li><strong>Prefix Length</strong> : Shortest Prefix (Min)</li>
+<li><strong>Max Length</strong> : Longest Prefix (Max)</li>
+<li><strong>Prefix</strong> : The IP Portion</li>
+<li><strong>AS</strong> : 32-bit format AS number (Autonomous Number)</li>
+</ul>
+<p><!-- raw HTML omitted -->Note : IPx PDU uniqueness is identified by the set of [Prefix, Len, Max-Len,ASN]<!-- raw HTML omitted --></p>
+<h2 id="protocol-workings">Protocol workings</h2>
+<p>RPKI uses the port <em>rpki-rtr TCP 323</em>,  also cache to router communication is recommeneded to use TCP-A0 (you can check <a href="https://datatracker.ietf.org/doc/html/rfc5925">RFC-5925</a>) for authentication instead of TCP-MD5.</p>
+<p><img src="rpki_operation_1.png" alt="rpki_operation_1.png"></p>
+<h3 id="serial-querycache-response">Serial Query/Cache Response</h3>
+<p>A session is kept up between either the RPKI Cache and the Global RPKI server , or between the downstream RPKI client router and the RPKI Cache.
+The router periodically sends the Cache server the last (greatest) PDU Serial number , the cache responds by sending all the updates with a higher Seral number, then the client router updates its current serial number to the last PDU recieved.
+To make sure that the data is up to date a Keepalive like interval of 1 hour, at which the Client router should send a Serial Query to make sure his updates are up to date.</p>
+<h3 id="serial-notify">Serial Notify</h3>
+<p>When the RPKI Cache recieves updates, it send a Notification to its clients, saying this is a good time to Poll for new data, Client routers must be the one initiating the requests for the update .</p>
+<h3 id="end-of-data">End of data</h3>
+<p>If the Cache recieves a query and finds that there is no updates to send to the Client router, instead it sends an End of data PDU</p>
+<h3 id="reset-query">Reset Query</h3>
+<p>Client router requests the whole current updates database from the Cache server, this message can be sent in the rest or the start of the connection so the Client can recieve a full table f updates from the caching server, initiation looks as follows .</p>
+<p><img src="rpki_operation_2.png" alt="rpki_operation_2.png"></p>
+<h1 id="applying-rpki">Applying RPKI</h1>
+<p><img src="RPKI_lab_setup.png" alt="RPKI_lab_setup.png"></p>
+<p>We are using Ubuntu with Routinator which is a RIPE developed Route Validator, and 2 IOS-XE routers, Router_1 is RPKI Client, and Router_2 is the eBGP peer that will send the invalid subnet 1.0.0.0/24 .</p>
+<p>After ROA is created, it may take to 10 minutes to show up in the Registries databases and would be able to validate.</p>
+<h2 id="1-setup-a-validator">1) Setup a Validator</h2>
+<p>There is multiple validators available on the market , we will be using  Routinator ,a validator developed by RIPE.
+Remember RPKI Validators downloads the whole RPKI Repository from the RIRs databases, acting as cache afterwards, keeping its database updated by queriing the RIRs periodically .</p>
+<p>There are multiple Validtor softwares available other than Routinator if you prefer such as <a href="https://www.rpki-client.org">OpenBSD&rsquo;s RPKI-Client</a> , <a href="https://blog.cloudflare.com/cloudflares-rpki-toolkit/">Cloudflare&rsquo;s OctoRPKI</a> , or <a href="https://fortproject.net/en/validator">FORT&rsquo;s Validator</a>.</p>
+<p>For now we are going to use Routinator, but feel free to use any of these packages.</p>
+<h3 id="steps">steps</h3>
+<p>Update and install gcc C compiler, then installing Rust as Routinator is written in Rust, after that we run it .</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    $ sudo apt update <span style="color:#f92672">&amp;&amp;</span> sudo apt upgrade
+</span></span><span style="display:flex;"><span>    $ sudo apt-get gcc
+</span></span><span style="display:flex;"><span>    $ curl https://sh.rustup.rs -sSf | sh 
+</span></span><span style="display:flex;"><span>    $ source $HOME/.cargo/env 
+</span></span><span style="display:flex;"><span>    $ cargo install routinator 
+</span></span></code></pre></div><p>All RIRs repos are by default open to be queried with no issue, but for ARIN, you have to acknowledge you have read the terms and accept, to accept the ARIN&rsquo;s aggreement :</p>
+<pre><code>`$ routinator init --accept-arin-rpa`
+</code></pre>
+<p>Following command will show and print out the whole Global IP Address allocation (ROAs) , it could some time , i would advise to run it in the background :</p>
+<pre><code>`$ routinator -v vrps`
+</code></pre>
+<p>To have the Routinator(Validator/RPKI Cache) start listening to Client&rsquo;s/Router&rsquo;s request, start the service with the following command, the default port for RPKI should be 323, but to avoid running the server as root, we will be using port 3323 instead :</p>
+<pre><code>`$ routinator server --rtr 192.168.1.143:3323 --refresh=900 `
+</code></pre>
+<p>Following how your newy installed validator communication looks like</p>
+<p><img src="RPKI_RIR_to_validator.png" alt="RPKI_RIR_to_validator.png"></p>
+<h3 id="allow-list">Allow List</h3>
+<p>You can create a whitelist locally in your validator, to add exceptions for some subnets that you donot need validated.</p>
+<h2 id="2-discarding-bgp-invalids--configuring-routers">2) Discarding BGP invalids / configuring routers</h2>
+<p>On a Cisco IOS-XE router, its as simple as running the following command under the &ldquo;router bgp xxxxx&rdquo; config</p>
+<ul>
+<li>
+<p>My Authenticator server IP is 192,168.1.143 and port 3323 is the listening port :</p>
+<p><code>Router(config-router)#bgp rpki server tcp 192.168.1.143 port 3323 refresh 900</code></p>
+</li>
+</ul>
+<p>Now on the Cisco router I am connected to the validator server and able to see the established session</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Router#show ip bgp rpki servers 
+</span></span><span style="display:flex;"><span>BGP SOVC neighbor is 192.168.1.143/3323 connected to port <span style="color:#ae81ff">3323</span>
+</span></span><span style="display:flex;"><span>Flags 64, Refresh time is 900, Serial number is 0, Session ID is <span style="color:#ae81ff">30149</span>
+</span></span><span style="display:flex;"><span>InQ has <span style="color:#ae81ff">0</span> messages, OutQ has <span style="color:#ae81ff">0</span> messages, formatted msg <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Session IO flags 3, Session flags <span style="color:#ae81ff">4008</span>
+</span></span><span style="display:flex;"><span> Neighbor Statistics:
+</span></span><span style="display:flex;"><span>  Prefixes <span style="color:#ae81ff">299821</span>
+</span></span><span style="display:flex;"><span>  Connection attempts: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  Connection failures: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  Errors sent: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  Errors received: 0<span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>and you can see the whole ROA table 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">`</span>Router<span style="color:#f92672">(</span>config-router<span style="color:#f92672">)</span><span style="color:#75715e">#do show ip bgp rpki tab</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">228256</span> BGP sovc network entries using <span style="color:#ae81ff">36520960</span> bytes of memory
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">250017</span> BGP sovc record entries using <span style="color:#ae81ff">8000544</span> bytes of memory
+</span></span><span style="display:flex;"><span>Network              Maxlen  Origin-AS  Source  Neighbor
+</span></span><span style="display:flex;"><span>1.0.0.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">13335</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
+</span></span><span style="display:flex;"><span>1.0.4.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
+</span></span><span style="display:flex;"><span>1.0.4.0/22           <span style="color:#ae81ff">22</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
+</span></span><span style="display:flex;"><span>1.0.5.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
+</span></span><span style="display:flex;"><span>1.0.6.0/24           <span style="color:#ae81ff">24</span>      <span style="color:#ae81ff">38803</span>      <span style="color:#ae81ff">0</span>       192.168.1.143/3323
+</span></span><span style="display:flex;"><span>....... 
+</span></span></code></pre></div><p>Note that this table is not your routing table, its for validation not for route reflection.
+Now to further have a look about the PDUs , i setup a wireshark capture, after that, you need to go to the capture stream of the port 3323 and click decode as/current/RPKI-Router-Protocol like the following screenshot</p>
+<p><img src="rpki_wireshark_capture_1.png" alt="rpki_wireshark_capture_1.png" title="rpki_wireshark_capture_1.png"></p>
+<p><img src="rpki_wireshark_capture_2.png" alt="rpki_wireshark_capture_2.png"></p>
+<p>You can also use the RPKI validation in your router&rsquo;s route policy&rsquo;s (Cisco, Juniper and so on), for instance you can set a preference for the validated routes, you donot need to reject the non-validated routes, you can just set a worse preference for them.</p>
+<h2 id="3-validating-rpki-operations">3) Validating RPKI operations</h2>
+<p>eBGP configured between Router_1 (RPKI Client) and Router_2 (Hijacking router) , and network 1.0.0.0/24 is advertised from Router_2 to Router_1, when we inspect Router_1&rsquo;s routing table we see the subnet not present, meaning RPKI is working.
+To see the reason for rejecting the route on Router_1</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Router_1#show bgp 1.0.0.0
+</span></span><span style="display:flex;"><span>BGP routing table entry <span style="color:#66d9ef">for</span> 1.0.0.0/24, version <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>Paths: <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> available, no best path<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  Not advertised to any peer
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">65004</span>
+</span></span><span style="display:flex;"><span>    10.0.0.2 from 10.0.0.2 <span style="color:#f92672">(</span>10.0.0.2<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      Origin IGP, metric 0, localpref 100, valid, external
+</span></span><span style="display:flex;"><span>     path 7FA8A922B2E8 RPKI State invalid  <span style="color:#f92672">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+</span></span><span style="display:flex;"><span>      rx pathid: 0, tx pathid: <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h1 id="manrs">MANRS</h1>
+<p><em>(Mutually Agreed Norms for Routing Security)</em>
+MANRS is a group of operators initiative pushing for route security and security actions, they publish an Actions whitepaper for service providers how to participate and which actions is compulsory and which actions are options.
+You can find detailed explanation in their publication on manrs.org.</p>
+<h2 id="compulsory-actions-to-join">Compulsory Actions to join</h2>
+<ol>
+<li>Prevent probagation of incorrect routing information : mainly confirm their peer service provider actually holds that IP Prefix and AS number.</li>
+<li>Correct up to date NOC Contact for carriers correspinding to prefixes/ASs should be registered and kept current with Regional and/or National regisry (RIR &amp; NIR), can be registered with the PeeringDB (<a href="https://docs.peeringdb.com/howto/get-started-operator/">PeeringDB Network Operators HowTo</a>).</li>
+<li>Carriers must publicly document their owned subnets/ASs and also which prefixes/ASs they provide Transit services for through their RPSL with IRRs, or RIRs, and NIR databases, also recommended to create ROAs (Route of Origin Authorizations) foe the list of prefixes will be advertised by the carrier.</li>
+<li>Prevent Spoofed traffic by using source address filteration or a tool like uRPF.</li>
+</ol>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.catchpoint.com/blog/bgp-hijacking">(Article) What is BGP ROute Hijacking ?</a></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc6810.html">(RFC_6810) The Resource Public Key Infrastructure (RPKI)</a></li>
+<li><a href="https://www.iana.org/numbers">(Website)IANA Numbering organizations and scope</a></li>
+<li><a href="https://www.manrs.org/">(Website) Mutually Agreed Norms for Routing Security (MANRS) - SP Group</a></li>
+<li><a href="https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/217020-bgp-rpki-with-xr7-cisco8000-whitepaper.html">(Article) BGP RPKI With XR7 (Cisco8000) Whitepaper</a></li>
+<li><a href="https://blog.apnic.net/2019/09/11/how-to-creating-rpki-roas-in-myapnic/">(Article) RPKI ROAs Authentcator - Ubuntu setup</a></li>
+<li><a href="https://www.manrs.org/2022/07/one-does-not-simply-deploy-rpki/">(Article) One Does Not Simply “Deploy RPKI”</a></li>
+<li><a href="https://www.youtube.com/watch?v=h7Z2l6oqa6M">(Video) MANRS session - understanding RPKI deployment</a></li>
+<li><a href="https://afrinic.net/resource-certification">(Article) AFRINIC&rsquo;s RPKI Guide</a></li>
+<li><a href="https://routinator.docs.nlnetlabs.nl/en/stable/">(Website) Routinator Documentation</a></li>
+<li><a href="https://routinator.docs.nlnetlabs.nl/en/stable/installation.html">(Article) How to install Routinator Validator</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
