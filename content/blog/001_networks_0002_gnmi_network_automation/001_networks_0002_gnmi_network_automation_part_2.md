@@ -1,5 +1,6 @@
 ---
 title: "gNMI Network Automation (2/3) : gNMI Configuration of network devices"
+description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
 date: 2022-12-05T11:19:10+02:00
 draft: true
 ---

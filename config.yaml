@@ -7,6 +7,7 @@ title: "Amr ElHusseiny's Blog"
 languageCode: "en-us"
 publishDir: "docs"
 
+
 module:
   hugoVersion:
     extended: true
@@ -15,6 +16,8 @@ params:
   author: Amr ElHusseiny
   avatar: "amr_photo.png"
   description: Network engineer and Automation advocate
+  menu_item_separator: "<br>"
+  favicon: "favicon.ico"
   style:
     ## SideBar Color
     darkestColor: "#FFFFFF"
@@ -26,6 +29,13 @@ params:
     lightColor: "#57595b"
     ## Headers Color
     lightestColor: "#3e4041"
+  social:
+    - icon: "github"
+      name: "amrelhusseiny Github"
+      url: "https://github.com/amrelhusseiny"
+    - icon: "linkedin"
+      name: "amrelhusseiny linkedin"
+      url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
 menu:
   main:

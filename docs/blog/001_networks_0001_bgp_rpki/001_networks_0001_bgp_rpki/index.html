@@ -7,16 +7,16 @@
     <meta name="generator" content="Hugo 0.107.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
-    <meta name="description" content="" />
+    <meta name="description" content="Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP" />
     <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Networks - RPKI , securing BGP Infrastructure"/>
-<meta name="twitter:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy."/>
+<meta name="twitter:description" content="Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"/>
 
     <meta property="og:title" content="Networks - RPKI , securing BGP Infrastructure" />
-<meta property="og:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy." />
+<meta property="og:description" content="Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-04T23:40:47+02:00" />
@@ -31,11 +31,28 @@
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
-             - 
+            <br>
           
           <a class="app-header-menu-item" href="/blog">Blog</a>
       </nav>
       <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
     </header>
     <main class="app-container">
       
