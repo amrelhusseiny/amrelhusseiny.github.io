@@ -5,6 +5,7 @@ buildDrafts: true
 theme: "m10c"
 title: "Amr ElHusseiny's Blog"
 languageCode: "en-us"
+publishDir: "docs"
 
 module:
   hugoVersion:
