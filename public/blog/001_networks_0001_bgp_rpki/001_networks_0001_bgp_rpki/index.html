@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us">
   <head>
-    <title>RPKI , securing BGP Infrastructure // Amr ElHusseiny&#39;s Blog</title>
+    <title>Networks - RPKI , securing BGP Infrastructure // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.107.0">
@@ -12,10 +12,10 @@
 
     
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="RPKI , securing BGP Infrastructure"/>
+<meta name="twitter:title" content="Networks - RPKI , securing BGP Infrastructure"/>
 <meta name="twitter:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy."/>
 
-    <meta property="og:title" content="RPKI , securing BGP Infrastructure" />
+    <meta property="og:title" content="Networks - RPKI , securing BGP Infrastructure" />
 <meta property="og:description" content="Table Of Contents What &amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/" /><meta property="article:section" content="blog" />
@@ -41,7 +41,7 @@
       
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">RPKI , securing BGP Infrastructure</h1>
+      <h1 class ="post-title">Networks - RPKI , securing BGP Infrastructure</h1>
       <div class="post-meta">
         <div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
