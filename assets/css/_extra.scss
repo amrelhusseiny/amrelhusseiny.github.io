@@ -17,3 +17,8 @@ body {
     font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif
 }
 
+@media print {
+  .app-header{
+    display: none;
+  }
+}
