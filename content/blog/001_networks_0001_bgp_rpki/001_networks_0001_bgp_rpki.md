@@ -106,7 +106,7 @@ For now we are going to use Routinator, but feel free to use any of these packag
 
 ### steps
 Update and install gcc C compiler, then installing Rust as Routinator is written in Rust, after that we run it .
-```bash
+```
     $ sudo apt update && sudo apt upgrade
     $ sudo apt-get gcc
     $ curl https://sh.rustup.rs -sSf | sh 
@@ -139,7 +139,7 @@ On a Cisco IOS-XE router, its as simple as running the following command under t
 
 Now on the Cisco router I am connected to the validator server and able to see the established session 
 
-```bash
+```
 Router#show ip bgp rpki servers 
 BGP SOVC neighbor is 192.168.1.143/3323 connected to port 3323
 Flags 64, Refresh time is 900, Serial number is 0, Session ID is 30149
@@ -177,7 +177,7 @@ You can also use the RPKI validation in your router's route policy's (Cisco, Jun
 eBGP configured between Router_1 (RPKI Client) and Router_2 (Hijacking router) , and network 1.0.0.0/24 is advertised from Router_2 to Router_1, when we inspect Router_1's routing table we see the subnet not present, meaning RPKI is working.
 To see the reason for rejecting the route on Router_1
 
-```bash
+```
 Router_1#show bgp 1.0.0.0
 BGP routing table entry for 1.0.0.0/24, version 0
 Paths: (1 available, no best path)
