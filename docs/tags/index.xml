@@ -5,6 +5,34 @@
     <link>https://amrelhusseiny.github.io/tags/</link>
     <description>Recent content in Tags on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>containers</title>
+      <link>https://amrelhusseiny.github.io/tags/containers/</link>
+      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/containers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://amrelhusseiny.github.io/tags/docker/</link>
+      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>networks</title>
+      <link>https://amrelhusseiny.github.io/tags/networks/</link>
+      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/networks/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
