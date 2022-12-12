@@ -1,10 +1,8 @@
 ---
-title: "OpenStack HomeLab - Single Host (CentOS)
-description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
-date: 2022-12-05T11:19:13+02:00
-draft: true
+title: "002_openstack_0001_openstack_homelab_part_1"
+date: 2022-12-12T11:17:37+02:00
+draft: false
 ---
-
 
 ## Introduction 
 In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
