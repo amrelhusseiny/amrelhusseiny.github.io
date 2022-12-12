@@ -3,6 +3,7 @@ title: Automating DrawIO network topology using Python
 date: 2022-09-06T11:26:44+02:00
 draft: false
 ---
+{{< toc >}}
 # Intro
 In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself .
 DrawIO is widely used as a free alternative to Microsoft's Visio to draw network topologies.

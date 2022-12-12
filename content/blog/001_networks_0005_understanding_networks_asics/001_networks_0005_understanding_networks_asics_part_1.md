@@ -3,7 +3,7 @@ title: Understanding networks ASICS - Part 1
 date: 2022-09-04T11:55:10+02:00
 draft: false
 ---
-
+{{< toc >}}
 # Intro 
 For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ? 
 

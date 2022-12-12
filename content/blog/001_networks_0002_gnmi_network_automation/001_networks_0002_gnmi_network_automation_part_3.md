@@ -4,7 +4,7 @@ description: "Explanation of MANRS BGP Security mandate with a lab example imple
 date: 2022-12-05T11:19:13+02:00
 draft: true
 ---
-
+{{< toc >}}
 ## Introduction
 This article is based on Damien Garros's talk in NANOG 77 ["Getting started with modern time series database"](https://www.youtube.com/watch?v=lzppzWGRHGo&list=WL&index=49).
 

@@ -3,7 +3,7 @@ title: Managing Huawei Cloud_Engine switches using Ansible
 date: 2022-08-25T12:19:49+02:00
 draft: false
 ---
-
+{{< toc >}}
 # Intro
 I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible+Netconf to configure Legacy network devices instead of the trial and error handling way of Python+SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself .
 
@@ -186,7 +186,7 @@ all:
 ```
 
 Playbook.yaml : will be adding a vlan (20) to the switch 
-```yaml
+```
 # Playbook.yaml
 - name: test
   hosts: leaf_1

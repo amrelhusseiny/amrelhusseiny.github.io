@@ -4,7 +4,7 @@ description: "Explanation of MANRS BGP Security mandate with a lab example imple
 date: 2022-12-05T11:19:10+02:00
 draft: true
 ---
-
+{{< toc >}}
 ## Introduction
 In this post we are going to focus on 2 parts:
 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers.
