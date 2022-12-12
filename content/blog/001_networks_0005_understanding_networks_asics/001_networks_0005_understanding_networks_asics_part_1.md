@@ -1,5 +1,5 @@
 ---
-title: "001_networks_0005_understanding_networks_asics_part_1"
+title: Understanding networks ASICS - Part 1
 date: 2022-09-04T11:55:10+02:00
 draft: false
 ---
