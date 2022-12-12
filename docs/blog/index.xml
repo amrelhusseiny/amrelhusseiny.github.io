@@ -6,7 +6,17 @@
     <description>Recent content in Blogs on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Dec 2022 11:17:37 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>002_openstack_0001_openstack_homelab_part_1</title>
+      <link>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</link>
+      <pubDate>Mon, 12 Dec 2022 11:17:37 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</guid>
+      <description>Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
+Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack </description>
+    </item>
+    
     <item>
       <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>
@@ -43,6 +53,16 @@ But beware, unlike traditional containers which replaces the resource intensive 
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</guid>
       <description>Table Of Contents What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&amp;rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy.</description>
+    </item>
+    
+    <item>
+      <title>Extending RFC1918 with RFC-6598 (100.64.0.0/10)</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</link>
+      <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
+      <description>introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</description>
     </item>
     
   </channel>

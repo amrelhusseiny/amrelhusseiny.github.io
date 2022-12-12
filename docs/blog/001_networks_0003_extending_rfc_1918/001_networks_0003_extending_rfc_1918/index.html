@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Extending RFC1918 with RFC-6598 (100.64.0.0/10) // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Extending RFC1918 with RFC-6598 (100.64.0.0/10)"/>
+<meta name="twitter:description" content="introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:"/>
+
+    <meta property="og:title" content="Extending RFC1918 with RFC-6598 (100.64.0.0/10)" />
+<meta property="og:description" content="introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-09-10T11:11:25+02:00" />
+<meta property="article:modified_time" content="2022-09-10T11:11:25+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Extending RFC1918 with RFC-6598 (100.64.0.0/10)</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Sep 10, 2022
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h1 id="introduction">introduction</h1>
+<p>We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.</p>
+<p>But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though <a href="https://datatracker.ietf.org/doc/html/rfc6598">RFC-6598</a> and its called the <strong>Shared Address space</strong> since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</p>
+<blockquote>
+<p>Use of Shared CGN Space Shared Address Space is IPv4 address space designated for Service Provider use with the purpose of facilitating CGN deployment.  <strong>Also, Shared Address Space can be used as additional non-globally routable space on routing equipment that is able to do address translation across router</strong> interfaces when the addresses are identical on two different interfaces.</p>
+</blockquote>
+<p>The newly assigned address space is the <strong>100.64.0.0/10</strong>, you may be familiar with, for me was 1st exposed to the usage of this address space in Datacenters&rsquo;s devices loopback interfaces, wherther network devices or baremetal servers, thats why I went on a journy to do research on the usage of this IP Space .</p>
+<p>to pivot a little bit for you to understand what is CGNAT before we continue.</p>
+<h2 id="cgnat-carrier-grade-nat">CGNAT (Carrier Grade NAT)</h2>
+<p>Described very simply in the following diagram :</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mfs0ammg97dt16z4yagi.png" alt="Image description"></p>
+<p><strong>Before</strong> : each home CPE was assigned a Public IP address to use to reach internet directly .
+<strong>After</strong> : Home CPEs are assigned RFC-6589 IP Address (100.64.0.0/10) that will be Natted to Public IP ranges on the edge of your ISP , still the NATing is one to one , but you will only need a Public IP address if you want to reach external resources , as long as you stay in your carrier&rsquo;s network you will beusing your RFC-6598 IP.</p>
+<p>You may ask why not just use RFC-1918 IPs for home CPE, while its possible, it showed to cause operational issue with the carriers.</p>
+<p>One of the considerations that carriers should start doing , is including the 100.64.0.0/10 in their incoming route filter list from other carriers as a security mediation , just like all carriers do with the RFC-1918 ranges , quoting the RFC.</p>
+<blockquote>
+<p>routing information about Shared Address Space networks MUST NOT be propagated across Service Provider boundaries.  Service Providers MUST filter incoming advertisements regarding Shared Address Space.</p>
+</blockquote>
+<p>back to our main topic</p>
+<h1 id="special-use-ip-addresses">Special Use IP Addresses</h1>
+<p>Since we are having a look at one of the new address spaces, lets take this opportunity to get to know some of the unfamiliar special use IP ranges stated by IANA in <a href="https://datatracker.ietf.org/doc/html/rfc5735">RFC-5735</a></p>
+<p>This is to extend your knowledge of the RFCs specs , but not all Networks Engineers adhere to those testing IP ranges, we mostly see the compliance in the Operational spaces only .</p>
+<table>
+<thead>
+<tr>
+<th>Address Space</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>169.254.0.0/16</td>
+<td>This is the &ldquo;link local&rdquo; block.  As described in [RFC3927], it is allocated for communication between hosts on a single link.  Hosts obtain these addresses by auto-configuration, such as when a DHCP server cannot be found.</td>
+</tr>
+<tr>
+<td>192.0.2.0/24 , 198.51.100.0/24,</td>
+<td>This block is assigned as &ldquo;TEST-NET&rdquo; for use in documentation and example code.  It is often used in conjunction with domain names example.com or example.net in vendor and protocol documentation</td>
+</tr>
+<tr>
+<td>192.88.99.0/24</td>
+<td>This block is allocated for use as 6to4 relay anycast addresses</td>
+</tr>
+<tr>
+<td>198.18.0.0/15</td>
+<td>This block has been allocated for use in benchmark tests of network interconnect devices, this range was assigned to minimize the chance of conflict in case a testing device were to be accidentally connected to part of the Internet.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="qa">Q&amp;A</h1>
+<ul>
+<li><strong>Why shouldn&rsquo;t use Shared Address Space range in your Enterprise network ?</strong> , in the renound <a href="https://blog.ipspace.net/2013/08/can-i-use-shared-rfc-6598-ipv4-address.html">Ivan Pepelnjak article </a>, he argues that you should never use this IP address space (100.64.0.0/10) as its not considered Private and it will result in issues if you are using that address space in your enterprise sites at the same time that your Servic Provider is using CGNAT as he would probably using IPs from the same space on his CPE external interface .</li>
+<li><strong>When you should use Shared Address Space IPs in your enterprise ?</strong> If you ran out of IPv4 private addresses and you are unable to migrate to IPv6 , DONOT use them to interconnect with your service provider and DONOT advertise them your service provider.</li>
+<li><strong>Where is it used ?</strong> some Datacenter providers and clouds use these addresses  in the underlay as they are less likely to conflict with any overlay customer&rsquo;s address which probably is in the RFC-1918 ranges.</li>
+<li><strong>Why Cloud providers are pivoting to use the Shared Address Space in their Data centers?</strong> At 1st I thought when we used it in our Datacenter underlay that we would be the only ones doing that, but it seems to be an industry wide direction in the Cloud providers specifically, found that also VMWare does the same , you can check <a href="https://kb.vmware.com/s/article/76022">VMware SDDC</a></li>
+<li><strong>How many addresses available in the Private/Shared address ranges ?</strong>
+<table>
+<thead>
+<tr>
+<th>Address Range</th>
+<th>Number of IPv4 addresses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10.0.0.0/8</td>
+<td>16 Million addresses</td>
+</tr>
+<tr>
+<td>172.16.0.0/12</td>
+<td>1 Million addresses</td>
+</tr>
+<tr>
+<td>192.168.0.0/16</td>
+<td>65536 Addresses</td>
+</tr>
+<tr>
+<td>100.64.0.0/10</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>#References
+Following are useful RFCs to understand the reason behind the push and the issues faced by carriers implementing CGNAT</p>
+<ul>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc6598">RFC-6598 - IANA-Reserved IPv4 Prefix for Shared Address Space</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc6264">RFC-6264 - An Incremental Carrier-Grade NAT (CGN) for IPv6 Transition</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc6304">RFC-6304 - AS112 Nameserver Operations</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc6269">RFC-6269 Issues with IP Address Sharing</a></li>
+<li><a href="https://www.f5.com/es_es/company/blog/solving-ip-overlap-in-multi-cloud">F5 Solving IP Overlap in Multi-Cloud</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
