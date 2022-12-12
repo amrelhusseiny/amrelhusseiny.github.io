@@ -1,7 +1,13 @@
 ---
 title: "gNMI Network Automation (2/3) : gNMI Configuration of network devices"
-description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
+description: 2nd Part of 3 part series, in this one, we will configure IOS-XR using gNMI and YANG models
 date: 2022-12-05T11:19:10+02:00
+tags:
+    - networks
+    - automation
+    - containers
+    - docker
+    - gnmi
 draft: true
 ---
 {{< toc >}}

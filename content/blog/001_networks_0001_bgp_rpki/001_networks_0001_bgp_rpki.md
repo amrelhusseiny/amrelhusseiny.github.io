@@ -1,11 +1,11 @@
 ---
 title: "Networks - RPKI , securing BGP Infrastructure"
-description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
+description: Expalnation and lab example of how to RPKI secure your routing table
 date: 2022-12-04T23:40:47+02:00
 tags:
     - networks
-    - containers
-    - docker
+    - security
+    - MANRS
 draft: false
 ---
 
