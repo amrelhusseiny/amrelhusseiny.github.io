@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Managing Huawei Cloud_Engine switches using Ansible"/>
-<meta name="twitter:description" content="Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible&#43;Netconf to configure Legacy network devices instead of the trial and error handling way of Python&#43;SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself ."/>
+<meta name="twitter:description" content="Table Of Contents what we will be discussing 1- EVE-NG Installation : 2- Huawei Cloud Engine EVE Image : 3- Our lab setup : A) Ansible Machine B) On EVE Portal 4- Setup of the Ansible machine: A)Create a virtual Python environment: B) lets create a simple Inventory and Playbook to run on our current switch : Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible&#43;Netconf to configure Legacy network devices instead of the trial and error handling way of Python&#43;SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself ."/>
 
     <meta property="og:title" content="Managing Huawei Cloud_Engine switches using Ansible" />
-<meta property="og:description" content="Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible&#43;Netconf to configure Legacy network devices instead of the trial and error handling way of Python&#43;SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself ." />
+<meta property="og:description" content="Table Of Contents what we will be discussing 1- EVE-NG Installation : 2- Huawei Cloud Engine EVE Image : 3- Our lab setup : A) Ansible Machine B) On EVE Portal 4- Setup of the Ansible machine: A)Create a virtual Python environment: B) lets create a simple Inventory and Playbook to run on our current switch : Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible&#43;Netconf to configure Legacy network devices instead of the trial and error handling way of Python&#43;SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-08-25T12:19:49+02:00" />
@@ -77,7 +77,32 @@
       </div>
     </header>
     <div class="post-content">
-      <h1 id="intro">Intro</h1>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-we-will-be-discussing">what we will be discussing</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#1--eve-ng-installation-">1- EVE-NG Installation :</a></li>
+    <li><a href="#2--huawei-cloud-engine-eve-image-">2- Huawei Cloud Engine EVE Image :</a></li>
+    <li><a href="#3--our-lab-setup-">3- Our lab setup :</a>
+      <ul>
+        <li><a href="#a-ansible-machine">A) Ansible Machine</a></li>
+        <li><a href="#b-on-eve-portal">B) On EVE Portal</a></li>
+      </ul>
+    </li>
+    <li><a href="#4--setup-of-the-ansible-machine">4- Setup of the Ansible machine:</a>
+      <ul>
+        <li><a href="#acreate-a-virtual-python-environment">A)Create a virtual Python environment:</a></li>
+        <li><a href="#b-lets-create-a-simple-inventory-and-playbook-to-run-on-our-current-switch-">B) lets create a simple Inventory and Playbook to run on our current switch :</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+<h1 id="intro">Intro</h1>
 <p>I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible+Netconf to configure Legacy network devices instead of the trial and error handling way of Python+SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself .</p>
 <h2 id="what-we-will-be-discussing">what we will be discussing</h2>
 <p>Here I will share the steps I was able to start my journey in configuring the Cloud Engine switches using Ansible .</p>
@@ -237,19 +262,19 @@ all:
               ansible_host: 192.168.1.130
               
 </code></pre><p>Playbook.yaml : will be adding a vlan (20) to the switch</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Playbook.yaml</span>
-</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">hosts</span>: <span style="color:#ae81ff">leaf_1</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">connection</span>: <span style="color:#ae81ff">ansible.netcommon.netconf</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">gather_facts</span>: <span style="color:#66d9ef">no</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tasks</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">add_VLAN</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">community.network.ce_vlan</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">vlan_id</span>: <span style="color:#ae81ff">120</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">WEB_Vlan</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;hello&#34;</span>
-</span></span></code></pre></div><p>To run the playbook on the inventory :
+<pre tabindex="0"><code># Playbook.yaml
+- name: test
+  hosts: leaf_1
+  connection: ansible.netcommon.netconf
+  gather_facts: no
+
+  tasks:
+  - name: add_VLAN
+    community.network.ce_vlan:
+      vlan_id: 120
+      name: WEB_Vlan
+      description: &#34;hello&#34;
+</code></pre><p>To run the playbook on the inventory :
 <code>$ ansible-playbook -i huawei_cloud_engine_inventory.yaml huawei_cloud_engine_playbook.yaml </code></p>
 <p>Output confirming change has been done as follows :</p>
 <pre tabindex="0"><code>PLAY [test] ***********************************************************************************************************************************************

@@ -13,11 +13,11 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Extending RFC1918 with RFC-6598 (100.64.0.0/10)"/>
-<meta name="twitter:description" content="introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+<meta name="twitter:description" content="Table Of Contents CGNAT (Carrier Grade NAT) introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
 But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:"/>
 
     <meta property="og:title" content="Extending RFC1918 with RFC-6598 (100.64.0.0/10)" />
-<meta property="og:description" content="introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+<meta property="og:description" content="Table Of Contents CGNAT (Carrier Grade NAT) introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
 But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/" /><meta property="article:section" content="blog" />
@@ -79,7 +79,15 @@ But due to the exhaustion of the Public IPv4 space , IANA has assigned a second 
       </div>
     </header>
     <div class="post-content">
-      <h1 id="introduction">introduction</h1>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cgnat-carrier-grade-nat">CGNAT (Carrier Grade NAT)</a></li>
+  </ul>
+</nav>
+</div>
+<h1 id="introduction">introduction</h1>
 <p>We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.</p>
 <p>But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though <a href="https://datatracker.ietf.org/doc/html/rfc6598">RFC-6598</a> and its called the <strong>Shared Address space</strong> since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</p>
 <blockquote>

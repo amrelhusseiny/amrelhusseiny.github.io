@@ -77,7 +77,26 @@
       </div>
     </header>
     <div class="post-content">
-      <h2 id="introduction">Introduction</h2>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#brief-about-topology">Brief about topology</a></li>
+    <li><a href="#running-the-topology">Running the topology</a></li>
+    <li><a href="#our-telemetry-setup-now">Our telemetry setup now</a>
+      <ul>
+        <li><a href="#telegraf-collector">Telegraf (Collector)</a></li>
+        <li><a href="#influxdb-time-streaming-database">InfluxDB (Time Streaming Database)</a></li>
+        <li><a href="#running-the-telegraf-and-influxdb-contianers">Running the Telegraf and InfluxDB contianers</a></li>
+        <li><a href="#graphs-on-influxdb">Graphs on InfluxDB</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<h2 id="introduction">Introduction</h2>
 <p>This article is based on Damien Garros&rsquo;s talk in NANOG 77 <a href="https://www.youtube.com/watch?v=lzppzWGRHGo&amp;list=WL&amp;index=49">&ldquo;Getting started with modern time series database&rdquo;</a>.</p>
 <p>We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</p>
 <p>Summary of steps will be taken :</p>

@@ -3,7 +3,7 @@ title: Extending RFC1918 with RFC-6598 (100.64.0.0/10)
 date: 2022-09-10T11:11:25+02:00
 draft: false
 ---
-
+{{< toc >}}
 # introduction
 We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
 

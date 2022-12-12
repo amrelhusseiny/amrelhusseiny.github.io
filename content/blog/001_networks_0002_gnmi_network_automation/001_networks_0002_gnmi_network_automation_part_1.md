@@ -4,7 +4,7 @@ description: "Explanation of MANRS BGP Security mandate with a lab example imple
 date: 2022-12-05T11:19:06+02:00
 draft: true
 ---
-
+{{< toc >}}
 ## Introduction
 Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab & vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.
 

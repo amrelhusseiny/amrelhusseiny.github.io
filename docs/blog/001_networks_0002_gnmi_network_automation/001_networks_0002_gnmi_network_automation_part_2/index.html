@@ -77,7 +77,31 @@
       </div>
     </header>
     <div class="post-content">
-      <h2 id="introduction">Introduction</h2>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#openconfig-vs-vendor">OpenConfig vs Vendor</a></li>
+      </ul>
+    </li>
+    <li><a href="#solving-the-lack-of-documentation-examples">Solving the lack of documentation examples</a>
+      <ul>
+        <li><a href="#1st-approach--from-device-cli">1st Approach : from device CLI</a></li>
+        <li><a href="#2nd-approach--reading-yang-files">2nd Approach : Reading Yang files</a></li>
+      </ul>
+    </li>
+    <li><a href="#deviations">Deviations</a></li>
+    <li><a href="#example-lab">Example Lab</a></li>
+    <li><a href="#remote-wire-shark">Remote Wire Shark</a></li>
+    <li><a href="#useful-commands">Useful commands</a></li>
+    <li><a href="#conatiners-used">Conatiners used</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<h2 id="introduction">Introduction</h2>
 <p>In this post we are going to focus on 2 parts:
 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers.
 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash).

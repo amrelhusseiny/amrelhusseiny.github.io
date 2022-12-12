@@ -77,7 +77,30 @@
       </div>
     </header>
     <div class="post-content">
-      <h2 id="introduction">Introduction</h2>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#containerlab-supported-platforms-kinds">ContainerLab supported platforms (Kinds)</a></li>
+        <li><a href="#before-we-start-you-can-follow-the-containerlab-installation-guide-herehttpscontainerlabdevinstall">before we start, You can follow the containerlab installation guide <a href="https://containerlab.dev/install/">here</a>.</a></li>
+      </ul>
+    </li>
+    <li><a href="#packaging-our-qcow-into-containers">Packaging our QCOW into containers</a></li>
+    <li><a href="#containerlab-topology-template">ContainerLab topology template</a></li>
+    <li><a href="#more-labs">More labs</a></li>
+    <li><a href="#using-gnmi--openconfig-for-automation">Using gNMI &amp; OpenConfig for Automation</a>
+      <ul>
+        <li><a href="#introduction-1">Introduction</a></li>
+        <li><a href="#limitations-of-gnmi-and-openconfig">Limitations of gNMI and OpenConfig</a></li>
+      </ul>
+    </li>
+    <li><a href="#useful-commands-">Useful commands :</a></li>
+  </ul>
+</nav>
+</div>
+<h2 id="introduction">Introduction</h2>
 <p>Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.</p>
 <p>But beware, unlike traditional containers which replaces the resource intensive Virtual Machine with only the needed parts inside a container form, here are only converting those VM to run as VM emulating container, so those containers will use the same amount of resource as the EVE-NG VM if not a little bit more, but you get to optimize the deplyment of these labs.</p>
 <p><strong>Simply why would you use this ?</strong>

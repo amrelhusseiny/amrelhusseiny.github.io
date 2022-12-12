@@ -13,7 +13,7 @@
       <pubDate>Mon, 12 Dec 2022 11:17:37 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</guid>
-      <description>Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
+      <description> Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
 Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack </description>
     </item>
     
@@ -23,7 +23,7 @@ Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated f
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</guid>
-      <description>Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
+      <description>Table Of Contents Introduction Brief about topology Running the topology Our telemetry setup now Telegraf (Collector) InfluxDB (Time Streaming Database) Running the Telegraf and InfluxDB contianers Graphs on InfluxDB References Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
 We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</description>
     </item>
     
@@ -33,7 +33,7 @@ We are used to monitoring network devices using SNMP by pulling devices statisti
       <pubDate>Mon, 05 Dec 2022 11:19:10 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</guid>
-      <description>Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash). 2- Next article , we will use gNMI telemetry for gathering interface data and BGP/ISIS adjacency and collect them using Telegraf/InfluxDB and visualize them using Grafana.</description>
+      <description>Table Of Contents Introduction OpenConfig vs Vendor Solving the lack of documentation examples 1st Approach : from device CLI 2nd Approach : Reading Yang files Deviations Example Lab Remote Wire Shark Useful commands Conatiners used References Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash).</description>
     </item>
     
     <item>
@@ -42,8 +42,7 @@ We are used to monitoring network devices using SNMP by pulling devices statisti
       <pubDate>Mon, 05 Dec 2022 11:19:06 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</guid>
-      <description>Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.
-But beware, unlike traditional containers which replaces the resource intensive Virtual Machine with only the needed parts inside a container form, here are only converting those VM to run as VM emulating container, so those containers will use the same amount of resource as the EVE-NG VM if not a little bit more, but you get to optimize the deplyment of these labs.</description>
+      <description>Table Of Contents Introduction ContainerLab supported platforms (Kinds) before we start, You can follow the containerlab installation guide here. Packaging our QCOW into containers ContainerLab topology template More labs Using gNMI &amp;amp; OpenConfig for Automation Introduction Limitations of gNMI and OpenConfig Useful commands : Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.</description>
     </item>
     
     <item>
@@ -61,7 +60,7 @@ But beware, unlike traditional containers which replaces the resource intensive 
       <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
-      <description>introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+      <description>Table Of Contents CGNAT (Carrier Grade NAT) introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
 But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</description>
     </item>
     
@@ -71,7 +70,7 @@ But due to the exhaustion of the Public IPv4 space , IANA has assigned a second 
       <pubDate>Tue, 06 Sep 2022 11:26:44 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/</guid>
-      <description>Intro In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself . DrawIO is widely used as a free alternative to Microsoft&amp;rsquo;s Visio to draw network topologies. I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&amp;rsquo;t be the focus of the article .</description>
+      <description>Table Of Contents Generated Topology Intro In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself . DrawIO is widely used as a free alternative to Microsoft&amp;rsquo;s Visio to draw network topologies. I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&amp;rsquo;t be the focus of the article .</description>
     </item>
     
     <item>
@@ -80,8 +79,7 @@ But due to the exhaustion of the Public IPv4 space , IANA has assigned a second 
       <pubDate>Sun, 04 Sep 2022 11:55:10 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</guid>
-      <description>Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?
-Depending on the network these chassis are going to be deployed , you need to ask the following :</description>
+      <description>Table Of Contents Programmability When is buffer used : When buffer is not used : Routing Engine Forwarding Engine Fabric Processors Backplane Further Broadcom Cisco Mellanox Intel Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?</description>
     </item>
     
     <item>
@@ -90,7 +88,18 @@ Depending on the network these chassis are going to be deployed , you need to as
       <pubDate>Thu, 25 Aug 2022 12:19:49 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/</guid>
-      <description>Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible+Netconf to configure Legacy network devices instead of the trial and error handling way of Python+SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself .</description>
+      <description>Table Of Contents what we will be discussing 1- EVE-NG Installation : 2- Huawei Cloud Engine EVE Image : 3- Our lab setup : A) Ansible Machine B) On EVE Portal 4- Setup of the Ansible machine: A)Create a virtual Python environment: B) lets create a simple Inventory and Playbook to run on our current switch : Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible+Netconf to configure Legacy network devices instead of the trial and error handling way of Python+SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself .</description>
+    </item>
+    
+    <item>
+      <title>Python&#39;s Netmiko starter template</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/</link>
+      <pubDate>Sun, 17 Jul 2022 12:36:51 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/</guid>
+      <description>Table Of Contents Comments on the code : The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
+Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc
+# netmiko_starter.py from netmiko import ConnectHandler device_dictionary = { &amp;#39;device_type&amp;#39;: &amp;#39;DEVICE_TYPE&amp;#39;, &amp;#39;host&amp;#39;: &amp;#39;DEVICE_IP_ADDRESS&amp;#39;, &amp;#39;username&amp;#39;: &amp;#39;USERNAME&amp;#39;, &amp;#39;password&amp;#39; : &amp;#39;PASSWORD&amp;#39;, # &amp;#39;verbose&amp;#39;: False , # &amp;#39;session_log&amp;#39;: &amp;#39;log.</description>
     </item>
     
   </channel>
