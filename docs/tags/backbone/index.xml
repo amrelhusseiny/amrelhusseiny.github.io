@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>backbone on Amr ElHusseiny&#39;s Blog</title>
+    <link>https://amrelhusseiny.github.io/tags/backbone/</link>
+    <description>Recent content in backbone on Amr ElHusseiny&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Sep 2022 11:11:25 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/backbone/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Extending RFC1918 with RFC-6598 (100.64.0.0/10)</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</link>
+      <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
+      <description>Table Of Contents CGNAT (Carrier Grade NAT) introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</description>
+    </item>
+    
+  </channel>
+</rss>

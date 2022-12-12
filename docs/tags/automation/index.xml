@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Amr ElHusseiny&#39;s Blog</title>
-    <link>https://amrelhusseiny.github.io/tags/docker/</link>
-    <description>Recent content in docker on Amr ElHusseiny&#39;s Blog</description>
+    <title>automation on Amr ElHusseiny&#39;s Blog</title>
+    <link>https://amrelhusseiny.github.io/tags/automation/</link>
+    <description>Recent content in automation on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/automation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>

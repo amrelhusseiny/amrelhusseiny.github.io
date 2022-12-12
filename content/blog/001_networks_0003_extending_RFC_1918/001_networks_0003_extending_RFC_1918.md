@@ -1,6 +1,10 @@
 ---
 title: Extending RFC1918 with RFC-6598 (100.64.0.0/10)
+description: Exploring the use of the 100.64.0.0/10 range in your enterprise network and some Q&A abot what is RFC-6598
 date: 2022-09-10T11:11:25+02:00
+tags: 
+    - networks
+    - backbone
 draft: false
 ---
 {{< toc >}}

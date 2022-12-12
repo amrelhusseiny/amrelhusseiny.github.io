@@ -1,6 +1,9 @@
 ---
 title: Automating DrawIO network topology using Python
+description: A python library to convert your topology into a DrawIO file 
 date: 2022-09-06T11:26:44+02:00
+tags: 
+    - 
 draft: false
 ---
 {{< toc >}}

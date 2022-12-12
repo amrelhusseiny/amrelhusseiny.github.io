@@ -1,7 +1,13 @@
 ---
 title: "gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab"
-description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
+description: 1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab
 date: 2022-12-05T11:19:06+02:00
+tags:
+    - networks
+    - automation
+    - containers
+    - docker
+    - gnmi
 draft: true
 ---
 {{< toc >}}

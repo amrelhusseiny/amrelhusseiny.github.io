@@ -6,7 +6,35 @@
     <description>Recent content in networks on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/networks/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/networks/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</guid>
+      <description>Table Of Contents Introduction Brief about topology Running the topology Our telemetry setup now Telegraf (Collector) InfluxDB (Time Streaming Database) Running the Telegraf and InfluxDB contianers Graphs on InfluxDB References Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
+We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</description>
+    </item>
+    
+    <item>
+      <title>gNMI Network Automation (2/3) : gNMI Configuration of network devices</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:10 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</guid>
+      <description>Table Of Contents Introduction OpenConfig vs Vendor Solving the lack of documentation examples 1st Approach : from device CLI 2nd Approach : Reading Yang files Deviations Example Lab Remote Wire Shark Useful commands Conatiners used References Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash).</description>
+    </item>
+    
+    <item>
+      <title>gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:06 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</guid>
+      <description>Table Of Contents Introduction ContainerLab supported platforms (Kinds) before we start, You can follow the containerlab installation guide here. Packaging our QCOW into containers ContainerLab topology template More labs Using gNMI &amp;amp; OpenConfig for Automation Introduction Limitations of gNMI and OpenConfig Useful commands : Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.</description>
+    </item>
+    
     <item>
       <title>Networks - RPKI , securing BGP Infrastructure</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</link>
@@ -14,6 +42,16 @@
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</guid>
       <description>Table Of Contents What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? Signing ROAs what is an ROA ? How you deploy ? PDUs Structure (rpki-rtr-pdu) Protocol workings Serial Query/Cache Response Serial Notify End of data Reset Query 1) Setup a Validator steps Allow List 2) Discarding BGP invalids / configuring routers 3) Validating RPKI operations Compulsory Actions to join Introduction What &amp;amp; Why RPKI (Resource Public Key Infrastructure)? BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is Route Hijacking in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in Taiwan&amp;rsquo;s TWNIC hijack in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy.</description>
+    </item>
+    
+    <item>
+      <title>Extending RFC1918 with RFC-6598 (100.64.0.0/10)</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</link>
+      <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
+      <description>Table Of Contents CGNAT (Carrier Grade NAT) introduction We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.
+But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</description>
     </item>
     
   </channel>

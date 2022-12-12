@@ -1,7 +1,13 @@
 ---
 title: "gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf & InfluxDB"
-description: "Explanation of MANRS BGP Security mandate with a lab example implementing RPKI cache and filtering BGP"
+description: 3rd Part of 3 part series, in this one, we will test the telemetry using gNMI and visualise results using InfluxDB
 date: 2022-12-05T11:19:13+02:00
+tags:
+    - networks
+    - automation
+    - containers
+    - docker
+    - gnmi
 draft: true
 ---
 {{< toc >}}
