@@ -75,13 +75,22 @@ But due to the exhaustion of the Public IPv4 space , IANA has assigned a second 
     </item>
     
     <item>
-      <title>001_networks_0005_understanding_networks_asics_part_1</title>
+      <title>Understanding networks ASICS - Part 1</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</link>
       <pubDate>Sun, 04 Sep 2022 11:55:10 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</guid>
       <description>Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?
 Depending on the network these chassis are going to be deployed , you need to ask the following :</description>
+    </item>
+    
+    <item>
+      <title>Managing Huawei Cloud_Engine switches using Ansible</title>
+      <link>https://amrelhusseiny.github.io/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/</link>
+      <pubDate>Thu, 25 Aug 2022 12:19:49 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/</guid>
+      <description>Intro I have been working with the Huawei Cloud Engine series of switches for the Data Center, and one of the great things I was introduced to is the efficient usage of Ansible+Netconf to configure Legacy network devices instead of the trial and error handling way of Python+SSH , which you had to anticipate the delay of the SSH session and to handle a console output using Regex which while very customizable , when it comes to production environments , your supervisors would much prefer a tried and tested technology backed up by the vendor itself .</description>
     </item>
     
   </channel>
