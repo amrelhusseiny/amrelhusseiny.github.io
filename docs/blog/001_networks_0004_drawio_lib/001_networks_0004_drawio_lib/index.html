@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Automating DrawIO network topology using Python // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automating DrawIO network topology using Python"/>
+<meta name="twitter:description" content="Intro In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself . DrawIO is widely used as a free alternative to Microsoft&rsquo;s Visio to draw network topologies. I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&rsquo;t be the focus of the article ."/>
+
+    <meta property="og:title" content="Automating DrawIO network topology using Python" />
+<meta property="og:description" content="Intro In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself . DrawIO is widely used as a free alternative to Microsoft&rsquo;s Visio to draw network topologies. I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&rsquo;t be the focus of the article ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-09-06T11:26:44+02:00" />
+<meta property="article:modified_time" content="2022-09-06T11:26:44+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Automating DrawIO network topology using Python</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Sep 6, 2022
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h1 id="intro">Intro</h1>
+<p>In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself .
+DrawIO is widely used as a free alternative to Microsoft&rsquo;s Visio to draw network topologies.
+I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&rsquo;t be the focus of the article .
+Focus of the article is how to use the &ldquo;drawio_network_plot&rdquo; library&quot; to generate the DrawIO file .</p>
+<h1 id="library-setup">Library setup</h1>
+<p>Make sure to have Python 3.7 and above , then install the library using :</p>
+<p><code>$ pip install drawio_network_plot</code></p>
+<h1 id="lab-setup">Lab setup</h1>
+<p>Lab is done on EVE-NG using Cisco&rsquo;s 7200VXR image to create the topology , the whole topology is L3 with Loopback so the Python CentOS server would be able to ssh to each device .
+EVE-NG Topology Diagram (Non-generated):</p>
+<p><img src="drawio_1.png" alt="EVE Topology"></p>
+<h1 id="configuration-and-script">Configuration and Script</h1>
+<p>You can find both the below script and all the EVE-NG Cisco devices configuration in the following Github Link :
+<a href="https://github.com/amroashram/drawio_network_plot/tree/main/examples/cisco_gather_cdp_and_plot">drawio_network_plot/examples/cisco_gather_cdp_and_plot</a></p>
+<pre tabindex="0"><code>from netmiko import ConnectHandler
+import re 
+from drawio_network_plot.drawio_network_plot import NetPlot
+
+# ----------------- Getting live CDP Neigbors to gather links endpoints ---------------------------
+def retieve_lldp_neigbor_hostname(devices_list):
+    list_of_cdp_neighborship = []
+    for device in devices_list:
+        device_dictionary = {
+                            &#39;device_type&#39;: &#39;cisco_ios&#39;,  
+                            &#39;host&#39;: device[&#39;ip_address&#39;],
+                            &#39;username&#39;: &#39;automation&#39;,
+                            &#39;password&#39; : &#39;1234567&#39;,
+                        }
+        net_connect = ConnectHandler(**device_dictionary)
+        output = net_connect.send_command(&#34;show cdp neighbor&#34;)
+        lines_list = output.splitlines()
+        for line in lines_list:
+            try:
+                # regex to search the name of the device before the domain ID &#34;.default&#34; , then removing the word &#34;.default&#34; from the string
+                link = {
+                            &#39;sourceNodeID&#39; : device[&#39;nodeName&#39;],
+                            &#39;destinationNodeID&#39; : re.search(&#39;\S+\.default&#39;,line).group().replace(&#39;.default&#39;,&#39;&#39;) 
+                            }
+                # checking for duplication before adding new link : 
+                if {&#39;sourceNodeID&#39;:link[&#39;destinationNodeID&#39;],&#39;destinationNodeID&#39;:link[&#39;sourceNodeID&#39;]} not in list_of_cdp_neighborship:
+                    list_of_cdp_neighborship.append(link)
+            except:
+                continue
+        net_connect.disconnect()
+    return list_of_cdp_neighborship
+
+def main():
+    # Lab Devices , must have the device type for the plotting library to work 
+    devices = [
+            {&#39;nodeName&#39;:&#39;Router_1&#39;,&#39;ip_address&#39;:&#39;100.0.1.1&#39;,&#39;nodeType&#39;:&#39;router&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Router_2&#39;,&#39;ip_address&#39;:&#39;100.0.1.2&#39;,&#39;nodeType&#39;:&#39;router&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Spine_1&#39;,&#39;ip_address&#39;:&#39;100.0.2.1&#39;,&#39;nodeType&#39;:&#39;l3_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Spine_2&#39;,&#39;ip_address&#39;:&#39;100.0.2.2&#39;,&#39;nodeType&#39;:&#39;l3_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Leaf_1&#39;,&#39;ip_address&#39;:&#39;100.0.3.1&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Leaf_2&#39;,&#39;ip_address&#39;:&#39;100.0.3.2&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
+            {&#39;nodeName&#39;:&#39;Leaf_3&#39;,&#39;ip_address&#39;:&#39;100.0.3.3&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;}
+            ]
+    # Getting list of links for each device
+    list_of_cdp_neighborship = retieve_lldp_neigbor_hostname(devices)
+    for peering in list_of_cdp_neighborship:
+        print(peering)
+
+    # ------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
+    # ----------------- Main Part : using library to generate XML DrawIIO format ---------------------------
+    # Using the Plot library 
+    x = NetPlot()
+    x.addNodeList(devices)
+    x.addLinkList(list_of_cdp_neighborship)
+    print(x.display_xml())
+    # ------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------
+
+if __name__ == &#34;__main__&#34;:
+    main()
+</code></pre><h1 id="library-options">Library Options</h1>
+<p>Remember , you can gather the data however you like , this was just a simple demonstration of what you can do , main code to remember is the plotting part :</p>
+<pre tabindex="0"><code># please adhere to the naming scheme in the variables 
+device_list = [{&#39;nodeName&#39; : &#39;TOR_1&#39;,&#39;nodeType&#39; : &#39;l2_switch&#39;,&#39;nodeDescription&#39; : &#39;Leaf Switch 01&#39;}]
+x = NetPlot()
+# **IMPORTANT NOTE :**---&gt; Make sure that the sourceNode in the connection is the higher level device and that connections are not replicated , this way when you use the DrawIO automatic layout , it would create the diagram hierarchy the correct way 
+connections_list = [{&#39;sourceNodeID&#39; : &#39;Router_1&#39;,&#39;destinationNodeID&#39; : &#39;Core_switch_1&#39;}]
+    # Adding using list all at once
+    x.addNodeList(device_list)
+    x.addLinkList(connections_list)
+    # Adding node by node and link by link
+    x.addNode(nodeName=&#39;Router_18&#39;,nodeType=&#39;router&#39;)
+    x.addLink(&#39;Router_17&#39;,&#39;Router_18&#39;)
+    
+    # --- Output ---
+    # You can print the XML to the Stdout 
+    print(x.display_xml())
+    # Or You can also directly generate an XML file using the built in function :
+    # x.exportXML(&#39;examples/output.xml&#39;)    
+</code></pre><p>Generated output will be collapsed in one point , you will have to choose the Layout you would like in DrawIO after opening the file like showed as follows :</p>
+<h2 id="generated-topology">Generated Topology</h2>
+<p>1- Open generated XML file in DrawIO</p>
+<p><img src="drawio_2.png" alt="Initial Generated File"></p>
+<p>2- go to Arrange/Layout/Vertical Tree</p>
+<p><img src="drawio_3.png" alt="go to Arrange/Layout/Vertical Tree"></p>
+<p>3- Final Result</p>
+<p><img src="drawio_4.png" alt="Image description"></p>
+<p>For any comment on the pip package , feature addition or any comment , please share your suggestions as this is my 1st PIP library , and divinely its not perfect .</p>
+<p>Thanks &hellip;</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

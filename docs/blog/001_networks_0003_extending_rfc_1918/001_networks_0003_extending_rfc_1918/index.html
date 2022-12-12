@@ -89,7 +89,7 @@ But due to the exhaustion of the Public IPv4 space , IANA has assigned a second 
 <p>to pivot a little bit for you to understand what is CGNAT before we continue.</p>
 <h2 id="cgnat-carrier-grade-nat">CGNAT (Carrier Grade NAT)</h2>
 <p>Described very simply in the following diagram :</p>
-<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mfs0ammg97dt16z4yagi.png" alt="Image description"></p>
+<p><img src="mfs0ammg97dt16z4yagi.png" alt="CGNAT Diagram"></p>
 <p><strong>Before</strong> : each home CPE was assigned a Public IP address to use to reach internet directly .
 <strong>After</strong> : Home CPEs are assigned RFC-6589 IP Address (100.64.0.0/10) that will be Natted to Public IP ranges on the edge of your ISP , still the NATing is one to one , but you will only need a Public IP address if you want to reach external resources , as long as you stay in your carrier&rsquo;s network you will beusing your RFC-6598 IP.</p>
 <p>You may ask why not just use RFC-1918 IPs for home CPE, while its possible, it showed to cause operational issue with the carriers.</p>

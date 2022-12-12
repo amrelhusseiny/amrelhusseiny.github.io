@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>001_networks_0005_understanding_networks_asics_part_1 // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="001_networks_0005_understanding_networks_asics_part_1"/>
+<meta name="twitter:description" content="Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?
+Depending on the network these chassis are going to be deployed , you need to ask the following :"/>
+
+    <meta property="og:title" content="001_networks_0005_understanding_networks_asics_part_1" />
+<meta property="og:description" content="Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?
+Depending on the network these chassis are going to be deployed , you need to ask the following :" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-09-04T11:55:10+02:00" />
+<meta property="article:modified_time" content="2022-09-04T11:55:10+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">001_networks_0005_understanding_networks_asics_part_1</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Sep 4, 2022
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          10 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h1 id="intro">Intro</h1>
+<p>For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?</p>
+<p>Depending on the network these chassis are going to be deployed , you need to ask the following :</p>
+<p>• <strong>Routing vs Switching</strong> - Are you going to run a routing L3 protocol , or you just need a Web scale L2 switching ?
+• <strong>Feature Rich vs High Speed</strong> - Do you need feature rich such for enterprise edge , or datacenter TOR or backbone service router for example or very fast and lean spine or backbone switching device ?
+• <strong>Deep buffer vs Shallow buffer</strong> - Does your network benefit from a Deeper off chip sizable buffer or Shallower faster on-chip buffer ?
+• <strong>Programmable vs Fixed</strong> - Are you intending to program the chip yourself/vendor will you just use the chip&rsquo;s features as hardware allows ?
+• <strong>Advanced vs Basic traffic management</strong> - Are you going to implement a legacy basic routing control over traffic , or will you start using intent based controller based routing policies ?
+• <strong>Fixed box vs Modular chassis</strong> - Do you need a 1RU box or multi unit expandable modifiable chassis ?</p>
+<p>There is a fierce competition in the Ethernet silicon area in different directions, there is the competition between Commercial general purpose silicon and the traditional Merchant silicon providers in the cost , throughput and features areas .</p>
+<p>It used to be feature rich against high throughput silicons , but its no longer that simple since the cost of chips now mostly depend on the size of the silicon die (portion of the processor holding the transistors), silicon fabricators already set some standard sizes that processor designer have to adhere to  .</p>
+<p>Silicon chips used to face a problem with yields because processors comprised of a single die which became more costly each time you increase its size, but lately there has been a direction to break that single piece of silicon to multiple &ldquo;Chiplets&rdquo; with cores on a multiple chiplets and IO maybe on another chiplet , these chiplets even used different transistor sizes to optimize the cost against the feature list , so for instance you may have your CPU core made in 7nm process node you can have the IO chiplet made in the 14nm process node size to make it more cost effective , this approach was pioneered by AMD in its EPIC datacenter CPU family , and in the network space it started to appear with Intel&rsquo;s Tofino 2 family bundling Tofino 2 7nm Cores with , read more about it in <a href="https://www.sdxcentral.com/articles/news/barefoot-networks-debuts-tofino-2-using-7nm-technology/2018/12/">Intel Tofino 2 pioneering chiplets design</a></p>
+<hr>
+<h1 id="asics-pipelines">ASICS Pipelines</h1>
+<p>Basically ASICs works in a bunch of Pipelines , for instance in a Network ASIC for example , a pipline dictates the way traffic is being processed from the moment it ingresses through a port to egressing through another port :</p>
+<p><img src="67b3gs8nmq3lj86mrtw4.png" alt="Image description"></p>
+<p><img src="u6bf44nfqyjdzk2sb9ah.png" alt="Image description">
+<a href="https://people.ucsc.edu/~warner/Bufs/cisco-3100-arch.pdf">Cisco 3100 Architecture</a></p>
+<p>The parts of the pipeline represents the feature sets , so when a TAC support advises , that a feature is not supported in Hardware , it means that its not implemented in the ASIC&rsquo;s Pipeline, to give an example some chassis does not support VXLAN forwarding, meaning the ASIC&rsquo;s pipeline does not feature a part dedicated for VXLAN encapsulation and decapsulation imprinted on the hardware .</p>
+<p>Sometimes for vendor instead of redesigning a new ASICs pipline to support a new feature , they would reprogram an existing ASIC and do what is called a recirculation , so you want to add support for VXLAN for instance , you would have to go 1st time through the Pipeline to decapsulate the VXLAN header 1st , then recirculate the traffic second time into the same pipeline but this time for L3 lookup , as these actions was not designed on the ASIC to be supported at the same time , some behavior we used to see with GRE and MPLS , you had to choose only one if you want to pass the pipeline once , if you wanted both then you have to pass the pipeline twice , this of course doubles the latency .</p>
+<p>So vendors would go in a Tic Toc cycle of adding feature thus creating a feature rich platform (like Broadcom&rsquo;s Trident family) , the tic , then optimizing the chip design to process those new features on a faster hardware level (like Broadcom&rsquo;s Tomahawk family) .</p>
+<hr>
+<h2 id="programmability">Programmability</h2>
+<p>Some ASICS , you would have access to the SDK (Example : P4 , OpenFlow or even hardware level Assembly SDK), some are fixed and some are in-between , example for programable networking targeted chips like the Intel Tofino family or Cisco&rsquo;s latest Silicon One chips that supports P4 programing language.</p>
+<p><img src="tbwjaneb6b1dpludkwuq.png" alt="Image description"><em><a href="https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html">image source</a></em></p>
+<p>Ethernet silicon types:</p>
+<ol>
+<li>Merchant Silicons : Some companies develop chips to be used inside Vendor&rsquo;s products, these are highly specialized Ethernet focused chips that stands in-between general commercial silicons (like general purpose CPUs) and vendor propriety ones , example companies are like Arista, Broadcom ad Mellanox .</li>
+<li>Vendor chips : some huge vendors develop their own chips for their own specialized devices like routers and switches , most famous are Cisco and Juniper .</li>
+</ol>
+<hr>
+<h1 id="cpus-vs-fpgas-vs-asics">CPUs vs FPGAs vs ASICS</h1>
+<p>The difference between the 3 types are features against tradeoffs , CPUs (like x86) provides the most flexibility and programability vs ASICS providing much faster processing speeds and greater bandwidth with the downside of being not programable while that&rsquo;s true, some of the new ASICs provides and SDK but its very hard to develop for , and mostly these SDKs are used by the Networking vendors instead of the end consumer .</p>
+<p>FPGAs are the man in the middle , much faster than CPUs but with more programability than ASICs .</p>
+<hr>
+<h1 id="buffering">Buffering</h1>
+<p>There is 2 types of buffers , Shallow on-chip buffer , which is very small , very expensive and then yet very fast , and then there is the second type , the Deep buffer , which can be in the hundreds of Gigabytes , but it would be off-chip and would be much slower , you have both in a Chassis router but each handling a particular scenario .</p>
+<p>Following is Pete&rsquo;s (Pete Lumbis) Opinion on which buffer should handle which type of traffic .
+A) Deep buffer : should handle long stance transmission , because microsecond congestion on such port would have big impact on RTT of TCP, mostly are measured in Giga Bytes, and mostly off-chip .
+B) Shallow buffers : everything else , mostly measured in Mega bytes, mostly on-chip.</p>
+<p><img src="ejrt8uqm9g1431gqws5m.png" alt="Image description"></p>
+<p><a href="https://docs.broadcom.com/doc/12395356">Shallow Buffer on Trident3 - Broadcom</a></p>
+<p>One of the hardest topics to understand is buffering ,</p>
+<h2 id="when-is-buffer-used-">When is buffer used :</h2>
+<p>1- When Egree port traffic is larger than Ingress ports - 2 Inputs , 1 output ports , if buffer is full , this would provide Overrun packets .
+2- When speed changes , input 100G to output 10G port for example .
+3- When you need to Store and Forward .
+4- If there is a Burst of traffic that is bigger than th Pipeline speed of processing , depends on the packet header size .</p>
+<h2 id="when-buffer-is-not-used-">When buffer is not used :</h2>
+<p>1- Cut through traffic , so traffic coming in and directly being forwarded out with input and output at same speed.</p>
+<hr>
+<h1 id="form-factors">Form Factors</h1>
+<p>Form factor needs differs from a network addressed to a Cloud provide , hyper scaler , enterprise, or a backbone service provider .</p>
+<p>Most Cloud providers and Hyper scalers tends to use a 1RU form factor switches , on the other hand enterprise core switches and service provider&rsquo;s backbone routers tend to be a large multi-line card chassis, in here we are focusing more on the bigger form factor as it provides many concepts to get familiar with .</p>
+<p>Lets take a Juniper MX2020 service router , the same functionality are implemented in many vendors and models but the naming may differ a little bit , but they all tend to provide the same functionality :</p>
+<p><img src="1ez822mlnejb8yurxipa.png" alt="Image description"></p>
+<h2 id="routing-engine">Routing Engine</h2>
+<p>Juniper calls it Routing Engine cards , Cisco calls it Route Processor , these are responsible for handling the Control plane in the legacy way including routing protocols , device management, logging , monitoring, and any functionality besides pure packet forwarding , they establish the peerings, hold the routing tables, apply the route selection derive the RIB and then they translate if into the FIB table that gets cascaded to the Forwarding engines .</p>
+<p>They usually have some redundancy features such as ISSU(), Non stop forwarding and so on .</p>
+<p>The separation between the Routing engines and the Forwarding plane is useful in case of failure of both redundant Routing Engines , you would lose access to the device and the peering would stop but traffic would still transit through the chassis normally without drops as the Forwarding engines (Ports Cards) would have a copy of the last FIB, the only issue would be that FIB would be outdated .</p>
+<h2 id="forwarding-engine">Forwarding Engine</h2>
+<p>Refers to the processors on the Line Cards (Ports cards) , a line card may include one or more of these forwarding processors (ASICs), Juniper calls them PFE(Packet Forwarding Engine) , Cisco has multiple names for these such as NPU(Network Processing Unit) , or PSE(Packet Switching Engine) .</p>
+<p>These are responsible for packet header manipulation, classification, scheduling, policing, rewrite, replication, filtering, accounting, fine-grained traffic steer‐ ing, mirroring, sampling, unicast and multicast RPF checks, class-based forwarding, and many others.</p>
+<h2 id="fabric-processors">Fabric Processors</h2>
+<p>When you have a chassis with multiple line cards, you will mostly find these switch fabrics mediating traffic traversing in-between the Line cards (Forwarding Engines).</p>
+<h2 id="backplane">Backplane</h2>
+<p>The chassis connectivity lines between all three Routing Engines, Line Cards and Switch fabrics .</p>
+<h2 id="further">Further</h2>
+<p><img src="o1kmie7dq941tf145bn9.png" alt="Image description"></p>
+<p>These cards would show connected into the backplane serial but actually the connectivity between these cards are more like a Spine/Leaf topology of a datacenter just compacted into a Chassis form , looks like this logically</p>
+<hr>
+<h1 id="asics-provider">ASICS provider</h1>
+<h2 id="broadcom">Broadcom</h2>
+<p>Broadcom has a wide range of ASICs for Networks , we are going to focus on the more relevant ones to our article , there are 2 families :
+1- StrataSGX : Mostly Data Center and 1RU form factor , and you have 2 lines :</p>
+<ul>
+<li>Feature rich (More Enterprise) : Trident and Maverick lines of chips .</li>
+<li>High speed (Service Provider) : Tomahawk line of chips .
+2- StrataDNX : Deep buffer Chassis chips , they mostly live on line cards :</li>
+<li>Buffers and Medium speed : Aurad, Qumran, Jericho</li>
+</ul>
+<h2 id="cisco">Cisco</h2>
+<p>Cisco has lately unveiled their Silicon One family of chips targeted towards all fields including data centers , hyperscalers , enterprises and service providers , currently you can see the Q200 Silicon one chip used in the Cisco 8000 family of routers.
+<img src="w7zbt75fxpz7oc7abmqi.png" alt="Image description"><a href="https://www.cisco.com/c/dam/en/us/solutions/collateral/silicon-one/white-paper-sp-product-family.pdf">Cisco sourced image</a></p>
+<h2 id="mellanox">Mellanox</h2>
+<p>mellanox is now a part of Nvidea , there chips are more to be found inside White Boxes rather than vendor chassis .
+They have only one family for Ethernet chips :</p>
+<ul>
+<li>Spectrum : low latency , feature rich</li>
+</ul>
+<h2 id="intel">Intel</h2>
+<p>In 2019, Intel acquired Barefoot , the maker of the Tofino silicon which is directed towards the Datacenter Fabric market , as of 2022 , they have 3 generations of the Tofino chips family , with P4 programable chips, Intel calls its chips IFPs (Intelligent Fabric Processors), to put it into presepctivet , some Arista (7170 Series) ad Cisco (Nexus 3400 family - Top of rack) Products have already implemented these chips, following is the difference between the 3 generations :
+<img src="73k4c0rl5jsjkgbygnf7.png" alt="Image description"><em><a href="https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html">Intel Source Page</a></em></p>
+<h1 id="references-">References :</h1>
+<ul>
+<li><a href="https://elegantnetwork.github.io/posts/A-Summary-of-Network-ASICs/">what are network ASICS</a></li>
+<li><a href="https://bm-switch.com/index.php/blog/whitebox_basics_programmable_fixed_asics/">White Boxes</a></li>
+<li><a href="https://www.nextplatform.com/2018/12/04/programmable-networks-get-a-bigger-foot-in-the-datacenter-door/">Datacenter ASICs</a></li>
+<li><a href="https://www.youtube.com/watch?v=n9bUEb1v0pU">inside a carrier Router/Switch</a></li>
+<li><a href="https://www.youtube.com/watch?v=Ti3t9OAZL3g&amp;list=WL&amp;index=45">Network ASICs - Deep Dive</a> (Recommended)</li>
+<li><a href="https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html">Intel Tofino brochure</a></li>
+<li><a href="https://packetpushers.net/chiplets-the-first-step-to-integrated-silicon-photonics-for-faster-interconnects-at-lower-cost/">Chiplets: The First Step To Integrated Silicon Photonics For Faster Interconnects At Lower Cost</a></li>
+<li><a href="https://www.cisco.com/c/dam/en/us/solutions/collateral/silicon-one/white-paper-sp-product-family.pdf">Cisco Silicon One Product Family</a></li>
+<li><a href="https://www.youtube.com/watch?v=pRJZE0C77SQ">Pete Lumbis Asics for networking engineers</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

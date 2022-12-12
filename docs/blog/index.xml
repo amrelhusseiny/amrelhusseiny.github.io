@@ -65,5 +65,24 @@ But beware, unlike traditional containers which replaces the resource intensive 
 But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though RFC-6598 and its called the Shared Address space since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:</description>
     </item>
     
+    <item>
+      <title>Automating DrawIO network topology using Python</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/</link>
+      <pubDate>Tue, 06 Sep 2022 11:26:44 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/</guid>
+      <description>Intro In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself . DrawIO is widely used as a free alternative to Microsoft&amp;rsquo;s Visio to draw network topologies. I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&amp;rsquo;t be the focus of the article .</description>
+    </item>
+    
+    <item>
+      <title>001_networks_0005_understanding_networks_asics_part_1</title>
+      <link>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</link>
+      <pubDate>Sun, 04 Sep 2022 11:55:10 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</guid>
+      <description>Intro For people working in the planning portion of networks , they will face important decision for whether to expand on an exiting chassis they already are running or whether they are going with a new vendor or model, if this is your first time to do that , what are the questions you need to ask yourself or your vendor ?
+Depending on the network these chassis are going to be deployed , you need to ask the following :</description>
+    </item>
+    
   </channel>
 </rss>
