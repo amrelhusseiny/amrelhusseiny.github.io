@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Linux Networking Part 1 : Kernel Net Stack // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack"/>
+<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
+
+    <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack" />
+<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-12-21T15:17:44+02:00" />
+<meta property="article:modified_time" content="2022-12-21T15:17:44+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Linux Networking Part 1 : Kernel Net Stack</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 21, 2022
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction-to-series">Introduction to series</a></li>
+    <li><a href="#part-1--linux-network-stack">Part 1 : Linux Network Stack</a>
+      <ul>
+        <li><a href="#sk_buff-socket-buffer">sk_buff (Socket buffer)</a></li>
+      </ul>
+    </li>
+    <li><a href="#keywords">Keywords</a></li>
+    <li><a href="#how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<h2 id="introduction-to-series">Introduction to series</h2>
+<p>In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</p>
+<h2 id="part-1--linux-network-stack">Part 1 : Linux Network Stack</h2>
+<p>In part 1, we are going to explaing the flow of basic networking in Linux Kernel inspired by <a href="https://www.youtube.com/watch?v=6Fl1rsxk4JQ">Jiri Binc&rsquo;s talk in DevConf CZ 2018</a>, where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.</p>
+<p>First, quick look at some tools Linux uses in its networking stack and what it means :</p>
+<h3 id="sk_buff-socket-buffer">sk_buff (Socket buffer)</h3>
+<p>Linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff&rsquo;s is data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, sk_buff consists of:</p>
+<ul>
+<li>sk_buff and skb are interchangable, while you will find skb widely used in the kernel code</li>
+<li><strong>packet buffer (sk_buff data)</strong> : a place where the actual packet and data are stored in kernel space memory, pointed to using the sk_buff struct, the size of the allocated SKB is equal to MSS+Headroom to allow for MSS to change according to connection and user modifications.</li>
+<li><strong>sk_buff struct (Socket Buffer)</strong> :  MetaData about the packet stored in packet buffers, which includes pointers and values, they look as follows, keep in mind these are just a part of the sk_buff struct,<a href="http://lxr.linux.no/linux+v2.6.20/include/linux/skbuff.h#L184">to read the details of sk_buff.h struct, you can find it here</a>:</li>
+</ul>
+<p><img src="linux_and_cloud_networking_starter_001.png" alt="linux_and_cloud_networking_starter_001.png"></p>
+<ol>
+<li><strong>Interface (input_dev)</strong> : refers to the interface name the packet arrived at.</li>
+<li><strong>Protocol</strong> : IPv4, IPv6 and so on.</li>
+<li><strong>Head</strong> : pointer to the start of the sk_buff, which actually starts with an empty space giving headroom for extra headers,  like a VLAN tag for instacnce.</li>
+<li><strong>Data</strong> : the data pointer does not indicate the start of data, rather its used dynamically in the stack functions to pop and push headers, so fo example in the kernel when you say pop Ethernet header, all that actually happens is that the data pointer moves to the start of the IP Header, so no headers are physically popped in the memory.</li>
+<li><strong>Tail</strong> : indicates points to the end of the data part and start of the empty part of the sk_buffer, again this empty part is used for diffirent sized packets, since the sk_buffer is sized according to the MTU configured.</li>
+<li><strong>End</strong> : points to the end of the sk_buff in memory .</li>
+<li><strong>MAC</strong> &amp; IP &amp; TCP header pointers are always stored in the sk_buff metadata, enabling to call them directly without needing to do poping and pushing actions on the sk_buff</li>
+<li><strong>cloned</strong> : the head of the SKB may be cloned, not the data though.</li>
+</ol>
+<p>Note : the packet does not get duplicated in Kernel, actual packet data stays in the packet buffers, with each clone or copy, the packet buffer stays intact, instead a new sk_buff (AKA SKB) is created, so new Metadata pointing to the existing packet buffer, although no copying of the packet in the Kernel, the packet is copied it reaches the application and the SKB is released.</p>
+<ul>
+<li><strong>DMA (Direct Memory Access)</strong> : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.</li>
+<li><strong>Ring Buffers</strong> : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.</li>
+<li><strong>Top half and Bottom half</strong> : when a packet is DMAed by the NIC to the memory (DMA is a place in Kernel Memory space where NIC card has access to without need for CPU), an Intrupet (SoftIRQ - Soft Interrupt Request) is sent by the NIC to the CPU informing it that a new packet arrived and waiting to be processed, Top half refers to the actions taken at 1st by the CPU, so instead of stopping everything to process this packet, which can be intrusive, it just acknowledges the intrupt and schedules the Bottom half (whcih is the rest of action that will be taken to process the packet) for later.</li>
+<li>Context Switching : the process of moving between the UserSpace Context and the KernelSpace context for a process, which consumes CPU cycles.</li>
+<li><strong>System Calls</strong> : Simply put, system calls are used by user in UserSpace to request service from KernelSpace,</li>
+<li><strong>NAPI - for recieved traffic</strong>  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on <em>packet recieve events</em> .</li>
+<li><strong>SoftIRQ</strong> : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, <em>KsoftIRQ</em> is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using <code>$ cat /proc/softirqs </code></li>
+</ul>
+<h2 id="keywords">Keywords</h2>
+<ul>
+<li>File Descriptor : is a number the operating system uses to identify an open file</li>
+<li>TSS (Tuple Space Search) : this is used by OVS for the Second Level table which is <em>dpcls</em> basicaly it depends on hash matching to existing tuple, meaning when you are able to match on a tuple of same values in each packet , you create a hash to match it and forward based on that hash, instead of looking up each value separatly .</li>
+<li></li>
+</ul>
+<h2 id="how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</h2>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://wiki.linuxfoundation.org/networking/kernel_flow?s%5B%5D=network&amp;s%5B%5D=stack">Linux Foundation Wiki - sk_buff Kernel Flow</a></li>
+<li><a href="https://www.kernel.org">Linux Kernel Archive </a></li>
+<li><a href="https://docs.kernel.org/networking/skbuff.html">SK Buffer - deep look </a></li>
+<li><a href="https://wiki.linuxfoundation.org/networking/sk_buff">Linux Foundation Explanation of the SK_Buff</a></li>
+<li><a href="https://www.youtube.com/watch?v=6Fl1rsxk4JQ">DevConf CZ 2018 - Linux Packet Flow (Video)</a></li>
+<li><a href="https://www.youtube.com/watch?v=noqSZorzooc&amp;list=WL&amp;index=88">Linux Conf 2017 - Kernel-bypass networking for fun and profit (Video)</a></li>
+<li><a href="https://dspace.cuni.cz/bitstream/handle/20.500.11956/99083/120298453.pdf?sequence=1&amp;isAllowed=y">NIC Offloading - Master Thesis (Ondrej Hlavaty) (PDF)</a></li>
+<li><a href="https://www.cse.iitb.ac.in/~mythili/os/anno_slides/network_stack_kernel_bypass_slides.pdf">Kernel-bypass techniques for high-speed network packet processing (PDF)</a></li>
+<li><a href="https://www.youtube.com/watch?v=MpjlWt7fvrw&amp;list=WL&amp;index=85">Kernel-bypass techniques for high-speed network packet processing (Video)</a></li>
+<li><a href="https://blog.cloudflare.com/kernel-bypass/">CloudFlare - Kernel bypass</a></li>
+<li><a href="https://www.intel.com/content/www/us/en/developer/articles/technical/ovs-dpdk-datapath-classifier.html">Intel - OVS-DPDK Datapath Classifier - (Very Good for understanding how DPDK exactly works with Intel HW)</a></li>
+<li><a href="https://networkbuilders.intel.com/university/course/open-vswitch-with-dpdk-architectural-deep-dive">Intel - OVS DPDK Architectural Deep Dive (3 Part Video)</a></li>
+<li><a href="https://networkbuilders.intel.com/university/course/dpdk-open-vswitch-accelerating-the-path-to-the-guest">Intel - DPDK Open vSwitch: Accelerating the Path to the Guest (4 Part Video)</a></li>
+<li><a href="https://opensource.com/article/19/4/interprocess-communication-linux-storage">Inter Process Communication (3 part Article)</a></li>
+<li>TCP/IP ARCHITECTURE, DESIGN, AND IMPLEMENTATION IN LINUX - Sameer Seth , M. Ajaykumar Venkatesulu (Book)</li>
+<li><a href="https://wiki.linuxfoundation.org/networking/napi">NAPI (NewAPI) - Network Driver</a></li>
+<li><a href="https://blog.packagecloud.io/illustrated-guide-monitoring-tuning-linux-networking-stack-receiving-data/">Illustrated Guide to Monitoring and Tuning the Linux Networking Stack: Receiving Data</a></li>
+<li><a href="https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf">Red Hat Enterprise Linux Network Performance Tuning Guide</a></li>
+<li><a href="https://stackoverflow.com/a/59491902/20268697">Stack Overflow - Ring Buffers and DMA Memory - illustration of the process </a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

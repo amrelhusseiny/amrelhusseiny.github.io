@@ -6,7 +6,26 @@
     <description>Recent content on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Dec 2022 11:17:37 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Dec 2022 20:03:57 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Networking Part 2 : Firewalling in the Linux Net Stack</title>
+      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</link>
+      <pubDate>Mon, 26 Dec 2022 20:03:57 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</guid>
+      <description>NF Diagram This is how logically the Network Filter hooks are designed, these are the same hooks used by IPTables to apply the rules :
+References </description>
+    </item>
+    
+    <item>
+      <title>Linux Networking Part 1 : Kernel Net Stack</title>
+      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</link>
+      <pubDate>Wed, 21 Dec 2022 15:17:44 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</guid>
+      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</description>
+    </item>
+    
     <item>
       <title>002_openstack_0001_openstack_homelab_part_1</title>
       <link>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</link>
@@ -14,7 +33,7 @@
       
       <guid>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</guid>
       <description> Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
-Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack </description>
+Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack Openstack Python SDK Guide - Functions Available CleanUp openstack Networks and Routers (Article) Enos Openstack SDK Client init example </description>
     </item>
     
     <item>
