@@ -11,7 +11,7 @@ In this series, we will be exploring the way networking works starting by tradit
 ## Part 1 : Linux Network Stack
 In part 1, we are going to explaing the flow of basic networking in Linux Kernel inspired by [Jiri Binc's talk in DevConf CZ 2018](https://www.youtube.com/watch?v=6Fl1rsxk4JQ), where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.
 
-First, quick look at some tools Linux uses in its networking stack and what it means : 
+First, quick look at some concpets and objects Linux uses in its networking stack and what it means : 
 ### sk_buff (Socket buffer)
 Linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff's is data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, sk_buff consists of: 
 
@@ -31,6 +31,8 @@ Linux interacts with a packet/cell/segment or whaterver the recieved network uni
            
  Note : the packet does not get duplicated in Kernel, actual packet data stays in the packet buffers, with each clone or copy, the packet buffer stays intact, instead a new sk_buff (AKA SKB) is created, so new Metadata pointing to the existing packet buffer, although no copying of the packet in the Kernel, the packet is copied it reaches the application and the SKB is released.
  
+### Additional concepts
+
  - **DMA (Direct Memory Access)** : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.
  - **Ring Buffers** : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.
  - **Top half and Bottom half** : when a packet is DMAed by the NIC to the memory (DMA is a place in Kernel Memory space where NIC card has access to without need for CPU), an Intrupet (SoftIRQ - Soft Interrupt Request) is sent by the NIC to the CPU informing it that a new packet arrived and waiting to be processed, Top half refers to the actions taken at 1st by the CPU, so instead of stopping everything to process this packet, which can be intrusive, it just acknowledges the intrupt and schedules the Bottom half (whcih is the rest of action that will be taken to process the packet) for later.
@@ -38,6 +40,17 @@ Linux interacts with a packet/cell/segment or whaterver the recieved network uni
  - **System Calls** : Simply put, system calls are used by user in UserSpace to request service from KernelSpace, 
  - **NAPI - for recieved traffic**  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on _packet recieve events_ .
 - **SoftIRQ** : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, _KsoftIRQ_ is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using `$ cat /proc/softirqs `
+
+## Simple look at the Network flow
+![Simplified Network Stack workings](net_stack_simplified.jpg)
+1) Very early at Kernel boot up, the CPUY allocates packet buffers (RX and TX buffers), and build file descriptors.
+2) CPU informs the NIC that new descriptors has been created for the NIC to start using.
+3) DMA (Direct Access Memory) fetches descriptors.
+4) Packet arrives at NIC.
+5) DMA Writes the packet to the RX Ring buffer.
+6) NIC informs the driver which informs the CPU that new traffic is ready to be processed using _Hardware Interrupt (IRQ)_.
+7) After the 1st Hardware interrupt, the Interrupt handler masks it, and instead the driver utilizes the use of _Software Interrupt (SoftIRQ)_ which is much less costly to the CPU (Hardware Interrupts cannot be interrupted which is very costly for the CPU).
+8) CPU process the incoming packets.
 
 ## Keywords
 - File Descriptor : is a number the operating system uses to identify an open file 
