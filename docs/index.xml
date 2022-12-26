@@ -23,7 +23,7 @@ References </description>
       <pubDate>Wed, 21 Dec 2022 15:17:44 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</guid>
-      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</description>
+      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</description>
     </item>
     
     <item>

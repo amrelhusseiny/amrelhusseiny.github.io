@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack"/>
-<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
+<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
 
     <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack" />
-<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
+<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-21T15:17:44+02:00" />
@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          6 min read
+          7 min read
         </div>
       </div>
     </header>
@@ -85,8 +85,10 @@
     <li><a href="#part-1--linux-network-stack">Part 1 : Linux Network Stack</a>
       <ul>
         <li><a href="#sk_buff-socket-buffer">sk_buff (Socket buffer)</a></li>
+        <li><a href="#additional-concepts">Additional concepts</a></li>
       </ul>
     </li>
+    <li><a href="#simple-look-at-the-network-flow">Simple look at the Network flow</a></li>
     <li><a href="#keywords">Keywords</a></li>
     <li><a href="#how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</a></li>
     <li><a href="#references">References</a></li>
@@ -97,7 +99,7 @@
 <p>In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</p>
 <h2 id="part-1--linux-network-stack">Part 1 : Linux Network Stack</h2>
 <p>In part 1, we are going to explaing the flow of basic networking in Linux Kernel inspired by <a href="https://www.youtube.com/watch?v=6Fl1rsxk4JQ">Jiri Binc&rsquo;s talk in DevConf CZ 2018</a>, where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.</p>
-<p>First, quick look at some tools Linux uses in its networking stack and what it means :</p>
+<p>First, quick look at some concpets and objects Linux uses in its networking stack and what it means :</p>
 <h3 id="sk_buff-socket-buffer">sk_buff (Socket buffer)</h3>
 <p>Linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff&rsquo;s is data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, sk_buff consists of:</p>
 <ul>
@@ -117,6 +119,7 @@
 <li><strong>cloned</strong> : the head of the SKB may be cloned, not the data though.</li>
 </ol>
 <p>Note : the packet does not get duplicated in Kernel, actual packet data stays in the packet buffers, with each clone or copy, the packet buffer stays intact, instead a new sk_buff (AKA SKB) is created, so new Metadata pointing to the existing packet buffer, although no copying of the packet in the Kernel, the packet is copied it reaches the application and the SKB is released.</p>
+<h3 id="additional-concepts">Additional concepts</h3>
 <ul>
 <li><strong>DMA (Direct Memory Access)</strong> : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.</li>
 <li><strong>Ring Buffers</strong> : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.</li>
@@ -126,6 +129,18 @@
 <li><strong>NAPI - for recieved traffic</strong>  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on <em>packet recieve events</em> .</li>
 <li><strong>SoftIRQ</strong> : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, <em>KsoftIRQ</em> is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using <code>$ cat /proc/softirqs </code></li>
 </ul>
+<h2 id="simple-look-at-the-network-flow">Simple look at the Network flow</h2>
+<p><img src="net_stack_simplified.jpg" alt="Simplified Network Stack workings"></p>
+<ol>
+<li>Very early at Kernel boot up, the CPUY allocates packet buffers (RX and TX buffers), and build file descriptors.</li>
+<li>CPU informs the NIC that new descriptors has been created for the NIC to start using.</li>
+<li>DMA (Direct Access Memory) fetches descriptors.</li>
+<li>Packet arrives at NIC.</li>
+<li>DMA Writes the packet to the RX Ring buffer.</li>
+<li>NIC informs the driver which informs the CPU that new traffic is ready to be processed using <em>Hardware Interrupt (IRQ)</em>.</li>
+<li>After the 1st Hardware interrupt, the Interrupt handler masks it, and instead the driver utilizes the use of <em>Software Interrupt (SoftIRQ)</em> which is much less costly to the CPU (Hardware Interrupts cannot be interrupted which is very costly for the CPU).</li>
+<li>CPU process the incoming packets.</li>
+</ol>
 <h2 id="keywords">Keywords</h2>
 <ul>
 <li>File Descriptor : is a number the operating system uses to identify an open file</li>
