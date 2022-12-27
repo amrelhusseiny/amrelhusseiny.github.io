@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack"/>
-<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
+<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Interrupts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) Commands Summary References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
 
     <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack" />
-<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
+<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Interrupts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) Commands Summary References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-21T15:17:44+02:00" />
@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          7 min read
+          9 min read
         </div>
       </div>
     </header>
@@ -86,11 +86,13 @@
       <ul>
         <li><a href="#sk_buff-socket-buffer">sk_buff (Socket buffer)</a></li>
         <li><a href="#additional-concepts">Additional concepts</a></li>
+        <li><a href="#interrupts">Interrupts</a></li>
       </ul>
     </li>
     <li><a href="#simple-look-at-the-network-flow">Simple look at the Network flow</a></li>
     <li><a href="#keywords">Keywords</a></li>
     <li><a href="#how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</a></li>
+    <li><a href="#commands-summary">Commands Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -128,9 +130,47 @@
 <li><strong>System Calls</strong> : Simply put, system calls are used by user in UserSpace to request service from KernelSpace,</li>
 <li><strong>NAPI - for recieved traffic</strong>  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on <em>packet recieve events</em> .</li>
 <li><strong>SoftIRQ</strong> : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, <em>KsoftIRQ</em> is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using <code>$ cat /proc/softirqs </code></li>
+<li><strong>ISR (Interrupt Service Routine)</strong> : A function in the Kernel responsible for figuring out the nature of the interrupt and what actions to be executed after which the CPU resumes to process previously paused processes.</li>
 </ul>
-<h2 id="simple-look-at-the-network-flow">Simple look at the Network flow</h2>
-<p><img src="net_stack_simplified.jpg" alt="Simplified Network Stack workings"></p>
+<h3 id="interrupts">Interrupts</h3>
+<ul>
+<li><strong>Top-Half Interrupts (Hardware Interrupt)</strong> : These kind of interrupts is very costly, and as a result the Interrupt handler masks it after 1st use, and then after that the NIC driver starts to use the SoftIRQ (Software interrupt) instead which can be interrupted by itself, you can observe these interrupts :</li>
+</ul>
+<pre tabindex="0"><code>$ cat /proc/interrupts
+## These are the hardware interrupts, including the IRQ ID , the CPU and the number of interrupts of this type that was triggered .
+           CPU0       CPU1       CPU2       CPU3       CPU4           
+  0:         28          0          0          0          0  IO-APIC   2-edge      timer
+  1:          0          0          0          0          0  IO-APIC   1-edge      i8042
+  8:          0          0          0          0          0  IO-APIC   8-edge      rtc0
+  9:          0          0          0          0          0  IO-APIC   9-fasteoi   acpi
+ 12:          0          0          0          0          0  IO-APIC  12-edge      i8042
+ 14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
+ 15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
+</code></pre><p>Each interrupt (Hardware Interrupt) is identified by a <strong>vector</strong> which is a one byte identifier, ranging 0-255, from 0-31 are what are called Exceptions (Non-Maskable) interrupts, range 32-47 are maskable interrupts, from 48 to 255 are allocated to Software interrupts (SoftIRQ).
+For more info about Hardware interrupts, check <a href="https://www.cs.montana.edu/courses/spring2005/518/Hypertextbook/jim/media/interrupts_on_linux.pdf">this great paper &ldquo;Linux Interrupts : The basic concepts&rdquo;</a></p>
+<ul>
+<li><strong>Bottom-Half Interrupts (Software Interrupt)</strong> :
+SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as [ksoftiqd/CPU_Number], these queues polls the device driver, you can see recieve and transmission queues :</li>
+</ul>
+<pre tabindex="0"><code># SoftIRQs queues process 
+$ ps aux | grep ksoftirqd
+root          14  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/0]
+root          23  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/1]
+root          29  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/2]
+root          35  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/3]
+root          41  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/4]
+
+# Monitoring the Rx and Tx buffers :
+$ watch -n1 grep RX /proc/softirqs
+Every 1.0s: grep RX /proc/softirqs
+      NET_RX:          0          2          0        122  
+
+$ watch -n1 grep TX /proc/softirqs
+Every 1.0s: grep TX /proc/softirqs
+NET_TX:          0          0          0          0
+</code></pre><h2 id="simple-look-at-the-network-flow">Simple look at the Network flow</h2>
+<p><img src="net_stack_simplified.jpg" alt="Simplified Network Stack workings">
+<strong>Figure B :</strong> simple explanation of what is being allocated and how packet goes though Kernel :</p>
 <ol>
 <li>Very early at Kernel boot up, the CPUY allocates packet buffers (RX and TX buffers), and build file descriptors.</li>
 <li>CPU informs the NIC that new descriptors has been created for the NIC to start using.</li>
@@ -148,6 +188,33 @@
 <li></li>
 </ul>
 <h2 id="how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</h2>
+<h2 id="commands-summary">Commands Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Show Interrupt counters (IRQs and SoftIRQs)</td>
+<td><code>$ cat /proc/interrupts</code></td>
+</tr>
+<tr>
+<td>Show SoftIRQ Processes</td>
+<td><code>$ ps aux | grep ksoftirqd</code></td>
+</tr>
+<tr>
+<td>Monitor the RX Buffer per CPU (Rx &amp; TX)</td>
+<td><code>$ watch -n1 grep RX /proc/softirqs</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>$ watch -n1 grep TX /proc/softirqs</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://wiki.linuxfoundation.org/networking/kernel_flow?s%5B%5D=network&amp;s%5B%5D=stack">Linux Foundation Wiki - sk_buff Kernel Flow</a></li>
@@ -169,6 +236,7 @@
 <li><a href="https://blog.packagecloud.io/illustrated-guide-monitoring-tuning-linux-networking-stack-receiving-data/">Illustrated Guide to Monitoring and Tuning the Linux Networking Stack: Receiving Data</a></li>
 <li><a href="https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf">Red Hat Enterprise Linux Network Performance Tuning Guide</a></li>
 <li><a href="https://stackoverflow.com/a/59491902/20268697">Stack Overflow - Ring Buffers and DMA Memory - illustration of the process </a></li>
+<li><a href="http://vger.kernel.org/~davem/skb_data.html">How SKBs work</a></li>
 </ul>
 
     </div>

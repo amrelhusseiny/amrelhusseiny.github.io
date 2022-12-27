@@ -6,7 +6,16 @@
     <description>Recent content on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Dec 2022 20:03:57 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 27 Dec 2022 11:26:01 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux Networking Part 2 : DPDK vs SR-IOV</title>
+      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_3/</link>
+      <pubDate>Tue, 27 Dec 2022 11:26:01 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_3/</guid>
+      <description>References Considerations for SR IOV and NFV Solutions (Youtube) </description>
+    </item>
+    
     <item>
       <title>Linux Networking Part 2 : Firewalling in the Linux Net Stack</title>
       <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</link>
@@ -23,7 +32,7 @@ References </description>
       <pubDate>Wed, 21 Dec 2022 15:17:44 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</guid>
-      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</description>
+      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Interrupts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) Commands Summary References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</description>
     </item>
     
     <item>
