@@ -40,9 +40,51 @@ Linux interacts with a packet/cell/segment or whaterver the recieved network uni
  - **System Calls** : Simply put, system calls are used by user in UserSpace to request service from KernelSpace, 
  - **NAPI - for recieved traffic**  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on _packet recieve events_ .
 - **SoftIRQ** : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, _KsoftIRQ_ is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using `$ cat /proc/softirqs `
+- **ISR (Interrupt Service Routine)** : A function in the Kernel responsible for figuring out the nature of the interrupt and what actions to be executed after which the CPU resumes to process previously paused processes.
+
+### Interrupts
+- **Top-Half Interrupts (Hardware Interrupt)** : These kind of interrupts is very costly, and as a result the Interrupt handler masks it after 1st use, and then after that the NIC driver starts to use the SoftIRQ (Software interrupt) instead which can be interrupted by itself, you can observe these interrupts :
+```
+$ cat /proc/interrupts
+## These are the hardware interrupts, including the IRQ ID , the CPU and the number of interrupts of this type that was triggered .
+           CPU0       CPU1       CPU2       CPU3       CPU4           
+  0:         28          0          0          0          0  IO-APIC   2-edge      timer
+  1:          0          0          0          0          0  IO-APIC   1-edge      i8042
+  8:          0          0          0          0          0  IO-APIC   8-edge      rtc0
+  9:          0          0          0          0          0  IO-APIC   9-fasteoi   acpi
+ 12:          0          0          0          0          0  IO-APIC  12-edge      i8042
+ 14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
+ 15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
+
+```
+Each interrupt (Hardware Interrupt) is identified by a __vector__ which is a one byte identifier, ranging 0-255, from 0-31 are what are called Exceptions (Non-Maskable) interrupts, range 32-47 are maskable interrupts, from 48 to 255 are allocated to Software interrupts (SoftIRQ).
+For more info about Hardware interrupts, check [this great paper "Linux Interrupts : The basic concepts"](https://www.cs.montana.edu/courses/spring2005/518/Hypertextbook/jim/media/interrupts_on_linux.pdf)
+
+
+- **Bottom-Half Interrupts (Software Interrupt)** : 
+SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as \[ksoftiqd/CPU_Number\], these queues polls the device driver, you can see recieve and transmission queues :
+```
+# SoftIRQs queues process 
+$ ps aux | grep ksoftirqd
+root          14  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/0]
+root          23  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/1]
+root          29  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/2]
+root          35  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/3]
+root          41  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/4]
+
+# Monitoring the Rx and Tx buffers :
+$ watch -n1 grep RX /proc/softirqs
+Every 1.0s: grep RX /proc/softirqs
+      NET_RX:          0          2          0        122  
+
+$ watch -n1 grep TX /proc/softirqs
+Every 1.0s: grep TX /proc/softirqs
+NET_TX:          0          0          0          0
+```
 
 ## Simple look at the Network flow
 ![Simplified Network Stack workings](net_stack_simplified.jpg)
+**Figure B :** simple explanation of what is being allocated and how packet goes though Kernel : 
 1) Very early at Kernel boot up, the CPUY allocates packet buffers (RX and TX buffers), and build file descriptors.
 2) CPU informs the NIC that new descriptors has been created for the NIC to start using.
 3) DMA (Direct Access Memory) fetches descriptors.
@@ -57,6 +99,15 @@ Linux interacts with a packet/cell/segment or whaterver the recieved network uni
 - TSS (Tuple Space Search) : this is used by OVS for the Second Level table which is _dpcls_ basicaly it depends on hash matching to existing tuple, meaning when you are able to match on a tuple of same values in each packet , you create a hash to match it and forward based on that hash, instead of looking up each value separatly .
 - 
 ## How the packet packet traverses (Diagram)
+
+## Commands Summary
+|Description |command|
+|-|-|
+| Show Interrupt counters (IRQs and SoftIRQs) | `$ cat /proc/interrupts` |
+| Show SoftIRQ Processes | `$ ps aux \| grep ksoftirqd` |
+| Monitor the RX Buffer per CPU (Rx & TX)| `$ watch -n1 grep RX /proc/softirqs` |
+|  | `$ watch -n1 grep TX /proc/softirqs` |
+
 
 ## References
 - [Linux Foundation Wiki - sk_buff Kernel Flow](https://wiki.linuxfoundation.org/networking/kernel_flow?s[]=network&s[]=stack)
@@ -78,3 +129,4 @@ Linux interacts with a packet/cell/segment or whaterver the recieved network uni
 - [Illustrated Guide to Monitoring and Tuning the Linux Networking Stack: Receiving Data](https://blog.packagecloud.io/illustrated-guide-monitoring-tuning-linux-networking-stack-receiving-data/)
 - [Red Hat Enterprise Linux Network Performance Tuning Guide](https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf)
 - [Stack Overflow - Ring Buffers and DMA Memory - illustration of the process ](https://stackoverflow.com/a/59491902/20268697)
+- [How SKBs work](http://vger.kernel.org/~davem/skb_data.html)
