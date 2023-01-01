@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack"/>
-<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Interrupts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) Commands Summary References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack."/>
+<meta name="twitter:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack 1) A bucket for the packet (sk_buff) 2) Kernel Interrupts (IRQ vs SoftIRQ) 3) System Calls (Syscalls) Additional concepts Simple look at the Network flow Keywords Commands Summary References Introduction to series In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV."/>
 
     <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack" />
-<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack sk_buff (Socket buffer) Additional concepts Interrupts Simple look at the Network flow Keywords How the packet packet traverses (Diagram) Commands Summary References Introduction to series In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack." />
+<meta property="og:description" content="Table Of Contents Introduction to series Part 1 : Linux Network Stack 1) A bucket for the packet (sk_buff) 2) Kernel Interrupts (IRQ vs SoftIRQ) 3) System Calls (Syscalls) Additional concepts Simple look at the Network flow Keywords Commands Summary References Introduction to series In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-21T15:17:44+02:00" />
@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          9 min read
+          10 min read
         </div>
       </div>
     </header>
@@ -84,32 +84,33 @@
     <li><a href="#introduction-to-series">Introduction to series</a></li>
     <li><a href="#part-1--linux-network-stack">Part 1 : Linux Network Stack</a>
       <ul>
-        <li><a href="#sk_buff-socket-buffer">sk_buff (Socket buffer)</a></li>
+        <li><a href="#1-a-bucket-for-the-packet-sk_buff">1) A bucket for the packet (sk_buff)</a></li>
+        <li><a href="#2-kernel-interrupts-irq-vs-softirq">2) Kernel Interrupts (IRQ vs SoftIRQ)</a></li>
+        <li><a href="#3-system-calls-syscalls">3) System Calls (Syscalls)</a></li>
         <li><a href="#additional-concepts">Additional concepts</a></li>
-        <li><a href="#interrupts">Interrupts</a></li>
       </ul>
     </li>
     <li><a href="#simple-look-at-the-network-flow">Simple look at the Network flow</a></li>
     <li><a href="#keywords">Keywords</a></li>
-    <li><a href="#how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</a></li>
     <li><a href="#commands-summary">Commands Summary</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
 </div>
 <h2 id="introduction-to-series">Introduction to series</h2>
-<p>In this series, we will be exploring the way networking works starting by traditional Kernel Network Stack in the 1st article, then we will explore the ways that clouds and HCI (High Compute) pushed for new implementations to remedy the drawbacks of the Kernel Network stack.</p>
+<p>In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.</p>
 <h2 id="part-1--linux-network-stack">Part 1 : Linux Network Stack</h2>
-<p>In part 1, we are going to explaing the flow of basic networking in Linux Kernel inspired by <a href="https://www.youtube.com/watch?v=6Fl1rsxk4JQ">Jiri Binc&rsquo;s talk in DevConf CZ 2018</a>, where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.</p>
-<p>First, quick look at some concpets and objects Linux uses in its networking stack and what it means :</p>
-<h3 id="sk_buff-socket-buffer">sk_buff (Socket buffer)</h3>
-<p>Linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff&rsquo;s is data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, sk_buff consists of:</p>
+<p>In this article, we are the basic flow IPv4/TCP traffic in Linux Kernel inspired by <a href="https://www.youtube.com/watch?v=6Fl1rsxk4JQ">Jiri Binc&rsquo;s talk in DevConf CZ 2018</a>, where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.
+Before we get to the flow path, there is some helper tools and concepts we should be familiary with:</p>
+<h3 id="1-a-bucket-for-the-packet-sk_buff">1) A bucket for the packet (sk_buff)</h3>
+<p><strong>sk_buff (Socket buffer)</strong>, linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff&rsquo;s data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, socket buffer acts like bucket, they hold the segment data until its done being processed, socket buffers donot get destroyed, they are released and reallocated to new packets, also when they are utilized, the CPU creates new sk_buffs (new buckets) to handle the additional traffic.</p>
+<p><em>Side Note: &ldquo;sk_buff&rdquo; and &ldquo;skb&rdquo; are interchangable, while you will find skb widely used in the kernel code</em>
+sk_buff consists of (shown in figure below):</p>
 <ul>
-<li>sk_buff and skb are interchangable, while you will find skb widely used in the kernel code</li>
-<li><strong>packet buffer (sk_buff data)</strong> : a place where the actual packet and data are stored in kernel space memory, pointed to using the sk_buff struct, the size of the allocated SKB is equal to MSS+Headroom to allow for MSS to change according to connection and user modifications.</li>
-<li><strong>sk_buff struct (Socket Buffer)</strong> :  MetaData about the packet stored in packet buffers, which includes pointers and values, they look as follows, keep in mind these are just a part of the sk_buff struct,<a href="http://lxr.linux.no/linux+v2.6.20/include/linux/skbuff.h#L184">to read the details of sk_buff.h struct, you can find it here</a>:</li>
+<li><strong>packet buffer (sk_buff data)</strong> : a place where the actual packet and data are stored in kernel space memory (DMA memory space - will explore the concept of DMA below), pointed to using the sk_buff struct, the size of the allocated SKB is equal to TCP MSS+Headroom to allow for MSS to change according to connection and user modifications.</li>
+<li><strong>sk_buff struct (Socket Buffer Metadata)</strong> :  MetaData about the packet stored in packet buffers (Data), which includes pointers and values, they look as follows, keep in mind these are just a part of the sk_buff struct, <a href="http://lxr.linux.no/linux+v2.6.20/include/linux/skbuff.h#L184">to read the details of sk_buff.h struct, you can find it here</a>:</li>
 </ul>
-<p><img src="linux_and_cloud_networking_starter_001.png" alt="linux_and_cloud_networking_starter_001.png"></p>
+<p><img src="socket_buffer.jpg" alt="socket_buffer_figure"></p>
 <ol>
 <li><strong>Interface (input_dev)</strong> : refers to the interface name the packet arrived at.</li>
 <li><strong>Protocol</strong> : IPv4, IPv6 and so on.</li>
@@ -117,22 +118,12 @@
 <li><strong>Data</strong> : the data pointer does not indicate the start of data, rather its used dynamically in the stack functions to pop and push headers, so fo example in the kernel when you say pop Ethernet header, all that actually happens is that the data pointer moves to the start of the IP Header, so no headers are physically popped in the memory.</li>
 <li><strong>Tail</strong> : indicates points to the end of the data part and start of the empty part of the sk_buffer, again this empty part is used for diffirent sized packets, since the sk_buffer is sized according to the MTU configured.</li>
 <li><strong>End</strong> : points to the end of the sk_buff in memory .</li>
-<li><strong>MAC</strong> &amp; IP &amp; TCP header pointers are always stored in the sk_buff metadata, enabling to call them directly without needing to do poping and pushing actions on the sk_buff</li>
+<li><strong>MAC &amp; IP &amp; TCP header</strong> pointers are always stored in the sk_buff metadata, enabling to call them directly without needing to do poping and pushing actions on the sk_buff</li>
 <li><strong>cloned</strong> : the head of the SKB may be cloned, not the data though.</li>
 </ol>
 <p>Note : the packet does not get duplicated in Kernel, actual packet data stays in the packet buffers, with each clone or copy, the packet buffer stays intact, instead a new sk_buff (AKA SKB) is created, so new Metadata pointing to the existing packet buffer, although no copying of the packet in the Kernel, the packet is copied it reaches the application and the SKB is released.</p>
-<h3 id="additional-concepts">Additional concepts</h3>
-<ul>
-<li><strong>DMA (Direct Memory Access)</strong> : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.</li>
-<li><strong>Ring Buffers</strong> : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.</li>
-<li><strong>Top half and Bottom half</strong> : when a packet is DMAed by the NIC to the memory (DMA is a place in Kernel Memory space where NIC card has access to without need for CPU), an Intrupet (SoftIRQ - Soft Interrupt Request) is sent by the NIC to the CPU informing it that a new packet arrived and waiting to be processed, Top half refers to the actions taken at 1st by the CPU, so instead of stopping everything to process this packet, which can be intrusive, it just acknowledges the intrupt and schedules the Bottom half (whcih is the rest of action that will be taken to process the packet) for later.</li>
-<li>Context Switching : the process of moving between the UserSpace Context and the KernelSpace context for a process, which consumes CPU cycles.</li>
-<li><strong>System Calls</strong> : Simply put, system calls are used by user in UserSpace to request service from KernelSpace,</li>
-<li><strong>NAPI - for recieved traffic</strong>  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on <em>packet recieve events</em> .</li>
-<li><strong>SoftIRQ</strong> : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, <em>KsoftIRQ</em> is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using <code>$ cat /proc/softirqs </code></li>
-<li><strong>ISR (Interrupt Service Routine)</strong> : A function in the Kernel responsible for figuring out the nature of the interrupt and what actions to be executed after which the CPU resumes to process previously paused processes.</li>
-</ul>
-<h3 id="interrupts">Interrupts</h3>
+<h3 id="2-kernel-interrupts-irq-vs-softirq">2) Kernel Interrupts (IRQ vs SoftIRQ)</h3>
+<p>Simply, interrupts are used to stop the CPU from what it is doing and work on the interrupter&rsquo;s part instead, there are models of interrupts, each include many many types.</p>
 <ul>
 <li><strong>Top-Half Interrupts (Hardware Interrupt)</strong> : These kind of interrupts is very costly, and as a result the Interrupt handler masks it after 1st use, and then after that the NIC driver starts to use the SoftIRQ (Software interrupt) instead which can be interrupted by itself, you can observe these interrupts :</li>
 </ul>
@@ -168,7 +159,23 @@ Every 1.0s: grep RX /proc/softirqs
 $ watch -n1 grep TX /proc/softirqs
 Every 1.0s: grep TX /proc/softirqs
 NET_TX:          0          0          0          0
-</code></pre><h2 id="simple-look-at-the-network-flow">Simple look at the Network flow</h2>
+</code></pre><h3 id="3-system-calls-syscalls">3) System Calls (Syscalls)</h3>
+<p>System calls are some predefined functions that a Userspace application can use to communicate with the Kernelspace, there is a lot of system calls, but since here we are focused on the networking part of the Kernel, lets have a look at some of the network related ones:</p>
+<ul>
+<li></li>
+</ul>
+<h3 id="additional-concepts">Additional concepts</h3>
+<ul>
+<li><strong>DMA (Direct Memory Access)</strong> : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.</li>
+<li><strong>Ring Buffers</strong> : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.</li>
+<li><strong>Top half and Bottom half</strong> : when a packet is DMAed by the NIC to the memory (DMA is a place in Kernel Memory space where NIC card has access to without need for CPU), an Intrupet (SoftIRQ - Soft Interrupt Request) is sent by the NIC to the CPU informing it that a new packet arrived and waiting to be processed, Top half refers to the actions taken at 1st by the CPU, so instead of stopping everything to process this packet, which can be intrusive, it just acknowledges the intrupt and schedules the Bottom half (whcih is the rest of action that will be taken to process the packet) for later.</li>
+<li>Context Switching : the process of moving between the UserSpace Context and the KernelSpace context for a process, which consumes CPU cycles.</li>
+<li><strong>System Calls</strong> : Simply put, system calls are used by user in UserSpace to request service from KernelSpace,</li>
+<li><strong>NAPI - for recieved traffic</strong>  : (New API - need Hardware support), Extension to device drivers designed for network devices to lower the number of interrupts for recieving packets, which comes into effect when there is a huge amount of packets recieved, but it still works in conjunction with normal intrupption process, it also helps with throttling traffic, if the NIC is recieving too much traffic, the NAPI performs dropping the packets on the NIC level without the need to alert/interrupt the kernel, NAPI is only effective on <em>packet recieve events</em> .</li>
+<li><strong>SoftIRQ</strong> : The “softIRQ” system in the Linux kernel is a system that kernel uses to process work outside of the device driver IRQ context, device drivers IRQ (Interrupts) are normally of the highest priority for the Linux kernel, and they pause any other types of intrrupts when they arrive, <em>KsoftIRQ</em> is the queue initiated as a thread per CPU very early on in the Kernel, they handle the SoftIRQ queueing, you can see these queues counters using <code>$ cat /proc/softirqs </code></li>
+<li><strong>ISR (Interrupt Service Routine)</strong> : A function in the Kernel responsible for figuring out the nature of the interrupt and what actions to be executed after which the CPU resumes to process previously paused processes.</li>
+</ul>
+<h2 id="simple-look-at-the-network-flow">Simple look at the Network flow</h2>
 <p><img src="net_stack_simplified.jpg" alt="Simplified Network Stack workings">
 <strong>Figure B :</strong> simple explanation of what is being allocated and how packet goes though Kernel :</p>
 <ol>
@@ -187,7 +194,6 @@ NET_TX:          0          0          0          0
 <li>TSS (Tuple Space Search) : this is used by OVS for the Second Level table which is <em>dpcls</em> basicaly it depends on hash matching to existing tuple, meaning when you are able to match on a tuple of same values in each packet , you create a hash to match it and forward based on that hash, instead of looking up each value separatly .</li>
 <li></li>
 </ul>
-<h2 id="how-the-packet-packet-traverses-diagram">How the packet packet traverses (Diagram)</h2>
 <h2 id="commands-summary">Commands Summary</h2>
 <table>
 <thead>

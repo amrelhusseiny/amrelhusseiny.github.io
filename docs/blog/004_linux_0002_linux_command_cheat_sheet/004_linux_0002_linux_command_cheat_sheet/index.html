@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Linux command cheat sheet // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux command cheat sheet"/>
+<meta name="twitter:description" content=" Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ COMMAND HERE Description COMMAND DESCRIPTION Output Sample CODE BLOCK "/>
+
+    <meta property="og:title" content="Linux command cheat sheet" />
+<meta property="og:description" content=" Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ COMMAND HERE Description COMMAND DESCRIPTION Output Sample CODE BLOCK " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-01-01T13:50:32+02:00" />
+<meta property="article:modified_time" content="2023-01-01T13:50:32+02:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Linux command cheat sheet</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 1, 2023
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ systemd-analyze blame</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>check how much time each services took at bootup of kernel to start</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># systemd-analyze blame
+         47.630s openstack-nova-compute.service
+         30.677s httpd.service
+         17.821s neutron-server.service
+         12.669s openstack-nova-conductor.service
+         12.617s rabbitmq-server.service
+         12.093s openstack-nova-scheduler.service
+          8.956s dnf-makecache.service
+          6.145s neutron-destroy-patch-ports.service
+          6.142s neutron-ovs-cleanup.service
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ ethtool -S INTERFACE_NAME</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check NIC&rsquo;s Rx and Tx buffers counters including drops</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># ethtool -S ens192
+NIC statistics:
+     Tx Queue#: 0
+       TSO pkts tx: 0
+       TSO bytes tx: 0
+       ucast pkts tx: 7114
+       ucast bytes tx: 534641
+       mcast pkts tx: 0
+       mcast bytes tx: 0
+       bcast pkts tx: 0
+       bcast bytes tx: 0
+       pkts tx err: 0
+       pkts tx discard: 0
+       drv dropped tx total: 0
+          too many frags: 0
+          giant hdr: 0
+          hdr err: 0
+          tso: 0
+       ring full: 0
+       pkts linearized: 0
+       hdr cloned: 0
+       giant hdr: 0
+     Rx Queue#: 0
+       LRO pkts rx: 0
+       LRO byte rx: 0
+       ucast pkts rx: 440
+       ucast bytes rx: 33973
+       mcast pkts rx: 0
+       mcast bytes rx: 0
+       bcast pkts rx: 45
+       bcast bytes rx: 5768
+       pkts rx OOB: 0
+       pkts rx err: 0
+       drv dropped rx total: 0
+          err: 0
+          fcs: 0
+       rx buf alloc fail: 0
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ cat /proc/interrupts </code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Shows the interrupts (Hardware and Software interrupts) counters and per CPU</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># cat /proc/interrupts
+           CPU0       CPU1       CPU2       CPU3       CPU4           
+  0:         28          0          0          0          0  IO-APIC   2-edge      timer
+  1:          0          0          0          0          0  IO-APIC   1-edge      i8042
+  8:          0          0          0          0          0  IO-APIC   8-edge      rtc0
+  9:          0          0          0          0          0  IO-APIC   9-fasteoi   acpi
+ 12:          0          0          0          0          0  IO-APIC  12-edge      i8042
+ 14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
+ 15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ COMMAND HERE</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>COMMAND DESCRIPTION</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code>CODE BLOCK
+</code></pre><!-- raw HTML omitted -->
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
