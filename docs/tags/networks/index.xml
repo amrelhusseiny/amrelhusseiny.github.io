@@ -6,35 +6,7 @@
     <description>Recent content in networks on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/networks/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</guid>
-      <description>Table Of Contents Introduction Brief about topology Running the topology Our telemetry setup now Telegraf (Collector) InfluxDB (Time Streaming Database) Running the Telegraf and InfluxDB contianers Graphs on InfluxDB References Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
-We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</description>
-    </item>
-    
-    <item>
-      <title>gNMI Network Automation (2/3) : gNMI Configuration of network devices</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:10 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</guid>
-      <description>Table Of Contents Introduction OpenConfig vs Vendor Solving the lack of documentation examples 1st Approach : from device CLI 2nd Approach : Reading Yang files Deviations Example Lab Remote Wire Shark Useful commands Conatiners used References Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash).</description>
-    </item>
-    
-    <item>
-      <title>gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:06 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</guid>
-      <description>Table Of Contents Introduction ContainerLab supported platforms (Kinds) before we start, You can follow the containerlab installation guide here. Packaging our QCOW into containers ContainerLab topology template More labs Using gNMI &amp;amp; OpenConfig for Automation Introduction Limitations of gNMI and OpenConfig Useful commands : Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.</description>
-    </item>
-    
+    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/networks/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Networks - RPKI , securing BGP Infrastructure</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</link>

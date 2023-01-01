@@ -6,44 +6,7 @@
     <description>Recent content on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Jan 2023 13:50:32 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Linux command cheat sheet</title>
-      <link>https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/</link>
-      <pubDate>Sun, 01 Jan 2023 13:50:32 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/</guid>
-      <description> Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check NIC&amp;rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ COMMAND HERE Description COMMAND DESCRIPTION Output Sample CODE BLOCK </description>
-    </item>
-    
-    <item>
-      <title>Linux Networking Part 2 : DPDK vs SR-IOV</title>
-      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_3/</link>
-      <pubDate>Tue, 27 Dec 2022 11:26:01 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_3/</guid>
-      <description>References Considerations for SR IOV and NFV Solutions (Youtube) </description>
-    </item>
-    
-    <item>
-      <title>Linux Networking Part 2 : Firewalling in the Linux Net Stack</title>
-      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</link>
-      <pubDate>Mon, 26 Dec 2022 20:03:57 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</guid>
-      <description>NF Diagram This is how logically the Network Filter hooks are designed, these are the same hooks used by IPTables to apply the rules :
-References </description>
-    </item>
-    
-    <item>
-      <title>Linux Networking Part 1 : Kernel Net Stack</title>
-      <link>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</link>
-      <pubDate>Wed, 21 Dec 2022 15:17:44 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</guid>
-      <description>Table Of Contents Introduction to series Part 1 : Linux Network Stack 1) A bucket for the packet (sk_buff) 2) Kernel Interrupts (IRQ vs SoftIRQ) 3) System Calls (Syscalls) Additional concepts Simple look at the Network flow Keywords Commands Summary References Introduction to series In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.</description>
-    </item>
-    
+    <lastBuildDate>Mon, 12 Dec 2022 11:17:37 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>002_openstack_0001_openstack_homelab_part_1</title>
       <link>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</link>
@@ -52,34 +15,6 @@ References </description>
       <guid>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</guid>
       <description> Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
 Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack Openstack Python SDK Guide - Functions Available CleanUp openstack Networks and Routers (Article) Enos Openstack SDK Client init example </description>
-    </item>
-    
-    <item>
-      <title>gNMI Network Automation (3/3) : gNMI Telemetry, Telegraf &amp; InfluxDB</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</guid>
-      <description>Table Of Contents Introduction Brief about topology Running the topology Our telemetry setup now Telegraf (Collector) InfluxDB (Time Streaming Database) Running the Telegraf and InfluxDB contianers Graphs on InfluxDB References Introduction This article is based on Damien Garros&amp;rsquo;s talk in NANOG 77 &amp;ldquo;Getting started with modern time series database&amp;rdquo;.
-We are used to monitoring network devices using SNMP by pulling devices statistics through an RRD server (example Cacti), but a new approach (not so new) is replacing SNMP by relying on Streaming (Push) telemetry from device to server instead of pulling, by using gNMI (Network gRPC protocol originally developed by Google, now widely adopted by vendors).</description>
-    </item>
-    
-    <item>
-      <title>gNMI Network Automation (2/3) : gNMI Configuration of network devices</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:10 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</guid>
-      <description>Table Of Contents Introduction OpenConfig vs Vendor Solving the lack of documentation examples 1st Approach : from device CLI 2nd Approach : Reading Yang files Deviations Example Lab Remote Wire Shark Useful commands Conatiners used References Introduction In this post we are going to focus on 2 parts: 1- Use gRPC to configure a l3VPN backbone (IS-IS,MPLS,MP-BGP) in a 2 node IOS-XR backbone PE/P routers. 2- 2 customer edge CPEs (Using PreConfigured FRR Nodes) and 2 net-tool Linux containers will be used for testing connectivity (Configured using Bash).</description>
-    </item>
-    
-    <item>
-      <title>gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab</title>
-      <link>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:06 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</guid>
-      <description>Table Of Contents Introduction ContainerLab supported platforms (Kinds) before we start, You can follow the containerlab installation guide here. Packaging our QCOW into containers ContainerLab topology template More labs Using gNMI &amp;amp; OpenConfig for Automation Introduction Limitations of gNMI and OpenConfig Useful commands : Introduction Like many network engineers, I used to use EVE-NG (or GNS3) to test lab topologies and configurations.Instead of having to control the configuration using the EVE-NG platform, 2 tools available, ContainrLab &amp;amp; vrnetlab enables you to run your most used Network devices in a Docker container platform of your choice, this opens up all the automation tools available for Docker and K8S.</description>
     </item>
     
     <item>
