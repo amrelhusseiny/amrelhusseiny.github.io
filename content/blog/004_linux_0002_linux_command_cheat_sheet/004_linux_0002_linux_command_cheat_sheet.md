@@ -1,7 +1,7 @@
 ---
 title: "Linux command cheat sheet"
 date: 2023-01-01T13:50:32+02:00
-draft: true
+draft: false
 ---
 
 <!-- _________________ -->
