@@ -13,10 +13,10 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux command cheat sheet"/>
-<meta name="twitter:description" content=" Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ COMMAND HERE Description COMMAND DESCRIPTION Output Sample CODE BLOCK "/>
+<meta name="twitter:description" content="Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check the driver of the NIC interface Output Sample # ethtool -i ens192 driver: vmxnet3 version: 1.7.0.0-k-NAPI firmware-version: expansion-rom-version: bus-info: 0000:0b:00.0 Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ cat /proc/net/softnet_stat Description Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs."/>
 
     <meta property="og:title" content="Linux command cheat sheet" />
-<meta property="og:description" content=" Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ COMMAND HERE Description COMMAND DESCRIPTION Output Sample CODE BLOCK " />
+<meta property="og:description" content="Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check the driver of the NIC interface Output Sample # ethtool -i ens192 driver: vmxnet3 version: 1.7.0.0-k-NAPI firmware-version: expansion-rom-version: bus-info: 0000:0b:00.0 Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ cat /proc/net/softnet_stat Description Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2023-01-01T13:50:32+02:00" />
@@ -72,7 +72,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          2 min read
+          5 min read
         </div>
       </div>
     </header>
@@ -110,6 +110,36 @@
           8.956s dnf-makecache.service
           6.145s neutron-destroy-patch-ports.service
           6.142s neutron-ovs-cleanup.service
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ ethtool -S INTERFACE_NAME</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check the driver of the NIC interface</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># ethtool -i ens192
+driver: vmxnet3
+version: 1.7.0.0-k-NAPI
+firmware-version: 
+expansion-rom-version: 
+bus-info: 0000:0b:00.0
 </code></pre><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <table>
@@ -204,6 +234,87 @@ NIC statistics:
  12:          0          0          0          0          0  IO-APIC  12-edge      i8042
  14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
  15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ cat /proc/net/softnet_stat </code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs.c, then search for function <em>dev_seq_printf_stats</em></td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># cat /proc/net/softnet_stat 
+#   0        1       2        3        4         5       6        7        8        9        10       11       12
+0058bf1e 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+003b9080 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000001
+0032fb17 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000002
+003d3a83 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000003
+00307c90 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000004
+0030a97e 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000005
+0030b500 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000006
+002e48b4 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000007
+002bb413 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000008
+002bb5d1 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000009
+00296648 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000a
+00270bac 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000b
+00293904 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000c
+0027e4d5 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000d
+002a36d7 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000e
+0026f875 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000000f
+001ccd60 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010
+001ca53e 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000011
+001d9fb5 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000012
+001c2e36 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000013
+001bd153 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000014
+001abac2 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000015
+0019cbcc 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000016
+001581a4 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000017
+001370d7 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000018
+00189299 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000019
+001e1188 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000001a
+001756f6 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000001b
+0014cb66 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000001c
+0012a1ac 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 0000001d
+
+# Column names : Uncompiled Kernel - /net/core/net-procfs.c - Function dev_seq_printf_stats
+static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
+{
+    struct rtnl_link_stats64 temp;
+    const struct rtnl_link_stats64 *stats = dev_get_stats(dev, &amp;temp);
+
+    seq_printf(seq, &#34;%6s: %7llu %7llu %4llu %4llu %4llu %5llu %10llu %9llu &#34;
+           &#34;%8llu %7llu %4llu %4llu %4llu %5llu %7llu %10llu\n&#34;,
+           dev-&gt;name, stats-&gt;rx_bytes, stats-&gt;rx_packets,       
+           stats-&gt;rx_errors,                                    
+           stats-&gt;rx_dropped + stats-&gt;rx_missed_errors,         
+           stats-&gt;rx_fifo_errors,                               
+           stats-&gt;rx_length_errors + stats-&gt;rx_over_errors +    
+            stats-&gt;rx_crc_errors + stats-&gt;rx_frame_errors,      
+           stats-&gt;rx_compressed, stats-&gt;multicast,              
+           stats-&gt;tx_bytes, stats-&gt;tx_packets,                  
+           stats-&gt;tx_errors, stats-&gt;tx_dropped,                 
+           stats-&gt;tx_fifo_errors, stats-&gt;collisions,            
+           stats-&gt;tx_carrier_errors +                           
+            stats-&gt;tx_aborted_errors +                          
+            stats-&gt;tx_window_errors +                           
+            stats-&gt;tx_heartbeat_errors,                         
+           stats-&gt;tx_compressed);                               
+}
 </code></pre><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <table>
