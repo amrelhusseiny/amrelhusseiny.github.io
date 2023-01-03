@@ -1,7 +1,7 @@
 ---
 title: "002_openstack_0001_openstack_homelab_part_1"
 date: 2022-12-12T11:17:37+02:00
-draft: false
+draft: true
 ---
 {{< toc >}}
 ## Introduction

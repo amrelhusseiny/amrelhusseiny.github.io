@@ -6,17 +6,7 @@
     <description>Recent content on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Dec 2022 11:17:37 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>002_openstack_0001_openstack_homelab_part_1</title>
-      <link>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</link>
-      <pubDate>Mon, 12 Dec 2022 11:17:37 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</guid>
-      <description> Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
-Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &amp;lt;&amp;lt;&amp;lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack Openstack Python SDK Guide - Functions Available CleanUp openstack Networks and Routers (Article) Enos Openstack SDK Client init example </description>
-    </item>
-    
+    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Networks - RPKI , securing BGP Infrastructure</title>
       <link>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</link>

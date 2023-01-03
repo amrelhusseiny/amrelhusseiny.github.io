@@ -6,6 +6,8 @@ draft: true
 
 {{< toc >}}
 ## Introduction to series
+1st thing is 1st, its very handy and cool to download the uncompiled Linux Kernel code from here https://www.kernel.org 
+
 In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.
 
 ## Part 1 : Linux Network Stack
@@ -52,7 +54,7 @@ For more info about Hardware interrupts, check [this great paper "Linux Interrup
 
 
 - **Bottom-Half Interrupts (Software Interrupt)** : 
-SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as \[ksoftiqd/CPU_Number\], these queues polls the device driver, you can see recieve and transmission queues :
+SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as \[ksoftiqd/CPU_Number\], these queues polls the device driver for processing traffic, instead of device (NIC) hardware interrupting the CPU each time it recieves traffic, you can see recieve and transmission queues :
 ```
 # SoftIRQs queues process 
 $ ps aux | grep ksoftirqd

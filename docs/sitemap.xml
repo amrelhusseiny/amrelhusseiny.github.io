@@ -2,14 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</loc>
-    <lastmod>2022-12-12T11:17:37+02:00</lastmod>
-  </url><url>
     <loc>https://amrelhusseiny.github.io/</loc>
-    <lastmod>2022-12-12T11:17:37+02:00</lastmod>
+    <lastmod>2022-12-04T23:40:47+02:00</lastmod>
   </url><url>
     <loc>https://amrelhusseiny.github.io/blog/</loc>
-    <lastmod>2022-12-12T11:17:37+02:00</lastmod>
+    <lastmod>2022-12-04T23:40:47+02:00</lastmod>
   </url><url>
     <loc>https://amrelhusseiny.github.io/tags/manrs/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
