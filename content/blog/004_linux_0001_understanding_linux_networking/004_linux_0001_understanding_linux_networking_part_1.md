@@ -118,6 +118,7 @@ System calls are some predefined functions that a Userspace application can use 
 | Show SoftIRQ Processes | `$ ps aux \| grep ksoftirqd` |
 | Monitor the RX Buffer per CPU (Rx & TX)| `$ watch -n1 grep RX /proc/softirqs` |
 |  | `$ watch -n1 grep TX /proc/softirqs` |
+| To see the number of packets dropped by the NIC | `$ cat /sys/class/net/ens192/statistics/rx_missed_errors ` |
 
 
 ## References

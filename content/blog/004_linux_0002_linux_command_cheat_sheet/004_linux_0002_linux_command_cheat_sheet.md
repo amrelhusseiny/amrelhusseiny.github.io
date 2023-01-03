@@ -111,7 +111,7 @@ NIC statistics:
 | | |
 |--|--|
 | **Command** |`$ cat /proc/net/softnet_stat `| 
-| **Description** | Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs.c, then search for function _dev_seq_printf_stats_|
+| **Description** | Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs.c, then search for function _dev_seq_printf_stats_|
 | **Output Sample** ||   
 ```
 # cat /proc/net/softnet_stat 
