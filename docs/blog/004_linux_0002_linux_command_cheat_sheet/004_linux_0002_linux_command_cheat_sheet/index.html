@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+    <link rel="stylesheet" href="/css/main.min.0d8581c62a3b1564c0797bc2c18ec175a6f3ac9e7ae5459ca8a1f19196358f8f.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux command cheat sheet"/>
-<meta name="twitter:description" content="Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check the driver of the NIC interface Output Sample # ethtool -i ens192 driver: vmxnet3 version: 1.7.0.0-k-NAPI firmware-version: expansion-rom-version: bus-info: 0000:0b:00.0 Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ cat /proc/net/softnet_stat Description Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs."/>
+<meta name="twitter:description" content="Table Of Contents Navigation System configuration and stats Boot Interrupts Memory Network ethtool (NIC Info) Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages /sys/kernel/mm/hugepages └── hugepages-2048kB ├── free_hugepages ├── nr_hugepages ├── nr_hugepages_mempolicy ├── nr_overcommit_hugepages ├── resv_hugepages └── surplus_hugepages 1 directory, 6 files System configuration and stats Boot Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47."/>
 
     <meta property="og:title" content="Linux command cheat sheet" />
-<meta property="og:description" content="Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47.630s openstack-nova-compute.service 30.677s httpd.service 17.821s neutron-server.service 12.669s openstack-nova-conductor.service 12.617s rabbitmq-server.service 12.093s openstack-nova-scheduler.service 8.956s dnf-makecache.service 6.145s neutron-destroy-patch-ports.service 6.142s neutron-ovs-cleanup.service Command $ ethtool -S INTERFACE_NAME Description Check the driver of the NIC interface Output Sample # ethtool -i ens192 driver: vmxnet3 version: 1.7.0.0-k-NAPI firmware-version: expansion-rom-version: bus-info: 0000:0b:00.0 Command $ ethtool -S INTERFACE_NAME Description Check NIC&rsquo;s Rx and Tx buffers counters including drops Output Sample # ethtool -S ens192 NIC statistics: Tx Queue#: 0 TSO pkts tx: 0 TSO bytes tx: 0 ucast pkts tx: 7114 ucast bytes tx: 534641 mcast pkts tx: 0 mcast bytes tx: 0 bcast pkts tx: 0 bcast bytes tx: 0 pkts tx err: 0 pkts tx discard: 0 drv dropped tx total: 0 too many frags: 0 giant hdr: 0 hdr err: 0 tso: 0 ring full: 0 pkts linearized: 0 hdr cloned: 0 giant hdr: 0 Rx Queue#: 0 LRO pkts rx: 0 LRO byte rx: 0 ucast pkts rx: 440 ucast bytes rx: 33973 mcast pkts rx: 0 mcast bytes rx: 0 bcast pkts rx: 45 bcast bytes rx: 5768 pkts rx OOB: 0 pkts rx err: 0 drv dropped rx total: 0 err: 0 fcs: 0 rx buf alloc fail: 0 Command $ cat /proc/interrupts Description Shows the interrupts (Hardware and Software interrupts) counters and per CPU Output Sample # cat /proc/interrupts CPU0 CPU1 CPU2 CPU3 CPU4 0: 28 0 0 0 0 IO-APIC 2-edge timer 1: 0 0 0 0 0 IO-APIC 1-edge i8042 8: 0 0 0 0 0 IO-APIC 8-edge rtc0 9: 0 0 0 0 0 IO-APIC 9-fasteoi acpi 12: 0 0 0 0 0 IO-APIC 12-edge i8042 14: 0 0 0 0 0 IO-APIC 14-edge ata_piix 15: 0 0 0 0 0 IO-APIC 15-edge ata_piix Command $ cat /proc/net/softnet_stat Description Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs." />
+<meta property="og:description" content="Table Of Contents Navigation System configuration and stats Boot Interrupts Memory Network ethtool (NIC Info) Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages /sys/kernel/mm/hugepages └── hugepages-2048kB ├── free_hugepages ├── nr_hugepages ├── nr_hugepages_mempolicy ├── nr_overcommit_hugepages ├── resv_hugepages └── surplus_hugepages 1 directory, 6 files System configuration and stats Boot Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2023-01-01T13:50:32+02:00" />
@@ -27,7 +27,7 @@
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -72,12 +72,70 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          5 min read
+          6 min read
         </div>
       </div>
     </header>
     <div class="post-content">
-      <!-- raw HTML omitted -->
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#navigation">Navigation</a></li>
+    <li><a href="#system-configuration-and-stats">System configuration and stats</a>
+      <ul>
+        <li><a href="#boot">Boot</a></li>
+        <li><a href="#interrupts">Interrupts</a></li>
+        <li><a href="#memory">Memory</a></li>
+      </ul>
+    </li>
+    <li><a href="#network">Network</a>
+      <ul>
+        <li><a href="#ethtool-nic-info">ethtool (NIC Info)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+<h2 id="navigation">Navigation</h2>
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ tree DIRECTORY</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>show the directory and subdirectorys and file in a tree format</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># tree /sys/kernel/mm/hugepages
+/sys/kernel/mm/hugepages
+└── hugepages-2048kB
+    ├── free_hugepages
+    ├── nr_hugepages
+    ├── nr_hugepages_mempolicy
+    ├── nr_overcommit_hugepages
+    ├── resv_hugepages
+    └── surplus_hugepages
+
+1 directory, 6 files
+</code></pre><!-- raw HTML omitted -->
+<h2 id="system-configuration-and-stats">System configuration and stats</h2>
+<h3 id="boot">Boot</h3>
+<!-- raw HTML omitted -->
 <table>
 <thead>
 <tr>
@@ -111,97 +169,7 @@
           6.145s neutron-destroy-patch-ports.service
           6.142s neutron-ovs-cleanup.service
 </code></pre><!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Command</strong></td>
-<td><code>$ ethtool -S INTERFACE_NAME</code></td>
-</tr>
-<tr>
-<td><strong>Description</strong></td>
-<td>Check the driver of the NIC interface</td>
-</tr>
-<tr>
-<td><strong>Output Sample</strong></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<pre tabindex="0"><code># ethtool -i ens192
-driver: vmxnet3
-version: 1.7.0.0-k-NAPI
-firmware-version: 
-expansion-rom-version: 
-bus-info: 0000:0b:00.0
-</code></pre><!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Command</strong></td>
-<td><code>$ ethtool -S INTERFACE_NAME</code></td>
-</tr>
-<tr>
-<td><strong>Description</strong></td>
-<td>Check NIC&rsquo;s Rx and Tx buffers counters including drops</td>
-</tr>
-<tr>
-<td><strong>Output Sample</strong></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<pre tabindex="0"><code># ethtool -S ens192
-NIC statistics:
-     Tx Queue#: 0
-       TSO pkts tx: 0
-       TSO bytes tx: 0
-       ucast pkts tx: 7114
-       ucast bytes tx: 534641
-       mcast pkts tx: 0
-       mcast bytes tx: 0
-       bcast pkts tx: 0
-       bcast bytes tx: 0
-       pkts tx err: 0
-       pkts tx discard: 0
-       drv dropped tx total: 0
-          too many frags: 0
-          giant hdr: 0
-          hdr err: 0
-          tso: 0
-       ring full: 0
-       pkts linearized: 0
-       hdr cloned: 0
-       giant hdr: 0
-     Rx Queue#: 0
-       LRO pkts rx: 0
-       LRO byte rx: 0
-       ucast pkts rx: 440
-       ucast bytes rx: 33973
-       mcast pkts rx: 0
-       mcast bytes rx: 0
-       bcast pkts rx: 45
-       bcast bytes rx: 5768
-       pkts rx OOB: 0
-       pkts rx err: 0
-       drv dropped rx total: 0
-          err: 0
-          fcs: 0
-       rx buf alloc fail: 0
-</code></pre><!-- raw HTML omitted -->
+<h3 id="interrupts">Interrupts</h3>
 <!-- raw HTML omitted -->
 <table>
 <thead>
@@ -315,6 +283,165 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
             stats-&gt;tx_heartbeat_errors,                         
            stats-&gt;tx_compressed);                               
 }
+</code></pre><!-- raw HTML omitted -->
+<h3 id="memory">Memory</h3>
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ COMMAND HERE</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check huge pages stats, read the needed stat using cat for the files in the below directory</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># tree /sys/kernel/mm/hugepages
+/sys/kernel/mm/hugepages
+└── hugepages-2048kB                &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; Directory containing 2MB huge pages, there can be 10G ones too
+    ├── free_hugepages              &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; Unallocated HugePages in the pool
+    ├── resv_hugepages              &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; Reserved Huge pages
+</code></pre><!-- raw HTML omitted -->
+<h2 id="network">Network</h2>
+<h3 id="ethtool-nic-info">ethtool (NIC Info)</h3>
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ ethtool -S INTERFACE_NAME</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check the driver of the NIC interface</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># ethtool -i ens192
+driver: vmxnet3
+version: 1.7.0.0-k-NAPI
+firmware-version: 
+expansion-rom-version: 
+bus-info: 0000:0b:00.0
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ ethtool -S INTERFACE_NAME</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check NIC&rsquo;s Rx and Tx buffers counters including drops</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># ethtool -S ens192
+NIC statistics:
+     Tx Queue#: 0
+       TSO pkts tx: 0
+       TSO bytes tx: 0
+       ucast pkts tx: 7114
+       ucast bytes tx: 534641
+       mcast pkts tx: 0
+       mcast bytes tx: 0
+       bcast pkts tx: 0
+       bcast bytes tx: 0
+       pkts tx err: 0
+       pkts tx discard: 0
+       drv dropped tx total: 0
+          too many frags: 0
+          giant hdr: 0
+          hdr err: 0
+          tso: 0
+       ring full: 0
+       pkts linearized: 0
+       hdr cloned: 0
+       giant hdr: 0
+     Rx Queue#: 0
+       LRO pkts rx: 0
+       LRO byte rx: 0
+       ucast pkts rx: 440
+       ucast bytes rx: 33973
+       mcast pkts rx: 0
+       mcast bytes rx: 0
+       bcast pkts rx: 45
+       bcast bytes rx: 5768
+       pkts rx OOB: 0
+       pkts rx err: 0
+       drv dropped rx total: 0
+          err: 0
+          fcs: 0
+       rx buf alloc fail: 0
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ ethtool -g INTERFACE_NAME</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>Check NIC Ring buffer size, the max is the <em>Pre-set</em> values, the actually configured is the <em>Current</em></td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code># ethtool -g ens192 
+Ring parameters for ens192:
+Pre-set maximums:
+RX:             4096
+RX Mini:        2048
+RX Jumbo:       4096
+TX:             4096
+Current hardware settings:
+RX:             1024
+RX Mini:        128
+RX Jumbo:       512
+TX:             512
 </code></pre><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <table>
