@@ -1,5 +1,5 @@
 ---
-title: "Linux Networking Part 2 : DPDK vs SR-IOV"
+title: "Linux Networking Part 3: DPDK vs SR-IOV"
 date: 2022-12-27T11:26:01+02:00
 draft: true
 ---

@@ -1,20 +1,43 @@
 ---
 title: "Linux Networking Part 1 : Kernel Net Stack"
 date: 2022-12-21T15:17:44+02:00
-draft: true
+draft: false
 ---
 
 {{< toc >}}
 ## Introduction to series
-1st thing is 1st, its very handy and cool to download the uncompiled Linux Kernel code from here https://www.kernel.org 
+1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
 
 In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.
 
+## This article in a pinch
+The following diagram only shows in a brief what happens to a packet in the Linux Kernel if you would like to glance by, but for more in depth and handy details, keep on reading.
+
+![Linux Networking Part 1 : Kernel Net Stack Summary](Linux_Networking_Part_1_summary.jpg)
+
 ## Part 1 : Linux Network Stack
-In this article, we are the basic flow IPv4/TCP traffic in Linux Kernel inspired by [Jiri Binc's talk in DevConf CZ 2018](https://www.youtube.com/watch?v=6Fl1rsxk4JQ), where he beautifully laied out the packet in Ingress and Egress paths for the whole 7 layers of OSI in the Linux Kernel.
-Before we get to the flow path, there is some helper tools and concepts we should be familiary with:
-### 1) A bucket for the packet (sk_buff)
-**sk_buff (Socket buffer)**, linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff's data an metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, socket buffer acts like bucket, they hold the segment data until its done being processed, socket buffers donot get destroyed, they are released and reallocated to new packets, also when they are utilized, the CPU creates new sk_buffs (new buckets) to handle the additional traffic.
+In this article, we are the basic flow IPv4/TCP traffic in Linux Kernel following [Jiri Binc's talk in DevConf CZ 2018](https://www.youtube.com/watch?v=6Fl1rsxk4JQ), where he beautifully laied out the packet flow for the whole 7 layers of OSI in the Linux Kernel.
+Before we get to the flow path, there is some helper tools and concepts we should be familiar with:
+### 1) Ring Buffers
+At bootup of NIC devie and loading its driver module by the Kernel, the drivers starts by allocating Rx(Recieve) and Tx(Transmission) queues or buffers refered to as Ring Buffers in the device memory, usually the DMA part of the kernel space of memory, you can check the Max and configured sizes of these buffers :
+```
+# ethtool -g INTERFACE_NAME 
+Ring parameters for ens192:
+Pre-set maximums:
+RX:             4096    <<<<<<<<<<<<<<<, Max size in bytes
+RX Mini:        2048
+RX Jumbo:       4096
+TX:             4096    <<<<<<<<<<<<<<<, Max size in bytes
+Current hardware settings:
+RX:             1024    <<<<<<<<<<<<<<<, Configured size in bytes
+RX Mini:        128
+RX Jumbo:       512
+TX:             512     <<<<<<<<<<<<<<<, Configured size in bytes
+```
+In earlier versions of the kernel, a packet arriving to those buffers, would trigger a hardware interrupt to the CPU per packet, which is very intrusive, but thankfully NAPI was introduced to help with this issue, below you will get to know it more.
+
+### 2) Socket Buffers (sk_buff)
+**sk_buff (Socket buffer)**, linux interacts with a packet/cell/segment or whaterver the recieved network unit using the Socket Buffer (sk_buff), and each sk_buff's data and metadata (Headers) are treated separatly so kernel does not have to move the packet in memory, socket buffer acts like bucket, they hold the segment data until its done being processed, socket buffers donot get destroyed with packets, they are released and reallocated to new packets, also when they are utilized, the CPU creates new sk_buffs (new buckets) to handle the additional traffic.
 
 _Side Note: "sk_buff" and "skb" are interchangable, while you will find skb widely used in the kernel code_
 sk_buff consists of (shown in figure below): 
@@ -33,8 +56,8 @@ sk_buff consists of (shown in figure below):
            
  Note : the packet does not get duplicated in Kernel, actual packet data stays in the packet buffers, with each clone or copy, the packet buffer stays intact, instead a new sk_buff (AKA SKB) is created, so new Metadata pointing to the existing packet buffer, although no copying of the packet in the Kernel, the packet is copied it reaches the application and the SKB is released.
  
-### 2) Kernel Interrupts (IRQ vs SoftIRQ)
-Simply, interrupts are used to stop the CPU from what it is doing and work on the interrupter's part instead, there are models of interrupts, each include many many types.
+### 3) Kernel Interrupts (IRQ vs SoftIRQ)
+Simply, interrupts are used to stop the CPU from what it is doing and work on the interrupter's part instead, there are models of interrupts, each include many many types, but following you can see there are two categories for these interrupts.
 - **Top-Half Interrupts (Hardware Interrupt)** : These kind of interrupts is very costly, and as a result the Interrupt handler masks it after 1st use, and then after that the NIC driver starts to use the SoftIRQ (Software interrupt) instead which can be interrupted by itself, you can observe these interrupts :
 ```
 $ cat /proc/interrupts
@@ -50,8 +73,10 @@ $ cat /proc/interrupts
 
 ```
 Each interrupt (Hardware Interrupt) is identified by a __vector__ which is a one byte identifier, ranging 0-255, from 0-31 are what are called Exceptions (Non-Maskable) interrupts, range 32-47 are maskable interrupts, from 48 to 255 are allocated to Software interrupts (SoftIRQ).
-For more info about Hardware interrupts, check [this great paper "Linux Interrupts : The basic concepts"](https://www.cs.montana.edu/courses/spring2005/518/Hypertextbook/jim/media/interrupts_on_linux.pdf)
 
+Quickly, there are 3 types of Hardware interrupts you will face in the output above, MSI-X, MSI, and legacy IRQs, in a brief MSI stands for Message Signaled Interrupts which replaces the old way of handling interrupt using single pysical pin in the CPU socket for each device.
+You can read about MSI and other types of hardware interrupts here https://en.wikipedia.org/wiki/Message_Signaled_Interrupts.
+Also for more info about Hardware interrupts, check [this great paper "Linux Interrupts : The basic concepts"](https://www.cs.montana.edu/courses/spring2005/518/Hypertextbook/jim/media/interrupts_on_linux.pdf).
 
 - **Bottom-Half Interrupts (Software Interrupt)** : 
 SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as \[ksoftiqd/CPU_Number\], these queues polls the device driver for processing traffic, instead of device (NIC) hardware interrupting the CPU each time it recieves traffic, you can see recieve and transmission queues :
@@ -74,15 +99,9 @@ Every 1.0s: grep TX /proc/softirqs
 NET_TX:          0          0          0          0
 ```
 
-### 3) System Calls (Syscalls)
+### 3) Other quick concepts
 
-System calls are some predefined functions that a Userspace application can use to communicate with the Kernelspace, there is a lot of system calls, but since here we are focused on the networking part of the Kernel, lets have a look at some of the network related ones:
-
-- 
-
-### Additional concepts
-
- - **DMA (Direct Memory Access)** : provides non CPU resources with direct access to the memory, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segmetn that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles.
+ - **DMA (Direct Memory Access)** : NIC devices are PCIe devices, previously in order to write something to the memory, they had to  interrupt the CPU, so the CPU copies the packet to a register and then write it to memory, DMA provides non CPU resources with direct access to the memory without interrupting the CPU, example, when a NIC (Network Interface Card - Hardware) has an Ethernet segment that it wants to write to memory, it uses DMA to directly write it to the Memory, without wasting valuable CPU cycles, these DMA writing calls coming from the NIC are redirected by the NorthBridge on the moterhboard to the RAM instead of the CPU intresting to read more about memory allocation in this article ["Allocating Memory for DMA in Linux - by BLAKE RAIN"](https://blakerain.com/blog/allocating-memory-for-dma-in-linux).
  - **Ring Buffers** : the NIC and the NIC drivers share a TX and RX ring buffers which basically consists of pointers to the location of packet buffers in the memory, they donot contain data, they are only memory pointers.
  - **Top half and Bottom half** : when a packet is DMAed by the NIC to the memory (DMA is a place in Kernel Memory space where NIC card has access to without need for CPU), an Intrupet (SoftIRQ - Soft Interrupt Request) is sent by the NIC to the CPU informing it that a new packet arrived and waiting to be processed, Top half refers to the actions taken at 1st by the CPU, so instead of stopping everything to process this packet, which can be intrusive, it just acknowledges the intrupt and schedules the Bottom half (whcih is the rest of action that will be taken to process the packet) for later.
  - Context Switching : the process of moving between the UserSpace Context and the KernelSpace context for a process, which consumes CPU cycles.
@@ -93,17 +112,27 @@ System calls are some predefined functions that a Userspace application can use 
 
 
 
-## Simple look at the Network flow
+## Network flow in brief
 ![Simplified Network Stack workings](net_stack_simplified.jpg)
 **Figure B :** simple explanation of what is being allocated and how packet goes though Kernel : 
-1) Very early at Kernel boot up, the CPUY allocates packet buffers (RX and TX buffers), and build file descriptors.
+1) Very early at Kernel boot up, the CPU allocates packet buffers (RX and TX buffers), and build file descriptors.
 2) CPU informs the NIC that new descriptors has been created for the NIC to start using.
 3) DMA (Direct Access Memory) fetches descriptors.
 4) Packet arrives at NIC.
 5) DMA Writes the packet to the RX Ring buffer.
 6) NIC informs the driver which informs the CPU that new traffic is ready to be processed using _Hardware Interrupt (IRQ)_.
-7) After the 1st Hardware interrupt, the Interrupt handler masks it, and instead the driver utilizes the use of _Software Interrupt (SoftIRQ)_ which is much less costly to the CPU (Hardware Interrupts cannot be interrupted which is very costly for the CPU).
-8) CPU process the incoming packets.
+8) After the 1st Hardware interrupt, the Interrupt handler masks it, and instead the driver utilizes the use of _Software Interrupt (SoftIRQ)_ which is much less costly to the CPU (Hardware Interrupts cannot be interrupted which is very costly for the CPU).
+9) The SoftIRQ invokes the NAPI subsystem (Wakes up), which calls the NIC Driver's Polling function. 
+9) CPU process the incoming packets.
+10) After a certain time of the SoftIRQs budget runs out, the NAPI system gets back to sleep, if the budget of the SoftIRQs runs out, the CPU moves on to the next task, and the _time_squeezed_ counter in the /proc/net/softnet_stats is incremented by 1.
+
+At NIC initiation, the driver does teh following : 
+1) Allocates Rx & Tx queues in memory (DMA space).
+2) Enable NAPI, which is off by default.
+3) Register an Interrupt Handler.
+4) Enable Hardware interrupts
+
+I would recommend for a detailed description of the flow, to check [this link](https://blog.packagecloud.io/monitoring-tuning-linux-networking-stack-receiving-data/)
 
 ## Keywords
 - File Descriptor : is a number the operating system uses to identify an open file 
@@ -142,3 +171,4 @@ System calls are some predefined functions that a Userspace application can use 
 - [Red Hat Enterprise Linux Network Performance Tuning Guide](https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf)
 - [Stack Overflow - Ring Buffers and DMA Memory - illustration of the process ](https://stackoverflow.com/a/59491902/20268697)
 - [How SKBs work](http://vger.kernel.org/~davem/skb_data.html)
+[]: 

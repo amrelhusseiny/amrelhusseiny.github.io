@@ -14,7 +14,7 @@ module:
 
 params:
   author: Amr ElHusseiny
-  avatar: "amr_photo.png"
+  avatar: "amr_photo.jpeg"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
   favicon: "favicon.ico"

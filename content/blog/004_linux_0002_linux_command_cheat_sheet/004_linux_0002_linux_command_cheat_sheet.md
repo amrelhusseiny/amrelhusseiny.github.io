@@ -3,7 +3,32 @@ title: "Linux command cheat sheet"
 date: 2023-01-01T13:50:32+02:00
 draft: false
 ---
+{{< toc >}}
 
+## Navigation
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ tree DIRECTORY`| 
+| **Description** | show the directory and subdirectorys and file in a tree format |
+| **Output Sample** ||   
+```
+# tree /sys/kernel/mm/hugepages
+/sys/kernel/mm/hugepages
+└── hugepages-2048kB
+    ├── free_hugepages
+    ├── nr_hugepages
+    ├── nr_hugepages_mempolicy
+    ├── nr_overcommit_hugepages
+    ├── resv_hugepages
+    └── surplus_hugepages
+
+1 directory, 6 files
+``` 
+<!-- _________________ -->
+
+## System configuration and stats
+### Boot
 <!-- _________________ -->
 | | |
 |--|--|
@@ -24,75 +49,13 @@ draft: false
 ``` 
 <!-- _________________ -->
 
-<!-- ________Command Block_________ -->
-| | |
-|--|--|
-| **Command** |`$ ethtool -S INTERFACE_NAME`| 
-| **Description** | Check the driver of the NIC interface |
-| **Output Sample** ||   
-```
-# ethtool -i ens192
-driver: vmxnet3
-version: 1.7.0.0-k-NAPI
-firmware-version: 
-expansion-rom-version: 
-bus-info: 0000:0b:00.0
-``` 
-<!-- _________________ -->
-
-<!-- ________Command Block_________ -->
-| | |
-|--|--|
-| **Command** |`$ ethtool -S INTERFACE_NAME`| 
-| **Description** | Check NIC's Rx and Tx buffers counters including drops|
-| **Output Sample** || 	 
-```
-# ethtool -S ens192
-NIC statistics:
-     Tx Queue#: 0
-       TSO pkts tx: 0
-       TSO bytes tx: 0
-       ucast pkts tx: 7114
-       ucast bytes tx: 534641
-       mcast pkts tx: 0
-       mcast bytes tx: 0
-       bcast pkts tx: 0
-       bcast bytes tx: 0
-       pkts tx err: 0
-       pkts tx discard: 0
-       drv dropped tx total: 0
-          too many frags: 0
-          giant hdr: 0
-          hdr err: 0
-          tso: 0
-       ring full: 0
-       pkts linearized: 0
-       hdr cloned: 0
-       giant hdr: 0
-     Rx Queue#: 0
-       LRO pkts rx: 0
-       LRO byte rx: 0
-       ucast pkts rx: 440
-       ucast bytes rx: 33973
-       mcast pkts rx: 0
-       mcast bytes rx: 0
-       bcast pkts rx: 45
-       bcast bytes rx: 5768
-       pkts rx OOB: 0
-       pkts rx err: 0
-       drv dropped rx total: 0
-          err: 0
-          fcs: 0
-       rx buf alloc fail: 0
-``` 
-<!-- _________________ -->
-
+### Interrupts
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
 | **Command** |`$ cat /proc/interrupts `| 
 | **Description** | Shows the interrupts (Hardware and Software interrupts) counters and per CPU |
-| **Output Sample** || 	 
+| **Output Sample** ||   
 ```
 # cat /proc/interrupts
            CPU0       CPU1       CPU2       CPU3       CPU4           
@@ -105,7 +68,6 @@ NIC statistics:
  15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
 ``` 
 <!-- _________________ -->
-
 
 <!-- ________Command Block_________ -->
 | | |
@@ -173,6 +135,116 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 }
 ``` 
 <!-- _________________ -->
+
+### Memory
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ COMMAND HERE`| 
+| **Description** | Check huge pages stats, read the needed stat using cat for the files in the below directory |
+| **Output Sample** ||   
+```
+# tree /sys/kernel/mm/hugepages
+/sys/kernel/mm/hugepages
+└── hugepages-2048kB                <<<<<<<<<<<< Directory containing 2MB huge pages, there can be 10G ones too
+    ├── free_hugepages              <<<<<<<<<<<< Unallocated HugePages in the pool
+    ├── resv_hugepages              <<<<<<<<<<<< Reserved Huge pages
+``` 
+<!-- _________________ -->
+
+
+## Network
+### ethtool (NIC Info)
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ ethtool -S INTERFACE_NAME`| 
+| **Description** | Check the driver of the NIC interface |
+| **Output Sample** ||   
+```
+# ethtool -i ens192
+driver: vmxnet3
+version: 1.7.0.0-k-NAPI
+firmware-version: 
+expansion-rom-version: 
+bus-info: 0000:0b:00.0
+``` 
+<!-- _________________ -->
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ ethtool -S INTERFACE_NAME`| 
+| **Description** | Check NIC's Rx and Tx buffers counters including drops|
+| **Output Sample** || 	 
+```
+# ethtool -S ens192
+NIC statistics:
+     Tx Queue#: 0
+       TSO pkts tx: 0
+       TSO bytes tx: 0
+       ucast pkts tx: 7114
+       ucast bytes tx: 534641
+       mcast pkts tx: 0
+       mcast bytes tx: 0
+       bcast pkts tx: 0
+       bcast bytes tx: 0
+       pkts tx err: 0
+       pkts tx discard: 0
+       drv dropped tx total: 0
+          too many frags: 0
+          giant hdr: 0
+          hdr err: 0
+          tso: 0
+       ring full: 0
+       pkts linearized: 0
+       hdr cloned: 0
+       giant hdr: 0
+     Rx Queue#: 0
+       LRO pkts rx: 0
+       LRO byte rx: 0
+       ucast pkts rx: 440
+       ucast bytes rx: 33973
+       mcast pkts rx: 0
+       mcast bytes rx: 0
+       bcast pkts rx: 45
+       bcast bytes rx: 5768
+       pkts rx OOB: 0
+       pkts rx err: 0
+       drv dropped rx total: 0
+          err: 0
+          fcs: 0
+       rx buf alloc fail: 0
+``` 
+<!-- _________________ -->
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ ethtool -g INTERFACE_NAME`| 
+| **Description** | Check NIC Ring buffer size, the max is the _Pre-set_ values, the actually configured is the _Current_|
+| **Output Sample** ||   
+```
+# ethtool -g ens192 
+Ring parameters for ens192:
+Pre-set maximums:
+RX:             4096
+RX Mini:        2048
+RX Jumbo:       4096
+TX:             4096
+Current hardware settings:
+RX:             1024
+RX Mini:        128
+RX Jumbo:       512
+TX:             512
+``` 
+<!-- _________________ -->
+
+
+
+
+
 
 
 

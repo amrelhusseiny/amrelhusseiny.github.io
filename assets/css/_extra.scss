@@ -5,6 +5,11 @@
   border: 0rem solid $primary-color;
 }
 
+.app-header-avatar {
+  width: 5rem;
+  height: 5rem;
+}
+
 .app-header-title {
   font-size: 1em;
   font-weight: bold;
@@ -21,4 +26,8 @@ body {
   .app-header{
     display: none;
   }
+}
+
+a{
+  text-decoration: underline;
 }
