@@ -4,28 +4,25 @@
     <title>Python&#39;s Netmiko starter template // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.0d8581c62a3b1564c0797bc2c18ec175a6f3ac9e7ae5459ca8a1f19196358f8f.css" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Python&#39;s Netmiko starter template"/>
-<meta name="twitter:description" content="Table Of Contents Comments on the code : The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
-Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc
-# netmiko_starter.py from netmiko import ConnectHandler device_dictionary = { &#39;device_type&#39;: &#39;DEVICE_TYPE&#39;, &#39;host&#39;: &#39;DEVICE_IP_ADDRESS&#39;, &#39;username&#39;: &#39;USERNAME&#39;, &#39;password&#39; : &#39;PASSWORD&#39;, # &#39;verbose&#39;: False , # &#39;session_log&#39;: &#39;log."/>
+<meta name="twitter:description" content="Table Of Contents Comments on the code :   The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
+Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc"/>
 
     <meta property="og:title" content="Python&#39;s Netmiko starter template" />
-<meta property="og:description" content="Table Of Contents Comments on the code : The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
-Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc
-# netmiko_starter.py from netmiko import ConnectHandler device_dictionary = { &#39;device_type&#39;: &#39;DEVICE_TYPE&#39;, &#39;host&#39;: &#39;DEVICE_IP_ADDRESS&#39;, &#39;username&#39;: &#39;USERNAME&#39;, &#39;password&#39; : &#39;PASSWORD&#39;, # &#39;verbose&#39;: False , # &#39;session_log&#39;: &#39;log." />
+<meta property="og:description" content="Table Of Contents Comments on the code :   The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
+Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/" /><meta property="article:section" content="blog" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/" />
 <meta property="article:published_time" content="2022-07-17T12:36:51+02:00" />
 <meta property="article:modified_time" content="2022-07-17T12:36:51+02:00" />
-
 
 
   </head>
@@ -92,20 +89,20 @@ Netmiko Source Code : Netmiko Github API reference (must check for more function
 The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :</p>
 <p><strong>Netmiko Source Code :</strong> <a href="https://github.com/ktbyers/netmiko">Netmiko Github</a>
 <strong>API reference</strong> <em>(must check for more functionality)</em> : <a href="https://ktbyers.github.io/netmiko/docs/netmiko/index.html">Netmiko Doc</a></p>
-<pre tabindex="0"><code># netmiko_starter.py 
+<pre><code># netmiko_starter.py 
 from netmiko import ConnectHandler
 
 device_dictionary = {
-                    &#39;device_type&#39;: &#39;DEVICE_TYPE&#39;,  
-                    &#39;host&#39;: &#39;DEVICE_IP_ADDRESS&#39;,
-                    &#39;username&#39;: &#39;USERNAME&#39;,
-                    &#39;password&#39; : &#39;PASSWORD&#39;,
-                    # &#39;verbose&#39;: False ,
-                    # &#39;session_log&#39;: &#39;log.txt&#39;, 
-                    # &#39;global_delay_factor&#39;: 2, 
+                    'device_type': 'DEVICE_TYPE',  
+                    'host': 'DEVICE_IP_ADDRESS',
+                    'username': 'USERNAME',
+                    'password' : 'PASSWORD',
+                    # 'verbose': False ,
+                    # 'session_log': 'log.txt', 
+                    # 'global_delay_factor': 2, 
                 }
 net_connect = ConnectHandler(**device_dictionary)
-output = net_connect.send_command(&#34;show version&#34;)
+output = net_connect.send_command(&quot;show version&quot;)
 net_connect.disconnect()
 </code></pre><h2 id="comments-on-the-code-">Comments on the code :</h2>
 <ul>

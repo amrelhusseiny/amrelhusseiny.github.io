@@ -4,24 +4,23 @@
     <title>Linux command cheat sheet // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.0d8581c62a3b1564c0797bc2c18ec175a6f3ac9e7ae5459ca8a1f19196358f8f.css" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux command cheat sheet"/>
-<meta name="twitter:description" content="Table Of Contents Navigation System configuration and stats Boot Interrupts Memory Network ethtool (NIC Info) Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages /sys/kernel/mm/hugepages └── hugepages-2048kB ├── free_hugepages ├── nr_hugepages ├── nr_hugepages_mempolicy ├── nr_overcommit_hugepages ├── resv_hugepages └── surplus_hugepages 1 directory, 6 files System configuration and stats Boot Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47."/>
+<meta name="twitter:description" content="Table Of Contents Navigation System configuration and stats  Boot Interrupts Memory   Network  ethtool (NIC Info) Checking drops and losses     Navigation          Command $ tree DIRECTORY   Description show the directory and subdirectorys and file in a tree format   Output Sample     # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 filesSystem configuration and stats Boot          Command $ systemd-analyze blame   Description check how much time each services took at bootup of kernel to start   Output Sample     # systemd-analyze blame47."/>
 
     <meta property="og:title" content="Linux command cheat sheet" />
-<meta property="og:description" content="Table Of Contents Navigation System configuration and stats Boot Interrupts Memory Network ethtool (NIC Info) Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages /sys/kernel/mm/hugepages └── hugepages-2048kB ├── free_hugepages ├── nr_hugepages ├── nr_hugepages_mempolicy ├── nr_overcommit_hugepages ├── resv_hugepages └── surplus_hugepages 1 directory, 6 files System configuration and stats Boot Command $ systemd-analyze blame Description check how much time each services took at bootup of kernel to start Output Sample # systemd-analyze blame 47." />
+<meta property="og:description" content="Table Of Contents Navigation System configuration and stats  Boot Interrupts Memory   Network  ethtool (NIC Info) Checking drops and losses     Navigation          Command $ tree DIRECTORY   Description show the directory and subdirectorys and file in a tree format   Output Sample     # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 filesSystem configuration and stats Boot          Command $ systemd-analyze blame   Description check how much time each services took at bootup of kernel to start   Output Sample     # systemd-analyze blame47." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" /><meta property="article:section" content="blog" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" />
 <meta property="article:published_time" content="2023-01-01T13:50:32+02:00" />
 <meta property="article:modified_time" content="2023-01-01T13:50:32+02:00" />
-
 
 
   </head>
@@ -72,7 +71,7 @@
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          6 min read
+          7 min read
         </div>
       </div>
     </header>
@@ -92,6 +91,7 @@
     <li><a href="#network">Network</a>
       <ul>
         <li><a href="#ethtool-nic-info">ethtool (NIC Info)</a></li>
+        <li><a href="#checking-drops-and-losses">Checking drops and losses</a></li>
       </ul>
     </li>
   </ul>
@@ -121,7 +121,7 @@
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># tree /sys/kernel/mm/hugepages
+<pre><code># tree /sys/kernel/mm/hugepages
 /sys/kernel/mm/hugepages
 └── hugepages-2048kB
     ├── free_hugepages
@@ -158,7 +158,7 @@
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># systemd-analyze blame
+<pre><code># systemd-analyze blame
          47.630s openstack-nova-compute.service
          30.677s httpd.service
          17.821s neutron-server.service
@@ -193,7 +193,7 @@
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># cat /proc/interrupts
+<pre><code># cat /proc/interrupts
            CPU0       CPU1       CPU2       CPU3       CPU4           
   0:         28          0          0          0          0  IO-APIC   2-edge      timer
   1:          0          0          0          0          0  IO-APIC   1-edge      i8042
@@ -226,7 +226,7 @@
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># cat /proc/net/softnet_stat 
+<pre><code># cat /proc/net/softnet_stat 
 #   0        1       2        3        4         5       6        7        8        9        10       11       12
 0058bf1e 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
 003b9080 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000001
@@ -265,8 +265,8 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
     struct rtnl_link_stats64 temp;
     const struct rtnl_link_stats64 *stats = dev_get_stats(dev, &amp;temp);
 
-    seq_printf(seq, &#34;%6s: %7llu %7llu %4llu %4llu %4llu %5llu %10llu %9llu &#34;
-           &#34;%8llu %7llu %4llu %4llu %4llu %5llu %7llu %10llu\n&#34;,
+    seq_printf(seq, &quot;%6s: %7llu %7llu %4llu %4llu %4llu %5llu %10llu %9llu &quot;
+           &quot;%8llu %7llu %4llu %4llu %4llu %5llu %7llu %10llu\n&quot;,
            dev-&gt;name, stats-&gt;rx_bytes, stats-&gt;rx_packets,       
            stats-&gt;rx_errors,                                    
            stats-&gt;rx_dropped + stats-&gt;rx_missed_errors,         
@@ -308,7 +308,7 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># tree /sys/kernel/mm/hugepages
+<pre><code># tree /sys/kernel/mm/hugepages
 /sys/kernel/mm/hugepages
 └── hugepages-2048kB                &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; Directory containing 2MB huge pages, there can be 10G ones too
     ├── free_hugepages              &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; Unallocated HugePages in the pool
@@ -339,13 +339,15 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># ethtool -i ens192
+<pre><code># ethtool -i ens192
 driver: vmxnet3
 version: 1.7.0.0-k-NAPI
 firmware-version: 
 expansion-rom-version: 
 bus-info: 0000:0b:00.0
 </code></pre><!-- raw HTML omitted -->
+<h3 id="checking-drops-and-losses">Checking drops and losses</h3>
+<h4 id="1-check-interfacenic-drops">1) Check interface/NIC drops</h4>
 <!-- raw HTML omitted -->
 <table>
 <thead>
@@ -369,7 +371,7 @@ bus-info: 0000:0b:00.0
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># ethtool -S ens192
+<pre><code># ethtool -S ens192
 NIC statistics:
      Tx Queue#: 0
        TSO pkts tx: 0
@@ -407,6 +409,150 @@ NIC statistics:
           fcs: 0
        rx buf alloc fail: 0
 </code></pre><!-- raw HTML omitted -->
+<h4 id="2-check-protocol-drops">2) Check Protocol drops</h4>
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ netstat -s</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>To check counters for Protocols instead of just checking interface counters, you can also see the number of connections and so on</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code># netstat -s
+Ip:
+    Forwarding: 1
+    158971535 total packets received
+    0 forwarded
+    0 incoming packets discarded
+    158956187 incoming packets delivered
+    158955681 requests sent out
+    44 dropped because of missing route
+Icmp:
+    34 ICMP messages received
+    0 input ICMP message failed
+    ICMP input histogram:
+        destination unreachable: 34
+    0 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+IcmpMsg:
+        InType3: 34
+Tcp:
+    4108041 active connection openings
+    4107593 passive connection openings
+    220 failed connection attempts
+    5690 connection resets received
+    1467 connections established
+    158028358 segments received
+    158027202 segments sent out
+    618 segments retransmitted
+    0 bad segments received
+    5715 resets sent
+Udp:
+    927760 packets received
+    0 packets to unknown port received
+    0 packet receive errors
+    928571 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+    IgnoredMulti: 67
+UdpLite:
+TcpExt:
+    2 invalid SYN cookies received
+    1 resets received for embryonic SYN_RECV sockets
+    7429656 TCP sockets finished time wait in fast timer
+    2 packets rejected in established connections because of timestamp
+    1182560 delayed acks sent
+    5 delayed acks further delayed because of locked socket
+    Quick ack mode was activated 450 times
+    48145934 packet headers predicted
+    43329821 acknowledgments not containing data payload received
+    49430888 predicted acknowledgments
+    TCPSackRecovery: 134
+    Detected reordering 6 times using SACK
+    TCPDSACKUndo: 1
+    2 congestion windows recovered without slow start after partial ack
+    TCPLostRetransmit: 5
+    173 fast retransmits
+    TCPTimeouts: 3
+    TCPLossProbes: 437
+    TCPLossProbeRecovery: 1
+    TCPBacklogCoalesce: 6
+    TCPDSACKOldSent: 450
+    TCPDSACKRecv: 424
+    TCPDSACKOfoRecv: 1
+    200 connections reset due to unexpected data
+    7 connections reset due to early user close
+    5 connections aborted due to timeout
+    TCPDSACKIgnoredNoUndo: 420
+    TCPSackShifted: 47
+    TCPSackMerged: 1523
+    TCPSackShiftFallback: 171
+    TCPDeferAcceptDrop: 7912
+    TCPRcvCoalesce: 8014
+    TCPOFOQueue: 17
+    TCPAutoCorking: 182
+    TCPSynRetrans: 4
+    TCPOrigDataSent: 67480919
+    TCPHystartTrainDetect: 1
+    TCPHystartTrainCwnd: 24
+    TCPHystartDelayDetect: 1
+    TCPHystartDelayCwnd: 24
+    TCPKeepAlive: 27618451
+    TCPDelivered: 71589150
+    TcpTimeoutRehash: 8
+IpExt:
+    InMcastPkts: 1279
+    InBcastPkts: 14136
+    InOctets: 14516684539
+    OutOctets: 14476928457
+    InMcastOctets: 46044
+    InBcastOctets: 919142
+    InNoECTPkts: 158969646
+    InECT0Pkts: 1950
+MPTcpExt:
+</code></pre><!-- raw HTML omitted -->
+<h4 id="3-check-established-connections-filtering-with-port-number">3) Check established connections, filtering with port number</h4>
+<!-- raw HTML omitted -->
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Command</strong></td>
+<td><code>$ COMMAND HERE</code></td>
+</tr>
+<tr>
+<td><strong>Description</strong></td>
+<td>COMMAND DESCRIPTION</td>
+</tr>
+<tr>
+<td><strong>Output Sample</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code>CODE BLOCK
+</code></pre><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <table>
 <thead>
@@ -430,7 +576,7 @@ NIC statistics:
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code># ethtool -g ens192 
+<pre><code># ethtool -g ens192 
 Ring parameters for ens192:
 Pre-set maximums:
 RX:             4096
@@ -466,7 +612,7 @@ TX:             512
 </tr>
 </tbody>
 </table>
-<pre tabindex="0"><code>CODE BLOCK
+<pre><code>CODE BLOCK
 </code></pre><!-- raw HTML omitted -->
 
     </div>

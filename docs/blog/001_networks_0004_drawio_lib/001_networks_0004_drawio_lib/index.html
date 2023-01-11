@@ -4,11 +4,11 @@
     <title>Automating DrawIO network topology using Python // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="generator" content="Hugo 0.68.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="A python library to convert your topology into a DrawIO file" />
-    <link rel="stylesheet" href="/css/main.min.0d8581c62a3b1564c0797bc2c18ec175a6f3ac9e7ae5459ca8a1f19196358f8f.css" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -18,10 +18,9 @@
     <meta property="og:title" content="Automating DrawIO network topology using Python" />
 <meta property="og:description" content="A python library to convert your topology into a DrawIO file" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/" /><meta property="article:section" content="blog" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/" />
 <meta property="article:published_time" content="2022-09-06T11:26:44+02:00" />
 <meta property="article:modified_time" content="2022-09-06T11:26:44+02:00" />
-
 
 
   </head>
@@ -79,7 +78,6 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/">Tags</a>
         </div>
       </div>
     </header>
@@ -96,7 +94,7 @@
 <p>In this blog , we are going to show how to use the draw_network_plot python library to generate a DrawIO Network topology easily instead of manually drawing them yourself .
 DrawIO is widely used as a free alternative to Microsoft&rsquo;s Visio to draw network topologies.
 I will be using Netmiko and CDP to acquire the data needed for the plot for the devices themselves , but this part won&rsquo;t be the focus of the article .
-Focus of the article is how to use the &ldquo;drawio_network_plot&rdquo; library&quot; to generate the DrawIO file .</p>
+Focus of the article is how to use the &ldquo;drawio_network_plot&rdquo; library&rdquo; to generate the DrawIO file .</p>
 <h1 id="library-setup">Library setup</h1>
 <p>Make sure to have Python 3.7 and above , then install the library using :</p>
 <p><code>$ pip install drawio_network_plot</code></p>
@@ -105,9 +103,9 @@ Focus of the article is how to use the &ldquo;drawio_network_plot&rdquo; library
 EVE-NG Topology Diagram (Non-generated):</p>
 <p><img src="drawio_1.png" alt="EVE Topology"></p>
 <h1 id="configuration-and-script">Configuration and Script</h1>
-<p>You can find both the below script and all the EVE-NG Cisco devices configuration in the following Github Link :
+<p>You can find both the below script and all the EVE-NG Cisco devices configuration in the following Github Link : 
 <a href="https://github.com/amroashram/drawio_network_plot/tree/main/examples/cisco_gather_cdp_and_plot">drawio_network_plot/examples/cisco_gather_cdp_and_plot</a></p>
-<pre tabindex="0"><code>from netmiko import ConnectHandler
+<pre><code>from netmiko import ConnectHandler
 import re 
 from drawio_network_plot.drawio_network_plot import NetPlot
 
@@ -116,23 +114,23 @@ def retieve_lldp_neigbor_hostname(devices_list):
     list_of_cdp_neighborship = []
     for device in devices_list:
         device_dictionary = {
-                            &#39;device_type&#39;: &#39;cisco_ios&#39;,  
-                            &#39;host&#39;: device[&#39;ip_address&#39;],
-                            &#39;username&#39;: &#39;automation&#39;,
-                            &#39;password&#39; : &#39;1234567&#39;,
+                            'device_type': 'cisco_ios',  
+                            'host': device['ip_address'],
+                            'username': 'automation',
+                            'password' : '1234567',
                         }
         net_connect = ConnectHandler(**device_dictionary)
-        output = net_connect.send_command(&#34;show cdp neighbor&#34;)
+        output = net_connect.send_command(&quot;show cdp neighbor&quot;)
         lines_list = output.splitlines()
         for line in lines_list:
             try:
-                # regex to search the name of the device before the domain ID &#34;.default&#34; , then removing the word &#34;.default&#34; from the string
+                # regex to search the name of the device before the domain ID &quot;.default&quot; , then removing the word &quot;.default&quot; from the string
                 link = {
-                            &#39;sourceNodeID&#39; : device[&#39;nodeName&#39;],
-                            &#39;destinationNodeID&#39; : re.search(&#39;\S+\.default&#39;,line).group().replace(&#39;.default&#39;,&#39;&#39;) 
+                            'sourceNodeID' : device['nodeName'],
+                            'destinationNodeID' : re.search('\S+\.default',line).group().replace('.default','') 
                             }
                 # checking for duplication before adding new link : 
-                if {&#39;sourceNodeID&#39;:link[&#39;destinationNodeID&#39;],&#39;destinationNodeID&#39;:link[&#39;sourceNodeID&#39;]} not in list_of_cdp_neighborship:
+                if {'sourceNodeID':link['destinationNodeID'],'destinationNodeID':link['sourceNodeID']} not in list_of_cdp_neighborship:
                     list_of_cdp_neighborship.append(link)
             except:
                 continue
@@ -142,13 +140,13 @@ def retieve_lldp_neigbor_hostname(devices_list):
 def main():
     # Lab Devices , must have the device type for the plotting library to work 
     devices = [
-            {&#39;nodeName&#39;:&#39;Router_1&#39;,&#39;ip_address&#39;:&#39;100.0.1.1&#39;,&#39;nodeType&#39;:&#39;router&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Router_2&#39;,&#39;ip_address&#39;:&#39;100.0.1.2&#39;,&#39;nodeType&#39;:&#39;router&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Spine_1&#39;,&#39;ip_address&#39;:&#39;100.0.2.1&#39;,&#39;nodeType&#39;:&#39;l3_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Spine_2&#39;,&#39;ip_address&#39;:&#39;100.0.2.2&#39;,&#39;nodeType&#39;:&#39;l3_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Leaf_1&#39;,&#39;ip_address&#39;:&#39;100.0.3.1&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Leaf_2&#39;,&#39;ip_address&#39;:&#39;100.0.3.2&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;},
-            {&#39;nodeName&#39;:&#39;Leaf_3&#39;,&#39;ip_address&#39;:&#39;100.0.3.3&#39;,&#39;nodeType&#39;:&#39;l2_switch&#39;,&#39;nodeDescription&#39;:&#39;NA&#39;}
+            {'nodeName':'Router_1','ip_address':'100.0.1.1','nodeType':'router','nodeDescription':'NA'},
+            {'nodeName':'Router_2','ip_address':'100.0.1.2','nodeType':'router','nodeDescription':'NA'},
+            {'nodeName':'Spine_1','ip_address':'100.0.2.1','nodeType':'l3_switch','nodeDescription':'NA'},
+            {'nodeName':'Spine_2','ip_address':'100.0.2.2','nodeType':'l3_switch','nodeDescription':'NA'},
+            {'nodeName':'Leaf_1','ip_address':'100.0.3.1','nodeType':'l2_switch','nodeDescription':'NA'},
+            {'nodeName':'Leaf_2','ip_address':'100.0.3.2','nodeType':'l2_switch','nodeDescription':'NA'},
+            {'nodeName':'Leaf_3','ip_address':'100.0.3.3','nodeType':'l2_switch','nodeDescription':'NA'}
             ]
     # Getting list of links for each device
     list_of_cdp_neighborship = retieve_lldp_neigbor_hostname(devices)
@@ -167,27 +165,27 @@ def main():
     # ------------------------------------------------------------------------------------------------------
     # ------------------------------------------------------------------------------------------------------
 
-if __name__ == &#34;__main__&#34;:
+if __name__ == &quot;__main__&quot;:
     main()
 </code></pre><h1 id="library-options">Library Options</h1>
 <p>Remember , you can gather the data however you like , this was just a simple demonstration of what you can do , main code to remember is the plotting part :</p>
-<pre tabindex="0"><code># please adhere to the naming scheme in the variables 
-device_list = [{&#39;nodeName&#39; : &#39;TOR_1&#39;,&#39;nodeType&#39; : &#39;l2_switch&#39;,&#39;nodeDescription&#39; : &#39;Leaf Switch 01&#39;}]
+<pre><code># please adhere to the naming scheme in the variables 
+device_list = [{'nodeName' : 'TOR_1','nodeType' : 'l2_switch','nodeDescription' : 'Leaf Switch 01'}]
 x = NetPlot()
 # **IMPORTANT NOTE :**---&gt; Make sure that the sourceNode in the connection is the higher level device and that connections are not replicated , this way when you use the DrawIO automatic layout , it would create the diagram hierarchy the correct way 
-connections_list = [{&#39;sourceNodeID&#39; : &#39;Router_1&#39;,&#39;destinationNodeID&#39; : &#39;Core_switch_1&#39;}]
+connections_list = [{'sourceNodeID' : 'Router_1','destinationNodeID' : 'Core_switch_1'}]
     # Adding using list all at once
     x.addNodeList(device_list)
     x.addLinkList(connections_list)
     # Adding node by node and link by link
-    x.addNode(nodeName=&#39;Router_18&#39;,nodeType=&#39;router&#39;)
-    x.addLink(&#39;Router_17&#39;,&#39;Router_18&#39;)
+    x.addNode(nodeName='Router_18',nodeType='router')
+    x.addLink('Router_17','Router_18')
     
     # --- Output ---
     # You can print the XML to the Stdout 
     print(x.display_xml())
     # Or You can also directly generate an XML file using the built in function :
-    # x.exportXML(&#39;examples/output.xml&#39;)    
+    # x.exportXML('examples/output.xml')    
 </code></pre><p>Generated output will be collapsed in one point , you will have to choose the Layout you would like in DrawIO after opening the file like showed as follows :</p>
 <h2 id="generated-topology">Generated Topology</h2>
 <p>1- Open generated XML file in DrawIO</p>

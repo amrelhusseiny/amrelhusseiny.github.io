@@ -1,55 +1,89 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
   <url>
     <loc>https://amrelhusseiny.github.io/</loc>
     <lastmod>2023-01-01T13:50:32+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/</loc>
     <lastmod>2023-01-01T13:50:32+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/</loc>
     <lastmod>2023-01-01T13:50:32+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</loc>
     <lastmod>2022-12-21T15:17:44+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/tags/manrs/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/tags/networks/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/tags/security/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/tags/</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/tags/backbone/</loc>
     <lastmod>2022-09-10T11:11:25+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</loc>
     <lastmod>2022-09-10T11:11:25+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/</loc>
     <lastmod>2022-09-06T11:26:44+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</loc>
     <lastmod>2022-09-04T11:55:10+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/</loc>
     <lastmod>2022-08-25T12:19:49+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/</loc>
     <lastmod>2022-07-17T12:36:51+02:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/about/</loc>
     <priority>0</priority>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://amrelhusseiny.github.io/categories/</loc>
   </url>
+  
 </urlset>
