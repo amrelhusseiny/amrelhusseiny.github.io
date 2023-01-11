@@ -172,6 +172,8 @@ bus-info: 0000:0b:00.0
 ``` 
 <!-- _________________ -->
 
+### Checking drops and losses
+#### 1) Check interface/NIC drops
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
@@ -218,6 +220,126 @@ NIC statistics:
        rx buf alloc fail: 0
 ``` 
 <!-- _________________ -->
+
+#### 2) Check Protocol drops
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ netstat -s`| 
+| **Description** | To check counters for Protocols instead of just checking interface counters, you can also see the number of connections and so on |
+| **Output Sample** ||   
+```
+# netstat -s
+Ip:
+    Forwarding: 1
+    158971535 total packets received
+    0 forwarded
+    0 incoming packets discarded
+    158956187 incoming packets delivered
+    158955681 requests sent out
+    44 dropped because of missing route
+Icmp:
+    34 ICMP messages received
+    0 input ICMP message failed
+    ICMP input histogram:
+        destination unreachable: 34
+    0 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+IcmpMsg:
+        InType3: 34
+Tcp:
+    4108041 active connection openings
+    4107593 passive connection openings
+    220 failed connection attempts
+    5690 connection resets received
+    1467 connections established
+    158028358 segments received
+    158027202 segments sent out
+    618 segments retransmitted
+    0 bad segments received
+    5715 resets sent
+Udp:
+    927760 packets received
+    0 packets to unknown port received
+    0 packet receive errors
+    928571 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+    IgnoredMulti: 67
+UdpLite:
+TcpExt:
+    2 invalid SYN cookies received
+    1 resets received for embryonic SYN_RECV sockets
+    7429656 TCP sockets finished time wait in fast timer
+    2 packets rejected in established connections because of timestamp
+    1182560 delayed acks sent
+    5 delayed acks further delayed because of locked socket
+    Quick ack mode was activated 450 times
+    48145934 packet headers predicted
+    43329821 acknowledgments not containing data payload received
+    49430888 predicted acknowledgments
+    TCPSackRecovery: 134
+    Detected reordering 6 times using SACK
+    TCPDSACKUndo: 1
+    2 congestion windows recovered without slow start after partial ack
+    TCPLostRetransmit: 5
+    173 fast retransmits
+    TCPTimeouts: 3
+    TCPLossProbes: 437
+    TCPLossProbeRecovery: 1
+    TCPBacklogCoalesce: 6
+    TCPDSACKOldSent: 450
+    TCPDSACKRecv: 424
+    TCPDSACKOfoRecv: 1
+    200 connections reset due to unexpected data
+    7 connections reset due to early user close
+    5 connections aborted due to timeout
+    TCPDSACKIgnoredNoUndo: 420
+    TCPSackShifted: 47
+    TCPSackMerged: 1523
+    TCPSackShiftFallback: 171
+    TCPDeferAcceptDrop: 7912
+    TCPRcvCoalesce: 8014
+    TCPOFOQueue: 17
+    TCPAutoCorking: 182
+    TCPSynRetrans: 4
+    TCPOrigDataSent: 67480919
+    TCPHystartTrainDetect: 1
+    TCPHystartTrainCwnd: 24
+    TCPHystartDelayDetect: 1
+    TCPHystartDelayCwnd: 24
+    TCPKeepAlive: 27618451
+    TCPDelivered: 71589150
+    TcpTimeoutRehash: 8
+IpExt:
+    InMcastPkts: 1279
+    InBcastPkts: 14136
+    InOctets: 14516684539
+    OutOctets: 14476928457
+    InMcastOctets: 46044
+    InBcastOctets: 919142
+    InNoECTPkts: 158969646
+    InECT0Pkts: 1950
+MPTcpExt:
+``` 
+<!-- _________________ -->
+
+#### 3) Check established connections, filtering with port number
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ COMMAND HERE`| 
+| **Description** | COMMAND DESCRIPTION |
+| **Output Sample** ||   
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
+
+
+
+
 
 <!-- ________Command Block_________ -->
 | | |
