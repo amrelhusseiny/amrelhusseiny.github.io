@@ -2,7 +2,9 @@
 
 My name is Amr El Husseiny, from Egypt ,
 
-I work as a Network Operations engineer in my daily job, but on my unpaid time I like to experiment with new technologies and upcoming platforms, also very much enjoy reading.
+My career started as a Network engineer, and there is where my passion still reside, I started this blog site in order to document some of the knowledge i needed over my journey, and also to visit some of the theoritical topics that may not show themselves in the day to day work.
+
+I have a lot of intrest in how some things work under the hood, also I am an avid reader, thats why i have listed some of the books that helped me to form my perspective on many technologies at the end of this about page.
 
 {{< toc >}}
 

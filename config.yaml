@@ -39,9 +39,12 @@ params:
 
 menu:
   main:
-    - identifier: "Blog"
+    - identifier: "Technical Blog"
       name: "Blog"
       url: "/blog"
+    # - identifier: "Non Technical Blog"
+    #   name: "non_technical"
+    #   url: "/non_technical/"
     - identifier: "About"
       name: "About"
       url: "/About"
