@@ -1,5 +1,5 @@
 ---
-title: "Linux Networking Part 2 : Firewalling in the Linux Net Stack"
+title: "DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack"
 date: 2022-12-26T20:03:57+02:00
 draft: true
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Openstack : setup your own home environment"
+title: "DRAFT	Openstack : setup your own home environment"
 date: 2022-12-12T11:17:37+02:00
 draft: true
 ---
@@ -23,6 +23,9 @@ Following are 2 scripts, one taking care of installing Openstack on CentOS 8 (Ba
 
 ### Setting up OpenStack
 1) This tutorial createdfor CentOS 8 and as its main reference , I used steps from [this link](https://computingforgeeks.com/install-openstack-victoria-on-centos/) to aquire the steps of which I created the following simple Bash script :
+
+**What you need to change in the script** - change the ip you would like for your machine interface, also the version of OpenStack , below configured for OpenStack Yoga.
+
 ```
 # 0003_openstack_installation_script.sh
 # Installing Openstack on CentOS 8 
@@ -112,11 +115,15 @@ export OS_IDENTITY_API_VERSION=3
 
 ```
 
-
 ## Python SDK
 There is 2 SDKs available for Openstack using python, you can find the latest SDK at https://github.com/openstack/openstacksdk (Recommended), and then there is the Neutron,Nova client SDKs which are missing a lot of latest features.
 
 ## Your first Openstack VM
+
+Following is a Python Script to create the following after setting up the Openstack enviroment : 
+```
+
+```
 
 `openstack network list --project <>`
 You can show the Process running the actual VM on the Compute node, which shows the assigned processors, RAM ,disk and so on

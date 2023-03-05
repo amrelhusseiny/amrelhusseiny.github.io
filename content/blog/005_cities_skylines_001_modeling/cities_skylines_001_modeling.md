@@ -18,6 +18,7 @@ a - to deselect anything
 ctrl+a - apply modifier like mirroring
 h - hide object 
 alt+ selecting edge = selects the loop of line
+ctrl+alt + selecting edges select parallel edges
 Edit - 
 P - to separate mesh
 ctrl+e = Menu to mark seems 
@@ -25,8 +26,12 @@ u = unwrap in the UV editing menu
 ctrl+Plus , ctrl+Minus = expand and shrink selection
 ctrl+shift+t ->> in the shading view after clicking on material , will open the file view
 shift+a = in shading view , will show menu of filters you can add to the material map
-Z = change viewport rendering type (Solid, wireframe and so on)
+Z , shoft+Z = change viewport rendering type (Solid, wireframe and so on)
 y = when you select meshs and press y , it will separate mesh from the object
+shift + S -> to shoew th cursor menu
+F12 - render
+
+
 ## References
 - [Getting started video series (Youtube)](https://www.youtube.com/watch?v=g2FWdCH-c30)
 - [A great reference for everything about modeling for cities skylines (Website)](https://cslmodding.info/)

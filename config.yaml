@@ -37,6 +37,12 @@ params:
       name: "amrelhusseiny linkedin"
       url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
+markup:
+  goldmark:
+    renderer:
+      # Enabled to embed HTML Code into markdown
+      unsafe: true
+
 menu:
   main:
     - identifier: "Technical Blog"

@@ -363,9 +363,154 @@ TX:             512
 ``` 
 <!-- _________________ -->
 
+### IP Tables
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ sudo iptables -L -v -n`| 
+| **Description** | To Check all IPTables chains rules |
+| **Output Sample** ||   
+```
+$ sudo iptables -L -v -n
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+``` 
+<!-- _________________ -->
+
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ iptables -t nat --list`| 
+| **Description** | To Check SNAT leases |
+| **Output Sample** ||   
+```
+CODE BLOCK ### ADD LATER
+``` 
+<!-- _________________ -->
+
+### Other Network Checks
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ cat -n /proc/net/nf_conntrack | grep dport=22 `| 
+| **Description** | To check current tracked connections to a particular port |
+| **Output Sample** ||   
+```
+$ cat -n /proc/net/nf_conntrack | grep dport=22
+     2  ipv4     2 tcp      6 431999 ESTABLISHED src=10.0.2.2 dst=10.0.2.15 sport=58008 dport=22 src=10.0.2.15 dst=10.0.2.2 sport=22 dport=58008 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+
+``` 
+<!-- _________________ -->
 
 
 
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ netstat -an | grep 80` <br> `netstat -anlp` | 
+| **Description** | Check if port is listening |
+| **Output Sample** ||   
+```
+$ netstat -an | grep 80
+tcp        0      0 172.21.190.129:43612    91.189.91.39:80         TIME_WAIT
+
+$ netstat -an | grep 22
+unix  2      [ ACC ]     STREAM     LISTENING     22540    /run/WSL/1_interop
+unix  3      [ ]         STREAM     CONNECTED     19522    /mnt/wslg/PulseAudioRDPSink
+
+$ netstat -anlp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+udp        0      0 127.0.0.1:323           0.0.0.0:*                           -
+udp6       0      0 ::1:323                 :::*                                -
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name     Path
+unix  2      [ ACC ]     STREAM     LISTENING     24590    1/init               /run/WSL/1_interop
+unix  2      [ ACC ]     STREAM     LISTENING     18753    -                    /run/WSL/1_interop
+unix  2      [ ACC ]     STREAM     LISTENING     24596    8/init               /run/WSL/8_interop
+unix  2      [ ACC ]     STREAM     LISTENING     18776    -                    /var/run/dbus/system_bus_socket
+unix  2      [ ACC ]     SEQPACKET  LISTENING     23569    -                    /mnt/wslg/weston-notify.sock
+unix  2      [ ACC ]     STREAM     LISTENING     20505    -                    /mnt/wslg/runtime-dir/wayland-0
+unix  2      [ ACC ]     STREAM     LISTENING     20506    -                    /tmp/.X11-unix/X0
+unix  2      [ ACC ]     STREAM     LISTENING     22564    -                    /mnt/wslg/runtime-dir/pulse/native
+unix  2      [ ACC ]     STREAM     LISTENING     23590    -                    /mnt/wslg/PulseAudioRDPSource
+unix  2      [ ACC ]     STREAM     LISTENING     27649    -                    /mnt/wslg/PulseAudioRDPSink
+unix  2      [ ]         DGRAM                    18741    -                    /var/run/chrony/chronyd.sock
+unix  2      [ ACC ]     STREAM     LISTENING     25606    -                    /mnt/wslg/PulseServer
+unix  2      [ ACC ]     STREAM     LISTENING     20526    -                    @/tmp/dbus-9iUi93rrbf
+unix  3      [ ]         STREAM     CONNECTED     18777    -
+unix  3      [ ]         STREAM     CONNECTED     24584    1/init
+unix  3      [ ]         STREAM     CONNECTED     26640    -
+unix  3      [ ]         STREAM     CONNECTED     23576    -
+unix  3      [ ]         STREAM     CONNECTED     25604    -
+unix  3      [ ]         STREAM     CONNECTED     20509    -
+unix  3      [ ]         STREAM     CONNECTED     17527    -                    @/tmp/dbus-9iUi93rrbf
+unix  3      [ ]         STREAM     CONNECTED     18778    -
+unix  3      [ ]         STREAM     CONNECTED     24585    4/plan9
+unix  3      [ ]         STREAM     CONNECTED     18852    -                    /mnt/wslg/PulseAudioRDPSink
+unix  3      [ ]         STREAM     CONNECTED     20508    -
+unix  3      [ ]         STREAM     CONNECTED     23575    -
+unix  3      [ ]         STREAM     CONNECTED     41       -                    /tmp/.X11-unix/X0
+unix  2      [ ]         STREAM     CONNECTED     26630    -
+unix  3      [ ]         STREAM     CONNECTED     23578    -
+unix  3      [ ]         STREAM     CONNECTED     17520    -
+unix  3      [ ]         STREAM     CONNECTED     23577    -
+unix  3      [ ]         STREAM     CONNECTED     25607    -
+unix  3      [ ]         STREAM     CONNECTED     17521    -
+``` 
+<!-- _________________ -->
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ cat /proc/sys/net/ipv4/ip_forward ` <br> `$ sysctl net.ipv4.ip_forward`| 
+| **Description** | Check if IP Forwarding is enabled on sever, used to forward traffic as a router, 0->Disabled, 1->Enabled  |
+| **Output Sample** ||   
+```
+$ cat /proc/sys/net/ipv4/ip_forward
+0
+
+$ sysctl net.ipv4.ip_forward
+net.ipv4.ip_forward = 0
+
+$ sysctl -w net.ipv4.ip_forward=1    #### To enable IP Forwarding temporarily
+
+# To permenantly enable or diable IP Forwarding :
+$ sudonano /etc/sysctl.conf
+# add:
+net.ipv4.ip_forward = 1
+# write changes : 
+:wq
+# then to make changes take effect immediatly 
+$ sysctl -p
+
+``` 
+<!-- _________________ -->
+
+
+
+
+## Openstack
+### OVS (Open Virtual Switch)
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ sudo ovs-ofctl dump-flows OVS_SWITCH_NAME`| 
+| **Description** | To show the OpenFlow rules for a bridge |
+| **Output Sample** ||   
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
 
 
 
