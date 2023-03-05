@@ -411,6 +411,31 @@ $ cat -n /proc/net/nf_conntrack | grep dport=22
 <!-- _________________ -->
 
 
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ nmcli device show`| 
+| **Description** | Using Network Manager to show interfaces configuration, you can alsi use $nmtui to get a GUI like terminal inside of CLI |
+| **Output Sample** ||   
+```
+$ nmcli device show eth1
+GENERAL.DEVICE:                         eth1
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         08:00:27:26:1C:5F
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected)
+GENERAL.CONNECTION:                     System eth1
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/2
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         192.168.56.100/24
+IP4.GATEWAY:                            --
+IP4.ROUTE[1]:                           dst = 192.168.56.0/24, nh = 0.0.0.0, mt = 101
+IP6.ADDRESS[1]:                         fe80::a00:27ff:fe26:1c5f/64
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 256
+
+``` 
+<!-- _________________ -->
 
 <!-- ________Command Block_________ -->
 | | |

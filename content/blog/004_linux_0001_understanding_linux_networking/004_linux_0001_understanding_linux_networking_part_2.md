@@ -59,6 +59,11 @@ cat -n /proc/net/nf_conntrack | grep dport=22
 ## Firewalld
 Building upon Net Filter hooks and IPtables/NFtables, we have Firewalld acting as a frontend,
 
+## BP Filter
+A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, 
+
 ## References
 - [Netfilter - Linux Foundation Wiki ](https://en.wikipedia.org/wiki/Netfilter)
 - [A Deep Dive into Iptables and Netfilter Architecture (Article)](https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture)
+- [How Linux Works, 3rd Edition: What Every Superuser Should Know, by  Brian Ward (Book)](https://www.amazon.com/How-Linux-Works-Brian-Ward/dp/1718500408)
+- [BPFilter: the next generation firewall for Linux (Article)](https://linux-audit.com/bpfilter-next-generation-linux-firewall/)
