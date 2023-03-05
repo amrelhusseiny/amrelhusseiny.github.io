@@ -31,3 +31,33 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 
 <!-- Template for table row - 3 Bookx per row -->
 <!-- | {{< book_thumbnail image="" link="" >}} | {{< book_thumbnail image="" link="" >}} | {{< book_thumbnail image="" link="" >}} | -->
+
+## Blogs worth checking
+### Linux Blogs
+- [Linux Foundation Kernel Network Blog ](https://wiki.linuxfoundation.org/networking/start)
+- [BootLin (Linux Articles)](https://bootlin.com)
+- [SRE (Site Reliability Engineer Handbook)](https://s905060.gitbooks.io/site-reliability-engineer-handbook/) - [Alternative Link ](https://github.com/s905060/site-reliability-engineer-handbook)
+- [SRE Guide 2 ](https://github.com/dastergon/awesome-sre)
+- [SRE Guide 3 PDF](https://github.com/captn3m0/google-sre-ebook/releases/download/v1.1/google-site-reliability-engineering.pdf)
+- [The Next Platform Blog](https://www.nextplatform.com)
+- [Networks Kubernetes Course - YouTube](https://www.youtube.com/watch?v=uR2uQ2o4sWY)
+- [DevConnected Blog](https://devconnected.com/)
+
+### Networking Blogs
+- [Network Fun Times](https://www.networkfuntimes.com/)
+- [IP Space (Advanced Networking Blog)](https://blog.ipspace.net/)
+- [The Register Networking Blog](https://www.theregister.com/on_prem/networks/)
+- [NetworkHop Blog](https://networkop.co.uk/#posts) 
+- [Rule Tech - Networking Blog , includes research materials - Also check the Worth Reading Page](https://rule11.tech/)
+- [Routing Craft - Networking Topics in detail ](https://routingcraft.net/)
+- [Intel Networking Developers hub (Very useful resource for undertanding underlying technologies)](https://www.intel.com/content/www/us/en/developer/topic-technology/networking/overview.html)
+- [Julio PDX Blog - Routing Blog](https://juliopdx.com/posts/)
+
+### Papers Worth Reading
+- [A universal apporach to Data center network design](https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf)
+
+### Organization on Youtube worth following (Technical)
+- [Netnod AB](https://www.youtube.com/c/NetnodInternetExchangeiSverigeAB)
+
+<!-- ### Open IEEE documents for free with no membership -->
+<!-- https://sci-hub.ru/ -->
