@@ -8,6 +8,9 @@ draft: true
 ## Introduction
 In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
 
+## Some concepts
+- Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example.
+
 ## NF Diagram
 This is how logically the **Network Filter Hooks** are embeded into the Linux Kernel, these are the same hooks used by IPTables to apply the rules :
 
@@ -60,10 +63,20 @@ cat -n /proc/net/nf_conntrack | grep dport=22
 Building upon Net Filter hooks and IPtables/NFtables, we have Firewalld acting as a frontend,
 
 ## BP Filter
-A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, 
+A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, eBPF programs are delivered using one of two ways, either using XDP early in RX path by attaching the eBPF program to a device, or using __tc__.
+
+## Extra tools
+### tc (Traffic Control)
+tc can be used to like IPtables, and it also can be used to modify the Packets early on in the process of receival.
+```
+# Install tc on CentOS
+# dnf install iproute-tc
+```
+
 
 ## References
 - [Netfilter - Linux Foundation Wiki ](https://en.wikipedia.org/wiki/Netfilter)
 - [A Deep Dive into Iptables and Netfilter Architecture (Article)](https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture)
 - [How Linux Works, 3rd Edition: What Every Superuser Should Know, by  Brian Ward (Book)](https://www.amazon.com/How-Linux-Works-Brian-Ward/dp/1718500408)
 - [BPFilter: the next generation firewall for Linux (Article)](https://linux-audit.com/bpfilter-next-generation-linux-firewall/)
+- [Network Debugging with eBPF - Redhat Developers (Article)](https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf#introduction)
