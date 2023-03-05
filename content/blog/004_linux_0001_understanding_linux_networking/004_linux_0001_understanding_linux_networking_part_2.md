@@ -49,7 +49,7 @@ Chain OUTPUT (policy ACCEPT)
 target     prot opt source               destination   
 ```
 
-To clarify more, found this[ diagram at this link ](https://i.stack.imgur.com/TRfu1.png), this diagram shows clearly how __raw table__ is applied before connection tracking takes places.
+To clarify more, found this[ diagram at this link ](https://i.stack.imgur.com/TRfu1.png), this diagram shows clearly how _raw table_ is applied before connection tracking takes places.
 
 ![Is connection tracking a kind of table in iptables? - StackOverflow](https://i.stack.imgur.com/TRfu1.png)
 
@@ -63,15 +63,33 @@ cat -n /proc/net/nf_conntrack | grep dport=22
 Building upon Net Filter hooks and IPtables/NFtables, we have Firewalld acting as a frontend,
 
 ## BP Filter
-A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, eBPF programs are delivered using one of two ways, either using XDP early in RX path by attaching the eBPF program to a device, or using __tc__.
+A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, eBPF programs are delivered using one of two ways, either using XDP early in RX path by attaching the eBPF program to a device (XDP only handles Recieved traffic), or using __tc__ .
 
 ## Extra tools
 ### tc (Traffic Control)
 tc can be used to like IPtables, and it also can be used to modify the Packets early on in the process of receival.
+
+Install tc on CentOS `# dnf install iproute-tc`
+
+tc uses three concepts: 
+1) **qdiscs** which are short for Queues, each interface may have one or more queues assigned to it, which the Kernel sends and reads from.
+2) **class** each interface can have multiple queues assigned to diffirent classes, this helps to assign diffirent behavior to each class, 
+3) **filter** is the way _tc_ marks a packet to a queue and a class.
+
+There are multiple types of Classless qdiscs that can be used, like the FIFO qdisc, and our famous RED qdesc from the Networking domain.
+
+For Classful qdisc, we have examples just like from teh networking world, like CBQ(Class based Queueing), PRIO(allows for prioritization of traffic). 
+
+You can see from the below output, that we hve 2 interfaces on this VM, each has one qdisc (Queue) assigned :
 ```
-# Install tc on CentOS
-# dnf install iproute-tc
+$ tc qdisc show
+qdisc noqueue 0: dev lo root refcnt 2
+qdisc fq_codel 0: dev enp0s3 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn
+qdisc fq_codel 0: dev enp0s8 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn
+
 ```
+
+
 
 
 ## References
