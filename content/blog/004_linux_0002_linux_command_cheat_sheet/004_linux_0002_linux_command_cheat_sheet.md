@@ -161,33 +161,166 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
-| **Command** |`$ COMMAND HERE`| 
-| **Description** | COMMAND DESCRIPTION |
+| **Command** |`$ dig +trace www.example.com`| 
+| **Description** | Traces the whole chain of DS resolution from going to the Recursive resolver, to Root Servers and Authoritive servers (Good source : https://en.wikipedia.org/wiki/List_of_DNS_record_types)|
 | **Output Sample** ||   
 ```
-CODE BLOCK
+$ dig +trace www.example.com
+
+_____
+Note Part : 
+NS -> Name Server Record - record indicates which DNS server is authoritative for that domain ( Where the actual DNS entries are)
+DS -> Delegation Signer - The record used to identify the DNSSEC signing key of a delegated zone
+RRSIG -> Signature for a DNSSEC-secured record set. Uses the same format as the SIG record.
+A -> Address Record (IPv4)
+AAAA -> Address Record (IPv6)
+SOA -> Start Of Authority record - one of the most important DNS records because stores information like when the domain was last updated.
+CNAME -> alias between 2 names 
+NSEC3 -> Extension of DNSSEC 
+____
+
+; <<>> DiG 9.11.26-RedHat-9.11.26-6.el8 <<>> +trace www.example.com
+;; global options: +cmd
+.                       5173    IN      NS      b.root-servers.net.    <<<<<< ROOT Server
+........................
+;; Received 239 bytes from 10.0.2.3#53(10.0.2.3) in 2 ms
+ 
+com.                    172800  IN      NS      e.gtld-servers.net.    <<<<<< Authoritive Server
+........................
+com.                    86400   IN      DS      30909 8 2 E2D3C916F6DEEAC73294E8268FB5885044A833FC5459588F4A9184CF C41A5766
+com.                    86400   IN      RRSIG   DS 8 1 ...........................
+;; Received 1175 bytes from 192.203.230.10#53(e.root-servers.net) in 55 ms
+
+example.com.            172800  IN      NS      a.iana-servers.net.     <<<<<< Authoritive Server
+example.com.            172800  IN      NS      b.iana-servers.net.
+example.com.            86400   IN      DS      31589 8 1 3490A6806D47F17A34C29E2CE80E8A999FFBE4BE
+example.com.            86400   IN      RRSIG   DS 8 2 86400 2........
+;; Received 539 bytes from 192.31.80.30#53(d.gtld-servers.net) in 54 ms
+
+www.example.com.        86400   IN      A       93.184.216.34
+www.example.com.        86400   IN      RRSIG   A 8 3 .....................
+;; Received 231 bytes from 199.43.135.53#53(a.iana-servers.net) in 143 ms
 ``` 
 <!-- _________________ -->
 
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
-| **Command** |`$ COMMAND HERE`| 
-| **Description** | COMMAND DESCRIPTION |
+| **Command** |`$ whois IP_ADDRESS`| 
+| **Description** | Lookup the IP address registration with ICANN, to see who owns this IP |
 | **Output Sample** ||   
 ```
-CODE BLOCK
+$ whois 1.1.1.1
+% [whois.apnic.net]
+% Whois data copyright terms    http://www.apnic.net/db/dbcopyright.html
+
+% Information related to '1.1.1.0 - 1.1.1.255'
+
+% Abuse contact for '1.1.1.0 - 1.1.1.255' is 'helpdesk@apnic.net'
+
+inetnum:        1.1.1.0 - 1.1.1.255
+netname:        APNIC-LABS
+descr:          APNIC and Cloudflare DNS Resolver project
+descr:          Routed globally by AS13335/Cloudflare
+descr:          Research prefix for APNIC Labs
+country:        AU
+org:            ORG-ARAD1-AP
+admin-c:        AR302-AP
+tech-c:         AR302-AP
+abuse-c:        AA1412-AP
+status:         ASSIGNED PORTABLE
+remarks:        ---------------
+remarks:        All Cloudflare abuse reporting can be done via
+remarks:        resolver-abuse@cloudflare.com
+remarks:        ---------------
+mnt-by:         APNIC-HM
+mnt-routes:     MAINT-AU-APNIC-GM85-AP
+mnt-irt:        IRT-APNICRANDNET-AU
+last-modified:  2020-07-15T13:10:57Z
+source:         APNIC
+
+irt:            IRT-APNICRANDNET-AU
+address:        PO Box 3646
+address:        South Brisbane, QLD 4101
+address:        Australia
+e-mail:         helpdesk@apnic.net
+abuse-mailbox:  helpdesk@apnic.net
+admin-c:        AR302-AP
+tech-c:         AR302-AP
+auth:           # Filtered
+remarks:        helpdesk@apnic.net was validated on 2021-02-09
+mnt-by:         MAINT-AU-APNIC-GM85-AP
+last-modified:  2021-03-09T01:10:21Z
+source:         APNIC
+
+organisation:   ORG-ARAD1-AP
+org-name:       APNIC Research and Development
+country:        AU
+address:        6 Cordelia St
+phone:          +61-7-38583100
+fax-no:         +61-7-38583199
+e-mail:         helpdesk@apnic.net
+mnt-ref:        APNIC-HM
+mnt-by:         APNIC-HM
+last-modified:  2017-10-11T01:28:39Z
+source:         APNIC
+
+role:           ABUSE APNICRANDNETAU
+address:        PO Box 3646
+address:        South Brisbane, QLD 4101
+address:        Australia
+country:        ZZ
+phone:          +000000000
+e-mail:         helpdesk@apnic.net
+admin-c:        AR302-AP
+tech-c:         AR302-AP
+nic-hdl:        AA1412-AP
+remarks:        Generated from irt object IRT-APNICRANDNET-AU
+abuse-mailbox:  helpdesk@apnic.net
+mnt-by:         APNIC-ABUSE
+last-modified:  2021-03-09T01:10:22Z
+source:         APNIC
+
+role:           APNIC RESEARCH
+address:        PO Box 3646
+address:        South Brisbane, QLD 4101
+address:        Australia
+country:        AU
+phone:          +61-7-3858-3188
+fax-no:         +61-7-3858-3199
+e-mail:         research@apnic.net
+nic-hdl:        AR302-AP
+tech-c:         AH256-AP
+admin-c:        AH256-AP
+mnt-by:         MAINT-APNIC-AP
+last-modified:  2018-04-04T04:26:04Z
+source:         APNIC
+
+% Information related to '1.1.1.0/24AS13335'
+
+route:          1.1.1.0/24
+origin:         AS13335
+descr:          APNIC Research and Development
+                6 Cordelia St
+mnt-by:         MAINT-AU-APNIC-GM85-AP
+last-modified:  2018-03-16T16:58:06Z
+source:         APNIC
+
+% This query was served by the APNIC Whois Service version 1.88.16 (WHOIS-UK4)
 ``` 
 <!-- _________________ -->
 
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
-| **Command** |`$ COMMAND HERE`| 
-| **Description** | COMMAND DESCRIPTION |
+| **Command** |`$ host URL`| 
+| **Description** | Straightforward command to resolve Domain Names to IPs |
 | **Output Sample** ||   
 ```
-CODE BLOCK
+$ host google.com
+google.com has address 142.250.200.238
+google.com has IPv6 address 2a00:1450:4006:80d::200e
+google.com mail is handled by 10 smtp.google.com.
 ``` 
 <!-- _________________ -->
 
@@ -581,6 +714,29 @@ net.ipv4.ip_forward = 1
 # then to make changes take effect immediatly 
 $ sysctl -p
 
+``` 
+<!-- _________________ -->
+
+
+### Storage
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ stat FILE_NAME`| 
+| **Description** | COMMAND DESCRIPTION |
+| **Output Sample** ||   
+```
+$ stat file.cfg
+  File: file.cfg
+  Size: 39280           Blocks: 80         IO Block: 4096   regular file (regular file, directory, symbolic link)
+Device: fd00h/64768d    Inode: 134557465   Links: 1 (Number Of Hard Links)
+Access: (0664/-rw-rw-r--)  Uid: ( 1000/ vagrant)   Gid: ( 1000/ vagrant)
+Context: unconfined_u:object_r:user_home_t:s0 (SELinux context)
+Access: 2023-03-16 11:07:56.644678207 +0000
+Modify: 2023-03-16 11:07:49.687142624 +0000
+Change: 2023-03-16 11:07:49.692140135 +0000
+ Birth: 2023-03-16 11:07:49.685143619 +0000
 ``` 
 <!-- _________________ -->
 
