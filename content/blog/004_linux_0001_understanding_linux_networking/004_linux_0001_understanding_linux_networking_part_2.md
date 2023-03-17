@@ -64,6 +64,7 @@ Building upon Net Filter hooks and IPtables/NFtables, we have Firewalld acting a
 
 ## BP Filter
 A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, eBPF programs are delivered using one of two ways, either using XDP early in RX path by attaching the eBPF program to a device (XDP only handles Recieved traffic), or using __tc__ .
+(eBPF is supported from Kernel 3.10 and above)
 
 ## Extra tools
 ### tc (Traffic Control)
@@ -98,3 +99,4 @@ qdisc fq_codel 0: dev enp0s8 root refcnt 2 limit 10240p flows 1024 quantum 1514 
 - [How Linux Works, 3rd Edition: What Every Superuser Should Know, by  Brian Ward (Book)](https://www.amazon.com/How-Linux-Works-Brian-Ward/dp/1718500408)
 - [BPFilter: the next generation firewall for Linux (Article)](https://linux-audit.com/bpfilter-next-generation-linux-firewall/)
 - [Network Debugging with eBPF - Redhat Developers (Article)](https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf#introduction)
+- [Using eBPF-TC to securely mangle Packets (Article)](https://blog.openziti.io/using-ebpf-tc-to-securely-mangle-packets-in-the-kernel-and-pass-them-to-my-secure-networking-application)

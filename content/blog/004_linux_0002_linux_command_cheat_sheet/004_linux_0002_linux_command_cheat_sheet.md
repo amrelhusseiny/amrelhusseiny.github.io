@@ -155,6 +155,44 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 
 
 ## Network
+
+### DNS
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ COMMAND HERE`| 
+| **Description** | COMMAND DESCRIPTION |
+| **Output Sample** ||   
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ COMMAND HERE`| 
+| **Description** | COMMAND DESCRIPTION |
+| **Output Sample** ||   
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ COMMAND HERE`| 
+| **Description** | COMMAND DESCRIPTION |
+| **Output Sample** ||   
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
+
+
+
 ### ethtool (NIC Info)
 <!-- ________Command Block_________ -->
 | | |
@@ -329,17 +367,41 @@ MPTcpExt:
 <!-- ________Command Block_________ -->
 | | |
 |--|--|
-| **Command** |`$ COMMAND HERE`| 
-| **Description** | COMMAND DESCRIPTION |
+| **Command** |`$ curl --trace-ascii trace_file https://amroashram.hopto.org \ cat trace_file `| 
+| **Description** | Trace/Debug the Transport layer of the Curl command |
 | **Output Sample** ||   
 ```
-CODE BLOCK
+Long output 
 ``` 
 <!-- _________________ -->
 
 
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ ip -statistics neighbour`| 
+| **Description** | To check ARP table MAC caching duration |
+| **Output Sample** ||   
+```
+$ ip -statistics neighbour
+10.0.2.2 dev eth0 lladdr 52:54:00:12:35:02 ref 1 used 7/0/2 probes 4 REACHABLE
+10.0.2.3 dev eth0 lladdr 52:54:00:12:35:03 used 60/60/21 probes 1 STALE
+``` 
+<!-- _________________ -->
 
 
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ ip -statistics neighbour`| 
+| **Description** | Inspect the Transport connectivity with the Curl command |
+| **Output Sample** ||   
+```
+$ ip -statistics neighbour
+10.0.2.2 dev eth0 lladdr 52:54:00:12:35:02 ref 1 used 7/0/2 probes 4 REACHABLE
+10.0.2.3 dev eth0 lladdr 52:54:00:12:35:03 used 60/60/21 probes 1 STALE
+``` 
+<!-- _________________ -->
 
 <!-- ________Command Block_________ -->
 | | |
@@ -409,6 +471,8 @@ $ cat -n /proc/net/nf_conntrack | grep dport=22
 
 ``` 
 <!-- _________________ -->
+
+
 
 
 <!-- ________Command Block_________ -->

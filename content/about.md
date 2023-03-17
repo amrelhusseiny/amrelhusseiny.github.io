@@ -32,7 +32,11 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 <!-- Template for table row - 3 Bookx per row -->
 <!-- | {{< book_thumbnail image="" link="" >}} | {{< book_thumbnail image="" link="" >}} | {{< book_thumbnail image="" link="" >}} | -->
 
+
 ## Blogs worth checking
+### News about all things
+- [Hackers News](https://news.ycombinator.com/news)
+
 ### Linux Blogs
 - [Linux Foundation Kernel Network Blog ](https://wiki.linuxfoundation.org/networking/start)
 - [BootLin (Linux Articles)](https://bootlin.com)
@@ -52,6 +56,8 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 - [Routing Craft - Networking Topics in detail ](https://routingcraft.net/)
 - [Intel Networking Developers hub (Very useful resource for undertanding underlying technologies)](https://www.intel.com/content/www/us/en/developer/topic-technology/networking/overview.html)
 - [Julio PDX Blog - Routing Blog](https://juliopdx.com/posts/)
+- [Extra Hop (TCP) ](https://forums.extrahop.com)
+- [Packet Pioneer (TCP)](https://packetpioneer.com/blog/)
 
 ### Papers Worth Reading
 - [A universal apporach to Data center network design](https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf)
