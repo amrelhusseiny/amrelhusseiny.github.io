@@ -28,6 +28,267 @@ draft: false
 <!-- _________________ -->
 
 ## System configuration and stats
+### Get to know the curreent system
+
+<!-- _________________ -->
+| | |
+|--|--|
+| **Command** |`$ lshw / $ hostnamectl / $ uname -r`| 
+| **Description** | Check the Hardware, Software and Kernel version|
+| **Output Sample** | |
+```
+$ sudo lshw
+USB                         
+node-1             
+    description: Computer
+    product: VirtualBox
+    vendor: innotek GmbH
+    version: 1.2
+    serial: 0
+    width: 64 bits
+    capabilities: smbios-2.5 dmi-2.5 smp vsyscall32
+    configuration: family=Virtual Machine uuid=508044c2-f893-420a-a825-b712f3cabac9
+  *-core
+       description: Motherboard
+       product: VirtualBox
+       vendor: Oracle Corporation
+       physical id: 0
+       version: 1.2
+       serial: 0
+     *-firmware
+          description: BIOS
+          vendor: innotek GmbH
+          physical id: 0
+          version: VirtualBox
+          date: 12/01/2006
+          size: 128KiB
+          capacity: 128KiB
+          capabilities: isa pci cdboot bootselect int9keyboard int10video acpi
+     *-memory
+          description: System memory
+          physical id: 1
+          size: 2GiB
+     *-cpu
+          product: Intel(R) Xeon(R) CPU E5-2670 v2 @ 2.50GHz
+          vendor: Intel Corp.
+          physical id: 2
+          bus info: cpu@0
+          version: 6.62.4
+          width: 64 bits
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp x86-64 constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 cx16 pcid sse4_1 sse4_2 x2apic popcnt aes xsave avx rdrand hypervisor lahf_lm pti fsgsbase md_clear flush_l1d arch_capabilities
+          configuration: microcode=25
+     *-pci
+          description: Host bridge
+          product: 440FX - 82441FX PMC [Natoma]
+          vendor: Intel Corporation
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 02
+          width: 32 bits
+          clock: 33MHz
+        *-isa
+             description: ISA bridge
+             product: 82371SB PIIX3 ISA [Natoma/Triton II]
+             vendor: Intel Corporation
+             physical id: 1
+             bus info: pci@0000:00:01.0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: isa bus_master
+             configuration: latency=0
+           *-pnp00:00
+                product: PnP device PNP0303
+                physical id: 0
+                capabilities: pnp
+                configuration: driver=i8042 kbd
+           *-pnp00:01
+                product: PnP device PNP0f03
+                physical id: 1
+                capabilities: pnp
+                configuration: driver=i8042 aux
+        *-ide
+             description: IDE interface
+             product: 82371AB/EB/MB PIIX4 IDE
+             vendor: Intel Corporation
+             physical id: 1.1
+             bus info: pci@0000:00:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: ide isa_compat_mode pci_native_mode bus_master
+             configuration: driver=ata_piix latency=64
+             resources: irq:0 ioport:1f0(size=8) ioport:3f6 ioport:170(size=8) ioport:376 ioport:d000(size=16)
+        *-display
+             description: VGA compatible controller
+             product: VirtualBox Graphics Adapter
+             vendor: InnoTek Systemberatung GmbH
+             physical id: 2
+             bus info: pci@0000:00:02.0
+             logical name: /dev/fb0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: vga_controller rom fb
+             configuration: depth=32 driver=vboxvideo latency=0 resolution=800,600
+             resources: irq:10 memory:e0000000-efffffff memory:c0000-dffff
+        *-network:0
+             description: Ethernet interface
+             product: 82540EM Gigabit Ethernet Controller
+             vendor: Intel Corporation
+             physical id: 3
+             bus info: pci@0000:00:03.0
+             logical name: eth0
+             version: 02
+             serial: 08:00:27:bf:dd:e2
+             size: 1Gbit/s
+             capacity: 1Gbit/s
+             width: 32 bits
+             clock: 66MHz
+             capabilities: pm pcix bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+             configuration: autonegotiation=on broadcast=yes driver=e1000 driverversion=7.3.21-k8-NAPI duplex=full ip=10.0.2.15 latency=64 link=yes mingnt=255 multicast=yes port=twisted pair speed=1Gbit/s
+             resources: irq:19 memory:f0000000-f001ffff ioport:d010(size=8)
+        *-generic
+             description: System peripheral
+             product: VirtualBox mouse integration
+             vendor: InnoTek Systemberatung GmbH
+             physical id: 4
+             bus info: pci@0000:00:04.0
+             logical name: input5
+             logical name: /dev/input/event4
+             logical name: /dev/input/js0
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci
+             configuration: driver=vboxguest latency=0
+             resources: irq:20 ioport:d020(size=32) memory:f0400000-f07fffff memory:f0800000-f0803fff
+        *-bridge
+             description: Bridge
+             product: 82371AB/EB/MB PIIX4 ACPI
+             vendor: Intel Corporation
+             physical id: 7
+             bus info: pci@0000:00:07.0
+             version: 08
+             width: 32 bits
+             clock: 33MHz
+             capabilities: bridge
+             configuration: driver=piix4_smbus latency=0
+             resources: irq:9
+        *-network:1
+             description: Ethernet interface
+             product: 82540EM Gigabit Ethernet Controller
+             vendor: Intel Corporation
+             physical id: 8
+             bus info: pci@0000:00:08.0
+             logical name: eth1
+             version: 02
+             serial: 08:00:27:b3:24:de
+             size: 1Gbit/s
+             capacity: 1Gbit/s
+             width: 32 bits
+             clock: 66MHz
+             capabilities: pm pcix bus_master cap_list ethernet physical tp 10bt 10bt-fd 100bt 100bt-fd 1000bt-fd autonegotiation
+             configuration: autonegotiation=on broadcast=yes driver=e1000 driverversion=7.3.21-k8-NAPI duplex=full ip=192.168.56.101 latency=64 link=yes mingnt=255 multicast=yes port=twisted pair speed=1Gbit/s
+             resources: irq:16 memory:f0820000-f083ffff ioport:d040(size=8)
+        *-sata
+             description: SATA controller
+             product: 82801HM/HEM (ICH8M/ICH8M-E) SATA Controller [AHCI mode]
+             vendor: Intel Corporation
+             physical id: d
+             bus info: pci@0000:00:0d.0
+             logical name: scsi2
+             version: 02
+             width: 32 bits
+             clock: 33MHz
+             capabilities: sata pm ahci_1.0 bus_master cap_list emulated
+             configuration: driver=ahci latency=64
+             resources: irq:21 ioport:d048(size=8) ioport:d050(size=4) ioport:d058(size=8) ioport:d060(size=4) ioport:d070(size=16) memory:f0840000-f0841fff
+           *-disk
+                description: ATA Disk
+                product: VBOX HARDDISK
+                vendor: VirtualBox
+                physical id: 0.0.0
+                bus info: scsi@2:0.0.0
+                logical name: /dev/sda
+                version: 1.0
+                serial: VB91fe246a-1e13fdf3
+                size: 128GiB (137GB)
+                capabilities: partitioned partitioned:dos
+                configuration: ansiversion=5 logicalsectorsize=512 sectorsize=512 signature=dc2f2df6
+              *-volume:0 UNCLAIMED
+                   description: Linux filesystem partition
+                   physical id: 1
+                   bus info: scsi@2:0.0.0,1
+                   capacity: 1GiB
+                   capabilities: primary bootable
+              *-volume:1
+                   description: Linux LVM Physical Volume partition
+                   physical id: 2
+                   bus info: scsi@2:0.0.0,2
+                   logical name: /dev/sda2
+                   serial: v3Tbrx-1WQD-EJBj-LoBr-A9b3-d5pS-qEgHEN
+                   size: 126GiB
+                   capacity: 126GiB
+                   capabilities: primary multi lvm2
+  *-input:0
+       product: Power Button
+       physical id: 1
+       logical name: input0
+       logical name: /dev/input/event0
+       capabilities: platform
+  *-input:1
+       product: Sleep Button
+       physical id: 2
+       logical name: input1
+       logical name: /dev/input/event1
+       capabilities: platform
+  *-input:2
+       product: AT Translated Set 2 keyboard
+       physical id: 3
+       logical name: input2
+       logical name: /dev/input/event2
+       logical name: input2::capslock
+       logical name: input2::numlock
+       logical name: input2::scrolllock
+       capabilities: i8042
+  *-input:3
+       product: ImExPS/2 Generic Explorer Mouse
+       physical id: 4
+       logical name: input4
+       logical name: /dev/input/event3
+       logical name: /dev/input/mouse0
+       capabilities: i8042
+  *-input:4
+       product: Video Bus
+       physical id: 5
+       logical name: input6
+       logical name: /dev/input/event5
+       capabilities: platform
+  *-input:5
+       product: PC Speaker
+       physical id: 6
+       logical name: input7
+       logical name: /dev/input/event6
+       capabilities: isa
+
+
+
+$ hostnamectl 
+   Static hostname: node-1
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 6f91d8956cd04fc8b7a2d87ba8d9f381
+           Boot ID: 2ef130de94b04631a7bbbbfe85fd2ab0
+    Virtualization: oracle
+  Operating System: CentOS Linux 8
+       CPE OS Name: cpe:/o:centos:centos:8
+            Kernel: Linux 4.18.0-348.7.1.el8_5.x86_64
+      Architecture: x86-64
+``` 
+<!-- _________________ -->
+
+
 ### Boot
 <!-- _________________ -->
 | | |
