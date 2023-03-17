@@ -718,7 +718,7 @@ $ sysctl -p
 <!-- _________________ -->
 
 
-### Storage
+## Storage
 
 <!-- ________Command Block_________ -->
 | | |
@@ -727,6 +727,7 @@ $ sysctl -p
 | **Description** | COMMAND DESCRIPTION |
 | **Output Sample** ||   
 ```
+# Example 1
 $ stat file.cfg
   File: file.cfg
   Size: 39280           Blocks: 80         IO Block: 4096   regular file (regular file, directory, symbolic link)
@@ -737,6 +738,18 @@ Access: 2023-03-16 11:07:56.644678207 +0000
 Modify: 2023-03-16 11:07:49.687142624 +0000
 Change: 2023-03-16 11:07:49.692140135 +0000
  Birth: 2023-03-16 11:07:49.685143619 +0000
+
+# Example 2
+$ stat soft_link_to_config 
+  File: soft_link_to_config -> ansible.cfg
+  Size: 11              Blocks: 0          IO Block: 4096   symbolic link
+Device: fd00h/64768d    Inode: 134557475   Links: 1
+Access: (0777/lrwxrwxrwx)  Uid: ( 1000/ vagrant)   Gid: ( 1000/ vagrant)
+Context: unconfined_u:object_r:user_home_t:s0
+Access: 2023-03-17 06:50:46.200821521 +0000
+Modify: 2023-03-17 06:50:31.337359181 +0000
+Change: 2023-03-17 06:50:31.337359181 +0000
+ Birth: 2023-03-17 06:50:31.337359181 +0000
 ``` 
 <!-- _________________ -->
 
