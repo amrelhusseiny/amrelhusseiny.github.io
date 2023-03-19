@@ -38,4 +38,11 @@ node.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/me.p
 
 # To check running boxes configuration , IPs and Ports assigned to each box
 $ vagrant ssh-config
+
+# Port forwarding between VM and the Host machine
+$ node.vm.network "forwarded_port", guest: 22, host: 8825
+
+# Syncing folder between host and VM (1st path is Host's path)
+$ node.vm.synced_folder "HOST_PATH", "VM_PATH"
+$ node.vm.synced_folder ".", "/vagrant", disabled: false
 ``` 
