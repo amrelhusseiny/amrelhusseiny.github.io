@@ -47,6 +47,9 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 - [Networks Kubernetes Course - YouTube](https://www.youtube.com/watch?v=uR2uQ2o4sWY)
 - [DevConnected Blog](https://devconnected.com/)
 
+### Cloud Blogs
+- ![Cloud Infrastructures Services Blog](https://cloudinfrastructureservices.co.uk/blog/)
+
 ### Networking Blogs
 - [Network Fun Times](https://www.networkfuntimes.com/)
 - [IP Space (Advanced Networking Blog)](https://blog.ipspace.net/)
