@@ -1031,6 +1031,19 @@ CODE BLOCK
 ``` 
 <!-- _________________ -->
 
+### Other commands
+
+<!-- ________Command Block_________ -->
+| | |
+|--|--|
+| **Command** |`$ /etc/init.d/keepalived status / $ ipvsadm -ln / $ ipvsadm –lnc`| 
+| **Output Sample** ||    
+```
+CODE BLOCK
+``` 
+<!-- _________________ -->
+
+
 
 
 

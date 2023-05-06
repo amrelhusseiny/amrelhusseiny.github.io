@@ -46,3 +46,5 @@ $ node.vm.network "forwarded_port", guest: 22, host: 8825
 $ node.vm.synced_folder "HOST_PATH", "VM_PATH"
 $ node.vm.synced_folder ".", "/vagrant", disabled: false
 ``` 
+
+
