@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>DRAFT	Data center network design (CLOS vs FAT TREE) // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DRAFT	Data center network design (CLOS vs FAT TREE)"/>
+<meta name="twitter:description" content="Introduction I started writing this article after reading the amazing A universal approach to data center network design (Paper) paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.
+Pre concepts Non-Blocking Networks : What is CLOS and Fat Tree Fat-Tree layout In a Fat-Tree layout many layouts exists, but the most common is what is called Butterfly Fat-Tree, in which"/>
+
+    <meta property="og:title" content="DRAFT	Data center network design (CLOS vs FAT TREE)" />
+<meta property="og:description" content="Introduction I started writing this article after reading the amazing A universal approach to data center network design (Paper) paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.
+Pre concepts Non-Blocking Networks : What is CLOS and Fat Tree Fat-Tree layout In a Fat-Tree layout many layouts exists, but the most common is what is called Butterfly Fat-Tree, in which" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0007_datacenter_clos_vs_fattree/001_networks_0007_datacenter_clos_vs_fattree/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-02-08T22:15:46+02:00" />
+<meta property="article:modified_time" content="2023-02-08T22:15:46+02:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">DRAFT	Data center network design (CLOS vs FAT TREE)</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Feb 8, 2023
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h2 id="introduction">Introduction</h2>
+<p>I started writing this article after reading the amazing <strong><a href="https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf">A universal approach to data center network design (Paper)</a></strong> paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.</p>
+<h2 id="pre-concepts">Pre concepts</h2>
+<ul>
+<li>Non-Blocking Networks :</li>
+</ul>
+<h2 id="what-is-clos-and-fat-tree">What is CLOS and Fat Tree</h2>
+<h3 id="fat-tree-layout">Fat-Tree layout</h3>
+<p>In a Fat-Tree layout many layouts exists, but the most common is what is called Butterfly Fat-Tree, in which</p>
+<ul>
+<li>Each Child node (Switch) connects with a link to the processing node (Server).</li>
+<li>Each Child node (Switch) connects with a link to the Parent node (Switch).</li>
+<li>Nodes (Switches) at the same level dont connect to each other.</li>
+<li>With Fat-trees , mostly the parent and child nodes use the same model (These days, a 1RU switch)</li>
+<li>The number of links going to the servers from the child nodes equals the number of links connecting to the Parent node</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf">A universal approach to data center network design (Paper)</a></li>
+<li><a href="https://clusterdesign.org/fat-trees/">Fat Trees Design - Article</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

@@ -1,35 +1,34 @@
 <!doctype html>
 <html lang="en-us">
   <head>
-    <title>002_openstack_0001_openstack_homelab_part_1 // Amr ElHusseiny&#39;s Blog</title>
+    <title>DRAFT	Openstack : setup your own home environment // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="generator" content="Hugo 0.111.3">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="002_openstack_0001_openstack_homelab_part_1"/>
-<meta name="twitter:description" content=" Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
-Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &lt;&lt;&lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack Openstack Python SDK Guide - Functions Available CleanUp openstack Networks and Routers (Article) Enos Openstack SDK Client init example "/>
+<meta name="twitter:title" content="DRAFT	Openstack : setup your own home environment"/>
+<meta name="twitter:description" content="Table Of ContentsIntroduction Lab Setup Setup process Setting up OpenStack Python SDK Your first Openstack VM References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
+Lab Setup Home Machine Specs : HyperVisor : ESXIOS : CentOS 8RAM : allocated for VM is 67 GBCPU : 30 coresStorage : 160GB &lt;&lt;&lt; Much better if you allocate a lot more so you can run your Openstack Labs Setup process Following are 2 scripts, one taking care of installing Openstack on CentOS 8 (Bash), and the second is a Python script to setup your 1st Public/Private Networks, subnets and start a CirrOS testing VM on the created OpenStack enviroment."/>
 
-    <meta property="og:title" content="002_openstack_0001_openstack_homelab_part_1" />
-<meta property="og:description" content=" Table Of Contents Introduction Lab Setup References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
-Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated for VM is 67 GB CPU : 30 cores Storage : 160GB &lt;&lt;&lt; Much better if you allocate a lot more so you can run your Openstack Labs References Install OpenStack Victoria on CentOS 8 With Packstack Openstack Python SDK Guide - Functions Available CleanUp openstack Networks and Routers (Article) Enos Openstack SDK Client init example " />
+    <meta property="og:title" content="DRAFT	Openstack : setup your own home environment" />
+<meta property="og:description" content="Table Of ContentsIntroduction Lab Setup Setup process Setting up OpenStack Python SDK Your first Openstack VM References Introduction In this article I will show you how to setup OpenStack using PackStack on CentOS 8 VM running on ESXI host, this is of course not a production evironment, but its very suitable for running your own tests.
+Lab Setup Home Machine Specs : HyperVisor : ESXIOS : CentOS 8RAM : allocated for VM is 67 GBCPU : 30 coresStorage : 160GB &lt;&lt;&lt; Much better if you allocate a lot more so you can run your Openstack Labs Setup process Following are 2 scripts, one taking care of installing Openstack on CentOS 8 (Bash), and the second is a Python script to setup your 1st Public/Private Networks, subnets and start a CirrOS testing VM on the created OpenStack enviroment." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-12T11:17:37+02:00" />
 <meta property="article:modified_time" content="2022-12-12T11:17:37+02:00" />
 
 
-
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -60,7 +59,7 @@ Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated f
       
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">002_openstack_0001_openstack_homelab_part_1</h1>
+      <h1 class ="post-title">DRAFT	Openstack : setup your own home environment</h1>
       <div class="post-meta">
         <div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -74,7 +73,7 @@ Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated f
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          3 min read
         </div>
       </div>
     </header>
@@ -85,6 +84,13 @@ Lab Setup Home Machine Specs : HyperVisor : ESXI OS : CentOS 8 RAM : allocated f
   <ul>
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#lab-setup">Lab Setup</a></li>
+    <li><a href="#setup-process">Setup process</a>
+      <ul>
+        <li><a href="#setting-up-openstack">Setting up OpenStack</a></li>
+      </ul>
+    </li>
+    <li><a href="#python-sdk">Python SDK</a></li>
+    <li><a href="#your-first-openstack-vm">Your first Openstack VM</a></li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav>
@@ -98,12 +104,112 @@ OS : CentOS 8
 RAM : allocated for VM is 67 GB
 CPU : 30 cores
 Storage : 160GB &lt;&lt;&lt; Much better if you allocate a lot more so you can run your Openstack Labs 
-</code></pre><h2 id="references">References</h2>
+</code></pre><h2 id="setup-process">Setup process</h2>
+<p>Following are 2 scripts, one taking care of installing Openstack on CentOS 8 (Bash), and the second is a Python script to setup your 1st Public/Private Networks, subnets and start a CirrOS testing VM on the created OpenStack enviroment.</p>
+<h3 id="setting-up-openstack">Setting up OpenStack</h3>
+<ol>
+<li>This tutorial createdfor CentOS 8 and as its main reference , I used steps from <a href="https://computingforgeeks.com/install-openstack-victoria-on-centos/">this link</a> to aquire the steps of which I created the following simple Bash script :</li>
+</ol>
+<p><strong>What you need to change in the script</strong> - change the ip you would like for your machine interface, also the version of OpenStack , below configured for OpenStack Yoga.</p>
+<pre tabindex="0"><code># 0003_openstack_installation_script.sh
+# Installing Openstack on CentOS 8 
+
+
+# 1) You need to run this script as a sudoer or a root
+# To exit on any part failure
+set -e 
+
+# 2) Updating CentOS
+dnf update -y
+dnf upgrade -y
+
+# 3) Changing Hostname 
+echo &#34;Please enter the desired System name : &#34;
+read system_hostname
+hostnamectl set-hostname $system_hostname
+
+# 4) adding hostname to DNS 
+default_exit_interface_ip=$(ip route | grep default | sed &#39;s/default.*src //&#39; | sed &#39;s/metric.*//;q&#39;)
+echo $default_exit_interface_ip $system_hostname &gt; /etc/hosts
+
+# 5) Enable EPEL Repo 
+dnf config-manager --enable powertools
+
+# 6) Mannually configuring Network, after disabling Network Manager
+dnf -y install network-scripts
+systemctl disable --now NetworkManager
+systemctl enable network
+systemctl start  network
+default_exit_interface_dev=$(ip route | grep default | sed &#39;s/default.*dev //&#39; | sed &#39;s/proto.*//;q&#39;)
+touch /etc/sysconfig/network-scripts/ifcfg-$default_exit_interface_dev
+cat &lt;&lt; EOF &gt; /etc/sysconfig/network-scripts/ifcfg-$default_exit_interface_dev
+DEVICE=$default_exit_interface_dev
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=192.168.1.139
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1
+IPV6INIT=no
+EOF
+
+# 7) Disable Firewall
+systemctl disable --now firewalld
+
+# Installing OpenStack 
+dnf -y install centos-release-openstack-yoga.noarch
+dnf update -y
+dnf install -y openstack-packstack
+packstack --version
+
+# 8) Writing the configuration file : 
+packstack --os-neutron-ml2-tenant-network-types=vxlan \
+--os-neutron-l2-agent=openvswitch \
+--os-neutron-ml2-type-drivers=vxlan,flat \
+--os-neutron-ml2-mechanism-drivers=openvswitch \
+--keystone-admin-passwd=&#34;1234567&#34; \
+--nova-libvirt-virt-type=kvm \
+--provision-demo=n \
+--cinder-volumes-create=y \
+--os-heat-install=y \
+--os-swift-storage-size=10G \
+--gen-answer-file /root/answers.txt
+
+packstack --answer-file /root/answers.txt --timeout=3000
+
+echo &#34;OpenStack Have been installed successfully !&#34;
+
+# Preparing our python :
+pip3 install --upgrade pip
+python3 -m pip install python-openstackclient
+# Exporting our envirnment variables for Default Project (Same as KeyStone Auth File):
+unset OS_SERVICE_TOKEN
+export OS_USERNAME=admin
+export OS_PASSWORD=&#39;1234567&#39;
+export OS_REGION_NAME=RegionOne
+export OS_AUTH_URL=http://192.168.1.139:5000/v3
+export PS1=&#39;[\u@\h \W(keystone_admin)]\$ &#39;
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_IDENTITY_API_VERSION=3
+</code></pre><h2 id="python-sdk">Python SDK</h2>
+<p>There is 2 SDKs available for Openstack using python, you can find the latest SDK at <a href="https://github.com/openstack/openstacksdk">https://github.com/openstack/openstacksdk</a> (Recommended), and then there is the Neutron,Nova client SDKs which are missing a lot of latest features.</p>
+<h2 id="your-first-openstack-vm">Your first Openstack VM</h2>
+<p>Following is a Python Script to create the following after setting up the Openstack enviroment :</p>
+<pre tabindex="0"><code></code></pre><p><code>openstack network list --project &lt;&gt;</code>
+You can show the Process running the actual VM on the Compute node, which shows the assigned processors, RAM ,disk and so on
+<code>sudo virsh list -all</code>
+<code>ps aux | grep &lt;instance-name&gt;</code>
+On compute node, to login to the VM using Console :
+<code>virsh console &lt;instance-name&gt;</code>
+And to exit from <em>virsh_console</em> use the ctrl+] on windows machine</p>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://computingforgeeks.com/install-openstack-victoria-on-centos/">Install OpenStack Victoria on CentOS 8 With Packstack</a></li>
 <li><a href="https://docs.openstack.org/openstacksdk/rocky/user/connection.html">Openstack Python SDK Guide - Functions Available </a></li>
 <li><a href="https://saliux.wordpress.com/2014/04/16/clean-up-openstack-router-and-networks/">CleanUp openstack Networks and Routers (Article)</a></li>
 <li><a href="https://beyondtheclouds.github.io/enos/tutorial/openstacksdk.html">Enos Openstack SDK Client init example </a></li>
+<li><a href="https://github.com/openstack/openstacksdk">Openstack SDK (Github)</a></li>
 </ul>
 
     </div>

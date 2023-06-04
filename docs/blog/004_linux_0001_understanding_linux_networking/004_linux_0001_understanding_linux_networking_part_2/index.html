@@ -1,35 +1,34 @@
 <!doctype html>
 <html lang="en-us">
   <head>
-    <title>Linux Networking Part 2 : Firewalling in the Linux Net Stack // Amr ElHusseiny&#39;s Blog</title>
+    <title>DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.107.0">
+    <meta name="generator" content="Hugo 0.111.3">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amr ElHusseiny" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.398cb4ed68817d6b6c01543cc27f2665040e1c960a93892446dcdcd5cafebbb6.css" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Linux Networking Part 2 : Firewalling in the Linux Net Stack"/>
-<meta name="twitter:description" content="NF Diagram This is how logically the Network Filter hooks are designed, these are the same hooks used by IPTables to apply the rules :
-References "/>
+<meta name="twitter:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack"/>
+<meta name="twitter:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
+Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example."/>
 
-    <meta property="og:title" content="Linux Networking Part 2 : Firewalling in the Linux Net Stack" />
-<meta property="og:description" content="NF Diagram This is how logically the Network Filter hooks are designed, these are the same hooks used by IPTables to apply the rules :
-References " />
+    <meta property="og:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack" />
+<meta property="og:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
+Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-12-26T20:03:57+02:00" />
 <meta property="article:modified_time" content="2022-12-26T20:03:57+02:00" />
 
 
-
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.png" alt="Amr ElHusseiny" /></a>
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -60,7 +59,7 @@ References " />
       
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">Linux Networking Part 2 : Firewalling in the Linux Net Stack</h1>
+      <h1 class ="post-title">DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack</h1>
       <div class="post-meta">
         <div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
@@ -74,17 +73,102 @@ References " />
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
+          4 min read
         </div>
       </div>
     </header>
     <div class="post-content">
-      <h2 id="nf-diagram">NF Diagram</h2>
-<p>This is how logically the Network Filter hooks are designed, these are the same hooks used by IPTables to apply the rules :</p>
-<p><img src="firewall_hooks_on_ip_stack.jpg" alt="Firewall Hooks on IP Stack"></p>
-<h2 id="references">References</h2>
+      <div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#some-concepts">Some concepts</a></li>
+    <li><a href="#nf-diagram">NF Diagram</a></li>
+    <li><a href="#iptables">IPTables</a></li>
+    <li><a href="#firewalld">Firewalld</a></li>
+    <li><a href="#bp-filter">BP Filter</a></li>
+    <li><a href="#extra-tools">Extra tools</a>
+      <ul>
+        <li><a href="#tc-traffic-control">tc (Traffic Control)</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.</p>
+<h2 id="some-concepts">Some concepts</h2>
 <ul>
-<li></li>
+<li>Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example.</li>
+</ul>
+<h2 id="nf-diagram">NF Diagram</h2>
+<p>This is how logically the <strong>Network Filter Hooks</strong> are embeded into the Linux Kernel, these are the same hooks used by IPTables to apply the rules :</p>
+<p><img src="firewall_hooks_on_ip_stack.jpg" alt="Firewall Hooks on IP Stack"></p>
+<p>So NetFilter has 5 hooks embeded in the linkux kernel in diffirent locations as the diagram above shows, these are <strong>NF_IP_PRE_ROUTING</strong>, <strong>NF_IP_LOCAL_IN</strong>, <strong>NF_IP_FORWARD</strong>, <strong>NF_IP_POST_ROUTING</strong>, AND <strong>NF_IP_LOCAL_OUT</strong>.</p>
+<h2 id="iptables">IPTables</h2>
+<p><img src="nf_relation_iptables.jpg" alt="IPTables relation to NF Hooks"></p>
+<p>In IP Tables we have 5 tables that have chains of rules, these tables can hook to one or more of the above NF Hooks, these tables are:</p>
+<ol>
+<li><strong>filter</strong> (Default): most used one, this applies statefully to traffic.</li>
+<li><strong>mangle</strong>: used to modify the IP Header of traffic.</li>
+<li><strong>nat</strong>: no explanation needed.</li>
+<li><strong>raw</strong>: used to mark traffic to not conn-track using net filter&rsquo;s connection tracking mechanism.</li>
+<li><strong>security</strong>: used in conjunction with SELinux.</li>
+</ol>
+<p>You can list the rules for each table as follows :</p>
+<pre tabindex="0"><code># -L  List , -v Verbose , -n Numeric , -t Table  , tables (mangle,nat,filter(Default))
+$ iptables -L -v -n -t TABLE_NAME
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+  22M 1415M ACCEPT     tcp  --  *      *       192.168.1.139        0.0.0.0/0            multiport dports 5671,5672 /* 001 amqp incoming amqp_192.168.1.139 */
+
+# To list chains for each table
+# iptables --list -t nat
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination         
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination         
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination   
+</code></pre><p>To clarify more, found this<a href="https://i.stack.imgur.com/TRfu1.png"> diagram at this link </a>, this diagram shows clearly how <em>raw table</em> is applied before connection tracking takes places.</p>
+<p><img src="https://i.stack.imgur.com/TRfu1.png" alt="Is connection tracking a kind of table in iptables? - StackOverflow"></p>
+<p>You can see the tracked connections and theirs state () under /proc/net/nf_conntrack :</p>
+<pre tabindex="0"><code>cat -n /proc/net/nf_conntrack | grep dport=22
+   853  ipv4     2 tcp      6 299 ESTABLISHED src=192.168.1.138 dst=192.168.1.139 sport=33290 dport=22 src=192.168.1.139 dst=154.186.196.59 sport=22 dport=33290 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+</code></pre><h2 id="firewalld">Firewalld</h2>
+<p>Building upon Net Filter hooks and IPtables/NFtables, we have Firewalld acting as a frontend,</p>
+<h2 id="bp-filter">BP Filter</h2>
+<p>A new approach has been introduced called BPF, which utilizes the eBPF tools, comunity already gave up on NFTables and skipped rightly to BPFilter, eBPF programs are delivered using one of two ways, either using XDP early in RX path by attaching the eBPF program to a device (XDP only handles Recieved traffic), or using <strong>tc</strong> .
+(eBPF is supported from Kernel 3.10 and above)</p>
+<h2 id="extra-tools">Extra tools</h2>
+<h3 id="tc-traffic-control">tc (Traffic Control)</h3>
+<p>tc can be used to like IPtables, and it also can be used to modify the Packets early on in the process of receival.</p>
+<p>Install tc on CentOS <code># dnf install iproute-tc</code></p>
+<p>tc uses three concepts:</p>
+<ol>
+<li><strong>qdiscs</strong> which are short for Queues, each interface may have one or more queues assigned to it, which the Kernel sends and reads from.</li>
+<li><strong>class</strong> each interface can have multiple queues assigned to diffirent classes, this helps to assign diffirent behavior to each class,</li>
+<li><strong>filter</strong> is the way <em>tc</em> marks a packet to a queue and a class.</li>
+</ol>
+<p>There are multiple types of Classless qdiscs that can be used, like the FIFO qdisc, and our famous RED qdesc from the Networking domain.</p>
+<p>For Classful qdisc, we have examples just like from teh networking world, like CBQ(Class based Queueing), PRIO(allows for prioritization of traffic).</p>
+<p>You can see from the below output, that we hve 2 interfaces on this VM, each has one qdisc (Queue) assigned :</p>
+<pre tabindex="0"><code>$ tc qdisc show
+qdisc noqueue 0: dev lo root refcnt 2
+qdisc fq_codel 0: dev enp0s3 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn
+qdisc fq_codel 0: dev enp0s8 root refcnt 2 limit 10240p flows 1024 quantum 1514 target 5.0ms interval 100.0ms memory_limit 32Mb ecn
+</code></pre><h2 id="references">References</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Netfilter">Netfilter - Linux Foundation Wiki </a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture">A Deep Dive into Iptables and Netfilter Architecture (Article)</a></li>
+<li><a href="https://www.amazon.com/How-Linux-Works-Brian-Ward/dp/1718500408">How Linux Works, 3rd Edition: What Every Superuser Should Know, by  Brian Ward (Book)</a></li>
+<li><a href="https://linux-audit.com/bpfilter-next-generation-linux-firewall/">BPFilter: the next generation firewall for Linux (Article)</a></li>
+<li><a href="https://developers.redhat.com/blog/2018/12/03/network-debugging-with-ebpf#introduction">Network Debugging with eBPF - Redhat Developers (Article)</a></li>
+<li><a href="https://blog.openziti.io/using-ebpf-tc-to-securely-mangle-packets-in-the-kernel-and-pass-them-to-my-secure-networking-application">Using eBPF-TC to securely mangle Packets (Article)</a></li>
 </ul>
 
     </div>

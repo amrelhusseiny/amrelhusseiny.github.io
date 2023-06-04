@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Vagrant essential commands // Amr ElHusseiny&#39;s Blog</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vagrant essential commands"/>
+<meta name="twitter:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config."/>
+
+    <meta property="og:title" content="Vagrant essential commands" />
+<meta property="og:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0003_vagrant_labs/004_linux_0003_vagrant_commands/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2023-02-23T09:56:11+04:00" />
+<meta property="article:modified_time" content="2023-02-23T09:56:11+04:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Vagrant essential commands</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Feb 23, 2023
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <pre tabindex="0"><code># Check if any Enviroments running currently in vagrant
+$ vagrant global-status
+
+# Show the available local boxes
+$ vagrant box list
+
+# Add a new box to your inventory
+$ vagrant box add
+
+# Delete a box from your inventory
+$ vagrant box remove
+
+# Stop the virtual machines, does not delete the downloaded images though
+$ vagrant destroy
+
+# To run a command after the VM is created : 
+config.vm.provision &#34;shell&#34;,
+    inline: &#34;echo Hello from provisioner&#34;
+
+# To increase Disk size of a VM, you need to install a plugin 
+$ vagrant plugin install vagrant-disksize
+# and then add the following line to the Vagrantfile 
+config.disksize.size = &#39;50GB&#39;
+
+# To configure private IP for the VM , and create a private networ (It has to be in the Provider &#34;VirtualBox&#34; network range)
+node.vm.network :private_network, ip: &#34;192.168.56.100&#34;
+node.vm.hostname = &#34;node-1&#34; 
+
+# To copy your public key to your vagrant hosts 
+node.vm.provision &#34;file&#34;, source: &#34;~/.ssh/id_rsa.pub&#34;, destination: &#34;~/.ssh/me.pub&#34;
+
+# To check running boxes configuration , IPs and Ports assigned to each box
+$ vagrant ssh-config
+
+# Port forwarding between VM and the Host machine
+$ node.vm.network &#34;forwarded_port&#34;, guest: 22, host: 8825
+
+# Syncing folder between host and VM (1st path is Host&#39;s path)
+$ node.vm.synced_folder &#34;HOST_PATH&#34;, &#34;VM_PATH&#34;
+$ node.vm.synced_folder &#34;.&#34;, &#34;/vagrant&#34;, disabled: false
+</code></pre>
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

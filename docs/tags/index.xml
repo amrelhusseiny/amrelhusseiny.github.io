@@ -6,10 +6,51 @@
     <description>Recent content in Tags on Amr ElHusseiny&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>automation</title>
+      <link>https://amrelhusseiny.github.io/tags/automation/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/automation/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>containers</title>
+      <link>https://amrelhusseiny.github.io/tags/containers/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/containers/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>docker</title>
+      <link>https://amrelhusseiny.github.io/tags/docker/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gnmi</title>
+      <link>https://amrelhusseiny.github.io/tags/gnmi/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/gnmi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>networks</title>
+      <link>https://amrelhusseiny.github.io/tags/networks/</link>
+      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
+      
+      <guid>https://amrelhusseiny.github.io/tags/networks/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>MANRS</title>
@@ -17,15 +58,6 @@
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
       
       <guid>https://amrelhusseiny.github.io/tags/manrs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>networks</title>
-      <link>https://amrelhusseiny.github.io/tags/networks/</link>
-      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/networks/</guid>
       <description></description>
     </item>
     
