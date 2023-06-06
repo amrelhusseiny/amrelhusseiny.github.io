@@ -35,5 +35,6 @@ In a Fat-Tree layout many layouts exists, but the most common is what is called 
 - [Fat Trees Design - Article](https://clusterdesign.org/fat-trees/)
 - [Jupiter Rising: A Decade of Clos Topologies and Centralized Control in Google’s Datacenter Network](http://rule11.tech/papers/2015-jupiterrising.pdf)
 - [Cisco Live - A Comparison of Service Provider Network Designs and Tradeoffs](https://www.ciscolive.com/c/dam/r/ciscolive/apjc/docs/2019/pdf/BRKSPG-2682.pdf)
+- [Cisco Live (Video) - Spines, Leafs, Trees and Meshes - A Comparison of Service Provider Network Designs and Tradeoffs -](https://www.ciscolive.com/on-demand/on-demand-details.html?#/video/1636411425379002rkwA)
 - [B4: Experience with a Globally Deployed Software Defined WAN
 ](https://research.google/pubs/pub41761/)
