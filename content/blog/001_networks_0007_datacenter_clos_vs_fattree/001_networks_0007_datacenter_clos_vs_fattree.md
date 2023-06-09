@@ -9,7 +9,8 @@ draft: true
 I started writing this article after reading the amazing __[A universal approach to data center network design (Paper)](https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf)__ paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.
 
 ## Pre concepts
-- **Blocking vs Non-Blocking** : 
+- **Blocking vs Non-Blocking** : The concept of a blocking network originated 1st in the Circuit switching world where it meant that when a circuit is used by a client, then its blocking (Not available/Consumed), in packet switched networks, it simply means that the number of talking inputs (could be bandwidth) maintained through path to the output.
+
 - **Flat Neighborhood Network** : 
 - **Cable Bundling** : What is cable bundling in the data center and why is it a mor cost effective way reducing Fiber and Optex cost substantially, and since they eat up most of the cost of DCs , 
 - **Bisection Bandwodth** :  is the maximum capacity between any 2 servers in the datacneter, used to indicate the bandwidth capacity of a data center fabric.
@@ -28,6 +29,10 @@ by design a tree is free of loops, which can simplify the routing design very mu
 
 The __Fat__ in fat trees generally refers to that the higher you go in the tree, the bigger the links get from bandwidth standpoint.
 
+In Fat Tree it generally means there is multiple paths from the Source to the Root switch (Upwards) in the tree (The highest level switch) but it also means that there is a single path from the Root switch to the destination.
+
+If you fold a 5 stage CLOS topology into a FAT Tree, you will get the familiar Core/Aggregation/Edge topology used in many data centers, 
+
 They tend to stick to a layered design of Super Spine, Spine and leaf layers.
 
 In a Fat-Tree layout many layouts exists, but the most common is what is called Butterfly Fat-Tree, in which 
@@ -42,6 +47,13 @@ In a Fat-Tree layout many layouts exists, but the most common is what is called 
 Unlike trees , they are not really formally defined, it consists of a bunch of trees connected together, but they are mych more scalable.
 
 Fabrics are much easier to Automate since they have a hirarichal design , and preformatted roles for the devices .
+
+### CLOS (Charles Clos)
+
+There are a number of CLOS tplogies, like 3, 5, 7, and even 9 Stage CLOS networks, 
+
+2 Level CLOS network, commonly known as Spine/Leaf, can also be refered to as folded CLOS topology.
+
 
 ## CLOS, what else is out there ?
 ### HyperX
@@ -62,3 +74,7 @@ Fabrics are much easier to Automate since they have a hirarichal design , and pr
 - [Google B4: Experience with a Globally Deployed Software Defined WAN - Backbone
 ](https://research.google/pubs/pub41761/)
 - [Youtube - Facebook Datacenter Fabric](https://www.youtube.com/watch?v=kcI3fGEait0)
+- [Demystifying DCN Topologies: Clos/Fat Trees – Part1
+](https://packetpushers.net/demystifying-dcn-topologies-clos-fat-trees-part1/)
+- [A Scalable, Commodity Data Center Network Architecture](http://ccr.sigcomm.org/online/files/p63-alfares.pdf)
+- If you need to really deep dive in the CLOS methodology [Paper - Charles Clos - A study of Non blocking switching networks](https://www.gdt.id.au/~gdt/presentations/2016-07-05-questnet-sdn/papers/bell195303--clos--a-study-of-non-blocking-switching-networks.pdf)
