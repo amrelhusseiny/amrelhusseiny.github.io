@@ -13,7 +13,7 @@ module:
     extended: true
 
 params:
-  author: Amr ElHusseiny
+  author: Amro ElHusseini
   avatar: "amr_photo.jpeg"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
