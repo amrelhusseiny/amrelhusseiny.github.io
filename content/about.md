@@ -1,6 +1,6 @@
 # Hi ,
 
-My name is Amr El Husseiny, from Egypt ,
+My name is Amro El Husseini,
 
 My career started as a Network engineer, and there is where my passion still reside, I started this blog site in order to document some of the knowledge i needed over my journey, and also to visit some of the theoritical topics that may not show themselves in the day to day work.
 
