@@ -12,6 +12,8 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 
 {{< about_timeline >}}
 
+- Network Systems Engineer - Hyundai Autoever GmbH - (July 2023 - Current) 
+- Cloud as Systems Engineer - G42 Cloud - (March 2023 - June 2023) 
 - Cloud Networks and Automation Engineer, Network Domain - Ericsson - ( November 2022 - Current)
 - Public Cloud Operations Engineer, Network Domain - Orange Business Services - (August 2021 - October 2022)
 - IP Core Planning Senior Engineer - Telecom Egypt (WE) - (June 2019 - July 2021)
@@ -61,6 +63,34 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 - [Julio PDX Blog - Routing Blog](https://juliopdx.com/posts/)
 - [Extra Hop (TCP) ](https://forums.extrahop.com)
 - [Packet Pioneer (TCP)](https://packetpioneer.com/blog/)
+- [Linux Foundation Networking](https://wiki.linuxfoundation.org/networking/start)
+- [Bootlin](https://bootlin.com)
+- [Site Reliability Engineer Handbook](https://s905060.gitbooks.io/site-reliability-engineer-handbook/content/)
+- [ipSpace.net](https://blog.ipspace.net/page/2.html)
+- [The Next Platform](https://www.nextplatform.com)
+- [Networks Kubernetes Course](https://www.youtube.com/watch?v=uR2uQ2o4sWY)
+- [The Register Networks](https://www.theregister.com/on_prem/networks/)
+- [RPKI Week 2022](https://www.manrs.org/event/rpki-week-2022/)
+- [Network OP](https://networkop.co.uk/#posts)
+- [YouTube Video](https://www.youtube.com/c/NetnodInternetExchangeiSverigeAB)
+- [Brian Linkletter](https://www.brianlinkletter.com)
+- [AutomationBlog](https://karneliuk.com/2021/12/automation-6-multi-vendor-network-automation-in-2021-2022-napalm-vs-openconfig/)
+- [Rob's Channel](https://rob.sh/post/)
+- [YouTube Video](https://www.youtube.com/channel/UCR5cZ-0On8CYpSjaeXDhxEg/videos)
+- [Rule 11](https://rule11.tech)
+- [Routingcraft](https://routingcraft.net/)
+- [Network Fun Times](https://www.networkfuntimes.com)
+- [OpenDaylight](https://wiki.opendaylight.org/display/ODL/OpenDaylight)
+- [Intel Networking](https://www.intel.com/content/www/us/en/developer/topic-technology/networking/overview.html)
+- [Julio PDX](https://juliopdx.com/posts/)
+- [Toonk](https://toonk.io/index.html)
+- [OpenStack Lab Handbook](https://sureshkvl.gitbooks.io/openstack-lab-hand-book/content/)
+- [Server World - Firewalld](https://www.server-world.info/en/note?os=CentOS_Stream_9&p=firewalld&f=2)
+- [Fir3net](https://www.fir3net.com)
+- [The Network Sherpa](http://thenetworksherpa.com/)
+- [Packet Coders Blog](https://www.packetcoders.io/tag/blog/)
+- [PacketLife.net](https://packetlife.net)
+
 
 ### Papers Worth Reading
 - [A universal apporach to Data center network design](https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf)
