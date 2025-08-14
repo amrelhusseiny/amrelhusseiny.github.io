@@ -36,6 +36,8 @@ I have a lot of intrest in how some things work under the hood, also I am an avi
 
 
 ## Blogs worth checking
+### AI
+- [Modal-GPUGLossary](https://modal.com/gpu-glossary)
 ### News about all things
 - [Hackers News](https://news.ycombinator.com/news)
 
