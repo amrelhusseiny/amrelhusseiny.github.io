@@ -1,32 +1,36 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=40147&amp;path=livereload" data-no-instant defer></script>
     <title>Vagrant essential commands // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Hugo 0.148.2">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+    <link rel="stylesheet" href="/css/main.min.57dae44d0dd8e88b8cf9ab993efe92e332df408dd309fef7a0927c76ad4b998a.css" />
 
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Vagrant essential commands"/>
-<meta name="twitter:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config."/>
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Vagrant essential commands">
+  <meta name="twitter:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config.vm.provision &#34;shell&#34;, inline: &#34;echo Hello from provisioner&#34; # To increase Disk size of a VM, you need to install a plugin $ vagrant plugin install vagrant-disksize # and then add the following line to the Vagrantfile config.disksize.size = &#39;50GB&#39; # To configure private IP for the VM , and create a private networ (It has to be in the Provider &#34;VirtualBox&#34; network range) node.vm.network :private_network, ip: &#34;192.168.56.100&#34; node.vm.hostname = &#34;node-1&#34; # To copy your public key to your vagrant hosts node.vm.provision &#34;file&#34;, source: &#34;~/.ssh/id_rsa.pub&#34;, destination: &#34;~/.ssh/me.pub&#34; # To check running boxes configuration , IPs and Ports assigned to each box $ vagrant ssh-config # Port forwarding between VM and the Host machine $ node.vm.network &#34;forwarded_port&#34;, guest: 22, host: 8825 # Syncing folder between host and VM (1st path is Host&#39;s path) $ node.vm.synced_folder &#34;HOST_PATH&#34;, &#34;VM_PATH&#34; $ node.vm.synced_folder &#34;.&#34;, &#34;/vagrant&#34;, disabled: false">
 
-    <meta property="og:title" content="Vagrant essential commands" />
-<meta property="og:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0003_vagrant_labs/004_linux_0003_vagrant_commands/" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2023-02-23T09:56:11+04:00" />
-<meta property="article:modified_time" content="2023-02-23T09:56:11+04:00" />
+    <meta property="og:url" content="http://localhost:40147/blog/004_linux_0003_vagrant_labs/004_linux_0003_vagrant_commands/">
+  <meta property="og:site_name" content="Amr ElHusseiny&#39;s Blog">
+  <meta property="og:title" content="Vagrant essential commands">
+  <meta property="og:description" content="# Check if any Enviroments running currently in vagrant $ vagrant global-status # Show the available local boxes $ vagrant box list # Add a new box to your inventory $ vagrant box add # Delete a box from your inventory $ vagrant box remove # Stop the virtual machines, does not delete the downloaded images though $ vagrant destroy # To run a command after the VM is created : config.vm.provision &#34;shell&#34;, inline: &#34;echo Hello from provisioner&#34; # To increase Disk size of a VM, you need to install a plugin $ vagrant plugin install vagrant-disksize # and then add the following line to the Vagrantfile config.disksize.size = &#39;50GB&#39; # To configure private IP for the VM , and create a private networ (It has to be in the Provider &#34;VirtualBox&#34; network range) node.vm.network :private_network, ip: &#34;192.168.56.100&#34; node.vm.hostname = &#34;node-1&#34; # To copy your public key to your vagrant hosts node.vm.provision &#34;file&#34;, source: &#34;~/.ssh/id_rsa.pub&#34;, destination: &#34;~/.ssh/me.pub&#34; # To check running boxes configuration , IPs and Ports assigned to each box $ vagrant ssh-config # Port forwarding between VM and the Host machine $ node.vm.network &#34;forwarded_port&#34;, guest: 22, host: 8825 # Syncing folder between host and VM (1st path is Host&#39;s path) $ node.vm.synced_folder &#34;HOST_PATH&#34;, &#34;VM_PATH&#34; $ node.vm.synced_folder &#34;.&#34;, &#34;/vagrant&#34;, disabled: false">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-02-23T09:56:11+04:00">
+    <meta property="article:modified_time" content="2023-02-23T09:56:11+04:00">
 
 
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <a href="http://localhost:40147/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro ElHusseini" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>

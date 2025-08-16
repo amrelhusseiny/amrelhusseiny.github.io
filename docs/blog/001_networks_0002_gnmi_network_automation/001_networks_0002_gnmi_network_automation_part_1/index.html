@@ -1,32 +1,41 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=40147&amp;path=livereload" data-no-instant defer></script>
     <title>gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Hugo 0.148.2">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab" />
-    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+    <link rel="stylesheet" href="/css/main.min.57dae44d0dd8e88b8cf9ab993efe92e332df408dd309fef7a0927c76ad4b998a.css" />
 
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab"/>
-<meta name="twitter:description" content="1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab"/>
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab">
+  <meta name="twitter:description" content="1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab">
 
-    <meta property="og:title" content="gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab" />
-<meta property="og:description" content="1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2022-12-05T11:19:06+02:00" />
-<meta property="article:modified_time" content="2022-12-05T11:19:06+02:00" />
+    <meta property="og:url" content="http://localhost:40147/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/">
+  <meta property="og:site_name" content="Amr ElHusseiny&#39;s Blog">
+  <meta property="og:title" content="gNMI Network Automation (1/3) : Simulating network topologies with ContainerLab">
+  <meta property="og:description" content="1st Part of 3 part series, in this one, we will be exploring how to simulate networks using ContainerLab">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-12-05T11:19:06+02:00">
+    <meta property="article:modified_time" content="2022-12-05T11:19:06+02:00">
+    <meta property="article:tag" content="Networks">
+    <meta property="article:tag" content="Automation">
+    <meta property="article:tag" content="Containers">
+    <meta property="article:tag" content="Docker">
+    <meta property="article:tag" content="Gnmi">
 
 
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <a href="http://localhost:40147/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro ElHusseini" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -78,11 +87,11 @@
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line>
 </svg>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/networks/">networks</a>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/automation/">automation</a>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/containers/">containers</a>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/docker/">docker</a>
-              <a class="tag" href="https://amrelhusseiny.github.io/tags/gnmi/">gnmi</a>
+              <a class="tag" href="http://localhost:40147/tags/networks/">Networks</a>
+              <a class="tag" href="http://localhost:40147/tags/automation/">Automation</a>
+              <a class="tag" href="http://localhost:40147/tags/containers/">Containers</a>
+              <a class="tag" href="http://localhost:40147/tags/docker/">Docker</a>
+              <a class="tag" href="http://localhost:40147/tags/gnmi/">Gnmi</a>
         </div>
       </div>
     </header>
@@ -94,7 +103,7 @@
     <li><a href="#introduction">Introduction</a>
       <ul>
         <li><a href="#containerlab-supported-platforms-kinds">ContainerLab supported platforms (Kinds)</a></li>
-        <li><a href="#before-we-start-you-can-follow-the-containerlab-installation-guide-herehttpscontainerlabdevinstall">before we start, You can follow the containerlab installation guide <a href="https://containerlab.dev/install/">here</a>.</a></li>
+        <li><a href="#before-we-start-you-can-follow-the-containerlab-installation-guide-here">before we start, You can follow the containerlab installation guide <a href="https://containerlab.dev/install/">here</a>.</a></li>
       </ul>
     </li>
     <li><a href="#packaging-our-qcow-into-containers">Packaging our QCOW into containers</a></li>
@@ -154,7 +163,7 @@ Answer, you Network lab acts like a K8S deployment, so for example, i have multi
 <li>Linux container</li>
 <li>Openvswitch bridge</li>
 </ul>
-<h3 id="before-we-start-you-can-follow-the-containerlab-installation-guide-herehttpscontainerlabdevinstall">before we start, You can follow the containerlab installation guide <a href="https://containerlab.dev/install/">here</a>.</h3>
+<h3 id="before-we-start-you-can-follow-the-containerlab-installation-guide-here">before we start, You can follow the containerlab installation guide <a href="https://containerlab.dev/install/">here</a>.</h3>
 <h2 id="packaging-our-qcow-into-containers">Packaging our QCOW into containers</h2>
 <p>1st you need to provide the image file just like the EVE-NG one, some images has open source or trial versions if your vendor does not provide a testing image.
 Here we will try with Cisco&rsquo;s IOS-XR 9K 6.5.1, I suggest you clone the <a href="https://github.com/hellt/vrnetlab">Hellt/VrentLab</a> Github page :</p>

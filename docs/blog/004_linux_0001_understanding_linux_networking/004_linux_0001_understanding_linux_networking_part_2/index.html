@@ -1,34 +1,38 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=40147&amp;path=livereload" data-no-instant defer></script>
     <title>DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Hugo 0.148.2">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+    <link rel="stylesheet" href="/css/main.min.57dae44d0dd8e88b8cf9ab993efe92e332df408dd309fef7a0927c76ad4b998a.css" />
 
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack"/>
-<meta name="twitter:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
-Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example."/>
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack">
+  <meta name="twitter:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
+Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example. NF Diagram This is how logically the Network Filter Hooks are embeded into the Linux Kernel, these are the same hooks used by IPTables to apply the rules :">
 
-    <meta property="og:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack" />
-<meta property="og:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
-Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2022-12-26T20:03:57+02:00" />
-<meta property="article:modified_time" content="2022-12-26T20:03:57+02:00" />
+    <meta property="og:url" content="http://localhost:40147/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/">
+  <meta property="og:site_name" content="Amr ElHusseiny&#39;s Blog">
+  <meta property="og:title" content="DRAFT Linux Networking Part 2 : Firewalling in the Linux Net Stack">
+  <meta property="og:description" content="Table Of ContentsIntroduction Some concepts NF Diagram IPTables Firewalld BP Filter Extra tools tc (Traffic Control) References Introduction In linux, Firewalling is briefly done in steps, Hooks that listen and take action in some particular places in the Kernel, and Tables that include the rules that will be implemented on these hooks.
+Some concepts Packet Mangling : refers to modification of the IP header, like changing TTL for example, to be clear, there are 3 concepts, Filtering, NATing, which is kind of mangling since it changes the IP Header, and Mangling, which extends NATing by being able to change things like the TTL, and the TOS for example. NF Diagram This is how logically the Network Filter Hooks are embeded into the Linux Kernel, these are the same hooks used by IPTables to apply the rules :">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-12-26T20:03:57+02:00">
+    <meta property="article:modified_time" content="2022-12-26T20:03:57+02:00">
 
 
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <a href="http://localhost:40147/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro ElHusseini" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>

@@ -2,82 +2,67 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Amr ElHusseiny&#39;s Blog</title>
-    <link>https://amrelhusseiny.github.io/tags/</link>
+    <link>http://localhost:40147/tags/</link>
     <description>Recent content in Tags on Amr ElHusseiny&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate><atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate>
+    <atom:link href="http://localhost:40147/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>automation</title>
-      <link>https://amrelhusseiny.github.io/tags/automation/</link>
+      <title>Automation</title>
+      <link>http://localhost:40147/tags/automation/</link>
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/automation/</guid>
+      <guid>http://localhost:40147/tags/automation/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>containers</title>
-      <link>https://amrelhusseiny.github.io/tags/containers/</link>
+      <title>Containers</title>
+      <link>http://localhost:40147/tags/containers/</link>
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/containers/</guid>
+      <guid>http://localhost:40147/tags/containers/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>docker</title>
-      <link>https://amrelhusseiny.github.io/tags/docker/</link>
+      <title>Docker</title>
+      <link>http://localhost:40147/tags/docker/</link>
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/docker/</guid>
+      <guid>http://localhost:40147/tags/docker/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>gnmi</title>
-      <link>https://amrelhusseiny.github.io/tags/gnmi/</link>
+      <title>Gnmi</title>
+      <link>http://localhost:40147/tags/gnmi/</link>
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/gnmi/</guid>
+      <guid>http://localhost:40147/tags/gnmi/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>networks</title>
-      <link>https://amrelhusseiny.github.io/tags/networks/</link>
+      <title>Networks</title>
+      <link>http://localhost:40147/tags/networks/</link>
       <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/networks/</guid>
+      <guid>http://localhost:40147/tags/networks/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>MANRS</title>
-      <link>https://amrelhusseiny.github.io/tags/manrs/</link>
+      <link>http://localhost:40147/tags/manrs/</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/manrs/</guid>
+      <guid>http://localhost:40147/tags/manrs/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>security</title>
-      <link>https://amrelhusseiny.github.io/tags/security/</link>
+      <title>Security</title>
+      <link>http://localhost:40147/tags/security/</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/security/</guid>
+      <guid>http://localhost:40147/tags/security/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>backbone</title>
-      <link>https://amrelhusseiny.github.io/tags/backbone/</link>
+      <title>Backbone</title>
+      <link>http://localhost:40147/tags/backbone/</link>
       <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
-      
-      <guid>https://amrelhusseiny.github.io/tags/backbone/</guid>
+      <guid>http://localhost:40147/tags/backbone/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

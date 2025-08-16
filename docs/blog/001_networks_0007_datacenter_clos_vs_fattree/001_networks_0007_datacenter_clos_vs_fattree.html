@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=42599&amp;path=livereload" data-no-instant defer></script>
+    <title>DRAFT	Data center network design (CLOS vs FAT TREE) // Amro Elhusseini</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.148.2">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Amro Elhusseini" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/style.css" />
+    
+<link rel="stylesheet" href="/css/main.css" />
+
+    
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DRAFT	Data center network design (CLOS vs FAT TREE)">
+  <meta name="twitter:description" content="Introduction I started writing this article after reading the amazing A universal approach to data center network design (Paper) paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.
+Pre concepts Blocking vs Non-Blocking : The concept of a blocking network originated 1st in the Circuit switching world where it meant that when a circuit is used by a client, then its blocking (Not available/Consumed), in packet switched networks, it simply means that the number of talking inputs (could be bandwidth) maintained through path to the output.">
+
+    <meta property="og:url" content="http://localhost:42599/blog/001_networks_0007_datacenter_clos_vs_fattree/001_networks_0007_datacenter_clos_vs_fattree.html">
+  <meta property="og:site_name" content="Amro Elhusseini">
+  <meta property="og:title" content="DRAFT	Data center network design (CLOS vs FAT TREE)">
+  <meta property="og:description" content="Introduction I started writing this article after reading the amazing A universal approach to data center network design (Paper) paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.
+Pre concepts Blocking vs Non-Blocking : The concept of a blocking network originated 1st in the Circuit switching world where it meant that when a circuit is used by a client, then its blocking (Not available/Consumed), in packet switched networks, it simply means that the number of talking inputs (could be bandwidth) maintained through path to the output.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2023-02-08T22:15:46+02:00">
+    <meta property="article:modified_time" content="2023-02-08T22:15:46+02:00">
+
+
+    
+  <script src="/js/theme.min.a7a2131b9309e427380ae2c71410f9c0242c0f8e1e86c14588b51d52346fb16e.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="http://localhost:42599/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
+      <span class="app-header-title">Amro Elhusseini</span>
+      <nav class="app-header-menu">
+          <a class="app-header-menu-item" href="/about">About</a>
+            <br>
+          
+          <a class="app-header-menu-item" href="/blog">Blog</a>
+      </nav>
+      <button id="theme-toggle" aria-label="Toggle theme"></button>
+      
+      <p>Network engineer and Automation advocate</p>
+      <div class="app-header-social">
+        
+          <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>amrelhusseiny Github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg>
+          </a>
+        
+          <a href="https://www.linkedin.com/in/amr-abd-el-halim-2a330456" target="_blank" rel="noreferrer noopener me">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-linkedin">
+  <title>amrelhusseiny linkedin</title>
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+</svg>
+          </a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">DRAFT	Data center network design (CLOS vs FAT TREE)</h1>
+      <div class="post-meta">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Feb 8, 2023
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          4 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <h2 id="introduction">Introduction</h2>
+<p>I started writing this article after reading the amazing <strong><a href="https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf">A universal approach to data center network design (Paper)</a></strong> paper laying down, the diffirence between following the CLOS design and the FAT Tree design, in this article i will summerise the finidings and give a brief about each design approach.</p>
+<h2 id="pre-concepts">Pre concepts</h2>
+<ul>
+<li>
+<p><strong>Blocking vs Non-Blocking</strong> : The concept of a blocking network originated 1st in the Circuit switching world where it meant that when a circuit is used by a client, then its blocking (Not available/Consumed), in packet switched networks, it simply means that the number of talking inputs (could be bandwidth) maintained through path to the output.</p>
+</li>
+<li>
+<p><strong>Flat Neighborhood Network</strong> :</p>
+</li>
+<li>
+<p><strong>Cable Bundling</strong> : What is cable bundling in the data center and why is it a mor cost effective way reducing Fiber and Optex cost substantially, and since they eat up most of the cost of DCs ,</p>
+</li>
+<li>
+<p><strong>Bisection Bandwodth</strong> :  is the maximum capacity between any 2 servers in the datacneter, used to indicate the bandwidth capacity of a data center fabric.</p>
+</li>
+</ul>
+<h2 id="datacenter-and-service-provider-perspective">Datacenter and Service Provider perspective</h2>
+<ul>
+<li>In the Datacenter you have thousands to tens of thousands of switchs , so software upgrdaes has to be seemless and automated because its not feasable that you do the upgrade by hand, unlike the service provider multi card chassis devices, which mostly depend on draining the traffic (divert traffic from this node) , upgrading and rebooting .</li>
+<li>Using a Spine/Leaf topology on the service provider does not make sense because of the amount of Interconnections needed between the network devices to establish the Spine/Leaf, so instead in the service provider , we use a multi card chassis which simulates the Spine using Fabric/Backplane cards and the Leafs using Line cards, each of them has its own NPUs (Network Processing Units) which can act as separate nodes.</li>
+<li>The cost of the optics and interconnection between devices are very expensive, so either use bundling of the fiber or it makes more sense to use multi-card chassis instead.</li>
+<li>IGP does not scale well in big datacenters, so you have to either summerize the tree subnets upwards, oruse BGP.</li>
+</ul>
+<h2 id="what-is-clos-and-fat-tree">What is CLOS and Fat Tree</h2>
+<h3 id="fat-tree-layout">Fat-Tree layout</h3>
+<p>by design a tree is free of loops, which can simplify the routing design very much since you donot have to account for loops .</p>
+<p>The <strong>Fat</strong> in fat trees generally refers to that the higher you go in the tree, the bigger the links get from bandwidth standpoint.</p>
+<p>In Fat Tree it generally means there is multiple paths from the Source to the Root switch (Upwards) in the tree (The highest level switch) but it also means that there is a single path from the Root switch to the destination.</p>
+<p>If you fold a 5 stage CLOS topology into a FAT Tree, you will get the familiar Core/Aggregation/Edge topology used in many data centers,</p>
+<p>They tend to stick to a layered design of Super Spine, Spine and leaf layers.</p>
+<p>In a Fat-Tree layout many layouts exists, but the most common is what is called Butterfly Fat-Tree, in which</p>
+<ul>
+<li>Each Child node (Switch) connects with a link to the processing node (Server).</li>
+<li>Each Child node (Switch) connects with a link to the Parent node (Switch).</li>
+<li>Nodes (Switches) at the same level dont connect to each other.</li>
+<li>With Fat-trees , mostly the parent and child nodes use the same model (These days, a 1RU switch)</li>
+<li>The number of links going to the servers from the child nodes equals the number of links connecting to the Parent node</li>
+</ul>
+<h3 id="fabrics">Fabrics</h3>
+<p>Unlike trees , they are not really formally defined, it consists of a bunch of trees connected together, but they are mych more scalable.</p>
+<p>Fabrics are much easier to Automate since they have a hirarichal design , and preformatted roles for the devices .</p>
+<h3 id="clos-charles-clos">CLOS (Charles Clos)</h3>
+<p>There are a number of CLOS tplogies, like 3, 5, 7, and even 9 Stage CLOS networks,</p>
+<p>2 Level CLOS network, commonly known as Spine/Leaf, can also be refered to as folded CLOS topology.</p>
+<h2 id="clos-what-else-is-out-there-">CLOS, what else is out there ?</h2>
+<h3 id="hyperx">HyperX</h3>
+<h3 id="dcell">Dcell</h3>
+<h3 id="bcube">BCube</h3>
+<h3 id="jellyfish">Jellyfish</h3>
+<h2 id="side-notes">Side notes</h2>
+<ul>
+<li>When you use a Modular or a Multi Chassis product, you are actually using a Spine/Leaf topology in a single chassis packaged by the vendor in which , the Line cards act as the Leaf switches and the Backplane/ Fabric cards acting as the spine switches.</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf">A universal approach to data center network design (Paper)</a></li>
+<li><a href="https://clusterdesign.org/fat-trees/">Fat Trees Design - Article</a></li>
+<li><a href="http://rule11.tech/papers/2015-jupiterrising.pdf">Jupiter Rising: A Decade of Clos Topologies and Centralized Control in Google’s Datacenter Network</a></li>
+<li><a href="https://www.ciscolive.com/c/dam/r/ciscolive/apjc/docs/2019/pdf/BRKSPG-2682.pdf">Cisco Live - A Comparison of Service Provider Network Designs and Tradeoffs</a></li>
+<li><a href="https://www.ciscolive.com/on-demand/on-demand-details.html?#/video/1636411425379002rkwA">Cisco Live (Video) - Spines, Leafs, Trees and Meshes - A Comparison of Service Provider Network Designs and Tradeoffs -</a></li>
+<li><a href="https://research.google/pubs/pub41761/">Google B4: Experience with a Globally Deployed Software Defined WAN - Backbone
+</a></li>
+<li><a href="https://www.youtube.com/watch?v=kcI3fGEait0">Youtube - Facebook Datacenter Fabric</a></li>
+<li><a href="https://packetpushers.net/demystifying-dcn-topologies-clos-fat-trees-part1/">Demystifying DCN Topologies: Clos/Fat Trees – Part1
+</a></li>
+<li><a href="http://ccr.sigcomm.org/online/files/p63-alfares.pdf">A Scalable, Commodity Data Center Network Architecture</a></li>
+<li>If you need to really deep dive in the CLOS methodology <a href="https://www.gdt.id.au/~gdt/presentations/2016-07-05-questnet-sdn/papers/bell195303--clos--a-study-of-non-blocking-switching-networks.pdf">Paper - Charles Clos - A study of Non blocking switching networks</a></li>
+</ul>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
