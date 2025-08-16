@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-us">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=45269&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=44883&amp;path=livereload" data-no-instant defer></script>
     <title>Python&#39;s Netmiko starter template // Amro Elhusseini</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amro Elhusseini" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/style.css" />
-    
     <link rel="stylesheet" href="/main.min.10276a1a5eb3b22c542ecd5b22af0cd622264b366fcbe85ce5388257cf6d6e84.css" />
 
     
@@ -20,7 +18,7 @@
 Netmiko Source Code : Netmiko Github API reference (must check for more functionality) : Netmiko Doc
 # netmiko_starter.py from netmiko import ConnectHandlerdevice_dictionary = {&#39;device_type&#39;: &#39;DEVICE_TYPE&#39;, &#39;host&#39;: &#39;DEVICE_IP_ADDRESS&#39;,&#39;username&#39;: &#39;USERNAME&#39;,&#39;password&#39; : &#39;PASSWORD&#39;,# &#39;verbose&#39;: False ,# &#39;session_log&#39;: &#39;log.txt&#39;, # &#39;global_delay_factor&#39;: 2, }net_connect = ConnectHandler(**device_dictionary)output = net_connect.send_command(&#34;show version&#34;)net_connect.disconnect() Comments on the code : uncomment verbose if you want to disable Netmiko’s Logs . uncomment session_log to debug the connection failures . uncomment _ global_delay_factor_ to add delay when waiting for commands output , very useful if the devices are slow , note that this is not in seconds but in multiple , so “2” mean multiply the default delay by 2 and so on For more functionality , like the types of devices supported , please check the API docs .">
 
-    <meta property="og:url" content="http://localhost:45269/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/">
+    <meta property="og:url" content="http://localhost:44883/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/">
   <meta property="og:site_name" content="Amro Elhusseini">
   <meta property="og:title" content="Python&#39;s Netmiko starter template">
   <meta property="og:description" content="Table Of ContentsComments on the code : The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :
@@ -37,7 +35,7 @@ Netmiko Source Code : Netmiko Github API reference (must check for more function
   </head>
   <body>
     <header class="app-header">
-      <a href="http://localhost:45269/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
+      <a href="http://localhost:44883/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
       <span class="app-header-title">Amro Elhusseini</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
