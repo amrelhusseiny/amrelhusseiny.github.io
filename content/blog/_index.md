@@ -1,1 +1,5 @@
-<!-- _index.md --
+---
+title: "Blog"
+cascade:
+  - _index.md
+---

@@ -3,7 +3,7 @@
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
 theme: "m10c"
-title: "Amr ElHusseiny's Blog"
+title: "Amro Elhusseini"
 languageCode: "en-us"
 publishDir: "docs"
 
@@ -13,7 +13,7 @@ module:
     extended: true
 
 params:
-  author: Amro ElHusseini
+  author: Amro Elhusseini
   avatar: "amr_photo.jpeg"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
@@ -27,11 +27,13 @@ params:
       url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
   style:
-    darkestColor: "#242930"
-    darkColor: "#afbac4"
-    lightColor: "#f8f8f8"
-    lightestColor: "#ffffff"
-    primaryColor: "#57cc8a"
+    darkestColor: "#ffffff"
+    darkColor: "#ffffff"
+    lightColor: "#353b43"
+    lightestColor: "#242930"
+    primaryColor: "#666666"
+
+  
 
 markup:
   goldmark:
