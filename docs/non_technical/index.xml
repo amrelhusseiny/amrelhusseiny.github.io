@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Amr ElHusseiny&#39;s Blog</title>
-    <link>http://localhost:40147/non_technical/</link>
-    <description>Recent content on Amr ElHusseiny&#39;s Blog</description>
+    <title>Amro Elhusseini</title>
+    <link>http://localhost:35733/non_technical/index.html</link>
+    <description>Recent content on Amro Elhusseini</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Jan 2023 22:30:36 +0200</lastBuildDate>
-    <atom:link href="http://localhost:40147/non_technical/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>0001_egypt_financial_outlook_jan_2023</title>
-      <link>http://localhost:40147/non_technical/0001_egypt_financial_outlook_jan_2023/0001_egypt_financial_outlook_jan_2023/</link>
-      <pubDate>Mon, 23 Jan 2023 22:30:36 +0200</pubDate>
-      <guid>http://localhost:40147/non_technical/0001_egypt_financial_outlook_jan_2023/0001_egypt_financial_outlook_jan_2023/</guid>
-      <description>&lt;h1 id=&#34;refereces&#34;&gt;Refereces&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.reuters.com/world/middle-east/egypt-economic-growth-this-year-seen-quicker-than-government-forecast-2023-01-25/#:~:text=The%20Egyptian%20pound%2C%20which%20closed,following%20year%2C%20the%20economists%20forecast.&#34;&gt;Egypt economic growth this year seen quicker than government forecast - Reuters poll - By patrick Werr&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
-    </item>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="http://localhost:35733/non_technical/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

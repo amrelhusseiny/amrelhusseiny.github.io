@@ -2,101 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:40147/blog/</loc>
+    <loc>http://localhost:35733/about.html</loc>
+    <lastmod>2025-08-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:35733/index.html</loc>
+    <lastmod>2025-08-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:35733/blog/index.html</loc>
     <lastmod>2023-06-04T13:26:58+04:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0008_russ_book/001_networks_0008_russ_book/</loc>
-    <lastmod>2023-06-04T13:26:58+04:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/</loc>
-    <lastmod>2023-06-04T13:26:58+04:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_4/</loc>
-    <lastmod>2023-03-05T11:25:51+04:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0003_vagrant_labs/004_linux_0003_vagrant_commands/</loc>
-    <lastmod>2023-02-23T09:56:11+04:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0007_datacenter_clos_vs_fattree/001_networks_0007_datacenter_clos_vs_fattree/</loc>
-    <lastmod>2023-02-08T22:15:46+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/non_technical/</loc>
+    <loc>http://localhost:35733/non_technical/index.html</loc>
     <lastmod>2023-01-23T22:30:36+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/non_technical/0001_egypt_financial_outlook_jan_2023/0001_egypt_financial_outlook_jan_2023/</loc>
-    <lastmod>2023-01-23T22:30:36+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/</loc>
+    <loc>http://localhost:35733/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet.html</loc>
     <lastmod>2023-01-01T13:50:32+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_3/</loc>
-    <lastmod>2022-12-27T11:26:01+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_2/</loc>
-    <lastmod>2022-12-26T20:03:57+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/</loc>
+    <loc>http://localhost:35733/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1.html</loc>
     <lastmod>2022-12-21T15:17:44+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/002_openstack_0001_openstack_homelab/002_openstack_0001_openstack_homelab_part_1/</loc>
-    <lastmod>2022-12-12T11:17:37+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/automation/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/containers/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/docker/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/gnmi/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_3/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/networks/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/</loc>
-    <lastmod>2022-12-05T11:19:13+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_2/</loc>
-    <lastmod>2022-12-05T11:19:10+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0002_gnmi_network_automation/001_networks_0002_gnmi_network_automation_part_1/</loc>
-    <lastmod>2022-12-05T11:19:06+02:00</lastmod>
-  </url><url>
-    <loc>http://localhost:40147/tags/manrs/</loc>
+    <loc>http://localhost:35733/tags/manrs.html</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki/</loc>
+    <loc>http://localhost:35733/tags/networks.html</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/tags/security/</loc>
+    <loc>http://localhost:35733/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki.html</loc>
     <lastmod>2022-12-04T23:40:47+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/tags/backbone/</loc>
+    <loc>http://localhost:35733/tags/security.html</loc>
+    <lastmod>2022-12-04T23:40:47+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:35733/tags/index.html</loc>
+    <lastmod>2022-12-04T23:40:47+02:00</lastmod>
+  </url><url>
+    <loc>http://localhost:35733/tags/backbone.html</loc>
     <lastmod>2022-09-10T11:11:25+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</loc>
+    <loc>http://localhost:35733/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918.html</loc>
     <lastmod>2022-09-10T11:11:25+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib/</loc>
+    <loc>http://localhost:35733/blog/001_networks_0004_drawio_lib/001_networks_0004_drawio_lib.html</loc>
     <lastmod>2022-09-06T11:26:44+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1/</loc>
+    <loc>http://localhost:35733/blog/001_networks_0005_understanding_networks_asics/001_networks_0005_understanding_networks_asics_part_1.html</loc>
     <lastmod>2022-09-04T11:55:10+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible/</loc>
+    <loc>http://localhost:35733/blog/003_cloud_0001_huwawei_cloud_egine_ansible/003_cloud_0001_huwawei_cloud_egine_ansible.html</loc>
     <lastmod>2022-08-25T12:19:49+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template/</loc>
+    <loc>http://localhost:35733/blog/001_networks_0006_python_netmiko_template/001_networks_0006_python_netmiko_template.html</loc>
     <lastmod>2022-07-17T12:36:51+02:00</lastmod>
   </url><url>
-    <loc>http://localhost:40147/about/</loc>
-  </url><url>
-    <loc>http://localhost:40147/categories/</loc>
+    <loc>http://localhost:35733/categories/index.html</loc>
   </url>
 </urlset>
