@@ -1,7 +1,18 @@
-
-content/.DS_Store
+# Hugo/Jekyll
+/public/
+/resources/
+/docs/
 .hugo_build.lock
-content/blog/.DS_Store
-content/blog/001_networks_0001_bgp_rpki/.DS_Store
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Operating System files
 .DS_Store
-content/blog/006_other_public_cloud.md
+Thumbs.db
+
+# Temporary files
+*~
+*.swp
+*.swo
+*.bkp

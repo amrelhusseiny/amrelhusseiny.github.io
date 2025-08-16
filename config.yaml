@@ -3,7 +3,7 @@
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
 theme: "m10c"
-title: "Amr ElHusseiny's Blog"
+title: "Amro Elhusseini"
 languageCode: "en-us"
 publishDir: "docs"
 
@@ -13,22 +13,11 @@ module:
     extended: true
 
 params:
-  author: Amro ElHusseini
+  author: Amro Elhusseini
   avatar: "amr_photo.jpeg"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
   favicon: "favicon.ico"
-  style:
-    ## SideBar Color
-    darkestColor: "#FFFFFF"
-    ## Text Color
-    darkColor: "#FFFFFF"
-    ## Link Colors (Menu and Blog Header Menus)
-    primaryColor: "#3e4041"
-    ## Body Font Color
-    lightColor: "#57595b"
-    ## Headers Color
-    lightestColor: "#3e4041"
   social:
     - icon: "github"
       name: "amrelhusseiny Github"
@@ -37,11 +26,32 @@ params:
       name: "amrelhusseiny linkedin"
       url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
+  style:
+    darkestColor: "#ffffff"
+    darkColor: "#ffffff"
+    lightColor: "#353b43"
+    lightestColor: "#242930"
+    primaryColor: "#666666"
+  
+
+  
+
 markup:
   goldmark:
     renderer:
       # Enabled to embed HTML Code into markdown
       unsafe: true
+
+uglyURLs: true
+
+mediaTypes:
+  text/css:
+    suffixes: ["css"]
+
+outputFormats:
+  CSS:
+    mediaType: "text/css"
+    baseName: "main"
 
 menu:
   main:
