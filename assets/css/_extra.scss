@@ -1,8 +1,55 @@
+/* 1. Define CSS variables for light and dark themes */
+:root {
+  --darkestColor: #FFFFFF;
+  --darkColor: #FFFFFF;
+  --primaryColor: #3e4041;
+  --lightColor: #57595b;
+  --lightestColor: #3e4041;
+  --card-bg: #f5f5f5;
+  --theme-toggle-icon: '☀️';
+}
+
+[data-theme="dark"] {
+  --darkestColor: #242930;
+  --darkColor: #353b43;
+  --primaryColor: #57cc8a;
+  --lightColor: #afbac4;
+  --lightestColor: #ffffff;
+  --card-bg: #353b43;
+  --theme-toggle-icon: '🌙';
+}
+
+/* 2. Override the theme's SCSS variables to use our new CSS variables */
+$darkest-color: var(--darkestColor);
+$dark-color: var(--darkColor);
+$light-color: var(--lightColor);
+$lightest-color: var(--lightestColor);
+$primary-color: var(--primaryColor);
+
+
+/* 3. Style the theme toggle button */
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  margin-left: 1rem;
+  line-height: 1;
+  color: var(--primaryColor);
+}
+
+#theme-toggle::after {
+  content: var(--theme-toggle-icon);
+}
+
+
+/* 4. Update existing styles to use CSS variables */
 .app-header-avatar {
   width: 8rem;
   height: 8rem;
   border-radius: 100%;
-  border: 0rem solid $primary-color;
+  border: 0rem solid var(--primaryColor);
 }
 
 .app-header-avatar {
@@ -19,7 +66,7 @@
 body {
 	line-height: 1.75rem;
     -webkit-font-smoothing: antialiased;
-    font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif
+    font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif;
 }
 
 @media print {
@@ -30,4 +77,85 @@ body {
 
 a{
   text-decoration: underline;
+}
+
+/* Two-column layout for about page intro */
+.about-intro {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.about-intro .about-intro-avatar img {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments for intro */
+@media screen and (max-width: 768px) {
+  .about-intro {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .about-intro .about-intro-avatar {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Card Grid Layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.book-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Link Card Specific Styles */
+.link-grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.link-card {
+  padding: 1.5rem;
+}
+
+.link-card .link-title {
+  margin-top: 0;
+  color: var(--lightestColor);
+}
+
+.link-card .link-description {
+  color: var(--lightColor);
+  font-size: 0.9rem;
+}
+
+.link-category-title {
+  margin-top: 3rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--card-bg);
 }

@@ -18,17 +18,6 @@ params:
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
   favicon: "favicon.ico"
-  style:
-    ## SideBar Color
-    darkestColor: "#FFFFFF"
-    ## Text Color
-    darkColor: "#FFFFFF"
-    ## Link Colors (Menu and Blog Header Menus)
-    primaryColor: "#3e4041"
-    ## Body Font Color
-    lightColor: "#57595b"
-    ## Headers Color
-    lightestColor: "#3e4041"
   social:
     - icon: "github"
       name: "amrelhusseiny Github"
