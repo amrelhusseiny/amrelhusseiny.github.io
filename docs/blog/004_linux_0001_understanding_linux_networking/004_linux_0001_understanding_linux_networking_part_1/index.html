@@ -4,28 +4,32 @@
     <title>Linux Networking Part 1 : Kernel Net Stack // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.148.2">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
+    <link rel="stylesheet" href="/css/main.min.fd215d59c0bb505ff6c4255af30b8572198f4f6581cb1d0df26292a4b8ab43b3.css" />
 
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack"/>
-<meta name="twitter:description" content="Table Of Contents Introduction to series This article in a pinch Part 1 : Linux Network Stack  1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts   Network flow in brief Keywords Commands Summary References   Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
-In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV."/>
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux Networking Part 1 : Kernel Net Stack">
+  <meta name="twitter:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
+In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.">
 
-    <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack" />
-<meta property="og:description" content="Table Of Contents Introduction to series This article in a pinch Part 1 : Linux Network Stack  1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts   Network flow in brief Keywords Commands Summary References   Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
-In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2022-12-21T15:17:44+02:00" />
-<meta property="article:modified_time" content="2022-12-21T15:17:44+02:00" />
+    <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/">
+  <meta property="og:site_name" content="Amr ElHusseiny&#39;s Blog">
+  <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack">
+  <meta property="og:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
+In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-12-21T15:17:44+02:00">
+    <meta property="article:modified_time" content="2022-12-21T15:17:44+02:00">
 
 
-
+    <script src="/js/theme.min.a7a2131b9309e427380ae2c71410f9c0242c0f8e1e86c14588b51d52346fb16e.js" defer></script>
   </head>
   <body>
     <header class="app-header">
@@ -37,6 +41,7 @@ In this series, we will be exploring the way networking in the server world and 
           
           <a class="app-header-menu-item" href="/blog">Blog</a>
       </nav>
+      <button id="theme-toggle" aria-label="Toggle theme"></button>
       <p>Network engineer and Automation advocate</p>
       <div class="app-header-social">
         
@@ -159,13 +164,12 @@ sk_buff consists of (shown in figure below):</p>
  12:          0          0          0          0          0  IO-APIC  12-edge      i8042
  14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
  15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
-
 </code></pre><p>Each interrupt (Hardware Interrupt) is identified by a <strong>vector</strong> which is a one byte identifier, ranging 0-255, from 0-31 are what are called Exceptions (Non-Maskable) interrupts, range 32-47 are maskable interrupts, from 48 to 255 are allocated to Software interrupts (SoftIRQ).</p>
 <p>Quickly, there are 3 types of Hardware interrupts you will face in the output above, MSI-X, MSI, and legacy IRQs, in a brief MSI stands for Message Signaled Interrupts which replaces the old way of handling interrupt using single pysical pin in the CPU socket for each device.
 You can read about MSI and other types of hardware interrupts here <a href="https://en.wikipedia.org/wiki/Message_Signaled_Interrupts">https://en.wikipedia.org/wiki/Message_Signaled_Interrupts</a>.
 Also for more info about Hardware interrupts, check <a href="https://www.cs.montana.edu/courses/spring2005/518/Hypertextbook/jim/media/interrupts_on_linux.pdf">this great paper &ldquo;Linux Interrupts : The basic concepts&rdquo;</a>.</p>
 <ul>
-<li><strong>Bottom-Half Interrupts (Software Interrupt)</strong> : 
+<li><strong>Bottom-Half Interrupts (Software Interrupt)</strong> :
 SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as [ksoftiqd/CPU_Number], these queues polls the device driver for processing traffic, instead of device (NIC) hardware interrupting the CPU each time it recieves traffic, you can see recieve and transmission queues :</li>
 </ul>
 <pre tabindex="0"><code># SoftIRQs queues process 
@@ -226,34 +230,34 @@ NET_TX:          0          0          0          0
 </ul>
 <h2 id="commands-summary">Commands Summary</h2>
 <table>
-<thead>
-<tr>
-<th>Description</th>
-<th>command</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Show Interrupt counters (IRQs and SoftIRQs)</td>
-<td><code>$ cat /proc/interrupts</code></td>
-</tr>
-<tr>
-<td>Show SoftIRQ Processes</td>
-<td><code>$ ps aux | grep ksoftirqd</code></td>
-</tr>
-<tr>
-<td>Monitor the RX Buffer per CPU (Rx &amp; TX)</td>
-<td><code>$ watch -n1 grep RX /proc/softirqs</code></td>
-</tr>
-<tr>
-<td></td>
-<td><code>$ watch -n1 grep TX /proc/softirqs</code></td>
-</tr>
-<tr>
-<td>To see the number of packets dropped by the NIC</td>
-<td><code>$ cat /sys/class/net/ens192/statistics/rx_missed_errors </code></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Description</th>
+          <th>command</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Show Interrupt counters (IRQs and SoftIRQs)</td>
+          <td><code>$ cat /proc/interrupts</code></td>
+      </tr>
+      <tr>
+          <td>Show SoftIRQ Processes</td>
+          <td><code>$ ps aux | grep ksoftirqd</code></td>
+      </tr>
+      <tr>
+          <td>Monitor the RX Buffer per CPU (Rx &amp; TX)</td>
+          <td><code>$ watch -n1 grep RX /proc/softirqs</code></td>
+      </tr>
+      <tr>
+          <td></td>
+          <td><code>$ watch -n1 grep TX /proc/softirqs</code></td>
+      </tr>
+      <tr>
+          <td>To see the number of packets dropped by the NIC</td>
+          <td><code>$ cat /sys/class/net/ens192/statistics/rx_missed_errors </code></td>
+      </tr>
+  </tbody>
 </table>
 <h2 id="references">References</h2>
 <ul>

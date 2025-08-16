@@ -1,0 +1,13 @@
+<div class="link-sections">
+  {{ range .Site.Data.links }}
+    <h3 class="link-category-title">{{ .category }}</h3>
+    <div class="card-grid link-grid">
+      {{ range .links }}
+        <a href="{{ .url }}" class="card link-card" target="_blank" rel="noopener noreferrer">
+          <h4 class="link-title">{{ .title }}</h4>
+          <p class="link-description">{{ .description }}</p>
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+</div>

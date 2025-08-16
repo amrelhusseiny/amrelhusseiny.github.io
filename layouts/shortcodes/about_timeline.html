@@ -135,43 +135,12 @@
 </style>
 
 <div class="timeline">
-
-  <div class="container left">
+  {{ range $index, $element := .Site.Data.timeline }}
+  <div class="container {{ if (modBool $index 2) }}right{{ else }}left{{ end }}">
     <div class="content">
-      <h2>Nov 2022</h2>
-      <h3></h3>
-      <p>Cloud Networks and Automation Engineer, Network Domain <br> <b>Ericsson</b></p>
+      <h2>{{ .date }}</h2>
+      <p>{{ .title }}<br><b>{{ .company }}</b></p>
     </div>
   </div>
-
-  <div class="container right">
-    <div class="content">
-      <h2>August 2021</h2>
-      <p>Public Cloud Operations Engineer, Network Domain <br> <b> Orange Business Services</b></p>
-    </div>
-  </div>
-
-  <div class="container left">
-    <div class="content">
-      <h2>June 2019</h2>
-      <p>IP Core Planning Senior Engineer <br> <b> Telecom Egypt (WE)</b></p>
-    </div>
-  </div>
-
-  <div class="container right">
-    <div class="content">
-      <h2>June 2018</h2>
-      <p>VPN Implementation Engineer Level 3 <br> <b> Orange Business Services</b></p>
-    </div>
-  </div>
-
-  <div class="container left">
-    <div class="content">
-      <h2>October 2016</h2>
-      <p>Incident Management Specialist ( 1st Line Engineer) <br> <b> Orange Business Services</b></p>
-    </div>
-  </div>
-
-
+  {{ end }}
 </div>
-
