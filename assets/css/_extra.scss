@@ -1,33 +1,20 @@
-.app-header-avatar {
-  width: 8rem;
-  height: 8rem;
-  border-radius: 100%;
-  border: 0rem solid $primary-color;
-}
-
-.app-header-avatar {
-  width: 5rem;
-  height: 5rem;
-}
-
-.app-header-title {
+#theme-toggle {
+  background: none;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
   font-size: 1em;
+  margin-top: 10px; /* Adjust as needed */
+}
+
+html[data-theme='dark'] #theme-toggle {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+.posts-list-item-title {
   font-weight: bold;
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro");
-body {
-	line-height: 1.75rem;
-    -webkit-font-smoothing: antialiased;
-    font-family: 'Source Sans Pro', 'Microsoft Yahei', sans-serif
-}
-
-@media print {
-  .app-header{
-    display: none;
-  }
-}
-
-a{
-  text-decoration: underline;
 }
