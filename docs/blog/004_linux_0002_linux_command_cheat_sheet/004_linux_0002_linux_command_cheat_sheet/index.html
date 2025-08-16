@@ -4,29 +4,30 @@
     <title>Linux command cheat sheet // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Hugo 0.92.2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="" />
     <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux command cheat sheet"/>
-<meta name="twitter:description" content="Table Of ContentsNavigation System configuration and stats Get to know the curreent system Boot Interrupts Memory Network DNS ethtool (NIC Info) Checking drops and losses IP Tables Other Network Checks Storage Openstack OVS (Open Virtual Switch) Other commands Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 files System configuration and stats Get to know the curreent system Command $ lshw / $ hostnamectl / $ uname -r Description Check the Hardware, Software and Kernel version Output Sample $ sudo lshwUSB node-1 description: Computerproduct: VirtualBoxvendor: innotek GmbHversion: 1."/>
+<meta name="twitter:description" content="Table Of Contents Navigation System configuration and stats  Get to know the curreent system Boot Interrupts Memory   Network  DNS ethtool (NIC Info) Checking drops and losses IP Tables Other Network Checks   Storage Openstack  OVS (Open Virtual Switch) Other commands     Navigation          Command $ tree DIRECTORY   Description show the directory and subdirectorys and file in a tree format   Output Sample     # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 filesSystem configuration and stats Get to know the curreent system          Command $ lshw / $ hostnamectl / $ uname -r   Description Check the Hardware, Software and Kernel version   Output Sample     $ sudo lshwUSB node-1 description: Computerproduct: VirtualBoxvendor: innotek GmbHversion: 1."/>
 
     <meta property="og:title" content="Linux command cheat sheet" />
-<meta property="og:description" content="Table Of ContentsNavigation System configuration and stats Get to know the curreent system Boot Interrupts Memory Network DNS ethtool (NIC Info) Checking drops and losses IP Tables Other Network Checks Storage Openstack OVS (Open Virtual Switch) Other commands Navigation Command $ tree DIRECTORY Description show the directory and subdirectorys and file in a tree format Output Sample # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 files System configuration and stats Get to know the curreent system Command $ lshw / $ hostnamectl / $ uname -r Description Check the Hardware, Software and Kernel version Output Sample $ sudo lshwUSB node-1 description: Computerproduct: VirtualBoxvendor: innotek GmbHversion: 1." />
+<meta property="og:description" content="Table Of Contents Navigation System configuration and stats  Get to know the curreent system Boot Interrupts Memory   Network  DNS ethtool (NIC Info) Checking drops and losses IP Tables Other Network Checks   Storage Openstack  OVS (Open Virtual Switch) Other commands     Navigation          Command $ tree DIRECTORY   Description show the directory and subdirectorys and file in a tree format   Output Sample     # tree /sys/kernel/mm/hugepages/sys/kernel/mm/hugepages└── hugepages-2048kB├── free_hugepages├── nr_hugepages├── nr_hugepages_mempolicy├── nr_overcommit_hugepages├── resv_hugepages└── surplus_hugepages1 directory, 6 filesSystem configuration and stats Get to know the curreent system          Command $ lshw / $ hostnamectl / $ uname -r   Description Check the Hardware, Software and Kernel version   Output Sample     $ sudo lshwUSB node-1 description: Computerproduct: VirtualBoxvendor: innotek GmbHversion: 1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0002_linux_command_cheat_sheet/004_linux_0002_linux_command_cheat_sheet/" /><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2023-01-01T13:50:32+02:00" />
 <meta property="article:modified_time" content="2023-01-01T13:50:32+02:00" />
 
 
+
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro ElHusseini" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -549,8 +550,8 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
     struct rtnl_link_stats64 temp;
     const struct rtnl_link_stats64 *stats = dev_get_stats(dev, &amp;temp);
 
-    seq_printf(seq, &#34;%6s: %7llu %7llu %4llu %4llu %4llu %5llu %10llu %9llu &#34;
-           &#34;%8llu %7llu %4llu %4llu %4llu %5llu %7llu %10llu\n&#34;,
+    seq_printf(seq, &quot;%6s: %7llu %7llu %4llu %4llu %4llu %5llu %10llu %9llu &quot;
+           &quot;%8llu %7llu %4llu %4llu %4llu %5llu %7llu %10llu\n&quot;,
            dev-&gt;name, stats-&gt;rx_bytes, stats-&gt;rx_packets,       
            stats-&gt;rx_errors,                                    
            stats-&gt;rx_dropped + stats-&gt;rx_missed_errors,         
@@ -686,9 +687,9 @@ www.example.com.        86400   IN      RRSIG   A 8 3 .....................
 % [whois.apnic.net]
 % Whois data copyright terms    http://www.apnic.net/db/dbcopyright.html
 
-% Information related to &#39;1.1.1.0 - 1.1.1.255&#39;
+% Information related to '1.1.1.0 - 1.1.1.255'
 
-% Abuse contact for &#39;1.1.1.0 - 1.1.1.255&#39; is &#39;helpdesk@apnic.net&#39;
+% Abuse contact for '1.1.1.0 - 1.1.1.255' is 'helpdesk@apnic.net'
 
 inetnum:        1.1.1.0 - 1.1.1.255
 netname:        APNIC-LABS
@@ -768,7 +769,7 @@ mnt-by:         MAINT-APNIC-AP
 last-modified:  2018-04-04T04:26:04Z
 source:         APNIC
 
-% Information related to &#39;1.1.1.0/24AS13335&#39;
+% Information related to '1.1.1.0/24AS13335'
 
 route:          1.1.1.0/24
 origin:         AS13335
@@ -1221,6 +1222,7 @@ Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
 </table>
 <pre tabindex="0"><code>$ cat -n /proc/net/nf_conntrack | grep dport=22
      2  ipv4     2 tcp      6 431999 ESTABLISHED src=10.0.2.2 dst=10.0.2.15 sport=58008 dport=22 src=10.0.2.15 dst=10.0.2.2 sport=22 dport=58008 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+
 </code></pre><!-- _________________ -->
 <!-- ________Command Block_________ -->
 <table>
@@ -1260,6 +1262,7 @@ IP4.ROUTE[1]:                           dst = 192.168.56.0/24, nh = 0.0.0.0, mt 
 IP6.ADDRESS[1]:                         fe80::a00:27ff:fe26:1c5f/64
 IP6.GATEWAY:                            --
 IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 256
+
 </code></pre><!-- _________________ -->
 <!-- ________Command Block_________ -->
 <table>
@@ -1370,6 +1373,7 @@ net.ipv4.ip_forward = 1
 :wq
 # then to make changes take effect immediatly 
 $ sysctl -p
+
 </code></pre><!-- _________________ -->
 <h2 id="storage">Storage</h2>
 <!-- ________Command Block_________ -->

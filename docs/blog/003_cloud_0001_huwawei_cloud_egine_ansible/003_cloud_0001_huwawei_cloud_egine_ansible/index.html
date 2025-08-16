@@ -4,9 +4,9 @@
     <title>Managing Huawei Cloud_Engine switches using Ansible // Amr ElHusseiny&#39;s Blog</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.111.3">
+    <meta name="generator" content="Hugo 0.92.2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Amr ElHusseiny" />
+    <meta name="author" content="Amro ElHusseini" />
     <meta name="description" content="helooooooooooo" />
     <link rel="stylesheet" href="/css/main.min.ef4b47c77ba889b6126d6218e13fb9bf03f83b3e0795a273d89bb983973772ad.css" />
 
@@ -23,10 +23,11 @@
 <meta property="article:modified_time" content="2022-08-25T12:19:49+02:00" />
 
 
+
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amr ElHusseiny" /></a>
+      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro ElHusseini" /></a>
       <span class="app-header-title">Amr ElHusseiny&#39;s Blog</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -229,7 +230,7 @@ Python 3.10.5
 (huawei_venv)$ ansible --version
 ansible [core 2.13.3]
   config file = None
-  configured module search path = [&#39;/home/amroashram/.ansible/plugins/modules&#39;, &#39;/usr/share/ansible/plugins/modules&#39;]
+  configured module search path = ['/home/amroashram/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /usr/local/lib/python3.10/site-packages/ansible
   ansible collection location = /home/amroashram/.ansible/collections:/usr/share/ansible/collections
   executable location = /usr/local/bin/ansible
@@ -247,8 +248,8 @@ all:
   vars:
     ansible_network_os: community.network.ce
     ansible_user: client001
-    ansible_password: &#34;SetUesrPasswd@123&#34;
-    ansible_ssh_common_args: &#39;-o ProxyCommand=&#34;ssh -W %h:%p -q bastion01&#34;&#39;
+    ansible_password: &quot;SetUesrPasswd@123&quot;
+    ansible_ssh_common_args: '-o ProxyCommand=&quot;ssh -W %h:%p -q bastion01&quot;'
     # log_path: ansible.log 
 
   # ----- Group names and relations to hosts 
@@ -272,7 +273,7 @@ all:
     community.network.ce_vlan:
       vlan_id: 120
       name: WEB_Vlan
-      description: &#34;hello&#34;
+      description: &quot;hello&quot;
 </code></pre><p>To run the playbook on the inventory :
 <code>$ ansible-playbook -i huawei_cloud_engine_inventory.yaml huawei_cloud_engine_playbook.yaml </code></p>
 <p>Output confirming change has been done as follows :</p>
@@ -304,7 +305,7 @@ VID  Type     Status  Property  MAC-LRN STAT    BC  MC  UC  Description
 --------------------------------------------------------------------------------
    1 common   enable  default   enable  disable FWD FWD FWD VLAN 0001           
  120 common   enable  default   enable  disable FWD FWD FWD hello    
-</code></pre><p>#Further Ansible capabilities
+</code></pre><p>#Further Ansible capabilities 
 To check further usage of the netcommon collection with Cloud Engine , you have the following modules available to do changes on the switches :</p>
 <ul>
 <li>Handy command , if you do not know what a module does or how to use it in the Playbook , you can always use :</li>
