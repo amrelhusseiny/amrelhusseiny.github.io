@@ -33,6 +33,7 @@ params:
     lightestColor: "#242930"
     primaryColor: "#666666"
   relativeURLs: true
+  canonifyURLs: true
 
   
 
