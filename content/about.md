@@ -1,28 +1,36 @@
 ---
-title: "About"
+title: "About Me"
 date: 2025-08-16
 draft: false
 ---
+
 {{< about_intro >}}
-# Hi ,
+# Hi, I'm Amr El Husseini
 
-My name is Amro El Husseini,
-
-My career started as a Network engineer, and there is where my passion still reside, I started this blog site in order to document some of the knowledge i needed over my journey, and also to visit some of the theoritical topics that may not show themselves in the day to day work.
-
-I have a lot of intrest in how some things work under the hood, also I am an avid reader, thats why i have listed some of the books that helped me to form my perspective on many technologies at the end of this about page.
+I'm a passionate Network Engineer with a love for automation and a deep curiosity for how things work under the hood. This blog is my space to share my journey, document my learnings, and explore the theoretical concepts that I don't always get to tackle in my day-to-day work.
 {{< /about_intro >}}
 
-{{< toc >}}
+## My Expertise
 
-## Career so far
+Here are some of the areas where I have the most experience:
+
+- **Network Engineering**: Designing, implementing, and managing complex network infrastructures.
+- **Network Automation**: Using Python, Ansible, and other tools to automate network operations.
+- **Cloud Networking**: Working with cloud providers like AWS, Azure, and Google Cloud.
+- **Linux**: Deep understanding of Linux networking and system administration.
+
+## My Career Journey
 
 {{< about_timeline >}}
 
+## My Reading Corner
 
+I'm an avid reader, and these are some of the books that have had a significant impact on my professional and personal growth.
 
-## Books worth checking
 {{< book_grid >}}
 
-## Blogs, Links, and Papers
+## Favorite Resources
+
+Here are some of the blogs, links, and papers that I've found particularly insightful.
+
 {{< link_grid >}}
