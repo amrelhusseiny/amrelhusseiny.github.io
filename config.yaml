@@ -26,6 +26,13 @@ params:
       name: "amrelhusseiny linkedin"
       url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
+  style:
+    darkestColor: "#242930"
+    darkColor: "#afbac4"
+    lightColor: "#f8f8f8"
+    lightestColor: "#ffffff"
+    primaryColor: "#57cc8a"
+
 markup:
   goldmark:
     renderer:
