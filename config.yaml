@@ -44,14 +44,7 @@ markup:
 
 uglyURLs: true
 
-mediaTypes:
-  text/css:
-    suffixes: ["css"]
 
-outputFormats:
-  CSS:
-    mediaType: "text/css"
-    baseName: "main"
 
 menu:
   main:

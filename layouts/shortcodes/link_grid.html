@@ -1,13 +1,49 @@
+<style>
+  .link-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+  }
+
+  .link-table th, .link-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  .link-table th {
+    background-color: #f2f2f2;
+  }
+
+  .link-table-title {
+    font-weight: bold;
+    white-space: nowrap; /* Prevent title from wrapping */
+  }
+
+  .link-table-description {
+    font-size: 0.9em;
+    color: #666;
+  }
+</style>
+
 <div class="link-sections">
   {{ range .Site.Data.links }}
     <h3 class="link-category-title">{{ .category }}</h3>
-    <div class="card-grid">
+    <table class="link-table">
+      <thead>
+        <tr>
+          <th>Link</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
       {{ range .links }}
-        <a href="{{ .url }}" class="card" target="_blank" rel="noopener noreferrer">
-          <div class="card-title">{{ .title }}</div>
-          {{ with .description }}<div class="card-subtitle">{{ . }}</div>{{ end }}
-        </a>
+        <tr>
+          <td class="link-table-title"><a href="{{ .url }}" target="_blank" rel="noopener noreferrer">{{ .title }}</a></td>
+          <td class="link-table-description">{{ .description }}</td>
+        </tr>
       {{ end }}
-    </div>
+      </tbody>
+    </table>
   {{ end }}
 </div>
