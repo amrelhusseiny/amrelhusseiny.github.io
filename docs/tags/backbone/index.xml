@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Backbone on Amro Elhusseini</title>
-    <link>http://localhost:39989/tags/backbone/</link>
+    <link>http://localhost:44497/tags/backbone/</link>
     <description>Recent content in Backbone on Amro Elhusseini</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 10 Sep 2022 11:11:25 +0200</lastBuildDate>
-    <atom:link href="http://localhost:39989/tags/backbone/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:44497/tags/backbone/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Extending RFC1918 with RFC-6598 (100.64.0.0/10)</title>
-      <link>http://localhost:39989/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</link>
+      <link>http://localhost:44497/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</link>
       <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
-      <guid>http://localhost:39989/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
+      <guid>http://localhost:44497/blog/001_networks_0003_extending_rfc_1918/001_networks_0003_extending_rfc_1918/</guid>
       <description>&lt;div&gt;&#xD;&#xA;    &lt;h2&gt;Table Of Contents&lt;/h2&gt;&#xD;&#xA;    &lt;nav id=&#34;TableOfContents&#34;&gt;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#cgnat-carrier-grade-nat&#34;&gt;CGNAT (Carrier Grade NAT)&lt;/a&gt;&lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;&lt;/nav&gt;&#xD;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;introduction&#34;&gt;introduction&lt;/h1&gt;&#xA;&lt;p&gt;We are all familiar with the RFC-1918 AKA Private IP Spaces (10.x.x.x , 172.16.x.x , 192.168.x.x), called private IP addresses because they can be duplicated by any user as long as the duplicated IP assigned devices does not meet in same L3 network.&lt;/p&gt;&#xA;&lt;p&gt;But due to the exhaustion of the Public IPv4 space , IANA has assigned a second address space like RFC-1918 , this time though &lt;a href=&#34;https://datatracker.ietf.org/doc/html/rfc6598&#34;&gt;RFC-6598&lt;/a&gt; and its called the &lt;strong&gt;Shared Address space&lt;/strong&gt; since 2012 , while it was originaly intended to be used for CGNAT (Carrier Grade Natting), IANA stated in the standard, that it also can be used in the same manner as RFC-1918 addresses , quoting from RFC-6598:&lt;/p&gt;</description>
     </item>
   </channel>
