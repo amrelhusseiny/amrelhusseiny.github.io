@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-us">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=44883&amp;path=livereload" data-no-instant defer></script>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=39989&amp;path=livereload" data-no-instant defer></script>
     <title>Linux Networking Part 1 : Kernel Net Stack // Amro Elhusseini</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
@@ -17,7 +17,7 @@
   <meta name="twitter:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
 In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.">
 
-    <meta property="og:url" content="http://localhost:44883/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/">
+    <meta property="og:url" content="http://localhost:39989/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1/">
   <meta property="og:site_name" content="Amro Elhusseini">
   <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack">
   <meta property="og:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
@@ -33,7 +33,7 @@ In this series, we will be exploring the way networking in the server world and 
   </head>
   <body>
     <header class="app-header">
-      <a href="http://localhost:44883/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
+      <a href="http://localhost:39989/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
       <span class="app-header-title">Amro Elhusseini</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
