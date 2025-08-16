@@ -8,17 +8,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="{{ .Site.Params.author | default "John Doe" }}" />
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
-    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "main.css" . | css.Sass | resources.Minify | resources.Fingerprint }}
-{{ $style.Save "static/css/main.css" }}
+    <link rel="stylesheet" href="/css/style.css" />
     
-    
-    <link rel="stylesheet" href="/css/main.css" />
+<link rel="stylesheet" href="/css/main.css" />
 
     {{ template "_internal/google_analytics.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
 
     
+  {{ $themeJS := resources.Get "js/theme.js" | resources.Minify | resources.Fingerprint -}}
+    <script src="{{ $themeJS.RelPermalink }}" defer></script>
   </head>
   <body>
     <header class="app-header">
@@ -33,6 +33,7 @@
           <a class="app-header-menu-item" href="{{ $item.URL }}">{{ $item.Name }}</a>
         {{- end }}
       </nav>
+      <button id="theme-toggle" aria-label="Toggle theme"></button>
       {{- end }}
       
       <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>

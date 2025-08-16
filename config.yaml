@@ -42,6 +42,17 @@ markup:
       # Enabled to embed HTML Code into markdown
       unsafe: true
 
+uglyURLs: true
+
+mediaTypes:
+  text/css:
+    suffixes: ["css"]
+
+outputFormats:
+  CSS:
+    mediaType: "text/css"
+    baseName: "main"
+
 menu:
   main:
     - identifier: "Technical Blog"
