@@ -19,10 +19,6 @@ Here are some of the areas where I have the most experience:
 - **Cloud Networking**: Working with cloud providers like AWS, Azure, and Google Cloud.
 - **Linux**: Deep understanding of Linux networking and system administration.
 
-## My Career Journey
-
-{{< about_timeline >}}
-
 ## My Reading Corner
 
 I'm an avid reader, and these are some of the books that have had a significant impact on my professional and personal growth.
