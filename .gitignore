@@ -16,6 +16,3 @@ Thumbs.db
 *.swp
 *.swo
 *.bkp
-
-# Node
-node_modules
