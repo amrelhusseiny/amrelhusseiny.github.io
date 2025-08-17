@@ -1,67 +1,39 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Amr ElHusseiny&#39;s Blog</title>
-    <link>http://localhost:40147/tags/</link>
-    <description>Recent content in Tags on Amr ElHusseiny&#39;s Blog</description>
+    <title>Tags on Amro Elhusseini</title>
+    <link>http://localhost:35733/tags/index.html</link>
+    <description>Recent content in Tags on Amro Elhusseini</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Dec 2022 11:19:13 +0200</lastBuildDate>
-    <atom:link href="http://localhost:40147/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate>
+    <atom:link href="http://localhost:35733/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Automation</title>
-      <link>http://localhost:40147/tags/automation/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      <guid>http://localhost:40147/tags/automation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Containers</title>
-      <link>http://localhost:40147/tags/containers/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      <guid>http://localhost:40147/tags/containers/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Docker</title>
-      <link>http://localhost:40147/tags/docker/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      <guid>http://localhost:40147/tags/docker/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Gnmi</title>
-      <link>http://localhost:40147/tags/gnmi/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      <guid>http://localhost:40147/tags/gnmi/</guid>
+      <title>MANRS</title>
+      <link>http://localhost:35733/tags/manrs.html</link>
+      <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
+      <guid>http://localhost:35733/tags/manrs.html</guid>
       <description></description>
     </item>
     <item>
       <title>Networks</title>
-      <link>http://localhost:40147/tags/networks/</link>
-      <pubDate>Mon, 05 Dec 2022 11:19:13 +0200</pubDate>
-      <guid>http://localhost:40147/tags/networks/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>MANRS</title>
-      <link>http://localhost:40147/tags/manrs/</link>
+      <link>http://localhost:35733/tags/networks.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>http://localhost:40147/tags/manrs/</guid>
+      <guid>http://localhost:35733/tags/networks.html</guid>
       <description></description>
     </item>
     <item>
       <title>Security</title>
-      <link>http://localhost:40147/tags/security/</link>
+      <link>http://localhost:35733/tags/security.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>http://localhost:40147/tags/security/</guid>
+      <guid>http://localhost:35733/tags/security.html</guid>
       <description></description>
     </item>
     <item>
       <title>Backbone</title>
-      <link>http://localhost:40147/tags/backbone/</link>
+      <link>http://localhost:35733/tags/backbone.html</link>
       <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
-      <guid>http://localhost:40147/tags/backbone/</guid>
+      <guid>http://localhost:35733/tags/backbone.html</guid>
       <description></description>
     </item>
   </channel>
