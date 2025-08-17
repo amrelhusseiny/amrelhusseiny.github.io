@@ -27,10 +27,10 @@ params:
       url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
 
   style:
-    darkestColor: "#ffffff"
-    darkColor: "#ffffff"
-    lightColor: "#353b43"
-    lightestColor: "#242930"
+    darkestColor: "#242930"
+    darkColor: "#353b43"
+    lightColor: "#ffffff"
+    lightestColor: "#ffffff"
     primaryColor: "#666666"
   
 
