@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>MANRS on Amro Elhusseini</title>
-    <link>http://localhost:35733/tags/manrs.html</link>
+    <link>http://localhost:1313/tags/manrs.html</link>
     <description>Recent content in MANRS on Amro Elhusseini</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate>
-    <atom:link href="http://localhost:35733/tags/manrs/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/manrs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Networks - RPKI , securing BGP Infrastructure</title>
-      <link>http://localhost:35733/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki.html</link>
+      <link>http://localhost:1313/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>http://localhost:35733/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki.html</guid>
+      <guid>http://localhost:1313/blog/001_networks_0001_bgp_rpki/001_networks_0001_bgp_rpki.html</guid>
       <description>&lt;div&gt;&#xD;&#xA;    &lt;h2&gt;Table Of Contents&lt;/h2&gt;&#xD;&#xA;    &lt;nav id=&#34;TableOfContents&#34;&gt;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#what--why-rpki-resource-public-key-infrastructure&#34;&gt;What &amp;amp; Why RPKI (Resource Public Key Infrastructure)?&lt;/a&gt;&lt;/li&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#signing-roas&#34;&gt;Signing ROAs&lt;/a&gt;&#xA;      &lt;ul&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#what-is-an-roa-&#34;&gt;what is an ROA ?&lt;/a&gt;&lt;/li&gt;&#xA;      &lt;/ul&gt;&#xA;    &lt;/li&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#how-you-deploy-&#34;&gt;How you deploy ?&lt;/a&gt;&lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#pdus-structure-rpki-rtr-pdu&#34;&gt;PDUs Structure (rpki-rtr-pdu)&lt;/a&gt;&lt;/li&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#protocol-workings&#34;&gt;Protocol workings&lt;/a&gt;&#xA;      &lt;ul&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#serial-querycache-response&#34;&gt;Serial Query/Cache Response&lt;/a&gt;&lt;/li&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#serial-notify&#34;&gt;Serial Notify&lt;/a&gt;&lt;/li&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#end-of-data&#34;&gt;End of data&lt;/a&gt;&lt;/li&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#reset-query&#34;&gt;Reset Query&lt;/a&gt;&lt;/li&gt;&#xA;      &lt;/ul&gt;&#xA;    &lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#1-setup-a-validator&#34;&gt;1) Setup a Validator&lt;/a&gt;&#xA;      &lt;ul&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#steps&#34;&gt;steps&lt;/a&gt;&lt;/li&gt;&#xA;        &lt;li&gt;&lt;a href=&#34;#allow-list&#34;&gt;Allow List&lt;/a&gt;&lt;/li&gt;&#xA;      &lt;/ul&gt;&#xA;    &lt;/li&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#2-discarding-bgp-invalids--configuring-routers&#34;&gt;2) Discarding BGP invalids / configuring routers&lt;/a&gt;&lt;/li&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#3-validating-rpki-operations&#34;&gt;3) Validating RPKI operations&lt;/a&gt;&lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;&#xA;  &lt;ul&gt;&#xA;    &lt;li&gt;&lt;a href=&#34;#compulsory-actions-to-join&#34;&gt;Compulsory Actions to join&lt;/a&gt;&lt;/li&gt;&#xA;  &lt;/ul&gt;&#xA;&lt;/nav&gt;&#xD;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;h2 id=&#34;what--why-rpki-resource-public-key-infrastructure&#34;&gt;What &amp;amp; Why RPKI (Resource Public Key Infrastructure)?&lt;/h2&gt;&#xA;&lt;p&gt;BGP is the routing protocol of the Internet backone, but it always lacked a way to validate recieved routes, this opened the protocol up tp some nasty attack of which one of the more popular ones is &lt;em&gt;Route Hijacking&lt;/em&gt; in which a peer would falsely or mistakingly advertise some routes as if it is the originator, you can read more about an example of this case in &lt;a href=&#34;https://www.catchpoint.com/blog/bgp-hijacking&#34;&gt;Taiwan&amp;rsquo;s TWNIC hijack&lt;/a&gt; in 2019, intentional attack could have resulted in either blackholing the traffic, or driving traffic towards a sniffing device to spy.&lt;/p&gt;</description>
     </item>
   </channel>
