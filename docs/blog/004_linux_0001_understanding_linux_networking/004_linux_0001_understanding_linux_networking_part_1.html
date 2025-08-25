@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <title>Linux Networking Part 1 : Kernel Net Stack // Amro Elhusseini</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <meta charset="utf-8" />
@@ -8,9 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Amro Elhusseini" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/main.min.d34ad80cbee58d0469cd27a6e3900d902b33f428882ea6efdb16a11c6d8b500b.css" />
     
-<link rel="stylesheet" href="/css/main.css" />
 
     
     
@@ -19,7 +18,7 @@
   <meta name="twitter:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
 In this series, we will be exploring the way networking in the server world and how it evolved from using the traditional Linux Kernel Networking stack to network virtualization using OVS and towards handling the load of Telco using NFV and SR-IOV.">
 
-    <meta property="og:url" content="https://amrelhusseiny.github.io/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1.html">
+    <meta property="og:url" content="http://localhost:1313/blog/004_linux_0001_understanding_linux_networking/004_linux_0001_understanding_linux_networking_part_1.html">
   <meta property="og:site_name" content="Amro Elhusseini">
   <meta property="og:title" content="Linux Networking Part 1 : Kernel Net Stack">
   <meta property="og:description" content="Table Of ContentsIntroduction to series This article in a pinch Part 1 : Linux Network Stack 1) Ring Buffers 2) Socket Buffers (sk_buff) 3) Kernel Interrupts (IRQ vs SoftIRQ) 3) Other quick concepts Network flow in brief Keywords Commands Summary References Introduction to series 1st thing 1st, its very handy to download the uncompiled Linux Kernel code from here https://www.kernel.org.
@@ -31,12 +30,10 @@ In this series, we will be exploring the way networking in the server world and 
     <meta property="article:modified_time" content="2022-12-21T15:17:44+02:00">
 
 
-    
-  <script src="/js/theme.min.a7a2131b9309e427380ae2c71410f9c0242c0f8e1e86c14588b51d52346fb16e.js" defer></script>
   </head>
   <body>
     <header class="app-header">
-      <a href="https://amrelhusseiny.github.io/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
+      <a href="/"><img class="app-header-avatar" src="/amr_photo.jpeg" alt="Amro Elhusseini" /></a>
       <span class="app-header-title">Amro Elhusseini</span>
       <nav class="app-header-menu">
           <a class="app-header-menu-item" href="/about">About</a>
@@ -44,8 +41,6 @@ In this series, we will be exploring the way networking in the server world and 
           
           <a class="app-header-menu-item" href="/blog">Blog</a>
       </nav>
-      <button id="theme-toggle" aria-label="Toggle theme"></button>
-      
       <p>Network engineer and Automation advocate</p>
       <div class="app-header-social">
         

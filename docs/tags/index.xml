@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Amro Elhusseini</title>
-    <link>https://amrelhusseiny.github.io/tags/index.html</link>
+    <link>http://localhost:1313/tags/index.html</link>
     <description>Recent content in Tags on Amro Elhusseini</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 04 Dec 2022 23:40:47 +0200</lastBuildDate>
-    <atom:link href="https://amrelhusseiny.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MANRS</title>
-      <link>https://amrelhusseiny.github.io/tags/manrs.html</link>
+      <link>http://localhost:1313/tags/manrs.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>https://amrelhusseiny.github.io/tags/manrs.html</guid>
+      <guid>http://localhost:1313/tags/manrs.html</guid>
       <description></description>
     </item>
     <item>
       <title>Networks</title>
-      <link>https://amrelhusseiny.github.io/tags/networks.html</link>
+      <link>http://localhost:1313/tags/networks.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>https://amrelhusseiny.github.io/tags/networks.html</guid>
+      <guid>http://localhost:1313/tags/networks.html</guid>
       <description></description>
     </item>
     <item>
       <title>Security</title>
-      <link>https://amrelhusseiny.github.io/tags/security.html</link>
+      <link>http://localhost:1313/tags/security.html</link>
       <pubDate>Sun, 04 Dec 2022 23:40:47 +0200</pubDate>
-      <guid>https://amrelhusseiny.github.io/tags/security.html</guid>
+      <guid>http://localhost:1313/tags/security.html</guid>
       <description></description>
     </item>
     <item>
       <title>Backbone</title>
-      <link>https://amrelhusseiny.github.io/tags/backbone.html</link>
+      <link>http://localhost:1313/tags/backbone.html</link>
       <pubDate>Sat, 10 Sep 2022 11:11:25 +0200</pubDate>
-      <guid>https://amrelhusseiny.github.io/tags/backbone.html</guid>
+      <guid>http://localhost:1313/tags/backbone.html</guid>
       <description></description>
     </item>
   </channel>
