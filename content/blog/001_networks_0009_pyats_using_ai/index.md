@@ -107,7 +107,7 @@ For demonstration, we wont be using my daily operations network, we will be usin
 
 a simple toplogy shown below using the containerlab inspect :
 
-```bash
+```
 $ containerlab inspect fullmesh-lab.clab.yml
 00:37:45 INFO Parsing & checking topology file=fullmesh-lab.clab.yml
 ╭─────────────────────────┬─────────────────────────────────┬────────────────────┬────────────────╮
@@ -137,7 +137,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
    `git clone https://github.com/automateyournetwork/pyATS_MCP.git`
 
 2) You need to update the `testbed.yaml` with your devices details, you can just follow the format from the examples set in  the exisitng Repo `testbed.yaml`, for our lab, the file looks like :
-   ```yaml
+   ```
    # testbed.yaml
    
    ---
@@ -219,7 +219,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
    
 
 3) The Docker file is already there, however we need to create an app directory and move "pyats_mcp_server.py" and "testbed.yaml" to 
-   ```bash
+   ```
    mkdir app
    cp testbed.yaml app
    cp pyats_mcp_server.py app
@@ -235,7 +235,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
 In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`, now lets start : 
 
 1. Assuming you have installed Gemini CLI and already authenticated, we need to edit `~/.gemini/settings.json`, replace `YOUR_FULL_PATH_TO/app` with the right path to your `app` folder on your machine:
-   ```json
+   ```
    $ cat ~/.gemini/settings.json 
    {
      "theme": "ANSI",
@@ -262,7 +262,7 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
    ```
 
 2. Then we start  Gemini, i prefer to use the flash model as it has much higher limits : 
-   ```bash
+   ```
    $ gemini -m gemini-2.5-flash 
    
     ███            █████████  ██████████ ██████   ██████ █████ ██████   █████ █████
