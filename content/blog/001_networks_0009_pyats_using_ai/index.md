@@ -85,7 +85,7 @@ While we are talking about PyATS, its mainly for demonistartion, however please 
 
 ### What is Gemini CLI ?
 
-![lab](lab.jpg)
+![sdiocunsdf1201](sdiocunsdf1201.jpg)
 
 In this article we are using Gemini's API Key, as its the most generous for free users if you use Google's AI Studio API Key, otherwise for OpenAI & Anthropic's claude, you have to pay for token right away,
 
@@ -105,7 +105,7 @@ However if you are more intrested in running things locally, you can explore run
 
 ### Our test setup
 
-![lab](lab.png)
+![sdiocunsdf1202](sdiocunsdf1202.png)
 
 For demonstration, we wont be using my daily operations network, we will be using a Containerlab setup running Cisco Nexus (full Cisco vNexus image) and IOS images (Cisco CML vIOL image),
 
