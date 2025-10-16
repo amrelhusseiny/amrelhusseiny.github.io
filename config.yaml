@@ -42,7 +42,7 @@ markup:
       # Enabled to embed HTML Code into markdown
       unsafe: true
 
-uglyURLs: true
+uglyURLs: false
 
 
 
