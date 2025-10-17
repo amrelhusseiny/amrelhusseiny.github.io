@@ -19,16 +19,6 @@ Here are some of the areas where I have the most experience:
 - **Cloud Networking**: Working with cloud providers like AWS, Azure, and Google Cloud.
 - **Linux**: Deep understanding of Linux networking and system administration.
 
-## Work Experience
-
-- **Network Systems Engineer** | Hyundai Autoever GmbH | 01/07/2023 - Current
-- **Cloud as Systems Engineer** | G42 Cloud | 01/03/2023 - 01/06/2023
-- **Cloud Operations and Automation Engineer – Network Domain** | Ericsson 
-- **Public Cloud Operations Engineer – Network Domain** | Orange Business Services | 01/08/2021 - 01/10/2022
-- **IP Core Planning Senior Engineer** | TE Data (Telecom Egypt) / WE | 01/06/2019 - 01/07/2021
-- **VPN Implementation Engineer Level 3** | Orange Business Services | 01/06/2018 - 01/06/2019
-- **Incident Management Specialist (1st Line Engineer)** | Orange Business Services | 01/10/2016 - 01/06/2018
-
 ## My Reading Corner
 
 I'm an avid reader, and these are some of the books that have had a significant impact on my professional and personal growth.
