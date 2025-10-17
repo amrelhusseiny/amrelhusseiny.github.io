@@ -18,3 +18,14 @@ html[data-theme='dark'] #theme-toggle {
 .posts-list-item-title {
   font-weight: bold;
 }
+
+/* Make the profile photo smaller */
+.avatar img {
+  width: 100px; /* You can adjust this value */
+  height: 100px; /* You can adjust this value */
+}
+
+/* Make the name smaller */
+.header-title-name {
+  font-size: 1.2rem; /* You can adjust this value */
+}
