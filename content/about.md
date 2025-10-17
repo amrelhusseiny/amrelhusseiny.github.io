@@ -39,4 +39,48 @@ I'm an avid reader, and these are some of the books that have had a significant 
 
 Here are some of the blogs, links, and papers that I've found particularly insightful.
 
-{{< link_grid >}}
+{{< link_grid
+  "Network Blogs"
+  "[ipspace.net](https://blog.ipspace.net/)"
+  "[The Next Platform](https://www.nextplatform.com)"
+  "[The Register](https://www.theregister.com/on_prem/networks/)"
+  "[networkop](https://networkop.co.uk/)"
+  "[Brian Linkletter](https://www.brianlinkletter.com)"
+  "[Routing Craft](https://routingcraft.net/)"
+  "[Network Fun Times](https://www.networkfuntimes.com)"
+  "[Fir3net](https://www.fir3net.com)"
+  "[The Network Sherpa](http://thenetworksherpa.com/)"
+  "[PacketLife](https://packetlife.net)"
+  "[Packet Switch](https://www.packetswitch.co.uk/)"
+  "[Network Journey](https://networkjourney.com)"
+  "[JulioPDX](https://juliopdx.com/posts/)"
+  "[Toonk.io](https://toonk.io/)"
+
+  "Automation Blogs"
+  "[Karneliuk.com](https://karneliuk.com/)"
+  "[Rob.sh](https://rob.sh/post/)"
+  "[Rule11](https://rule11.tech)"
+  "[Packet Coders](https://www.packetcoders.io/tag/blog/)"
+
+  "Linux & SRE"
+  "[Linux Foundation Networking](https://wiki.linuxfoundation.org/networking/start)"
+  "[Bootlin](https://bootlin.com)"
+  "[SRE Handbook](https://s905060.gitbooks.io/site-reliability-engineer-handbook/content/)"
+  "[Server World](https://www.server-world.info/en/)"
+
+  "Cloud & OpenStack"
+  "[OpenStack Lab Handbook](https://sureshkvl.gitbooks.io/openstack-lab-hand-book/content/)"
+  "[OpenDaylight Wiki](https://wiki.opendaylight.org/display/ODL/OpenDaylight)"
+
+  "Hardware & Development"
+  "[Intel Networking](https://www.intel.com/content/www/us/en/developer/topic-technology/networking/overview.html)"
+  "[Simon Willison's Blog](https://simonwillison.net)"
+
+  "Security & RPKI"
+  "[MANRS RPKI Week](https://www.manrs.org/event/rpki-week-2022/)"
+
+  "YouTube Channels"
+  "[Kubernetes Networking](https://www.youtube.com/watch?v=uR2uQ2o4sWY)"
+  "[Netnod](https://www.youtube.com/c/NetnodInternetExchangeiSverigeAB)"
+  "[Rob's Channel](https://www.youtube.com/channel/UCR5cZ-0On8CYpSjaeXDhxEg/videos)"
+>}}
