@@ -73,11 +73,11 @@ After this you can simply open the Antigravity agent chat, which now supports Ge
 1. Always start with "Using Blender Tool/MCP" to make it easier that is shall use the connected tool, otherwise it may just generate you a Python script to do that, this way it forces it to use MCP.
 2. Follwing I have captured the Prompts that lead me to the design : 
 
-![blender_mcp_1](blender_mcp_1-3891449.png)
+![blender_mcp_1 Large](blender_mcp_1 Large.jpeg)
 
-![blender_mcp_2](blender_mcp_2.png)
+![blender_mcp_2 Large](blender_mcp_2 Large.jpeg)
 
-![blender_mcp_3](blender_mcp_3.png)
+![blender_mcp_3 Large](blender_mcp_3 Large.jpeg)
 
 3. Now lets use it for real life target, using my 3d printer, i can get a useful tool, so 1st export the model as .stl for printing.
 
@@ -89,11 +89,12 @@ After this you can simply open the Antigravity agent chat, which now supports Ge
 
 6. And now I have an AI generated Koffee Dripper :
 
-   ![IMG_4843 2](IMG_4843 2.jpeg)
-   ![IMG_4844](IMG_4844.jpeg)
+   
+   ![IMG_4843 2 Large](IMG_4843 2 Large.jpeg)
+   
+   ![IMG_4844 Large](IMG_4844 Large.jpeg)
 
 ## References
 
 - [Blender MCP- Github](https://github.com/ahujasid/blender-mcp)
-- 
 
