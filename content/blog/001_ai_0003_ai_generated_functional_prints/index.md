@@ -90,9 +90,9 @@ After this you can simply open the Antigravity agent chat, which now supports Ge
 6. And now I have an AI generated Koffee Dripper :
 
    
-   ![IMG_4843 2 Large](IMG_4843 2 Large.jpeg)
+   ![IMG_4843 2 Large](print_1.jpeg)
    
-   ![IMG_4844 Large](IMG_4844 Large.jpeg)
+   ![IMG_4844 Large](print_2.jpeg)
 
 ## References
 
