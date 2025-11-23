@@ -1,7 +1,7 @@
 ---
 title: "AI Generated Functional Prints"
 date: 2025-11-20T00:00:00Z
-draft: true
+draft: false
 ---
 
 ## Intro
