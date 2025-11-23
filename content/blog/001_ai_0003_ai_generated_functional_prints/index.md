@@ -4,6 +4,8 @@ date: 2025-11-20T00:00:00Z
 draft: false
 ---
 
+![title](title.jpg)
+
 ## Intro
 
 ### From non Blender user, to 3d Print
