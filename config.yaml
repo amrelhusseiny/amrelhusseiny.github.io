@@ -57,3 +57,6 @@ menu:
     - identifier: "About"
       name: "About"
       url: "/About"
+    - identifier: "Design"
+      name: "Design"
+      url: "/design"
