@@ -19,10 +19,11 @@ html[data-theme='dark'] #theme-toggle {
   font-weight: bold;
 }
 
-/* Make the profile photo smaller */
-.avatar img {
-  width: 100px; /* You can adjust this value */
-  height: 100px; /* You can adjust this value */
+/* Make the sidebar profile photo smaller */
+.app-header-avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
 }
 
 /* Make the name smaller */
