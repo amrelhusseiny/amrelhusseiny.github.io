@@ -5,44 +5,10 @@
     <div class="timeline-content">
       <h3>{{ .title }}</h3>
       <p>{{ .company }}</p>
+      {{ with .achievement }}
+      <p class="timeline-achievement">{{ . }}</p>
+      {{ end }}
     </div>
   </li>
   {{ end }}
 </ul>
-
-<style>
-  .timeline-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .timeline-item {
-    display: flex;
-    margin-bottom: 1em;
-    align-items: flex-start;
-  }
-
-  .timeline-date {
-    flex: 0 0 100px; /* Fixed width for date */
-    font-weight: bold;
-    margin-right: 1em;
-    text-align: right;
-  }
-
-  .timeline-content {
-    flex: 1;
-    padding-left: 1em;
-    border-left: 2px solid #eee; /* Simple vertical line */
-  }
-
-  .timeline-content h3 {
-    margin-top: 0;
-    margin-bottom: 0.2em;
-  }
-
-  .timeline-content p {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-</style>
