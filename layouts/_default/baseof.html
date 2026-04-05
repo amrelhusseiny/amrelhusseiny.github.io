@@ -21,7 +21,8 @@
   </head>
   <body>
     <header class="app-header">
-      <a href="{{ "" | relURL }}"><img class="app-header-avatar" src="{{ .Site.Params.avatar | default "avatar.jpg" }}" alt="{{ .Site.Params.author | default "John Doe" }}" /></a>
+      {{- $avatar := .Site.Params.avatar | default "avatar.jpg" -}}
+      <a href="{{ "" | relURL }}"><img class="app-header-avatar" src="{{ if or (hasPrefix $avatar "http://") (hasPrefix $avatar "https://") (hasPrefix $avatar "//") }}{{ $avatar }}{{ else }}{{ $avatar | relURL }}{{ end }}" alt="{{ .Site.Params.author | default "John Doe" }}" /></a>
       <span class="app-header-title">{{ .Site.Title }}</span>
       {{- with .Site.Menus.main }}
       <nav class="app-header-menu">
