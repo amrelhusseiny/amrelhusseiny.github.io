@@ -3,7 +3,7 @@
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
 theme: "m10c"
-title: "Amro Elhusseini"
+title: "Amro's Blog"
 languageCode: "en-us"
 publishDir: "docs"
 
@@ -13,8 +13,8 @@ module:
     extended: true
 
 params:
-  author: Amro Elhusseini
-  avatar: "amr_photo.jpeg"
+  author: Amro
+  avatar: "https://github.com/amrelhusseiny.png"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
   favicon: "favicon.ico"
@@ -60,6 +60,3 @@ menu:
     - identifier: "CV"
       name: "CV"
       url: "/cv"
-    - identifier: "Design"
-      name: "Design"
-      url: "/design"
