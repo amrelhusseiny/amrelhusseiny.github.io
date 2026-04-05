@@ -25,7 +25,7 @@ Described very simply in the following diagram :
 ![CGNAT Diagram](mfs0ammg97dt16z4yagi.png)
 
 **Before** : each home CPE was assigned a Public IP address to use to reach internet directly .
-**After** : Home CPEs are assigned RFC-6589 IP Address (100.64.0.0/10) that will be Natted to Public IP ranges on the edge of your ISP , still the NATing is one to one , but you will only need a Public IP address if you want to reach external resources , as long as you stay in your carrier's network you will be using your RFC-6598 IP.
+**After** : Home CPEs are assigned RFC-6598 IP Address (100.64.0.0/10) that will be Natted to Public IP ranges on the edge of your ISP , still the NATing is one to one , but you will only need a Public IP address if you want to reach external resources , as long as you stay in your carrier's network you will be using your RFC-6598 IP.
 
 You may ask why not just use RFC-1918 IPs for home CPE, while its possible, it showed to cause operational issue with the carriers.
 
