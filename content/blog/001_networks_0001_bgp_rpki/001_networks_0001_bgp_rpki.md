@@ -55,7 +55,7 @@ Simply you will need to do the following, we will go more in detail later:
 RPKI-RTR is the protocol used in between the validator and the Client routers, the RFCs states the structure to deploy the RPKI service as per the following driagram :
 Note : Local Cache = Validator
 
-![RPKI_deployment_structure.png](RPKI_deployment_structure.png)
+![RPKI_deployment_structure.png](RPKI_conver.png)
 
 ## PDUs Structure (rpki-rtr-pdu)
 
