@@ -19,18 +19,6 @@ html[data-theme='dark'] #theme-toggle {
   font-weight: bold;
 }
 
-/* Make the sidebar profile photo smaller */
-.app-header-avatar {
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-}
-
-/* Make the name smaller */
-.header-title-name {
-  font-size: 1.2rem; /* You can adjust this value */
-}
-
 .about-hero {
   display: grid;
   grid-template-columns: 140px 1fr;
