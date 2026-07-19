@@ -3,7 +3,7 @@
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
 theme: "m10c"
-title: "Amro's Blog"
+title: "Sam7oon"
 languageCode: "en-us"
 publishDir: "docs"
 pagination:
