@@ -6,7 +6,8 @@ theme: "m10c"
 title: "Amro's Blog"
 languageCode: "en-us"
 publishDir: "docs"
-paginate: 50
+pagination:
+  pagerSize: 50
 
 
 module:
