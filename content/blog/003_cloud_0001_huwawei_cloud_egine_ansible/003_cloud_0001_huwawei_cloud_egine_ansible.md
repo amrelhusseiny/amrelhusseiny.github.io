@@ -3,6 +3,8 @@ title: Managing Huawei Cloud_Engine switches using Ansible
 description: helooooooooooo
 date: 2022-08-25T12:19:49+02:00
 draft: false
+tags:
+    - automation
 ---
 
 {{< toc >}}

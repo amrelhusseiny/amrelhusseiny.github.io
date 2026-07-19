@@ -2,6 +2,9 @@
 title: "Linux Networking Part 1 : Kernel Net Stack"
 date: 2022-12-21T15:17:44+02:00
 draft: false
+tags:
+    - linux
+    - networks
 ---
 
 {{< toc >}}

@@ -5,7 +5,7 @@ draft: true
 toc: true
 ---
 
-## HOOK
+## 0.HOOK
 "What if AI 'thinking' has multiple paths?"
 
 ## 1. CEREBRAS: The Hardware Beast

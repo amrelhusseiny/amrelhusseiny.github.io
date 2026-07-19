@@ -3,6 +3,9 @@ title: "AI Agents & MCP Servers for Network Engineers: RAG & Chroma MCP Deep Div
 date: 2025-10-20T00:00:00Z
 draft: false
 toc: true
+tags:
+    - ai
+    - automation
 ---
 
 ## Table of Contents

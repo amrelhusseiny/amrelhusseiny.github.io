@@ -4,8 +4,6 @@ description: Expalnation and lab example of how to RPKI secure your routing tabl
 date: 2022-12-04T23:40:47+02:00
 tags:
     - networks
-    - security
-    - MANRS
 draft: false
 ---
 

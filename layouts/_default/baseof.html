@@ -22,16 +22,18 @@
   <body>
     <header class="app-header">
       <span class="app-header-title">{{ .Site.Params.author | default .Site.Title }}</span>
-      {{- with .Site.Menus.main }}
+
       <nav class="app-header-menu">
-        {{- range $key, $item := . }}
-          {{- if ne $key 0 }}
-            {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
-          {{ end }}
-          <a class="app-header-menu-item" href="{{ $item.URL }}">{{ $item.Name }}</a>
-        {{- end }}
+        <a class="sidebar-blog-link" href="/blog">Blog</a>
+        <div class="sidebar-tags">
+          <a class="sidebar-tag" href="/tags/networks/">networks</a>
+          <a class="sidebar-tag" href="/tags/ai/">ai</a>
+          <a class="sidebar-tag" href="/tags/automation/">automation</a>
+          <a class="sidebar-tag" href="/tags/linux/">linux</a>
+        </div>
+        <a class="sidebar-about-link" href="/About">About</a>
       </nav>
-      {{- end }}
+
       <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
       {{- with .Site.Params.social }}
       <div class="app-header-social">

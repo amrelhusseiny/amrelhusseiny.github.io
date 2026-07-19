@@ -6,6 +6,7 @@ theme: "m10c"
 title: "Amro's Blog"
 languageCode: "en-us"
 publishDir: "docs"
+paginate: 50
 
 
 module:
@@ -13,7 +14,7 @@ module:
     extended: true
 
 params:
-  author: Amro
+  author: Sam7oon
   avatar: "https://github.com/amrelhusseiny.png"
   description: Network engineer and Automation advocate
   menu_item_separator: "<br>"
@@ -32,9 +33,8 @@ params:
     lightColor: "#353b43"
     lightestColor: "#242930"
     primaryColor: "#666666"
-  
 
-  
+
 
 markup:
   goldmark:
@@ -51,12 +51,6 @@ menu:
     - identifier: "Technical Blog"
       name: "Blog"
       url: "/blog"
-    # - identifier: "Non Technical Blog"
-    #   name: "non_technical"
-    #   url: "/non_technical/"
     - identifier: "About"
       name: "About"
       url: "/About"
-    - identifier: "CV"
-      name: "CV"
-      url: "/cv"

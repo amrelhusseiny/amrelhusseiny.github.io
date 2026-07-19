@@ -2,6 +2,10 @@
 title: "PyATS MCP, How a Network Engineer start with AI"
 date: 2025-10-15T01:11:49+03:00
 draft: false
+tags:
+    - networks
+    - automation
+    - ai
 ---
 
 ## Table of Contents

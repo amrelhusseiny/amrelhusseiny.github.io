@@ -2,20 +2,25 @@
   <article>
     {{ with .Title -}}<h1>{{- . -}}</h1>{{- end }}
     {{ with .Content -}}<div class="post-content">{{- . -}}</div>{{- end }}
-    <ul class="posts-list">
+    <div class="post-cards">
       {{ range where .Paginator.Pages "Type" "!=" "page" }}
-        <li class="posts-list-item">
-          <a class="posts-list-item-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
-          <span class="posts-list-item-description">
+        <a class="post-card" href="{{ .RelPermalink }}">
+          <div class="post-card-title">{{ .Title }}</div>
+          <div class="post-card-meta">
             {{ partial "icon.html" (dict "ctx" $ "name" "calendar") }}
             {{ .PublishDate.Format "Jan 2, 2006" }}
-            <span class="posts-list-item-separator">-</span>
+            &nbsp;·&nbsp;
             {{ partial "icon.html" (dict "ctx" $ "name" "clock") }}
             {{ .ReadingTime }} min read
-          </span>
-        </li>
+          </div>
+          {{ with .Params.tags }}
+          <div class="post-card-tags">
+            {{ range . }}<span class="post-card-tag">{{ . }}</span>{{ end }}
+          </div>
+          {{ end }}
+        </a>
       {{ end }}
-    </ul>
+    </div>
     {{ partial "pagination.html" $ }}
   </article>
 {{ end }}

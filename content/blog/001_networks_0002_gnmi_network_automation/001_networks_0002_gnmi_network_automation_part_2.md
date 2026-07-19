@@ -5,9 +5,6 @@ date: 2022-12-05T11:19:10+02:00
 tags:
     - networks
     - automation
-    - containers
-    - docker
-    - gnmi
 draft: true
 ---
 {{< toc >}}

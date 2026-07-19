@@ -2,6 +2,8 @@
 title: Understanding networks ASICS - Part 1
 date: 2022-09-04T11:55:10+02:00
 draft: false
+tags:
+    - networks
 ---
 {{< toc >}}
 # Intro 

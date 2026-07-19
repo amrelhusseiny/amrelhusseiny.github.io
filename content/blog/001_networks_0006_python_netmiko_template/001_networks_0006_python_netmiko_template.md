@@ -2,6 +2,9 @@
 title: Python's Netmiko starter template
 date: 2022-07-17T12:36:51+02:00
 draft: false
+tags:
+    - networks
+    - automation
 ---
 {{< toc >}}
 The following is a ready to go netlike template , you just need to choose your way of authentication and the device type , you can find the supported devices on both the documentation and the Git for the Netmiko library :

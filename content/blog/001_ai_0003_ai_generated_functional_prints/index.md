@@ -2,6 +2,8 @@
 title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP"
 date: 2025-11-20T00:00:00Z
 draft: false
+tags:
+    - ai
 ---
 
 ![title](title.jpg)
