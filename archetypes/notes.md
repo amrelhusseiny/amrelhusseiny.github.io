@@ -1,5 +1,6 @@
 ---
 date: {{ .Date }}
+title: ""
 ---
 
 Write your note here. Markdown is fully supported.

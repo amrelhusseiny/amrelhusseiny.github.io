@@ -17,6 +17,9 @@
           <span class="note-card-dot">·</span>
           <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
         </div>
+        {{ with .Title }}
+        <div class="note-card-title">{{ . }}</div>
+        {{ end }}
         <div class="note-card-content">
           {{ .Content }}
         </div>
