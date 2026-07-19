@@ -1,3 +1,105 @@
+/* ── Notes stream ── */
+.notes-stream {
+  max-width: 680px;
+}
+
+.notes-stream-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #242930;
+  margin-bottom: 0.2rem;
+}
+
+.notes-stream-subtitle {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+.notes-empty {
+  color: #bbb;
+  font-size: 0.9rem;
+}
+
+.note-card {
+  border-left: 3px solid #e2e2e2;
+  padding: 0 0 1.8rem 1.2rem;
+  margin-bottom: 0;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.note-card:last-child {
+  padding-bottom: 0;
+}
+
+.note-card:hover {
+  border-left-color: #aaa;
+}
+
+.note-card-date {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #aaa;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.02em;
+}
+
+.note-card-dot {
+  margin: 0 0.3rem;
+  color: #ccc;
+}
+
+.note-card-time {
+  font-weight: 400;
+  color: #ccc;
+}
+
+.note-card-content {
+  font-size: 0.95rem;
+  color: #353b43;
+  line-height: 1.7;
+}
+
+.note-card-content p:first-child {
+  margin-top: 0;
+}
+
+.note-card-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mermaid diagrams — constrain width and center */
+.note-card-content .mermaid {
+  margin: 1rem 0;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.note-card-content .mermaid svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 1rem;
+  border: 1px solid #ebebeb;
+}
+
+/* Sidebar Notes link */
+.sidebar-notes-link {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #666;
+  text-decoration: none;
+  margin: 0.1rem 0 0.8rem;
+  transition: color 0.2s;
+}
+
+.sidebar-notes-link:hover {
+  color: #242930;
+}
+
 /* ── Sidebar nav ── */
 .sidebar-blog-link {
   display: block;

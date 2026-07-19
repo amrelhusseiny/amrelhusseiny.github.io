@@ -1,0 +1,26 @@
+{{ define "main" }}
+  <div class="notes-stream">
+    <h1 class="notes-stream-title">Notes</h1>
+    <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams — no article required.</p>
+
+    {{ $notes := where .Site.RegularPages "Section" "notes" }}
+    {{ $notes = $notes.ByDate.Reverse }}
+
+    {{ if not $notes }}
+      <p class="notes-empty">No notes yet. Check back soon.</p>
+    {{ end }}
+
+    {{ range $notes }}
+      <article class="note-card">
+        <div class="note-card-date">
+          {{ .Date.Format "Jan 2, 2006" }}
+          <span class="note-card-dot">·</span>
+          <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
+        </div>
+        <div class="note-card-content">
+          {{ .Content }}
+        </div>
+      </article>
+    {{ end }}
+  </div>
+{{ end }}

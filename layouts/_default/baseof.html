@@ -18,6 +18,32 @@
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
 
+    <!-- Mermaid.js — renders mermaid code blocks as SVG diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          /* Match site color palette */
+          primaryColor:        '#f0f0f0',
+          primaryTextColor:    '#242930',
+          primaryBorderColor:  '#cccccc',
+          lineColor:           '#888888',
+          secondaryColor:      '#f7f7f7',
+          tertiaryColor:       '#ffffff',
+          background:          '#ffffff',
+          mainBkg:             '#f7f7f7',
+          nodeBorder:          '#cccccc',
+          clusterBkg:          '#f0f0f0',
+          titleColor:          '#242930',
+          edgeLabelBackground: '#ffffff',
+          fontFamily:          'sans-serif',
+          fontSize:            '14px'
+        }
+      });
+    </script>
+
   </head>
   <body>
     <header class="app-header">
@@ -25,6 +51,7 @@
 
       <nav class="app-header-menu">
         <a class="sidebar-blog-link" href="/blog">Blog</a>
+        <a class="sidebar-notes-link" href="/notes">Notes</a>
         <div class="sidebar-tags">
           <a class="sidebar-tag" href="/tags/networks/">networks</a>
           <a class="sidebar-tag" href="/tags/ai/">ai</a>

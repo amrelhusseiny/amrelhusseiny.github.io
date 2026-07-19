@@ -1,0 +1,7 @@
+{{ define "main" }}
+  {{/* Notes are not meant to be viewed individually — redirect to the stream */}}
+  <div class="notes-redirect">
+    <p>This note is part of the <a href="/notes/">Notes stream</a>.</p>
+  </div>
+  <script>window.location.replace("/notes/");</script>
+{{ end }}
