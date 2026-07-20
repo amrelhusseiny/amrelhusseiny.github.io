@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode | default "en-us" }}">
+  <head>
+    <title>{{ .Params.name }} — CV // {{ .Site.Title }}</title>
+    <link rel="icon" type="image/jpeg" href="https://avatars.githubusercontent.com/amrelhusseiny?size=64" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="{{ .Params.name }}" />
+    <meta name="description" content="CV of {{ .Params.name }} — {{ .Params.tagline }}" />
+    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | css.Sass | resources.Minify | resources.Fingerprint -}}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+  </head>
+  <body class="cv-page">
+
+    <!-- Print button — hidden in @media print -->
+    <div class="cv-print-bar no-print">
+      <a href="/" class="cv-back-link">&#8592; {{ .Site.Title }}</a>
+      <button class="cv-print-btn" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <main class="cv-wrap">
+
+      <!-- ═══════════════════════════════════════════
+           HEADER
+      ═══════════════════════════════════════════ -->
+      <header class="cv-header">
+        <div class="cv-header-left">
+          <img
+            class="cv-avatar"
+            src="https://avatars.githubusercontent.com/amrelhusseiny?size=200"
+            alt="{{ .Params.name }}"
+          />
+        </div>
+        <div class="cv-header-right">
+          <h1 class="cv-name">{{ .Params.name }}</h1>
+          <p class="cv-tagline">{{ .Params.tagline }}</p>
+
+          <!-- Web-visible contact -->
+          <div class="cv-contact-web no-print">
+            <a href="{{ .Params.linkedin_url }}" target="_blank" rel="noopener" class="cv-contact-item">
+              <span class="cv-contact-icon">in</span> {{ .Params.linkedin_label }}
+            </a>
+            <a href="{{ .Params.github_url }}" target="_blank" rel="noopener" class="cv-contact-item">
+              <span class="cv-contact-icon">gh</span> amrelhusseiny
+            </a>
+            <a href="{{ .Params.website }}" class="cv-contact-item">
+              <span class="cv-contact-icon">web</span> {{ .Params.website }}
+            </a>
+          </div>
+
+          <!-- Print-only contact (hidden on screen) -->
+          <div class="cv-contact-print print-only">
+            {{ with .Params.contact_print }}
+            <span class="cv-contact-item">{{ .email }}</span>
+            <span class="cv-contact-item">{{ .phone }}</span>
+            <span class="cv-contact-item">{{ .location }}</span>
+            {{ end }}
+            <a href="{{ .Params.linkedin_url }}" class="cv-contact-item">{{ .Params.linkedin_url }}</a>
+            <a href="{{ .Params.website }}" class="cv-contact-item">{{ .Params.website }}</a>
+          </div>
+
+          <!-- Blog badge -->
+          <div class="cv-blog-badge">
+            <span class="cv-blog-label">Blog:</span>
+            <a href="{{ .Params.blog.url }}" target="_blank" rel="noopener" class="cv-blog-link">{{ .Params.blog.url }}</a>
+            <span class="cv-agent-badge">{{ .Params.blog.note }}</span>
+          </div>
+
+          {{ with .Params.work_permit }}
+          <p class="cv-permit">Work permit: {{ . }}</p>
+          {{ end }}
+        </div>
+      </header>
+
+      <div class="cv-body">
+
+        <!-- ═══════════════════════════════════════════
+             LEFT COLUMN
+        ═══════════════════════════════════════════ -->
+        <aside class="cv-sidebar">
+
+          <!-- Languages -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Languages</h2>
+            {{ range .Params.languages }}
+            <div class="cv-lang-item">
+              <div class="cv-lang-name">{{ .language }}</div>
+              <div class="cv-lang-level-bar">
+                <span class="cv-lang-badge cv-lang-{{ .level | lower }}">{{ .level }}</span>
+                <span class="cv-lang-note">{{ .note }}</span>
+              </div>
+            </div>
+            {{ end }}
+          </section>
+
+          <!-- Education -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Education</h2>
+            {{ range .Params.education }}
+            <div class="cv-edu-item">
+              <div class="cv-edu-degree">{{ .degree }}</div>
+              <div class="cv-edu-institution">{{ .institution }}</div>
+              <div class="cv-edu-meta">{{ .period }} · {{ .location }}</div>
+              {{ with .grade }}<div class="cv-edu-grade">Grade: {{ . }}</div>{{ end }}
+            </div>
+            {{ end }}
+          </section>
+
+          <!-- Driving Licence -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Driving Licence</h2>
+            <p class="cv-sidebar-text">{{ .Params.driving_licence }}</p>
+          </section>
+
+          <!-- Print-only: DOB / Nationality -->
+          <section class="cv-section print-only">
+            <h2 class="cv-section-title">Personal</h2>
+            {{ with .Params.contact_print }}
+            <p class="cv-sidebar-text">Date of birth: {{ $.Params.contact_print.dob }}</p>
+            <p class="cv-sidebar-text">Nationality: {{ $.Params.contact_print.nationality }}</p>
+            {{ end }}
+          </section>
+
+        </aside>
+
+        <!-- ═══════════════════════════════════════════
+             MAIN CONTENT
+        ═══════════════════════════════════════════ -->
+        <div class="cv-main">
+
+          <!-- About -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">About Me</h2>
+            <p class="cv-about-text">{{ .Params.about }}</p>
+          </section>
+
+          <!-- Technical Skills -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Technical Skills</h2>
+            <div class="cv-skills-grid">
+              {{ range .Params.skills }}
+              <div class="cv-skill-group">
+                <div class="cv-skill-category">{{ .category }}</div>
+                <div class="cv-skill-chips">
+                  {{ range .items }}
+                  <span class="cv-chip">{{ . }}</span>
+                  {{ end }}
+                </div>
+              </div>
+              {{ end }}
+            </div>
+          </section>
+
+          <!-- Work Experience -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Work Experience</h2>
+            {{ range .Params.experience }}
+            <div class="cv-job">
+              <div class="cv-job-header">
+                <div class="cv-job-title-wrap">
+                  <span class="cv-job-title">{{ .title }}</span>
+                  <span class="cv-job-company">{{ .company }}</span>
+                </div>
+                <div class="cv-job-meta">
+                  <span class="cv-job-period">{{ .period }}</span>
+                  <span class="cv-job-location">{{ .location }}</span>
+                </div>
+              </div>
+              <p class="cv-job-desc">{{ .description }}</p>
+              {{ with .bullets }}
+              <ul class="cv-job-bullets">
+                {{ range . }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+              {{ end }}
+            </div>
+            {{ end }}
+          </section>
+
+          <!-- Projects -->
+          <section class="cv-section">
+            <h2 class="cv-section-title">Projects</h2>
+            {{ range .Params.projects }}
+            <div class="cv-project">
+              <div class="cv-project-name">
+                {{ .name }}
+                {{ with .link }}
+                <a href="{{ . }}" target="_blank" rel="noopener" class="cv-project-link">&#8599; GitHub</a>
+                {{ end }}
+              </div>
+              <p class="cv-project-desc">{{ .description }}</p>
+            </div>
+            {{ end }}
+          </section>
+
+        </div><!-- /cv-main -->
+      </div><!-- /cv-body -->
+
+    </main>
+  </body>
+</html>
