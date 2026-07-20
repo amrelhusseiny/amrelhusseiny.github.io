@@ -5,52 +5,53 @@
 
 /* ── CSS custom properties ── */
 :root {
-  --glass-bg:       rgba(255,255,255,0.62);
-  --glass-border:   rgba(255,255,255,0.70);
+  /* ── Apple Glass greyscale palette ── */
+  --glass-bg:       rgba(240,240,240,0.70);
+  --glass-border:   rgba(180,180,180,0.40);
   --glass-blur:     blur(28px);
-  --glass-shadow:   0 8px 32px rgba(0,0,0,0.07);
-  --card-bg:        rgba(255,255,255,0.58);
-  --card-border:    rgba(255,255,255,0.68);
+  --glass-shadow:   0 8px 32px rgba(0,0,0,0.10);
+  --card-bg:        rgba(245,245,245,0.75);
+  --card-border:    rgba(160,160,160,0.30);
   --card-blur:      blur(20px);
-  --card-shadow:    0 4px 24px rgba(0,0,0,0.06);
-  --text-primary:   #111827;
-  --text-secondary: #374151;
-  --text-muted:     #9ca3af;
-  --accent:         #111827;
-  --hover-bg:       rgba(0,0,0,0.055);
-  --tag-bg:         rgba(255,255,255,0.55);
-  --tag-border:     rgba(0,0,0,0.10);
-  --tag-color:      #6b7280;
-  --body-bg:        #f3f4f6;
-  --summary-color:  #6b7280;
-  --divider:        rgba(0,0,0,0.07);
-  --selected-bg:    #111827;
+  --card-shadow:    0 4px 24px rgba(0,0,0,0.08);
+  --text-primary:   #111111;
+  --text-secondary: #333333;
+  --text-muted:     #777777;
+  --accent:         #111111;
+  --hover-bg:       rgba(0,0,0,0.06);
+  --tag-bg:         rgba(220,220,220,0.55);
+  --tag-border:     rgba(0,0,0,0.14);
+  --tag-color:      #444444;
+  --body-bg:        #e8e8e8;
+  --summary-color:  #555555;
+  --divider:        rgba(0,0,0,0.10);
+  --selected-bg:    #111111;
   --selected-text:  #ffffff;
 }
 
 html[data-theme='dark'] {
-  --glass-bg:       rgba(15,23,42,0.55);
-  --glass-border:   rgba(255,255,255,0.09);
-  --glass-shadow:   0 8px 32px rgba(0,0,0,0.32);
-  --card-bg:        rgba(15,23,42,0.52);
-  --card-border:    rgba(255,255,255,0.09);
-  --card-shadow:    0 4px 24px rgba(0,0,0,0.22);
-  --text-primary:   #f9fafb;
-  --text-secondary: #d1d5db;
-  --text-muted:     #6b7280;
-  --accent:         #f9fafb;
+  --glass-bg:       rgba(28,28,28,0.72);
+  --glass-border:   rgba(255,255,255,0.08);
+  --glass-shadow:   0 8px 32px rgba(0,0,0,0.40);
+  --card-bg:        rgba(22,22,22,0.78);
+  --card-border:    rgba(255,255,255,0.08);
+  --card-shadow:    0 4px 24px rgba(0,0,0,0.28);
+  --text-primary:   #f0f0f0;
+  --text-secondary: #cccccc;
+  --text-muted:     #777777;
+  --accent:         #f0f0f0;
   --hover-bg:       rgba(255,255,255,0.07);
-  --tag-bg:         rgba(255,255,255,0.06);
-  --tag-border:     rgba(255,255,255,0.10);
-  --tag-color:      #9ca3af;
-  --body-bg:        #0f172a;
-  --summary-color:  #9ca3af;
-  --divider:        rgba(255,255,255,0.08);
-  --selected-bg:    #f9fafb;
-  --selected-text:  #111827;
+  --tag-bg:         rgba(255,255,255,0.07);
+  --tag-border:     rgba(255,255,255,0.12);
+  --tag-color:      #aaaaaa;
+  --body-bg:        #141414;
+  --summary-color:  #aaaaaa;
+  --divider:        rgba(255,255,255,0.09);
+  --selected-bg:    #f0f0f0;
+  --selected-text:  #111111;
 }
 
-/* ── Body + Islamic geometry background ── */
+/* ── Body + Islamic geometry background (barely visible, greyscale) ── */
 body {
   background-color: var(--body-bg);
   background-image: url('/images/islamic_bg.jpg');
@@ -63,13 +64,19 @@ body {
   position: relative;
 }
 
-html[data-theme='dark'] body::before {
+/* Light mode: near-white overlay makes bg barely visible + greyscale */
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(15,23,42,0.55);
+  background: rgba(232,232,232,0.88);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Dark mode: near-black overlay, bg still barely visible */
+html[data-theme='dark'] body::before {
+  background: rgba(18,18,18,0.88);
 }
 
 body > * { position: relative; z-index: 1; }
@@ -398,9 +405,9 @@ html[data-theme='dark'] .search-input:focus {
 }
 
 .post-card:hover {
-  background: rgba(255,255,255,0.74);
-  border-color: rgba(255,255,255,0.82);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.10);
+  background: rgba(240,240,240,0.90);
+  border-color: rgba(180,180,180,0.50);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
   transform: translateY(-2px);
 }
 
@@ -461,7 +468,7 @@ html[data-theme='dark'] .post-card-tag { background: rgba(255,255,255,0.08); }
 
 /* ── Article body (blog post reading view) — glass card ── */
 body:not(.cv-page) .app-container .post {
-  background: rgba(255,255,255,0.88);
+  background: rgba(248,248,248,0.96);
   backdrop-filter: var(--card-blur);
   -webkit-backdrop-filter: var(--card-blur);
   border: 1px solid rgba(255,255,255,0.75);
@@ -472,13 +479,13 @@ body:not(.cv-page) .app-container .post {
 }
 
 html[data-theme='dark'] body:not(.cv-page) .app-container .post {
-  background: rgba(15,23,42,0.88);
+  background: rgba(22,22,22,0.96);
   border-color: rgba(255,255,255,0.10);
 }
 
 /* ── About + general page body — glass card ── */
 body:not(.cv-page) .app-container > article:not(.post) {
-  background: rgba(255,255,255,0.88);
+  background: rgba(248,248,248,0.96);
   backdrop-filter: var(--card-blur);
   -webkit-backdrop-filter: var(--card-blur);
   border: 1px solid rgba(255,255,255,0.75);
@@ -489,7 +496,7 @@ body:not(.cv-page) .app-container > article:not(.post) {
 }
 
 html[data-theme='dark'] body:not(.cv-page) .app-container > article:not(.post) {
-  background: rgba(15,23,42,0.88);
+  background: rgba(22,22,22,0.96);
   border-color: rgba(255,255,255,0.10);
 }
 
@@ -562,8 +569,8 @@ html[data-theme='dark'] .post-card:hover {
 }
 
 .note-card:hover {
-  background: rgba(255,255,255,0.74);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.10);
+  background: rgba(240,240,240,0.90);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
   transform: translateY(-1px);
 }
 
