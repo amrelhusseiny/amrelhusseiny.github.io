@@ -240,10 +240,7 @@ html[data-theme='dark'] #theme-toggle {
 }
 
 .about-hero {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 1rem;
-  align-items: start;
+  display: block;
   margin-bottom: 2rem;
 }
 

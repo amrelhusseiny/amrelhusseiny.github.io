@@ -5,11 +5,11 @@ draft: false
 ---
 
 {{< about_intro >}}
-Hi, I'm Amro — a network engineer with experience spanning IP backbone, global enterprise VPN/MPLS, public cloud (OpenStack), and enterprise datacenter environments.
+# Hi, I'm Amr El Husseini
 
-I currently work at Hyundai Autoever Europe managing an Arista-based datacenter with OpenStack Neutron, while developing AI-driven automation tools for network operations.
-
-I write about networks, Linux, automation, and cloud infrastructure — the stuff I actually work with.
+Network Engineer focused on automation, cloud networking, and Linux internals.  
+I design and operate resilient network platforms, then automate repetitive operations with Python and Ansible.  
+I use this blog to share practical labs, implementation notes, and lessons from production environments.
 {{< /about_intro >}}
 
 ## My Expertise
