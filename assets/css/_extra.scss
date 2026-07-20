@@ -610,15 +610,42 @@ html[data-theme='dark'] .note-card:hover {
 .note-card-content p:first-child { margin-top: 0; }
 .note-card-content p:last-child  { margin-bottom: 0; }
 
-.note-card-content .mermaid { margin: 1rem 0; text-align: center; overflow-x: auto; }
-.note-card-content .mermaid svg {
-  max-width: 100%; height: auto; border-radius: 12px;
-  background: rgba(255,255,255,0.72); padding: 1rem;
-  border: 1px solid rgba(0,0,0,0.06);
+/* ── Mermaid diagrams — bigger, clearer, greyscale ── */
+.mermaid {
+  margin: 1.4rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: visible;
 }
-html[data-theme='dark'] .note-card-content .mermaid svg {
-  background: rgba(15,23,42,0.72); border-color: rgba(255,255,255,0.08);
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+  min-height: 200px;
+  border-radius: 14px;
+  background: rgba(248,248,248,0.97);
+  padding: 1.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  display: block;
+  margin: 0 auto;
 }
+
+html[data-theme='dark'] .mermaid svg {
+  background: rgba(28,28,28,0.97);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.28);
+}
+
+/* Ensure mermaid text is legible */
+.mermaid svg .label,
+.mermaid svg text,
+.mermaid svg .nodeLabel {
+  font-size: 15px !important;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.note-card-content .mermaid { margin: 1.4rem 0; }
 
 /* ── Legacy compat ── */
 #theme-toggle {
@@ -627,6 +654,115 @@ html[data-theme='dark'] .note-card-content .mermaid svg {
   cursor: pointer; border-radius: 8px; font-size: 1em; margin-top: 10px;
 }
 .posts-list-item-title { font-weight: bold; }
+
+/* ═══════════════════════════════════════════════════════
+   Code blocks — consistent greyscale, dark bg, clear syntax
+   ═══════════════════════════════════════════════════════ */
+
+/* Inline code */
+code {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
+  font-size: 0.82em !important;
+  background: rgba(0,0,0,0.07) !important;
+  color: #1a1a1a !important;
+  padding: 0.15em 0.4em !important;
+  border-radius: 5px !important;
+  border: 1px solid rgba(0,0,0,0.09) !important;
+}
+
+html[data-theme='dark'] code {
+  background: rgba(255,255,255,0.10) !important;
+  color: #e8e8e8 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+/* Block code / pre — dark background in both modes for contrast */
+pre {
+  background: #1c1c1c !important;
+  border-radius: 14px !important;
+  border: none !important;
+  border-left: none !important;
+  padding: 1.4rem 1.6rem !important;
+  overflow-x: auto !important;
+  margin: 1.2rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  position: relative !important;
+}
+
+pre code {
+  background: transparent !important;
+  color: #e2e2e2 !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 0.85em !important;
+  line-height: 1.65 !important;
+}
+
+html[data-theme='dark'] pre {
+  background: #111111 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+
+/* Override theme left-border on pre/highlight */
+.post-content > pre,
+.post-content .highlight,
+.post-content .highlight > pre,
+.post-content .highlight > div {
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 1.2rem 0 !important;
+}
+
+.post-content .highlight {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+}
+
+.post-content .highlight pre {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 1.4rem 1.6rem !important;
+}
+
+/* Chroma syntax highlight — greyscale token colours */
+.chroma { background: #1c1c1c !important; color: #e2e2e2 !important; }
+.chroma .err { color: #e2e2e2 !important; background: transparent !important; }
+
+/* keywords — light grey/white */
+.chroma .k,  .chroma .kc, .chroma .kd,
+.chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #f0f0f0 !important; font-weight: 700 !important; }
+
+/* strings — medium grey */
+.chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc,
+.chroma .dl, .chroma .sd, .chroma .s2, .chroma .se,
+.chroma .sh, .chroma .si, .chroma .sx, .chroma .sr,
+.chroma .s1, .chroma .ss { color: #bbbbbb !important; }
+
+/* numbers */
+.chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
+.chroma .mi, .chroma .il, .chroma .mo { color: #cccccc !important; }
+
+/* comments — dark grey */
+.chroma .c,  .chroma .ch, .chroma .cm, .chroma .c1,
+.chroma .cs, .chroma .cp, .chroma .cpf { color: #666666 !important; font-style: italic !important; }
+
+/* functions/names — off-white */
+.chroma .n,  .chroma .na, .chroma .nb, .chroma .nc,
+.chroma .nd, .chroma .ni, .chroma .ne, .chroma .nf,
+.chroma .nl, .chroma .nn, .chroma .nx, .chroma .py { color: #dddddd !important; }
+
+/* operators */
+.chroma .o,  .chroma .ow { color: #aaaaaa !important; }
+
+/* punctuation */
+.chroma .p { color: #999999 !important; }
+
+/* line highlight */
+.chroma .hl { background: rgba(255,255,255,0.06) !important; display: block; }
+
+
 
 /* ═══════════════════════════════════════════════════════
    About page

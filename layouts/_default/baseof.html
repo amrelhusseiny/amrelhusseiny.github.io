@@ -31,21 +31,45 @@
       })();
     </script>
 
-    <!-- Mermaid -->
+    <!-- Mermaid — greyscale theme, large nodes, clear text -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
     <script>
-      mermaid.initialize({
-        startOnLoad: true, theme: 'base',
-        themeVariables: {
-          primaryColor:'#f0f0f0', primaryTextColor:'#242930',
-          primaryBorderColor:'#cccccc', lineColor:'#888888',
-          secondaryColor:'#f7f7f7', tertiaryColor:'#ffffff',
-          background:'#ffffff', mainBkg:'#f7f7f7',
-          nodeBorder:'#cccccc', clusterBkg:'#f0f0f0',
-          titleColor:'#242930', edgeLabelBackground:'#ffffff',
-          fontFamily:'sans-serif', fontSize:'14px'
-        }
-      });
+      (function() {
+        var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'base',
+          flowchart: {
+            curve: 'basis',
+            nodeSpacing: 60,
+            rankSpacing: 70,
+            padding: 20,
+            useMaxWidth: true
+          },
+          themeVariables: {
+            /* nodes */
+            primaryColor:        dark ? '#2a2a2a' : '#f0f0f0',
+            primaryTextColor:    dark ? '#eeeeee' : '#111111',
+            primaryBorderColor:  dark ? '#555555' : '#999999',
+            /* edges */
+            lineColor:           dark ? '#888888' : '#666666',
+            /* secondary nodes */
+            secondaryColor:      dark ? '#1e1e1e' : '#e8e8e8',
+            tertiaryColor:       dark ? '#333333' : '#dddddd',
+            /* backgrounds */
+            background:          dark ? '#1c1c1c' : '#fafafa',
+            mainBkg:             dark ? '#2a2a2a' : '#f0f0f0',
+            nodeBorder:          dark ? '#555555' : '#999999',
+            clusterBkg:          dark ? '#1e1e1e' : '#e8e8e8',
+            /* text */
+            titleColor:          dark ? '#eeeeee' : '#111111',
+            edgeLabelBackground: dark ? '#222222' : '#f5f5f5',
+            /* typography — bigger */
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            fontSize:   '16px'
+          }
+        });
+      })();
     </script>
   </head>
   <body>
