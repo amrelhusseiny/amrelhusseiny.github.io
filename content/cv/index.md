@@ -8,7 +8,7 @@ work_permit: "Germany"
 
 website: "https://amrelhusseiny.github.io/"
 linkedin_label: "A.Elhusseini"
-linkedin_url: "https://www.linkedin.com/in/amr-abd-el-halim-2a330456"
+linkedin_url: "https://www.linkedin.com/in/amro-elhusseini-2a330456"
 github_url: "https://github.com/amrelhusseiny"
 
 blog:
