@@ -6,6 +6,9 @@
       {{ range where .Paginator.Pages "Type" "!=" "page" }}
         <a class="post-card" href="{{ .RelPermalink }}">
           <div class="post-card-title">{{ .Title }}</div>
+          {{ with .Summary }}
+          <div class="post-card-summary">{{ . | plainify | truncate 140 "…" }}</div>
+          {{ end }}
           <div class="post-card-meta">
             {{ partial "icon.html" (dict "ctx" $ "name" "calendar") }}
             {{ .PublishDate.Format "Jan 2, 2006" }}
@@ -15,7 +18,7 @@
           </div>
           {{ with .Params.tags }}
           <div class="post-card-tags">
-            {{ range . }}<span class="post-card-tag">{{ . }}</span>{{ end }}
+            {{ range . }}<span class="post-card-tag">#{{ . }}</span>{{ end }}
           </div>
           {{ end }}
         </a>

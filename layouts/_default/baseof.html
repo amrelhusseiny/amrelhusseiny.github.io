@@ -19,6 +19,19 @@
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
 
+    <!-- Reem Kufi Arabic display font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Theme init — runs before first paint to avoid flash of wrong theme -->
+    <script>
+      (function(){
+        var t = localStorage.getItem('sam7oon_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
+
     <!-- Mermaid.js — renders mermaid code blocks as SVG diagrams -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
     <script>
@@ -26,7 +39,6 @@
         startOnLoad: true,
         theme: 'base',
         themeVariables: {
-          /* Match site color palette */
           primaryColor:        '#f0f0f0',
           primaryTextColor:    '#242930',
           primaryBorderColor:  '#cccccc',
@@ -48,7 +60,10 @@
   </head>
   <body>
     <header class="app-header">
-      <span class="app-header-title">{{ .Site.Params.author | default .Site.Title }}</span>
+      <div class="app-header-title-wrap">
+        <div class="app-header-arabic">سامحون</div>
+        <div class="app-header-subtitle">Sam7oon's Blog</div>
+      </div>
 
       <nav class="app-header-menu">
         <a class="sidebar-blog-link" href="/blog">Blog</a>
@@ -63,7 +78,8 @@
         <a class="sidebar-cv-link" href="/cv">CV</a>
       </nav>
 
-      <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
+      <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
+
       {{- with .Site.Params.social }}
       <div class="app-header-social">
         {{ range . }}
@@ -73,11 +89,136 @@
         {{ end }}
       </div>
       {{- end }}
+
+      <div class="sidebar-controls">
+        <button class="sidebar-ctrl-btn" id="theme-toggle-btn" onclick="sam7ToggleTheme()">
+          <span id="theme-icon">☀</span>
+          <span id="theme-label">Light Theme</span>
+          <span class="sidebar-ctrl-badge">Toggle</span>
+        </button>
+        <button class="sidebar-ctrl-btn" id="ambient-toggle-btn" onclick="sam7ToggleParticles()">
+          <span>✦</span>
+          <span id="ambient-label">Ambient Mode</span>
+        </button>
+      </div>
     </header>
+
     <main class="app-container">
       {{ block "main" . }}
         {{ .Content }}
       {{ end }}
     </main>
+
+    <!-- Particle canvas — hidden until ambient mode enabled -->
+    <canvas id="sam7-particles" style="display:none;position:fixed;inset:0;pointer-events:none;z-index:1;"></canvas>
+
+    <script>
+      /* ── Theme toggle ── */
+      function sam7ToggleTheme() {
+        var html = document.documentElement;
+        var cur  = html.getAttribute('data-theme') || 'light';
+        var next = cur === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('sam7oon_theme', next);
+        document.getElementById('theme-icon').textContent  = next === 'dark' ? '☾' : '☀';
+        document.getElementById('theme-label').textContent = next === 'dark' ? 'Dark Theme' : 'Light Theme';
+      }
+
+      /* Sync button label to saved theme on load */
+      document.addEventListener('DOMContentLoaded', function() {
+        var t = document.documentElement.getAttribute('data-theme') || 'light';
+        document.getElementById('theme-icon').textContent  = t === 'dark' ? '☾' : '☀';
+        document.getElementById('theme-label').textContent = t === 'dark' ? 'Dark Theme' : 'Light Theme';
+      });
+
+      /* ── Particle engine (glass orbs + bubbles, matches AmbientParticles.tsx) ── */
+      var _p = { enabled: false, frame: null, bubbles: [], orbs: [] };
+
+      function sam7ToggleParticles() {
+        _p.enabled = !_p.enabled;
+        var canvas = document.getElementById('sam7-particles');
+        var btn    = document.getElementById('ambient-toggle-btn');
+        var label  = document.getElementById('ambient-label');
+        if (_p.enabled) {
+          canvas.style.display = 'block';
+          btn.classList.add('ambient-on');
+          label.textContent = 'Ambient On';
+          _sam7Init();
+          _sam7Draw();
+        } else {
+          cancelAnimationFrame(_p.frame);
+          canvas.style.display = 'none';
+          btn.classList.remove('ambient-on');
+          label.textContent = 'Ambient Mode';
+          var ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      function _sam7Init() {
+        var canvas = document.getElementById('sam7-particles');
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var w = canvas.width, h = canvas.height;
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        _p.orbs = [
+          { x:w*.25, y:h*.3,  r:w*.22, vx:.15,  vy:.10,  a:0, c1: isDark?'rgba(34,211,238,0.07)' :'rgba(6,182,212,0.13)' },
+          { x:w*.75, y:h*.4,  r:w*.26, vx:-.12, vy:.08,  a:1, c1: isDark?'rgba(139,92,246,0.07)' :'rgba(16,185,129,0.11)' },
+          { x:w*.5,  y:h*.8,  r:w*.24, vx:.08,  vy:-.15, a:2, c1: isDark?'rgba(236,72,153,0.05)' :'rgba(99,102,241,0.09)' }
+        ];
+        _p.bubbles = [];
+        for (var i = 0; i < 18; i++) {
+          _p.bubbles.push({
+            x:Math.random()*w, y:Math.random()*h,
+            s:Math.random()*12+4,
+            vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+            op:Math.random()*.22+.08,
+            a:Math.random()*Math.PI*2, sp:(Math.random()-.5)*.006
+          });
+        }
+      }
+
+      function _sam7Draw() {
+        var canvas = document.getElementById('sam7-particles');
+        if (!canvas || !_p.enabled) return;
+        var ctx = canvas.getContext('2d');
+        var w = canvas.width, h = canvas.height;
+        ctx.clearRect(0,0,w,h);
+        /* orbs */
+        _p.orbs.forEach(function(o){
+          o.x+=o.vx; o.y+=o.vy; o.a+=.0015;
+          if(o.x-o.r<0||o.x+o.r>w) o.vx*=-1;
+          if(o.y-o.r<0||o.y+o.r>h) o.vy*=-1;
+          var r=o.r*(1+Math.sin(o.a)*.1);
+          var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,r);
+          g.addColorStop(0,o.c1); g.addColorStop(1,'rgba(0,0,0,0)');
+          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(o.x,o.y,r,0,Math.PI*2); ctx.fill();
+        });
+        /* bubbles */
+        _p.bubbles.forEach(function(b){
+          b.x+=b.vx; b.y+=b.vy; b.a+=b.sp;
+          if(b.x<-20) b.x=w+20; if(b.x>w+20) b.x=-20;
+          if(b.y<-20) b.y=h+20; if(b.y>h+20) b.y=-20;
+          ctx.save();
+          ctx.globalAlpha=b.op;
+          ctx.translate(b.x,b.y); ctx.rotate(b.a);
+          var gr=ctx.createRadialGradient(-b.s*.2,-b.s*.2,0,0,0,b.s);
+          gr.addColorStop(0,'rgba(255,255,255,0.14)');
+          gr.addColorStop(.8,'rgba(255,255,255,0.02)');
+          gr.addColorStop(1,'rgba(255,255,255,0.10)');
+          ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(0,0,b.s,0,Math.PI*2); ctx.fill();
+          ctx.strokeStyle='rgba(255,255,255,0.38)'; ctx.lineWidth=.7;
+          ctx.beginPath(); ctx.arc(0,0,b.s-.5,-Math.PI*.75,-Math.PI*.25); ctx.stroke();
+          ctx.fillStyle='#fff';
+          ctx.beginPath(); ctx.arc(-b.s*.42,-b.s*.42,b.s*.11,0,Math.PI*2); ctx.fill();
+          ctx.restore();
+        });
+        _p.frame = requestAnimationFrame(_sam7Draw);
+      }
+
+      window.addEventListener('resize', function(){
+        if(_p.enabled) _sam7Init();
+      });
+    </script>
   </body>
 </html>
