@@ -861,8 +861,12 @@ html[data-theme='dark'] pre {
    ═══════════════════════════════════════════════════════ */
 body.cv-page .app-header { display: none; }
 body.cv-page .app-container { margin: 0; padding: 0; max-width: 100%; }
-body.cv-page { background-image: none; background-color: #fff; }
-body.cv-page::before { display: none; }
+body.cv-page {
+  background-image: none !important;
+  background-color: #fff !important;
+  background-attachment: unset !important;
+}
+body.cv-page::before { display: none !important; }
 
 .cv-print-bar { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 2rem; background: #f5f5f5; border-bottom: 1px solid #e0e0e0; }
 .cv-back-link { font-size: 0.85rem; color: #666; text-decoration: none; }
