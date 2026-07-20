@@ -136,11 +136,7 @@
       var floatBtn = document.getElementById('sidebar-float-btn');
 
       /* detect if we are on a single post page (not list, not home, not about/cv) */
-      var isPost = document.body.classList.contains('page') &&
-                   !document.body.classList.contains('home') &&
-                   !document.body.classList.contains('section') &&
-                   !document.body.classList.contains('taxonomy') &&
-                   document.querySelector('.app-container .post') !== null;
+      var isPost = document.querySelector('.app-container .post') !== null;
 
       if (isPost) {
         /* hide sidebar, show float button */
