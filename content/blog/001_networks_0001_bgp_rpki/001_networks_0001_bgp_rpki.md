@@ -32,13 +32,13 @@ Multiple ROAs can exist for the same Prefix, ROAs can overlap.
 
 I can better show you how an ROA looks like from a captured RPKI Route Update : 
 
-![Image not found: RPKI_ROA.png](RPKI_ROA.png "Image not found: RPKI_ROA.png")
+![Image not found: RPKI_ROA.png](/blog/001_networks_0001_bgp_rpki/RPKI_ROA.png "Image not found: RPKI_ROA.png")
 
 in the above snapshot, means you can advertise any network in between the /22 and /24 subnet mask, so its not only allowing you advertise one subnet, but a range of subnet masks.
 
 Cool way to search for the registered prefixes on [NLNOG's IRR Exp](https://irrexplorer.nlnog.net) , this enables you to see which IRR is a particular ROA is registered with: 
 
-![RPKI_ROA_eplorer.png](RPKI_ROA_eplorer.png)
+![RPKI_ROA_eplorer.png](/blog/001_networks_0001_bgp_rpki/RPKI_ROA_eplorer.png)
 
 You can do the same validation of a prefix on your created validator (which we will do later in this in article) using :
 
@@ -53,11 +53,11 @@ Simply you will need to do the following, we will go more in detail later:
 RPKI-RTR is the protocol used in between the validator and the Client routers, the RFCs states the structure to deploy the RPKI service as per the following driagram :
 Note : Local Cache = Validator
 
-![RPKI_deployment_structure.png](RPKI_conver.png)
+![RPKI_deployment_structure.png](/blog/001_networks_0001_bgp_rpki/RPKI_conver.png)
 
 ## PDUs Structure (rpki-rtr-pdu)
 
-![rpki_pdu.png](rpki_pdu.png)
+![rpki_pdu.png](/blog/001_networks_0001_bgp_rpki/rpki_pdu.png)
 
 The update header includes the following : 
 - **Protcol Version** : currently version 0
@@ -76,7 +76,7 @@ The update header includes the following :
 ## Protocol workings
 RPKI uses the port _rpki-rtr TCP 323_,  also cache to router communication is recommeneded to use TCP-A0 (you can check [RFC-5925](https://datatracker.ietf.org/doc/html/rfc5925)) for authentication instead of TCP-MD5.
 
-![rpki_operation_1.png](rpki_operation_1.png)
+![rpki_operation_1.png](/blog/001_networks_0001_bgp_rpki/rpki_operation_1.png)
 
 ### Serial Query/Cache Response
 A session is kept up between either the RPKI Cache and the Global RPKI server , or between the downstream RPKI client router and the RPKI Cache.
@@ -89,11 +89,11 @@ If the Cache recieves a query and finds that there is no updates to send to the 
 ### Reset Query 
 Client router requests the whole current updates database from the Cache server, this message can be sent in the rest or the start of the connection so the Client can recieve a full table f updates from the caching server, initiation looks as follows .
 
-![rpki_operation_2.png](rpki_operation_2.png)
+![rpki_operation_2.png](/blog/001_networks_0001_bgp_rpki/rpki_operation_2.png)
 
 # Applying RPKI
 
-![RPKI_lab_setup.png](RPKI_lab_setup.png)
+![RPKI_lab_setup.png](/blog/001_networks_0001_bgp_rpki/RPKI_lab_setup.png)
 
 We are using Ubuntu with Routinator which is a RIPE developed Route Validator, and 2 IOS-XE routers, Router_1 is RPKI Client, and Router_2 is the eBGP peer that will send the invalid subnet 1.0.0.0/24 .
 
@@ -130,7 +130,7 @@ To have the Routinator(Validator/RPKI Cache) start listening to Client's/Router'
 
 Following how your newy installed validator communication looks like
 
-![RPKI_RIR_to_validator.png](RPKI_RIR_to_validator.png)
+![RPKI_RIR_to_validator.png](/blog/001_networks_0001_bgp_rpki/RPKI_RIR_to_validator.png)
 
 ### Allow List 
 You can create a whitelist locally in your validator, to add exceptions for some subnets that you donot need validated.
@@ -170,9 +170,9 @@ Network              Maxlen  Origin-AS  Source  Neighbor
 Note that this table is not your routing table, its for validation not for route reflection.
 Now to further have a look about the PDUs , i setup a wireshark capture, after that, you need to go to the capture stream of the port 3323 and click decode as/current/RPKI-Router-Protocol like the following screenshot 
 
-![rpki_wireshark_capture_1.png](rpki_wireshark_capture_1.png "rpki_wireshark_capture_1.png")
+![rpki_wireshark_capture_1.png](/blog/001_networks_0001_bgp_rpki/rpki_wireshark_capture_1.png "rpki_wireshark_capture_1.png")
 
-![rpki_wireshark_capture_2.png](rpki_wireshark_capture_2.png)
+![rpki_wireshark_capture_2.png](/blog/001_networks_0001_bgp_rpki/rpki_wireshark_capture_2.png)
 
 You can also use the RPKI validation in your router's route policy's (Cisco, Juniper and so on), for instance you can set a preference for the validated routes, you donot need to reject the non-validated routes, you can just set a worse preference for them. 
 

@@ -29,10 +29,10 @@ Silicon chips used to face a problem with yields because processors comprised of
 
 Basically ASICs works in a bunch of Pipelines , for instance in a Network ASIC for example , a pipline dictates the way traffic is being processed from the moment it ingresses through a port to egressing through another port :
 
-![Image description](67b3gs8nmq3lj86mrtw4.png)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/67b3gs8nmq3lj86mrtw4.png)
 
 
-![Image description](u6bf44nfqyjdzk2sb9ah.png)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/u6bf44nfqyjdzk2sb9ah.png)
 [Cisco 3100 Architecture](https://people.ucsc.edu/~warner/Bufs/cisco-3100-arch.pdf)
 
 The parts of the pipeline represents the feature sets , so when a TAC support advises , that a feature is not supported in Hardware , it means that its not implemented in the ASIC's Pipeline, to give an example some chassis does not support VXLAN forwarding, meaning the ASIC's pipeline does not feature a part dedicated for VXLAN encapsulation and decapsulation imprinted on the hardware .
@@ -46,7 +46,7 @@ So vendors would go in a Tic Toc cycle of adding feature thus creating a feature
 ## Programmability  
 Some ASICS , you would have access to the SDK (Example : P4 , OpenFlow or even hardware level Assembly SDK), some are fixed and some are in-between , example for programable networking targeted chips like the Intel Tofino family or Cisco's latest Silicon One chips that supports P4 programing language.
 
-![Image description](tbwjaneb6b1dpludkwuq.png)_[image source](https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html)_
+![Image description](/blog/001_networks_0005_understanding_networks_asics/tbwjaneb6b1dpludkwuq.png)_[image source](https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html)_
 
 Ethernet silicon types:
 1) Merchant Silicons : Some companies develop chips to be used inside Vendor's products, these are highly specialized Ethernet focused chips that stands in-between general commercial silicons (like general purpose CPUs) and vendor propriety ones , example companies are like Arista, Broadcom ad Mellanox .
@@ -68,7 +68,7 @@ Following is Pete's (Pete Lumbis) Opinion on which buffer should handle which ty
 A) Deep buffer : should handle long stance transmission , because microsecond congestion on such port would have big impact on RTT of TCP, mostly are measured in Giga Bytes, and mostly off-chip .
 B) Shallow buffers : everything else , mostly measured in Mega bytes, mostly on-chip.
 
-![Image description](ejrt8uqm9g1431gqws5m.png)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/ejrt8uqm9g1431gqws5m.png)
 
 [Shallow Buffer on Trident3 - Broadcom](https://docs.broadcom.com/doc/12395356)
 
@@ -90,7 +90,7 @@ Most Cloud providers and Hyper scalers tends to use a 1RU form factor switches ,
 
 Lets take a Juniper MX2020 service router , the same functionality are implemented in many vendors and models but the naming may differ a little bit , but they all tend to provide the same functionality :
 
-![Image description](1ez822mlnejb8yurxipa.png)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/1ez822mlnejb8yurxipa.png)
 
 ## Routing Engine
 Juniper calls it Routing Engine cards , Cisco calls it Route Processor , these are responsible for handling the Control plane in the legacy way including routing protocols , device management, logging , monitoring, and any functionality besides pure packet forwarding , they establish the peerings, hold the routing tables, apply the route selection derive the RIB and then they translate if into the FIB table that gets cascaded to the Forwarding engines .
@@ -112,7 +112,7 @@ The chassis connectivity lines between all three Routing Engines, Line Cards and
 
 ## Further 
 
-![Image description](o1kmie7dq941tf145bn9.png)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/o1kmie7dq941tf145bn9.png)
 
 These cards would show connected into the backplane serial but actually the connectivity between these cards are more like a Spine/Leaf topology of a datacenter just compacted into a Chassis form , looks like this logically 
 
@@ -129,7 +129,7 @@ Broadcom has a wide range of ASICs for Networks , we are going to focus on the m
 
 ## Cisco 
 Cisco has lately unveiled their Silicon One family of chips targeted towards all fields including data centers , hyperscalers , enterprises and service providers , currently you can see the Q200 Silicon one chip used in the Cisco 8000 family of routers.
-![Image description](w7zbt75fxpz7oc7abmqi.png)[Cisco sourced image](https://www.cisco.com/c/dam/en/us/solutions/collateral/silicon-one/white-paper-sp-product-family.pdf)
+![Image description](/blog/001_networks_0005_understanding_networks_asics/w7zbt75fxpz7oc7abmqi.png)[Cisco sourced image](https://www.cisco.com/c/dam/en/us/solutions/collateral/silicon-one/white-paper-sp-product-family.pdf)
 
 ## Mellanox
 mellanox is now a part of Nvidea , there chips are more to be found inside White Boxes rather than vendor chassis .
@@ -138,7 +138,7 @@ They have only one family for Ethernet chips :
 
 ## Intel
 In 2019, Intel acquired Barefoot , the maker of the Tofino silicon which is directed towards the Datacenter Fabric market , as of 2022 , they have 3 generations of the Tofino chips family , with P4 programable chips, Intel calls its chips IFPs (Intelligent Fabric Processors), to put it into presepctivet , some Arista (7170 Series) ad Cisco (Nexus 3400 family - Top of rack) Products have already implemented these chips, following is the difference between the 3 generations : 
-![Image description](73k4c0rl5jsjkgbygnf7.png)_[Intel Source Page](https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html)_
+![Image description](/blog/001_networks_0005_understanding_networks_asics/73k4c0rl5jsjkgbygnf7.png)_[Intel Source Page](https://www.intel.com/content/www/us/en/products/network-io/programmable-ethernet-switch/tofino-3-product-brochure.html)_
 
 
 # References : 

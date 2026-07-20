@@ -14,13 +14,13 @@ In linux, Firewalling is briefly done in steps, Hooks that listen and take actio
 ## NF Diagram
 This is how logically the **Network Filter Hooks** are embeded into the Linux Kernel, these are the same hooks used by IPTables to apply the rules :
 
-![Firewall Hooks on IP Stack](firewall_hooks_on_ip_stack.jpg)
+![Firewall Hooks on IP Stack](/blog/004_linux_0001_understanding_linux_networking/firewall_hooks_on_ip_stack.jpg)
 
 So NetFilter has 5 hooks embeded in the linkux kernel in diffirent locations as the diagram above shows, these are **NF_IP_PRE_ROUTING**, **NF_IP_LOCAL_IN**, **NF_IP_FORWARD**, **NF_IP_POST_ROUTING**, AND **NF_IP_LOCAL_OUT**.
 
 ## IPTables
 
-![IPTables relation to NF Hooks](nf_relation_iptables.jpg)
+![IPTables relation to NF Hooks](/blog/004_linux_0001_understanding_linux_networking/nf_relation_iptables.jpg)
 
 In IP Tables we have 5 tables that have chains of rules, these tables can hook to one or more of the above NF Hooks, these tables are:
 1) **filter** (Default): most used one, this applies statefully to traffic.

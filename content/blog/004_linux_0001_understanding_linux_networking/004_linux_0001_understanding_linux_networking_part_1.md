@@ -16,7 +16,7 @@ In this series, we will be exploring the way networking in the server world and 
 ## This article in a pinch
 The following diagram only shows in a brief what happens to a packet in the Linux Kernel if you would like to glance by, but for more in depth and handy details, keep on reading.
 
-![Linux Networking Part 1 : Kernel Net Stack Summary](Linux_Networking_Part_1_summary.jpg)
+![Linux Networking Part 1 : Kernel Net Stack Summary](/blog/004_linux_0001_understanding_linux_networking/Linux_Networking_Part_1_summary.jpg)
 
 ## Part 1 : Linux Network Stack
 In this article, we are the basic flow IPv4/TCP traffic in Linux Kernel following [Jiri Binc's talk in DevConf CZ 2018](https://www.youtube.com/watch?v=6Fl1rsxk4JQ), where he beautifully laied out the packet flow for the whole 7 layers of OSI in the Linux Kernel.
@@ -47,7 +47,7 @@ sk_buff consists of (shown in figure below):
 - **packet buffer (sk_buff data)** : a place where the actual packet and data are stored in kernel space memory (DMA memory space - will explore the concept of DMA below), pointed to using the sk_buff struct, the size of the allocated SKB is equal to TCP MSS+Headroom to allow for MSS to change according to connection and user modifications.
 - **sk_buff struct (Socket Buffer Metadata)** :  MetaData about the packet stored in packet buffers (Data), which includes pointers and values, they look as follows, keep in mind these are just a part of the sk_buff struct, [to read the details of sk_buff.h struct, you can find it here](http://lxr.linux.no/linux+v2.6.20/include/linux/skbuff.h#L184): 
 
-![socket_buffer_figure](socket_buffer.jpg)
+![socket_buffer_figure](/blog/004_linux_0001_understanding_linux_networking/socket_buffer.jpg)
 1) **Interface (input_dev)** : refers to the interface name the packet arrived at.
 2) **Protocol** : IPv4, IPv6 and so on.
 3) **Head** : pointer to the start of the sk_buff, which actually starts with an empty space giving headroom for extra headers,  like a VLAN tag for instacnce.
@@ -116,7 +116,7 @@ NET_TX:          0          0          0          0
 
 
 ## Network flow in brief
-![Simplified Network Stack workings](net_stack_simplified.jpg)
+![Simplified Network Stack workings](/blog/004_linux_0001_understanding_linux_networking/net_stack_simplified.jpg)
 **Figure B :** simple explanation of what is being allocated and how packet goes though Kernel : 
 1) Very early at Kernel boot up, the CPU allocates packet buffers (RX and TX buffers), and build file descriptors.
 2) CPU informs the NIC that new descriptors has been created for the NIC to start using.

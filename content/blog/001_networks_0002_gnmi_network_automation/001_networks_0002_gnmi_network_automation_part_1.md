@@ -78,7 +78,7 @@ I tag it as latest, so its easier to deploy, however you donot need to that:
 
 ## ContainerLab topology template
 
-![Simulating_Network_topologies_with_Docker_topology.png](Simulating_Network_topologies_with_Docker_topology.png)
+![Simulating_Network_topologies_with_Docker_topology.png](/blog/001_networks_0002_gnmi_network_automation/Simulating_Network_topologies_with_Docker_topology.png)
 
 You can find the topology files on my [Github here](https://github.com/amroashram/containerlab_labs/tree/main/01_vmx_xrv_lab) :) 
 

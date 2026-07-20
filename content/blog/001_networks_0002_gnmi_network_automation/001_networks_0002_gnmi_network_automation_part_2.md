@@ -40,7 +40,7 @@ Here is a more clear representation from
 
 [the Anatomy of the Network Instance in OpenConfig](https://datatracker.ietf.org/meeting/94/materials/slides-94-rtgwg-9)
 
-![gnmi_part2_2.png](gnmi_part2_2.png)
+![gnmi_part2_2.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_part2_2.png)
 
 ## Solving the lack of documentation examples
 I faced a big issue figuring out how each vendor implemenets the configuration parts of the gNMI tree, and through my exploration i found 2 ways to go about it :
@@ -152,7 +152,7 @@ deviation "/rpol:routing-policy/rpol:defined-sets/rpol:neighbor-sets" {
 
 ## Example Lab 
 
-![gnmi_network_automotion_part_2_003.png](gnmi_network_automotion_part_2_003.png)
+![gnmi_network_automotion_part_2_003.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_2_003.png)
 
 You can find this Lab's files on [my github](https://github.com/amroashram/containerlab_labs/tree/main/03_frr_lab), we are using [ContainerLab](https://containerlab.dev) to deploy the setup and connect nodes to each other, after we have 3 diffirent node types to configure :
 1) Endpoint VMs : uses net-tools containers, configured using basic shell .

@@ -29,14 +29,14 @@ When you login to SSH , you will follow a series of configuration prompts for DN
 
 On the Web portal , the default user is "admin" and password is "eve" .
 
-![Image description](9b7j4mc27dn954n577ud.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/9b7j4mc27dn954n577ud.png)
  
 ## 2- Huawei Cloud Engine EVE Image : 
 In order to work with EVE , you will have to use a preconfigured image , for our device , please follow the following link to download the Huawei CE12800 VM that we will use :
 https://forum.huawei.com/enterprise/en/run-ce12800-ne40e-in-eve-ng/thread/653457-861
 
 ## 3- Our lab setup : 
-![Image description](dcrpy6kzmg0aubhtfgq1.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/dcrpy6kzmg0aubhtfgq1.png)
  
 After you followed the above guide to add the Huawei Cloud Engine image to EVE , we will be able to create my lab setup :
 
@@ -46,16 +46,16 @@ I created an ESXi CentOS machine to run the Ansible playbook from , you can inst
 ### B) On EVE Portal
 - Add new Lab 
 - Go to left side node , "Add an object -> Node -> search Huawei , you find Cloud Engine 12800" , click on it , you will need 2 GB of RAM/Memory reserved per switch to run it :
-![Image description](xsqri77pfiq5mv73r1s4.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/xsqri77pfiq5mv73r1s4.png)
 
 -  Next , to bridge the switch to our local Network , so we can access it from our local Laptop or in my case from my CentOS VM , you need to go to "Add an object -> Network -> Management (Cloud0) " , and connect one of the switches interface to the cloud (ex: GE1/0/0) , and right click on the switch then choose start :
-![Image description](mfxw0ctpdpwxn4r5ypux.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/mfxw0ctpdpwxn4r5ypux.png)
 
-![Image description](7dinnsh69eh5wjek7dm6.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/7dinnsh69eh5wjek7dm6.png)
 
 ##C) Configuring Huawei Cloud Engine for Netconf :
 - Hover over the device on EVE to see the IP and Port number you can console to the device using :
-![Image description](4449xg6wprs81uuhe4xq.png)
+![Image description](/blog/003_cloud_0001_huwawei_cloud_egine_ansible/4449xg6wprs81uuhe4xq.png)
 
 `$ telnet 192.168.1.109 32769`
 

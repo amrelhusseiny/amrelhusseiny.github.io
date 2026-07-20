@@ -24,7 +24,7 @@ Summary of steps will be taken :
 
 ## Brief about topology
 
-![gnmi_network_automotion_part_3_002.png](gnmi_network_automotion_part_3_002.png)
+![gnmi_network_automotion_part_3_002.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_3_002.png)
 
 1st, we have 2 containerlab topology files, one for the Network topology that we are will be collecting telemtry data from, and one for the Telegraf (Collector) and InfluxDB (Time Streamed Data Database) .
 
@@ -133,7 +133,7 @@ We will use containerlab replacing Docker Compose to spin up the containers wth 
 
 ### Telegraf (Collector)
 
-![gnmi_network_automotion_part_3_001.png](gnmi_network_automotion_part_3_001.png)
+![gnmi_network_automotion_part_3_001.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_3_001.png)
 
 There is 2 ways in subscribing to gNMI telemtry: 
 1) Dial-Out : you configure your network device to initiate the TCP session to the collectore and stream out the configured telemetry points, not recommended as it means you need to configure the subscription Metrics on each node, and in case you need to do a change, you need to roll out these changes to all devices.
@@ -327,15 +327,15 @@ Open your web browser to http://172.20.20.8:8086 with user influx_super and pass
 Go to Data Explorer , then choose filter as following in snapshot :
 1- this shows the interface counters of interface Ge0/0/1, but this accumalates, it does not show the current count only , as on Cisco interface counters just adds up over time, to show the diffirence only , go to step 2.
 
-![gnmi_network_automotion_part_3_003.png](gnmi_network_automotion_part_3_003.png "gnmi_network_automotion_part_3_003.png")
+![gnmi_network_automotion_part_3_003.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_3_003.png "gnmi_network_automotion_part_3_003.png")
 
 2- Change view to 'script editor' and search 'filter function' for 'diffirence' function , add it, and remove the line with 'yield mean' now you only can see the increase/decrease of bytes count on the interface. 
 
-![gnmi_network_automotion_part_3_004.png](gnmi_network_automotion_part_3_004.png)
+![gnmi_network_automotion_part_3_004.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_3_004.png)
 
 Lets also have a look at the ISIS adjaceny neibors on PE1 , this is the benefit of gNMI, it provides more than just counters, you can see even the routing table on change.
 
-![gnmi_network_automotion_part_3_005.png](gnmi_network_automotion_part_3_005.png)
+![gnmi_network_automotion_part_3_005.png](/blog/001_networks_0002_gnmi_network_automation/gnmi_network_automotion_part_3_005.png)
 
 Thats it, you can tweek the telegraf.conf file to add your telemetry subscriptions which you can get from the yang files described in [Part 2 of this guide ](https://dev.to/amrelhusseiny/gnmi-network-automation-part-2-gnmi-configuration-ciscos-ios-xr-2fhj) .
 
