@@ -53,15 +53,16 @@ html[data-theme='dark'] {
 
 /* ── Body + Islamic geometry background (barely visible, greyscale) ── */
 body {
-  background-color: var(--body-bg);
-  background-image: url('/images/islamic_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: var(--body-bg) !important;
+  background-image: url('/images/islamic_bg.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
   transition: background-color 0.4s ease, color 0.3s ease;
   color: var(--text-primary);
   position: relative;
+  min-height: 100vh;
 }
 
 /* Light mode: near-white overlay makes bg barely visible + greyscale */
@@ -81,28 +82,48 @@ html[data-theme='dark'] body::before {
 
 body > * { position: relative; z-index: 1; }
 
-/* ── Sidebar (app-header) ── */
+/* ── Sidebar (app-header) — full height, internal scroll, glass panel ── */
 body:not(.cv-page) .app-header {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border-radius: 24px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  padding: 1.8rem 1.4rem;
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-right: 1px solid var(--glass-border) !important;
+  box-shadow: 2px 0 24px rgba(0,0,0,0.08) !important;
+  /* match theme: position:fixed; top:0; left:0; width:20rem; min-height:100vh */
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 2rem 1.4rem !important;
+  box-sizing: border-box !important;
   /* slide animation */
   transition: transform 0.38s cubic-bezier(0.4,0,0.2,1),
               opacity  0.30s ease,
-              background 0.3s ease,
-              border-color 0.3s ease;
+              background 0.3s ease !important;
   will-change: transform, opacity;
+  /* scrollbar invisible */
+  scrollbar-width: none;
+}
+
+body:not(.cv-page) .app-header::-webkit-scrollbar {
+  display: none;
 }
 
 /* Sidebar hidden state — slides left off screen */
 .app-header.sidebar-hidden {
-  transform: translateX(calc(-100% - 2rem));
-  opacity: 0;
-  pointer-events: none;
+  transform: translateX(calc(-100% - 2px)) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Content area — matches sidebar height */
+body:not(.cv-page) .app-container {
+  min-height: 100vh !important;
+  box-sizing: border-box;
 }
 
 /* ── Logo — centred ── */
@@ -141,12 +162,15 @@ body:not(.cv-page) .app-header p {
 
 /* App container transparent */
 body:not(.cv-page) .app-container {
-  background: transparent;
+  background: transparent !important;
   position: relative;
   z-index: 2;
 }
 
-.app-container { position: relative; z-index: 2; }
+.app-container {
+  position: relative;
+  z-index: 2;
+}
 
 /* ── Sidebar nav links ── */
 .sidebar-blog-link,
