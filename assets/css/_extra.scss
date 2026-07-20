@@ -998,3 +998,8 @@ body.cv-page .app-container {
 .sidebar-cv-link:hover {
   color: #777;
 }
+
+/* CV header without avatar — single column */
+.cv-header.cv-header-noavatar {
+  display: block;
+}

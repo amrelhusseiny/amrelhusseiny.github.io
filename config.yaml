@@ -82,4 +82,4 @@ menu:
       url: "/blog"
     - identifier: "About"
       name: "About"
-      url: "/About"
+      url: "/about"
