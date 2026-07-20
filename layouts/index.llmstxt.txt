@@ -1,0 +1,18 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+This site is written by {{ .Site.Params.author }}. Content covers networking, Linux, AI, and automation — technical posts aimed at engineers.
+
+## Blog
+{{ range where .Site.RegularPages "Section" "blog" | first 20 -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+{{ end }}
+## Notes
+{{ range where .Site.RegularPages "Section" "notes" | first 20 -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+{{ end }}
+## Optional
+{{ range after 20 (where .Site.RegularPages "Section" "blog") -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}
+{{ end -}}

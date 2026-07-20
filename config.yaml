@@ -17,7 +17,7 @@ module:
 params:
   author: Sam7oon
   avatar: "https://github.com/amrelhusseiny.png"
-  description: Network engineer and Automation advocate
+  description: Network engineer and automation advocate. Writing about networks, Linux, AI, and automation.
   menu_item_separator: "<br>"
   favicon: "favicon.ico"
   social:
@@ -45,7 +45,35 @@ markup:
 
 uglyURLs: false
 
+mediaTypes:
+  text/plain:
+    suffixes:
+      - txt
 
+outputFormats:
+  llmstxt:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+  llmsfull:
+    mediaType: text/plain
+    baseName: llms-full
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - llmstxt
+    - llmsfull
+  page:
+    - HTML
+    - markdown
+  section:
+    - HTML
+    - RSS
 
 menu:
   main:

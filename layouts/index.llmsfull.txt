@@ -1,0 +1,15 @@
+# {{ .Site.Title }} — Full Content
+
+> {{ .Site.Params.description }}
+
+{{ range where .Site.RegularPages "Section" "blog" | first 50 }}
+---
+
+## {{ .Title }}
+
+*Published: {{ .Date.Format "2006-01-02" }}*
+URL: {{ .Permalink }}
+
+{{ .RawContent }}
+
+{{ end -}}
