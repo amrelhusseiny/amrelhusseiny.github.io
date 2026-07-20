@@ -5,11 +5,11 @@ draft: false
 ---
 
 {{< about_intro >}}
-# Hi, I'm Amr El Husseini
+Hi, I'm Amro — a network engineer with experience spanning IP backbone, global enterprise VPN/MPLS, public cloud (OpenStack), and enterprise datacenter environments.
 
-Network Engineer focused on automation, cloud networking, and Linux internals.  
-I design and operate resilient network platforms, then automate repetitive operations with Python and Ansible.  
-I use this blog to share practical labs, implementation notes, and lessons from production environments.
+I currently work at Hyundai Autoever Europe managing an Arista-based datacenter with OpenStack Neutron, while developing AI-driven automation tools for network operations.
+
+I write about networks, Linux, automation, and cloud infrastructure — the stuff I actually work with.
 {{< /about_intro >}}
 
 ## My Expertise
@@ -18,30 +18,34 @@ I use this blog to share practical labs, implementation notes, and lessons from 
   <div class="about-skill-card">
     <h3>Network Engineering</h3>
     <p>8+ years</p>
-    <span class="about-chip">Design</span>
+    <span class="about-chip">BGP / MPLS / OSPF</span>
     <span class="about-chip">Routing & Switching</span>
-    <span class="about-chip">Operations</span>
+    <span class="about-chip">Palo Alto / Cisco ASA</span>
+    <span class="about-chip">Juniper MX / SRX</span>
   </div>
   <div class="about-skill-card">
     <h3>Network Automation</h3>
-    <p>5+ years</p>
-    <span class="about-chip">Python</span>
-    <span class="about-chip">Ansible</span>
-    <span class="about-chip">gNMI</span>
-  </div>
-  <div class="about-skill-card">
-    <h3>Cloud Networking</h3>
-    <p>4+ years</p>
-    <span class="about-chip">AWS</span>
-    <span class="about-chip">Azure</span>
-    <span class="about-chip">OpenStack</span>
-  </div>
-  <div class="about-skill-card">
-    <h3>Linux & SRE</h3>
     <p>6+ years</p>
-    <span class="about-chip">Linux Networking</span>
-    <span class="about-chip">Troubleshooting</span>
-    <span class="about-chip">Observability</span>
+    <span class="about-chip">Python</span>
+    <span class="about-chip">REST API / NetConf</span>
+    <span class="about-chip">MCP Servers</span>
+    <span class="about-chip">N8N</span>
+  </div>
+  <div class="about-skill-card">
+    <h3>Cloud & Virtualisation</h3>
+    <p>5+ years</p>
+    <span class="about-chip">OpenStack Neutron</span>
+    <span class="about-chip">Arista (DC)</span>
+    <span class="about-chip">Terraform</span>
+    <span class="about-chip">Docker</span>
+  </div>
+  <div class="about-skill-card">
+    <h3>Linux & Observability</h3>
+    <p>6+ years</p>
+    <span class="about-chip">Linux Admin</span>
+    <span class="about-chip">Grafana / InfluxDB</span>
+    <span class="about-chip">Telegraf</span>
+    <span class="about-chip">SolarWinds NPM</span>
   </div>
 </div>
 
