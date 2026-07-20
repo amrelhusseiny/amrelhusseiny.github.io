@@ -14,7 +14,6 @@
     {{ with .OutputFormats.Get "rss" -}}
     {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
     {{ end }}
-
     {{ template "_internal/google_analytics.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
@@ -24,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Theme init — runs before first paint to avoid flash of wrong theme -->
+    <!-- Theme init before first paint -->
     <script>
       (function(){
         var t = localStorage.getItem('sam7oon_theme') || 'light';
@@ -32,41 +31,32 @@
       })();
     </script>
 
-    <!-- Mermaid.js — renders mermaid code blocks as SVG diagrams -->
+    <!-- Mermaid -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
     <script>
       mermaid.initialize({
-        startOnLoad: true,
-        theme: 'base',
+        startOnLoad: true, theme: 'base',
         themeVariables: {
-          primaryColor:        '#f0f0f0',
-          primaryTextColor:    '#242930',
-          primaryBorderColor:  '#cccccc',
-          lineColor:           '#888888',
-          secondaryColor:      '#f7f7f7',
-          tertiaryColor:       '#ffffff',
-          background:          '#ffffff',
-          mainBkg:             '#f7f7f7',
-          nodeBorder:          '#cccccc',
-          clusterBkg:          '#f0f0f0',
-          titleColor:          '#242930',
-          edgeLabelBackground: '#ffffff',
-          fontFamily:          'sans-serif',
-          fontSize:            '14px'
+          primaryColor:'#f0f0f0', primaryTextColor:'#242930',
+          primaryBorderColor:'#cccccc', lineColor:'#888888',
+          secondaryColor:'#f7f7f7', tertiaryColor:'#ffffff',
+          background:'#ffffff', mainBkg:'#f7f7f7',
+          nodeBorder:'#cccccc', clusterBkg:'#f0f0f0',
+          titleColor:'#242930', edgeLabelBackground:'#ffffff',
+          fontFamily:'sans-serif', fontSize:'14px'
         }
       });
     </script>
-
   </head>
   <body>
-    <header class="app-header">
+    <header class="app-header" id="app-sidebar">
       <div class="app-header-title-wrap">
         <div class="app-header-arabic">سامحون</div>
         <div class="app-header-subtitle">Sam7oon's Blog</div>
       </div>
 
       <nav class="app-header-menu">
-        <a class="sidebar-blog-link" href="/blog">Blog</a>
+        <a class="sidebar-blog-link"  href="/blog">Blog</a>
         <a class="sidebar-notes-link" href="/notes">Notes</a>
         <div class="sidebar-tags">
           <a class="sidebar-tag" href="/tags/networks/">networks</a>
@@ -75,7 +65,7 @@
           <a class="sidebar-tag" href="/tags/linux/">linux</a>
         </div>
         <a class="sidebar-about-link" href="/about">About</a>
-        <a class="sidebar-cv-link" href="/cv">CV</a>
+        <a class="sidebar-cv-link"    href="/cv">CV</a>
       </nav>
 
       <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
@@ -104,121 +94,150 @@
     </header>
 
     <main class="app-container">
-      {{ block "main" . }}
-        {{ .Content }}
-      {{ end }}
+      {{ block "main" . }}{{ .Content }}{{ end }}
     </main>
 
-    <!-- Particle canvas — hidden until ambient mode enabled -->
+    <!-- Floating sidebar toggle — shown on post pages -->
+    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation">›</button>
+
+    <!-- Particle canvas -->
     <canvas id="sam7-particles" style="display:none;position:fixed;inset:0;pointer-events:none;z-index:1;"></canvas>
 
     <script>
-      /* ── Theme toggle ── */
-      function sam7ToggleTheme() {
-        var html = document.documentElement;
-        var cur  = html.getAttribute('data-theme') || 'light';
-        var next = cur === 'light' ? 'dark' : 'light';
-        html.setAttribute('data-theme', next);
-        localStorage.setItem('sam7oon_theme', next);
-        document.getElementById('theme-icon').textContent  = next === 'dark' ? '☾' : '☀';
-        document.getElementById('theme-label').textContent = next === 'dark' ? 'Dark Theme' : 'Light Theme';
-      }
+    /* ── Theme toggle ── */
+    function sam7ToggleTheme() {
+      var html = document.documentElement;
+      var cur  = html.getAttribute('data-theme') || 'light';
+      var next = cur === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('sam7oon_theme', next);
+      document.getElementById('theme-icon').textContent  = next === 'dark' ? '☾' : '☀';
+      document.getElementById('theme-label').textContent = next === 'dark' ? 'Dark Theme' : 'Light Theme';
+    }
 
-      /* Sync button label to saved theme on load */
-      document.addEventListener('DOMContentLoaded', function() {
-        var t = document.documentElement.getAttribute('data-theme') || 'light';
-        document.getElementById('theme-icon').textContent  = t === 'dark' ? '☾' : '☀';
-        document.getElementById('theme-label').textContent = t === 'dark' ? 'Dark Theme' : 'Light Theme';
+    /* ── Active nav highlight ── */
+    document.addEventListener('DOMContentLoaded', function() {
+      /* sync theme button label */
+      var t = document.documentElement.getAttribute('data-theme') || 'light';
+      document.getElementById('theme-icon').textContent  = t === 'dark' ? '☾' : '☀';
+      document.getElementById('theme-label').textContent = t === 'dark' ? 'Dark Theme' : 'Light Theme';
+
+      /* highlight active nav link */
+      var path = window.location.pathname;
+      document.querySelectorAll('.app-header-menu a').forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (href && href !== '/' && path.startsWith(href)) {
+          a.classList.add('nav-active');
+        }
       });
 
-      /* ── Particle engine (glass orbs + bubbles, matches AmbientParticles.tsx) ── */
-      var _p = { enabled: false, frame: null, bubbles: [], orbs: [] };
+      /* ── Sidebar behaviour on post pages ── */
+      var sidebar  = document.getElementById('app-sidebar');
+      var floatBtn = document.getElementById('sidebar-float-btn');
 
-      function sam7ToggleParticles() {
-        _p.enabled = !_p.enabled;
-        var canvas = document.getElementById('sam7-particles');
-        var btn    = document.getElementById('ambient-toggle-btn');
-        var label  = document.getElementById('ambient-label');
-        if (_p.enabled) {
-          canvas.style.display = 'block';
-          btn.classList.add('ambient-on');
-          label.textContent = 'Ambient On';
-          _sam7Init();
-          _sam7Draw();
-        } else {
-          cancelAnimationFrame(_p.frame);
-          canvas.style.display = 'none';
-          btn.classList.remove('ambient-on');
-          label.textContent = 'Ambient Mode';
-          var ctx = canvas.getContext('2d');
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
+      /* detect if we are on a single post page (not list, not home, not about/cv) */
+      var isPost = document.body.classList.contains('page') &&
+                   !document.body.classList.contains('home') &&
+                   !document.body.classList.contains('section') &&
+                   !document.body.classList.contains('taxonomy') &&
+                   document.querySelector('.app-container .post') !== null;
+
+      if (isPost) {
+        /* hide sidebar, show float button */
+        sidebar.classList.add('sidebar-hidden');
+        floatBtn.style.display = 'flex';
       }
 
-      function _sam7Init() {
-        var canvas = document.getElementById('sam7-particles');
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-        var w = canvas.width, h = canvas.height;
-        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        _p.orbs = [
-          { x:w*.25, y:h*.3,  r:w*.22, vx:.15,  vy:.10,  a:0, c1: isDark?'rgba(34,211,238,0.07)' :'rgba(6,182,212,0.13)' },
-          { x:w*.75, y:h*.4,  r:w*.26, vx:-.12, vy:.08,  a:1, c1: isDark?'rgba(139,92,246,0.07)' :'rgba(16,185,129,0.11)' },
-          { x:w*.5,  y:h*.8,  r:w*.24, vx:.08,  vy:-.15, a:2, c1: isDark?'rgba(236,72,153,0.05)' :'rgba(99,102,241,0.09)' }
-        ];
-        _p.bubbles = [];
-        for (var i = 0; i < 18; i++) {
-          _p.bubbles.push({
-            x:Math.random()*w, y:Math.random()*h,
-            s:Math.random()*12+4,
-            vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
-            op:Math.random()*.22+.08,
-            a:Math.random()*Math.PI*2, sp:(Math.random()-.5)*.006
-          });
-        }
-      }
+      /* intercept post-card clicks — animate sidebar out before navigating */
+      document.querySelectorAll('.post-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          var href = card.getAttribute('href');
+          sidebar.classList.add('sidebar-hidden');
+          setTimeout(function() { window.location.href = href; }, 360);
+        });
+      });
+    });
 
-      function _sam7Draw() {
-        var canvas = document.getElementById('sam7-particles');
-        if (!canvas || !_p.enabled) return;
+    /* Show sidebar from float button */
+    function sam7ShowSidebar() {
+      var sidebar  = document.getElementById('app-sidebar');
+      var floatBtn = document.getElementById('sidebar-float-btn');
+      sidebar.classList.remove('sidebar-hidden');
+      floatBtn.style.display = 'none';
+    }
+
+    /* ── Particle engine ── */
+    var _p = { enabled: false, frame: null, bubbles: [], orbs: [] };
+
+    function sam7ToggleParticles() {
+      _p.enabled = !_p.enabled;
+      var canvas = document.getElementById('sam7-particles');
+      var btn    = document.getElementById('ambient-toggle-btn');
+      var label  = document.getElementById('ambient-label');
+      if (_p.enabled) {
+        canvas.style.display = 'block';
+        btn.classList.add('ambient-on');
+        label.textContent = 'Ambient On';
+        _sam7Init(); _sam7Draw();
+      } else {
+        cancelAnimationFrame(_p.frame);
+        canvas.style.display = 'none';
+        btn.classList.remove('ambient-on');
+        label.textContent = 'Ambient Mode';
         var ctx = canvas.getContext('2d');
-        var w = canvas.width, h = canvas.height;
-        ctx.clearRect(0,0,w,h);
-        /* orbs */
-        _p.orbs.forEach(function(o){
-          o.x+=o.vx; o.y+=o.vy; o.a+=.0015;
-          if(o.x-o.r<0||o.x+o.r>w) o.vx*=-1;
-          if(o.y-o.r<0||o.y+o.r>h) o.vy*=-1;
-          var r=o.r*(1+Math.sin(o.a)*.1);
-          var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,r);
-          g.addColorStop(0,o.c1); g.addColorStop(1,'rgba(0,0,0,0)');
-          ctx.fillStyle=g; ctx.beginPath(); ctx.arc(o.x,o.y,r,0,Math.PI*2); ctx.fill();
-        });
-        /* bubbles */
-        _p.bubbles.forEach(function(b){
-          b.x+=b.vx; b.y+=b.vy; b.a+=b.sp;
-          if(b.x<-20) b.x=w+20; if(b.x>w+20) b.x=-20;
-          if(b.y<-20) b.y=h+20; if(b.y>h+20) b.y=-20;
-          ctx.save();
-          ctx.globalAlpha=b.op;
-          ctx.translate(b.x,b.y); ctx.rotate(b.a);
-          var gr=ctx.createRadialGradient(-b.s*.2,-b.s*.2,0,0,0,b.s);
-          gr.addColorStop(0,'rgba(255,255,255,0.14)');
-          gr.addColorStop(.8,'rgba(255,255,255,0.02)');
-          gr.addColorStop(1,'rgba(255,255,255,0.10)');
-          ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(0,0,b.s,0,Math.PI*2); ctx.fill();
-          ctx.strokeStyle='rgba(255,255,255,0.38)'; ctx.lineWidth=.7;
-          ctx.beginPath(); ctx.arc(0,0,b.s-.5,-Math.PI*.75,-Math.PI*.25); ctx.stroke();
-          ctx.fillStyle='#fff';
-          ctx.beginPath(); ctx.arc(-b.s*.42,-b.s*.42,b.s*.11,0,Math.PI*2); ctx.fill();
-          ctx.restore();
-        });
-        _p.frame = requestAnimationFrame(_sam7Draw);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
+    }
 
-      window.addEventListener('resize', function(){
-        if(_p.enabled) _sam7Init();
+    function _sam7Init() {
+      var canvas = document.getElementById('sam7-particles');
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      var w = canvas.width, h = canvas.height;
+      var dk = document.documentElement.getAttribute('data-theme') === 'dark';
+      _p.orbs = [
+        {x:w*.25,y:h*.3, r:w*.22,vx:.15, vy:.10, a:0,c1:dk?'rgba(34,211,238,0.07)':'rgba(6,182,212,0.13)'},
+        {x:w*.75,y:h*.4, r:w*.26,vx:-.12,vy:.08, a:1,c1:dk?'rgba(139,92,246,0.07)':'rgba(16,185,129,0.11)'},
+        {x:w*.5, y:h*.8, r:w*.24,vx:.08, vy:-.15,a:2,c1:dk?'rgba(236,72,153,0.05)':'rgba(99,102,241,0.09)'}
+      ];
+      _p.bubbles = [];
+      for (var i=0;i<18;i++) {
+        _p.bubbles.push({x:Math.random()*w,y:Math.random()*h,
+          s:Math.random()*12+4,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,
+          op:Math.random()*.22+.08,a:Math.random()*Math.PI*2,sp:(Math.random()-.5)*.006});
+      }
+    }
+
+    function _sam7Draw() {
+      var canvas = document.getElementById('sam7-particles');
+      if (!canvas||!_p.enabled) return;
+      var ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      _p.orbs.forEach(function(o){
+        o.x+=o.vx;o.y+=o.vy;o.a+=.0015;
+        if(o.x-o.r<0||o.x+o.r>w)o.vx*=-1;
+        if(o.y-o.r<0||o.y+o.r>h)o.vy*=-1;
+        var r=o.r*(1+Math.sin(o.a)*.1),g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,r);
+        g.addColorStop(0,o.c1);g.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.arc(o.x,o.y,r,0,Math.PI*2);ctx.fill();
       });
+      _p.bubbles.forEach(function(b){
+        b.x+=b.vx;b.y+=b.vy;b.a+=b.sp;
+        if(b.x<-20)b.x=w+20;if(b.x>w+20)b.x=-20;
+        if(b.y<-20)b.y=h+20;if(b.y>h+20)b.y=-20;
+        ctx.save();ctx.globalAlpha=b.op;ctx.translate(b.x,b.y);ctx.rotate(b.a);
+        var gr=ctx.createRadialGradient(-b.s*.2,-b.s*.2,0,0,0,b.s);
+        gr.addColorStop(0,'rgba(255,255,255,0.14)');gr.addColorStop(.8,'rgba(255,255,255,0.02)');gr.addColorStop(1,'rgba(255,255,255,0.10)');
+        ctx.fillStyle=gr;ctx.beginPath();ctx.arc(0,0,b.s,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(255,255,255,0.38)';ctx.lineWidth=.7;
+        ctx.beginPath();ctx.arc(0,0,b.s-.5,-Math.PI*.75,-Math.PI*.25);ctx.stroke();
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-b.s*.42,-b.s*.42,b.s*.11,0,Math.PI*2);ctx.fill();
+        ctx.restore();
+      });
+      _p.frame=requestAnimationFrame(_sam7Draw);
+    }
+
+    window.addEventListener('resize',function(){ if(_p.enabled)_sam7Init(); });
     </script>
   </body>
 </html>
