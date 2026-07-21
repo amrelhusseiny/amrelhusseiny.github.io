@@ -125,9 +125,16 @@ body:not(.cv-page) .app-header::-webkit-scrollbar {
 }
 
 /* When sidebar is hidden, collapse the reserved margin so content fills full width */
-.app-container.sidebar-collapsed {
+body:not(.cv-page) .app-container.sidebar-collapsed {
   margin-left: 0 !important;
   transition: margin-left 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+/* Also collapse inside the 940-1024px tablet override */
+@media (min-width: 940px) and (max-width: 1024px) {
+  body:not(.cv-page) .app-container.sidebar-collapsed {
+    margin-left: 0 !important;
+    padding: 1.2rem 1.4rem !important;
+  }
 }
 
 /* Content area — matches sidebar height */
