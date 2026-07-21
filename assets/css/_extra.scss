@@ -124,6 +124,12 @@ body:not(.cv-page) .app-header::-webkit-scrollbar {
   pointer-events: none !important;
 }
 
+/* When sidebar is hidden, collapse the reserved margin so content fills full width */
+.app-container.sidebar-collapsed {
+  margin-left: 0 !important;
+  transition: margin-left 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+
 /* Content area — matches sidebar height */
 body:not(.cv-page) .app-container {
   min-height: 100vh !important;
@@ -1059,7 +1065,7 @@ html[data-theme='dark'] pre {
 }
 
 /* ── Tablet (768px – 1024px): narrow sidebar ── */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 940px) and (max-width: 1024px) {
   body:not(.cv-page) .app-header {
     width: 14rem !important;
     padding: 1.4rem 1rem !important;

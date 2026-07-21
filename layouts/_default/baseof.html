@@ -205,8 +205,9 @@
       var isPost = document.querySelector('.app-container .post') !== null;
 
       if (isPost) {
-        /* hide sidebar, show float button */
+        /* hide sidebar and collapse its reserved margin */
         sidebar.classList.add('sidebar-hidden');
+        document.querySelector('.app-container').classList.add('sidebar-collapsed');
         floatBtn.style.display = 'flex';
       }
 
@@ -216,6 +217,7 @@
           e.preventDefault();
           var href = card.getAttribute('href');
           sidebar.classList.add('sidebar-hidden');
+          document.querySelector('.app-container').classList.add('sidebar-collapsed');
           setTimeout(function() { window.location.href = href; }, 360);
         });
       });
@@ -226,6 +228,7 @@
       var sidebar  = document.getElementById('app-sidebar');
       var floatBtn = document.getElementById('sidebar-float-btn');
       sidebar.classList.remove('sidebar-hidden');
+      document.querySelector('.app-container').classList.remove('sidebar-collapsed');
       floatBtn.style.display = 'none';
     }
 
