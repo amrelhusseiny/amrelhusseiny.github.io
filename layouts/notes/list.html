@@ -1,15 +1,33 @@
 {{ define "main" }}
   <div class="notes-stream">
     <h1 class="notes-stream-title">Notes</h1>
-    <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams — no article required.</p>
+    <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams &mdash; no article required.</p>
 
     {{ $notes := where .Site.RegularPages "Section" "notes" }}
     {{ $notes = $notes.ByDate.Reverse }}
 
     {{ if not $notes }}
       <p class="notes-empty">No notes yet. Check back soon.</p>
-    
-  {{/* Mermaid — loaded only on notes stream page */}}
+    {{ end }}
+
+    {{ range $notes }}
+      <article class="note-card">
+        <div class="note-card-date">
+          {{ .Date.Format "Jan 2, 2006" }}
+          <span class="note-card-dot">&middot;</span>
+          <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
+        </div>
+        {{ with .Title }}
+        <div class="note-card-title">{{ . }}</div>
+        {{ end }}
+        <div class="note-card-content">
+          {{ .Content }}
+        </div>
+      </article>
+    {{ end }}
+  </div>
+
+  {{/* Mermaid - loaded only on notes stream page (deferred, non-blocking) */}}
   <script>window.sam7MermaidDark = document.documentElement.getAttribute('data-theme') === 'dark';</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" onload="sam7InitMermaid()"></script>
   <script>
@@ -38,22 +56,4 @@
     });
   }
   </script>
-{{ end }}
-
-    {{ range $notes }}
-      <article class="note-card">
-        <div class="note-card-date">
-          {{ .Date.Format "Jan 2, 2006" }}
-          <span class="note-card-dot">·</span>
-          <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
-        </div>
-        {{ with .Title }}
-        <div class="note-card-title">{{ . }}</div>
-        {{ end }}
-        <div class="note-card-content">
-          {{ .Content }}
-        </div>
-      </article>
-    {{ end }}
-  </div>
 {{ end }}
