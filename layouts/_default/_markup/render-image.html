@@ -1,0 +1,31 @@
+{{- $src := .Destination -}}
+{{- $alt := .PlainText -}}
+{{- $title := .Title -}}
+
+{{- if and (not (strings.HasPrefix $src "http")) (not (strings.HasPrefix $src "/")) -}}
+  {{- /* Page-bundle relative image: process with Hugo imaging */ -}}
+  {{- with .Page.Resources.GetMatch $src -}}
+    {{- $img := . -}}
+    {{- $webp := $img.Process "resize 900x webp" -}}
+    {{- $orig := $img.Process "resize 900x" -}}
+    <picture>
+      <source srcset="{{- $webp.RelPermalink -}}" type="image/webp">
+      <img src="{{- $orig.RelPermalink -}}" alt="{{- $alt -}}"
+           {{ with $title }}title="{{- . -}}" {{ end }}
+           loading="lazy" decoding="async"
+           style="max-width:100%;height:auto;border-radius:8px;">
+    </picture>
+  {{- else -}}
+    {{- /* Fallback: image not in page bundle, render as-is with lazy */ -}}
+    <img src="{{- $src -}}" alt="{{- $alt -}}"
+         {{ with $title }}title="{{- . -}}" {{ end }}
+         loading="lazy" decoding="async"
+         style="max-width:100%;height:auto;border-radius:8px;">
+  {{- end -}}
+{{- else -}}
+  {{- /* Absolute or external URL — render as-is with lazy */ -}}
+  <img src="{{- $src -}}" alt="{{- $alt -}}"
+       {{ with $title }}title="{{- . -}}" {{ end }}
+       loading="lazy" decoding="async"
+       style="max-width:100%;height:auto;border-radius:8px;">
+{{- end -}}

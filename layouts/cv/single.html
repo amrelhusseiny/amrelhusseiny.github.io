@@ -2,13 +2,15 @@
 <html lang="{{ .Site.LanguageCode | default "en-us" }}">
   <head>
     <title>{{ .Params.name }} — CV // {{ .Site.Title }}</title>
-    <link rel="icon" type="image/jpeg" href="https://avatars.githubusercontent.com/amrelhusseiny?size=64" />
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="{{ .Params.name }}" />
     <meta name="description" content="CV of {{ .Params.name }} — {{ .Params.tagline }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | css.Sass | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+    {{ $cvstyle := resources.Get "css/cv.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
+    <link rel="stylesheet" href="{{ $cvstyle.RelPermalink }}" />
   </head>
   <body class="cv-page">
 
