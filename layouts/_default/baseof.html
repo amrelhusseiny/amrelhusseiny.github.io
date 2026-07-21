@@ -73,6 +73,43 @@
     </script>
   </head>
   <body>
+    <!-- ── Mobile top bar (shown only on < 768px via CSS) ── -->
+    <div id="mobile-topbar">
+      <a id="mobile-topbar-title" href="/">Sam7oon's Blog</a>
+      <button id="mobile-hamburger" onclick="sam7ToggleDrawer()" aria-label="Open navigation">
+        <span id="hamburger-icon">☰</span>
+      </button>
+    </div>
+
+    <!-- ── Mobile drawer ── -->
+    <nav id="mobile-drawer" aria-label="Mobile navigation">
+      <div class="drawer-nav">
+        <a class="drawer-blog-link"  href="/blog">Blog</a>
+        <a class="drawer-notes-link" href="/notes">Notes</a>
+        <a class="drawer-about-link" href="/about">About</a>
+        <a class="drawer-cv-link"    href="/cv">CV</a>
+      </div>
+      <div class="drawer-tags">
+        <a class="sidebar-tag" href="/tags/networks/">networks</a>
+        <a class="sidebar-tag" href="/tags/ai/">ai</a>
+        <a class="sidebar-tag" href="/tags/automation/">automation</a>
+        <a class="sidebar-tag" href="/tags/linux/">linux</a>
+      </div>
+      <div class="drawer-controls">
+        <button class="drawer-ctrl-btn" id="drawer-theme-btn" onclick="sam7ToggleTheme()">
+          <span id="drawer-theme-icon">☀</span>
+          <span id="drawer-theme-label">Light</span>
+        </button>
+        <button class="drawer-ctrl-btn" id="drawer-ambient-btn" onclick="sam7ToggleParticles()">
+          <span>✦</span>
+          <span id="drawer-ambient-label">Ambient</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Backdrop: tap to close drawer -->
+    <div id="mobile-backdrop" onclick="sam7CloseDrawer()"></div>
+
     <header class="app-header" id="app-sidebar">
       <div class="app-header-title-wrap">
         <div class="app-header-arabic">سامحون</div>
@@ -137,6 +174,29 @@
       localStorage.setItem('sam7oon_theme', next);
       document.getElementById('theme-icon').textContent  = next === 'dark' ? '☾' : '☀';
       document.getElementById('theme-label').textContent = next === 'dark' ? 'Dark Theme' : 'Light Theme';
+      /* sync drawer icons */
+      var di = document.getElementById('drawer-theme-icon');
+      var dl = document.getElementById('drawer-theme-label');
+      if (di) di.textContent = next === 'dark' ? '☾' : '☀';
+      if (dl) dl.textContent = next === 'dark' ? 'Dark' : 'Light';
+    }
+
+    /* ── Mobile drawer ── */
+    var _drawerOpen = false;
+    function sam7ToggleDrawer() {
+      _drawerOpen ? sam7CloseDrawer() : sam7OpenDrawer();
+    }
+    function sam7OpenDrawer() {
+      _drawerOpen = true;
+      document.getElementById('mobile-drawer').classList.add('drawer-open');
+      document.getElementById('mobile-backdrop').classList.add('backdrop-visible');
+      document.getElementById('hamburger-icon').textContent = '✕';
+    }
+    function sam7CloseDrawer() {
+      _drawerOpen = false;
+      document.getElementById('mobile-drawer').classList.remove('drawer-open');
+      document.getElementById('mobile-backdrop').classList.remove('backdrop-visible');
+      document.getElementById('hamburger-icon').textContent = '☰';
     }
 
     /* ── Active nav highlight ── */
@@ -145,14 +205,24 @@
       var t = document.documentElement.getAttribute('data-theme') || 'light';
       document.getElementById('theme-icon').textContent  = t === 'dark' ? '☾' : '☀';
       document.getElementById('theme-label').textContent = t === 'dark' ? 'Dark Theme' : 'Light Theme';
+      /* sync drawer */
+      var di = document.getElementById('drawer-theme-icon');
+      var dl = document.getElementById('drawer-theme-label');
+      if (di) di.textContent = t === 'dark' ? '☾' : '☀';
+      if (dl) dl.textContent = t === 'dark' ? 'Dark' : 'Light';
 
-      /* highlight active nav link */
+      /* highlight active nav link — sidebar + drawer */
       var path = window.location.pathname;
-      document.querySelectorAll('.app-header-menu a').forEach(function(a) {
+      document.querySelectorAll('.app-header-menu a, #mobile-drawer .drawer-nav a').forEach(function(a) {
         var href = a.getAttribute('href');
         if (href && href !== '/' && path.startsWith(href)) {
           a.classList.add('nav-active');
         }
+      });
+
+      /* close drawer on nav link click */
+      document.querySelectorAll('#mobile-drawer .drawer-nav a').forEach(function(a) {
+        a.addEventListener('click', function() { sam7CloseDrawer(); });
       });
 
       /* ── Sidebar behaviour on post pages ── */

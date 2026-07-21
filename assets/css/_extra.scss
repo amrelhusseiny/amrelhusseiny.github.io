@@ -930,6 +930,285 @@ body.cv-page::before { display: none !important; }
 .print-only { display: none; }
 .cv-header.cv-header-noavatar { display: block; }
 
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — Mobile / Tablet
+   ═══════════════════════════════════════════════════════
+
+   Breakpoints:
+     < 768px  → phones:  sidebar hidden, mobile top bar shown
+     768–1024px → tablets: sidebar narrows to 14rem
+     > 1024px → desktop: existing layout unchanged
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Mobile top bar ── */
+#mobile-topbar {
+  display: none; /* hidden on desktop */
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  z-index: 300;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+#mobile-topbar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+#mobile-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: background 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mobile-hamburger:hover { background: var(--hover-bg); }
+
+/* ── Mobile drawer (slide-down overlay) ── */
+#mobile-drawer {
+  display: none; /* hidden on desktop */
+  position: fixed;
+  top: 56px; left: 0; right: 0;
+  z-index: 299;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  padding: 1rem 1.2rem 1.4rem;
+  box-sizing: border-box;
+  transform: translateY(-110%);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+  pointer-events: none;
+}
+
+#mobile-drawer.drawer-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer nav links */
+#mobile-drawer .drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.8rem;
+}
+
+#mobile-drawer .drawer-nav a {
+  display: block;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background 0.18s;
+}
+
+#mobile-drawer .drawer-nav a:hover,
+#mobile-drawer .drawer-nav a.nav-active {
+  background: var(--selected-bg);
+  color: var(--selected-text);
+}
+
+/* Drawer tags row */
+#mobile-drawer .drawer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 0.5rem 0.8rem;
+}
+
+/* Drawer controls row */
+#mobile-drawer .drawer-controls {
+  display: flex;
+  gap: 0.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--divider);
+}
+
+#mobile-drawer .drawer-ctrl-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid var(--tag-border);
+  background: var(--tag-bg);
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+#mobile-drawer .drawer-ctrl-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
+#mobile-drawer .drawer-ctrl-btn.ambient-on {
+  background: var(--selected-bg);
+  color: var(--selected-text);
+  border-color: var(--selected-bg);
+}
+
+/* Backdrop */
+#mobile-backdrop {
+  display: none;
+  position: fixed;
+  inset: 56px 0 0 0;
+  z-index: 298;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+#mobile-backdrop.backdrop-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Tablet (768px – 1024px): narrow sidebar ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body:not(.cv-page) .app-header {
+    width: 14rem !important;
+    padding: 1.4rem 1rem !important;
+  }
+  /* m10c sets margin-left equal to sidebar width via its own CSS;
+     we need to pull content slightly left to fill the freed space */
+  body:not(.cv-page) .app-container {
+    margin-left: 14rem !important;
+    padding: 1.2rem 1.4rem !important;
+  }
+  .app-header-arabic { font-size: 2.2rem !important; }
+  .app-header-subtitle { font-size: 0.55rem !important; }
+  body:not(.cv-page) .app-header p { font-size: 0.75rem !important; }
+
+  /* Post cards: 1 column on tablets to give more reading space */
+  .post-cards { grid-template-columns: 1fr !important; }
+
+  /* Article card: less horizontal padding */
+  body:not(.cv-page) .app-container .post,
+  body:not(.cv-page) .app-container > article:not(.post) {
+    padding: 1.4rem 1.6rem !important;
+  }
+}
+
+/* ── Mobile (< 768px): top bar replaces sidebar ── */
+@media (max-width: 767px) {
+  /* Show top bar & drawer, hide desktop sidebar */
+  #mobile-topbar { display: flex !important; }
+  #mobile-drawer { display: block !important; }
+  #mobile-backdrop { display: block !important; }
+
+  /* Hide the full sidebar completely */
+  body:not(.cv-page) .app-header {
+    display: none !important;
+  }
+
+  /* Float button not needed on mobile (hamburger replaces it) */
+  #sidebar-float-btn { display: none !important; }
+
+  /* Content starts below the 56px top bar */
+  body:not(.cv-page) .app-container {
+    margin-left: 0 !important;
+    padding: 1rem 0.9rem !important;
+    padding-top: calc(56px + 1rem) !important;
+  }
+
+  /* Post cards: always 1 column on phones */
+  .post-cards { grid-template-columns: 1fr !important; }
+
+  /* Article + about glass card: full-width, less padding */
+  body:not(.cv-page) .app-container .post,
+  body:not(.cv-page) .app-container > article:not(.post) {
+    padding: 1.1rem 1rem !important;
+    border-radius: 14px !important;
+  }
+
+  /* Search bar: full-width */
+  .search-input,
+  .search-wrap-inner { max-width: 100% !important; }
+
+  /* Post card tweaks for touch */
+  .post-card {
+    padding: 1rem 1.1rem !important;
+    border-radius: 16px !important;
+  }
+  .post-card-title { font-size: 0.95rem !important; }
+
+  /* Code blocks: smaller font on phones */
+  pre code { font-size: 0.78em !important; }
+  pre { padding: 1rem 1rem !important; border-radius: 10px !important; }
+
+  /* Images: never overflow */
+  .post img, article img, .post-content img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Mermaid: scrollable on small screens */
+  .mermaid { overflow-x: auto !important; }
+  .mermaid svg { min-width: 320px; }
+
+  /* Notes stream: full width */
+  .notes-stream { max-width: 100% !important; }
+
+  /* Note cards: less padding */
+  .note-card { padding: 1rem !important; border-radius: 14px !important; }
+
+  /* About hero: stack vertically */
+  .about-hero { display: block !important; }
+  .about-hero-photo { width: 80px !important; height: 80px !important; }
+
+  /* Timeline: already collapses at 700px — keep it */
+
+  /* Headings in articles */
+  .post h1, .post-title { font-size: 1.4rem !important; }
+  .post h2 { font-size: 1.15rem !important; }
+  .post h3 { font-size: 1rem !important; }
+}
+
+/* ── CV page: not affected by mobile bar ── */
+@media (max-width: 767px) {
+  body.cv-page #mobile-topbar { display: none !important; }
+  body.cv-page #mobile-drawer { display: none !important; }
+  body.cv-page #mobile-backdrop { display: none !important; }
+  body.cv-page .app-container { padding-top: 0 !important; }
+
+  /* CV responsive: single column */
+  .cv-body { grid-template-columns: 1fr !important; }
+  .cv-sidebar { border-right: none !important; padding-right: 0 !important; border-bottom: 1px solid #e8e8e8; padding-bottom: 1rem !important; margin-bottom: 1rem !important; }
+  .cv-header { flex-direction: column !important; }
+  .cv-skills-grid { grid-template-columns: 1fr !important; }
+  .cv-job-header { flex-direction: column !important; }
+  .cv-job-meta { align-items: flex-start !important; text-align: left !important; }
+}
+
 /* ── CV Print ── */
 @media print {
   @page { size: A4; margin: 1.4cm 1.5cm; }
