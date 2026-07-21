@@ -1,5 +1,19 @@
+import re, sys, subprocess, time
 
-import urllib.request, re, sys
+# Use curl for HTTP fetching — retries up to 3 times on transient failures.
+# The server has a transparent SSL proxy; curl trusts it via system CA bundle.
+def _fetch(url, retries=5):
+    for attempt in range(retries):
+        result = subprocess.run(
+            ["curl", "-s", "-L", "--max-time", "30", url],
+            capture_output=True, text=True, timeout=35
+        )
+        if result.stdout and len(result.stdout) > 500:
+            return result.stdout
+        if attempt < retries - 1:
+            time.sleep(2)
+    raise RuntimeError("curl failed after " + str(retries) + " attempts for " + url)
+
 BASE = "https://amrelhusseiny.github.io"
 PASS = 0
 FAIL = 0
@@ -11,16 +25,16 @@ def check(c, p, f):
     else: fail(f)
 
 print("Fetching pages...")
-blog_html  = urllib.request.urlopen(BASE+"/blog/").read().decode()
+blog_html  = _fetch(BASE+"/blog/")
 m = re.search(r"/css/main\.min\.[^\"'<> ]+\.css", blog_html)
 css_url = m.group(0)
-css        = urllib.request.urlopen(BASE+css_url).read().decode()
+css        = _fetch(BASE+css_url)
 post_url   = BASE+"/blog/001_ai_0003_ai_generated_functional_prints/"
-post_html  = urllib.request.urlopen(post_url).read().decode()
-home_html  = urllib.request.urlopen(BASE+"/").read().decode()
-notes_html = urllib.request.urlopen(BASE+"/notes/").read().decode()
-about_html = urllib.request.urlopen(BASE+"/about/").read().decode()
-cv_html    = urllib.request.urlopen(BASE+"/cv/").read().decode()
+post_html  = _fetch(post_url)
+home_html  = _fetch(BASE+"/")
+notes_html = _fetch(BASE+"/notes/")
+about_html = _fetch(BASE+"/about/")
+cv_html    = _fetch(BASE+"/cv/")
 print("CSS hash: " + css_url.split("/")[-1][:16] + "  len=" + str(len(css)))
 print()
 
@@ -487,7 +501,7 @@ print()
 print("  [aspect ratio meta]")
 # The viewport meta tag is the standard mechanism for responsive layout on real devices.
 # Without it, phones render at ~980px desktop width and no media query fires correctly.
-home_html_vp = urllib.request.urlopen('https://amrelhusseiny.github.io/').read().decode()
+home_html_vp = home_html  # already fetched above
 has_vp_meta = 'name="viewport"' in home_html_vp or "name='viewport'" in home_html_vp or 'name=viewport' in home_html_vp
 check(has_vp_meta,
     "viewport meta tag present (required for device media queries to fire correctly)",
