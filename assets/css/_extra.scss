@@ -124,26 +124,35 @@ body:not(.cv-page) .app-header::-webkit-scrollbar {
   pointer-events: none !important;
 }
 
-/* When sidebar is hidden, collapse the reserved margin so content fills full width */
+/* When sidebar is hidden: center the content area using the standard
+   margin-auto block-centering pattern (MDN: "Aligning in block layout").
+   Both margin-left and margin-right must be auto for centering to work.
+   The transition is declared here (on the base collapsed state) AND on
+   the base element below so it animates symmetrically in both directions. */
 body:not(.cv-page) .app-container.sidebar-collapsed {
-  margin-left: 0 !important;
-  transition: margin-left 0.38s cubic-bezier(0.4,0,0.2,1);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transition: margin 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* Also collapse inside the 940-1024px tablet override */
+
+/* Same centering inside the 940–1024px tablet narrow-sidebar block */
 @media (min-width: 940px) and (max-width: 1024px) {
   body:not(.cv-page) .app-container.sidebar-collapsed {
-    margin-left: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding: 1.2rem 1.4rem !important;
   }
 }
 
-/* Content area — matches sidebar height */
+/* Content area — transition declared on the base element so the
+   animation fires in both directions (open→collapse, collapse→open) */
 body:not(.cv-page) .app-container {
   min-height: 100vh !important;
   box-sizing: border-box;
   background: transparent !important;
   position: relative;
   z-index: 2;
+  transition: margin 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ── Logo — centred ── */

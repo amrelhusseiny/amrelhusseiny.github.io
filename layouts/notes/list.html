@@ -27,14 +27,16 @@
     {{ end }}
   </div>
 
-  {{/* Mermaid - loaded only on notes stream page (deferred, non-blocking) */}}
-  <script>window.sam7MermaidDark = document.documentElement.getAttribute('data-theme') === 'dark';</script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js" onload="sam7InitMermaid()"></script>
-  <script>
-  function sam7InitMermaid() {
-    var dark = window.sam7MermaidDark;
+  {{/* Mermaid — loaded only on notes page via ESM module import (official v11 pattern).
+       type="module" scripts are always deferred by the browser spec, so this never
+       blocks rendering. mermaid.initialize({startOnLoad:false}) + mermaid.run() is
+       the correct v10+ API. We read the current theme before the async import so the
+       themeVariables reflect the user's actual theme at render time. */}}
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
     mermaid.initialize({
-      startOnLoad: true,
+      startOnLoad: false,
       theme: 'base',
       flowchart: { curve: 'basis', nodeSpacing: 60, rankSpacing: 70, padding: 20, useMaxWidth: true },
       themeVariables: {
@@ -54,6 +56,6 @@
         fontSize: '16px'
       }
     });
-  }
+    await mermaid.run({ querySelector: '.mermaid' });
   </script>
 {{ end }}
