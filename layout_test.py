@@ -247,3 +247,263 @@ if FAIL > 0:
     sys.exit(1)
 else:
     print("\n  RESULT: ALL PASS")
+
+
+# ═══════════════════════════════════════════════════════
+# Section 9: DEVICE VIEWPORT MATRIX
+# Simulates which CSS rules apply at each real-world device
+# width by evaluating @media queries against viewport width,
+# then asserting the correct layout properties are active.
+#
+# Device classes and widths sourced from:
+#   - StatCounter Global Stats (top resolutions Jun 2026)
+#   - MDN recommended breakpoint guidance
+#   - Apple/Google device reference dimensions
+#
+# For each viewport width we compute the "winning" value of
+# margin-left on .app-container using CSS cascade order
+# (later rules beat earlier ones at same specificity, and
+# !important beats non-important). Then we assert the
+# expected layout mode for that device class.
+# ═══════════════════════════════════════════════════════
+
+import urllib.request, re, sys
+
+print()
+print("=== 9. DEVICE VIEWPORT MATRIX ===")
+print("    (CSS cascade simulation — evaluates which @media rules fire at each width)")
+print()
+
+# Re-fetch CSS (already fetched above, reuse css variable)
+# Parse all @media blocks and extract their min/max-width bounds + rules inside
+
+def parse_media_blocks(css_text):
+    """Return list of (min_px, max_px, inner_css) for every @media width block."""
+    blocks = []
+    i = 0
+    while i < len(css_text):
+        m = re.search(r'@media([^{]+)\{', css_text[i:])
+        if not m:
+            break
+        query = m.group(1)
+        start = i + m.end()
+        # find matching closing brace
+        depth = 1
+        j = start
+        while j < len(css_text) and depth > 0:
+            if css_text[j] == '{': depth += 1
+            elif css_text[j] == '}': depth -= 1
+            j += 1
+        inner = css_text[start:j-1]
+        # parse min/max width from query
+        min_w = 0
+        max_w = 999999
+        mn = re.search(r'min-width\s*:\s*([\d.]+)px', query)
+        mx = re.search(r'max-width\s*:\s*([\d.]+)px', query)
+        if mn: min_w = float(mn.group(1))
+        if mx: max_w = float(mx.group(1))
+        blocks.append((min_w, max_w, inner, query.strip()))
+        i += m.end()
+    return blocks
+
+def get_margin_left_for_selector(css_block, selector_pat):
+    """Extract margin-left value from a selector inside a css block."""
+    idx = 0
+    while idx < len(css_block):
+        m = re.search(r'([^{]+)\{([^}]+)\}', css_block[idx:])
+        if not m: break
+        sel = m.group(1).strip()
+        body = m.group(2)
+        if re.search(selector_pat, sel):
+            ml = re.search(r'margin-left\s*:\s*([^;!]+)', body)
+            if ml:
+                idx += m.end()
+                return ml.group(1).strip()
+        idx += m.end()
+    return None
+
+# Re-fetch CSS for this section (css var already defined above in same script)
+# Build full cascade for .app-container margin-left at any given viewport width
+media_blocks = parse_media_blocks(css)
+
+def compute_margin_left(viewport_px, collapsed=False):
+    """
+    Compute the effective margin-left on .app-container at a given viewport
+    width. The `collapsed` flag simulates whether the JS has added the
+    sidebar-collapsed class (only present on post pages after sidebar hides).
+
+    Follows CSS cascade:
+      1. Later declaration in source order beats earlier (same specificity)
+      2. !important beats non-important regardless of order
+      3. sidebar-collapsed selector only applies when collapsed=True
+    Returns (value_string, is_important).
+    """
+    top_level = re.sub(r'@media[^{]+\{(?:[^{}]|\{[^{}]*\})*\}', '', css)
+    result_val = None
+    result_imp = False
+
+    def apply(val, imp):
+        nonlocal result_val, result_imp
+        if imp and not result_imp:
+            result_val, result_imp = val, True
+        elif imp and result_imp:
+            result_val = val
+        elif not imp and not result_imp:
+            result_val = val
+
+    # Selector to match: app-container WITHOUT sidebar-collapsed (base state)
+    # We specifically exclude sidebar-collapsed rules when not collapsed
+    def sel_matches(sel, collapsed):
+        has_collapsed = 'sidebar-collapsed' in sel
+        has_container = 'app-container' in sel
+        if not has_container:
+            return False
+        if has_collapsed and not collapsed:
+            return False   # collapsed-only rule, class not present
+        return True
+
+    def get_ml_filtered(css_block, collapsed):
+        idx = 0
+        last_val = None
+        while idx < len(css_block):
+            m = re.search(r'([^{]+)\{([^}]+)\}', css_block[idx:])
+            if not m: break
+            sel = m.group(1).strip()
+            body = m.group(2)
+            if sel_matches(sel, collapsed):
+                ml = re.search(r'margin-left\s*:\s*([^;!]+)', body)
+                if ml:
+                    last_val = (ml.group(1).strip(), '!important' in body)
+            idx += m.end()
+        return last_val
+
+    # Baseline (top-level, outside @media)
+    r = get_ml_filtered(top_level, collapsed)
+    if r: apply(r[0], r[1])
+
+    # Apply matching @media blocks in source order
+    for (min_w, max_w, inner, query) in media_blocks:
+        if min_w <= viewport_px <= max_w:
+            r = get_ml_filtered(inner, collapsed)
+            if r: apply(r[0], r[1])
+
+    return result_val, result_imp
+
+# ── Device matrix ──────────────────────────────────────────────────────────────
+# Each entry: (device_label, viewport_width_px, expected_class, expected_layout_description)
+# expected_class: 'mobile' | 'gap' | 'tablet' | 'desktop'
+#
+# Layout rules:
+#   mobile  (< 768px)  → sidebar hidden, margin-left: 0 (top bar instead)
+#   gap     (768–939px)→ no sidebar (theme off), no mobile bar → margin-left must be 0
+#   tablet  (940–1024px)→ sidebar 14rem wide → margin-left: 14rem
+#   desktop (> 1024px) → sidebar 20rem wide → margin-left: 20rem
+
+DEVICES = [
+    # ── Phones (portrait) ──────────────────────────────
+    # StatCounter top mobile: 360x800, 375x812, 390x844, 414x896, 384x832
+    ("Samsung Galaxy S (360px)",        360,  'mobile'),
+    ("iPhone SE / 6/7/8 (375px)",       375,  'mobile'),
+    ("iPhone 12/13/14 (390px)",         390,  'mobile'),
+    ("iPhone 6 Plus / XR (414px)",      414,  'mobile'),
+    ("Android mid-range (384px)",       384,  'mobile'),
+    ("Large Android (430px)",           430,  'mobile'),
+    ("Small phone edge (320px)",        320,  'mobile'),
+    ("Phone upper bound (767px)",       767,  'mobile'),
+
+    # ── Gap zone (768–939px): no sidebar, no mobile bar ─
+    # These widths must NOT activate sidebar margin but must also
+    # not show mobile bar. Content should be full-width (margin 0).
+    ("Gap zone low (768px)",            768,  'gap'),
+    ("iPad mini portrait (768px)",      768,  'gap'),
+    ("Generic tablet portrait (800px)", 800,  'gap'),
+    ("iPad Air portrait (820px)",       820,  'gap'),
+    ("Gap zone high (939px)",           939,  'gap'),
+
+    # ── Tablet narrow sidebar (940–1024px) ─────────────
+    ("Sidebar threshold exact (940px)", 940,  'tablet'),
+    ("iPad landscape low (960px)",      960,  'tablet'),
+    ("iPad Pro 11 portrait (1024px)",  1024,  'tablet'),
+
+    # ── Desktop full sidebar (> 1024px) ────────────────
+    # StatCounter top desktop: 1920x1080 #1 (9.37%)
+    ("Desktop low (1025px)",           1025,  'desktop'),
+    ("MacBook Air 13 (1280px)",        1280,  'desktop'),
+    ("HD laptop (1366px)",             1366,  'desktop'),
+    ("MacBook Pro 14 (1440px)",        1440,  'desktop'),
+    ("1080p monitor (1920px)",         1920,  'desktop'),
+    ("4K / 2560px",                    2560,  'desktop'),
+]
+
+# Expected margin-left values per class
+EXPECTED = {
+    'mobile':  '0',    # mobile override zeroes margin
+    'gap':     '0',    # no rule applies → baseline is 0 (or no margin)
+    'tablet':  '14rem',
+    'desktop': '20rem',
+}
+
+# ── Base state (sidebar visible, no sidebar-collapsed class) ──────────────────
+print("  [base state — sidebar open, no sidebar-collapsed class]")
+for label, vp, cls in DEVICES:
+    val, imp = compute_margin_left(vp, collapsed=False)
+    expected = EXPECTED[cls]
+    actual = (val or '0').strip().rstrip(';').lower()
+    if actual in ('', 'none', 'initial'): actual = '0'
+    if actual == expected:
+        ok("base  %4dpx %-38s → margin-left:%-7s ✓ %s" % (vp, '('+label+')', actual, cls))
+    else:
+        fail("base  %4dpx %-38s → expected:%-7s got:'%s' ✗ %s WRONG" % (vp, '('+label+')', expected, actual, cls))
+
+# ── Collapsed state (post page: sidebar-collapsed class present) ──────────────
+print()
+print("  [collapsed state — post page, sidebar-collapsed class applied by JS]")
+# On post pages the sidebar is always hidden regardless of viewport.
+# Expected margin-left when collapsed:
+#   mobile (<768px):  mobile @media sets margin-left:0 — this wins even over
+#                     sidebar-collapsed (mobile override is !important)
+#   gap (768-939px):  sidebar-collapsed global rule fires: margin-left:auto
+#                     (no sidebar here anyway, centering is correct)
+#   tablet (940-1024px): sidebar-collapsed tablet override: margin-left:auto
+#   desktop (>1024px):   sidebar-collapsed global rule: margin-left:auto
+EXPECTED_COLLAPSED = {
+    'mobile':  '0',     # mobile !important override beats sidebar-collapsed
+    'gap':     'auto',  # global sidebar-collapsed rule, no @media guard → fires
+    'tablet':  'auto',  # tablet override for sidebar-collapsed → auto
+    'desktop': 'auto',  # global sidebar-collapsed → auto (centering)
+}
+for label, vp, cls in DEVICES:
+    val, imp = compute_margin_left(vp, collapsed=True)
+    expected = EXPECTED_COLLAPSED[cls]
+    actual = (val or '0').strip().rstrip(';').lower()
+    if actual in ('', 'none', 'initial'): actual = '0'
+    if actual == expected:
+        ok("coll  %4dpx %-38s → margin-left:%-7s ✓ %s (collapsed)" % (vp, '('+label+')', actual, cls))
+    else:
+        fail("coll  %4dpx %-38s → expected:%-7s got:'%s' ✗ %s (collapsed) WRONG" % (vp, '('+label+')', expected, actual, cls))
+
+# ── Aspect ratio: verify meta viewport tag is present ──────────────────────────
+print()
+print("  [aspect ratio meta]")
+# The viewport meta tag is the standard mechanism for responsive layout on real devices.
+# Without it, phones render at ~980px desktop width and no media query fires correctly.
+home_html_vp = urllib.request.urlopen('https://amrelhusseiny.github.io/').read().decode()
+has_vp_meta = 'name="viewport"' in home_html_vp or "name='viewport'" in home_html_vp or 'name=viewport' in home_html_vp
+check(has_vp_meta,
+    "viewport meta tag present (required for device media queries to fire correctly)",
+    "MISSING viewport meta — all device breakpoints will be ignored by real mobile browsers")
+
+has_width_device = 'width=device-width' in home_html_vp
+check(has_width_device,
+    "viewport meta sets width=device-width (correct — enables CSS px = device CSS px mapping)",
+    "viewport meta missing width=device-width — breakpoints will fire at wrong device widths")
+
+has_initial_scale = 'initial-scale=1' in home_html_vp
+check(has_initial_scale,
+    "viewport meta sets initial-scale=1 (correct — prevents zoom-in on iOS Safari)",
+    "viewport meta missing initial-scale=1 — iOS Safari may zoom in and break layout")
+
+print()
+print("=== SECTION 9 SUMMARY ===")
+print("  Devices tested: %d" % len(DEVICES))
+print("  Viewport meta checks: 3")

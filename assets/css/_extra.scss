@@ -135,14 +135,10 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   transition: margin 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Same centering inside the 940–1024px tablet narrow-sidebar block */
-@media (min-width: 940px) and (max-width: 1024px) {
-  body:not(.cv-page) .app-container.sidebar-collapsed {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding: 1.2rem 1.4rem !important;
-  }
-}
+/* NOTE: The sidebar-collapsed centering override for 940-1024px is placed
+   INSIDE the main tablet @media block below (after the 14rem rule), not here.
+   This is required because both rules use !important — source order decides,
+   so the centering override must come last within the same @media block. */
 
 /* Content area — transition declared on the base element so the
    animation fires in both directions (open→collapse, collapse→open) */
@@ -1080,17 +1076,23 @@ html[data-theme='dark'] pre {
   pointer-events: auto;
 }
 
-/* ── Tablet (768px – 1024px): narrow sidebar ── */
+/* ── Tablet (940px – 1024px): narrow sidebar ── */
 @media (min-width: 940px) and (max-width: 1024px) {
   body:not(.cv-page) .app-header {
     width: 14rem !important;
     padding: 1.4rem 1rem !important;
   }
-  /* m10c sets margin-left equal to sidebar width via its own CSS;
-     we need to pull content slightly left to fill the freed space */
+  /* m10c sets margin-left equal to sidebar width via its own CSS */
   body:not(.cv-page) .app-container {
     margin-left: 14rem !important;
     padding: 1.2rem 1.4rem !important;
+  }
+  /* sidebar-collapsed centering override — MUST come after the 14rem rule above.
+     Both use !important so source order within this block decides the winner.
+     This rule fires later → auto wins over 14rem when sidebar is collapsed. */
+  body:not(.cv-page) .app-container.sidebar-collapsed {
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   .app-header-arabic { font-size: 2.2rem !important; }
   .app-header-subtitle { font-size: 0.55rem !important; }
