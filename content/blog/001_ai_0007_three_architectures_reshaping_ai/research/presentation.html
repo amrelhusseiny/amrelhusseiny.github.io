@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Architectures Reshaping AI — Cerebras, Mercury 2, Qwen World</title>
+
+<!-- reveal.js CSS (CDN) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+
+<style>
+  /* ── Custom overrides ── */
+  :root {
+    --r-heading-text-transform: none;
+    --r-main-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --r-heading-font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --r-code-font: 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  .reveal h1 { font-size: 2.4em; }
+  .reveal h2 { font-size: 1.8em; }
+  .reveal h3 { font-size: 1.3em; }
+
+  .reveal .slides section {
+    padding: 1em;
+  }
+
+  /* Mermaid diagram container */
+  .mermaid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5em auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .mermaid-container .mermaid {
+    max-width: 100%;
+  }
+
+  /* Two-column layout */
+  .two-col {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .two-col > div { flex: 1; }
+
+  /* Three-column layout */
+  .three-col {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    font-size: 0.75em;
+  }
+  .three-col > div { flex: 1; }
+
+  /* Badge / tag */
+  .tag {
+    display: inline-block;
+    padding: 0.15em 0.55em;
+    border-radius: 0.3em;
+    font-size: 0.7em;
+    font-weight: 700;
+    margin-right: 0.3em;
+    vertical-align: middle;
+  }
+  .tag-hw   { background: #f97316; color: #000; } /* Cerebras – orange */
+  .tag-diff { background: #06b6d4; color: #000; } /* Mercury 2 – cyan */
+  .tag-sim  { background: #22c55e; color: #000; } /* Qwen World – green */
+  .tag-syn  { background: #a855f7; color: #fff; } /* Synthesis – purple */
+
+  /* Big number callout */
+  .big-num {
+    font-size: 2.4em;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .big-num small { font-size: 0.45em; font-weight: 400; opacity: 0.7; display: block; }
+
+  /* Comparison table */
+  table.compact {
+    font-size: 0.65em;
+    margin: 0.5em auto;
+    border-collapse: collapse;
+  }
+  table.compact th,
+  table.compact td {
+    padding: 0.3em 0.7em;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  table.compact th {
+    background: rgba(255,255,255,0.08);
+    font-weight: 700;
+    text-align: left;
+  }
+
+  /* Slide with accent left border */
+  .accent-left {
+    border-left: 4px solid #f97316;
+    padding-left: 1em;
+    text-align: left;
+  }
+
+  /* Source reference */
+  .source {
+    font-size: 0.45em;
+    opacity: 0.5;
+    margin-top: 1.2em;
+    text-align: right;
+    font-style: italic;
+  }
+
+  /* Inline highlight */
+  .hl-orange { color: #fb923c; }
+  .hl-cyan   { color: #22d3ee; }
+  .hl-green  { color: #4ade80; }
+  .hl-purple { color: #c084fc; }
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══════════════════════════════════════════════════════════════ TITLE ════ -->
+<section>
+  <h1>Three Architectures<br>Reshaping AI</h1>
+  <p style="margin-top:1em;">
+    <span class="tag tag-hw">CEREBRAS</span> The Hardware Beast<br>
+    <span class="tag tag-diff">MERCURY 2</span> The Diffusion Rebel<br>
+    <span class="tag tag-sim">QWEN WORLD</span> The Simulator
+  </p>
+  <p style="font-size:0.7em; margin-top:1.5em; opacity:0.6;">
+    + <span class="tag tag-syn">OpenRouter</span> Synthesis — One API, Radically Different Brains
+  </p>
+  <p class="source">Research deck — July 2026</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ AGENDA ════ -->
+<section>
+  <h2>Agenda</h2>
+  <div class="mermaid-container">
+    <div class="mermaid">
+mindmap
+  root((Three Architectures
+    Reshaping AI))
+    Cerebras
+      Wafer-Scale Hardware
+      Instant Inference
+      57× larger than GPU
+    Mercury 2
+      Diffusion Text Gen
+      Parallel Decoding
+      1000+ tok/s on GPUs
+    Qwen World
+      Language World Model
+      Predicts Consequences
+      7 Unified Domains
+    OpenRouter
+      One API
+      Three Brains
+      Synthesis
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ CEREBRAS SECTION ════ -->
+<section data-background="#1a0e00">
+  <h2><span class="tag tag-hw">CEREBRAS</span></h2>
+  <h1>The Hardware Beast</h1>
+  <p style="font-size:1.2em;">Wafer-Scale = Instant Inference</p>
+</section>
+
+<section>
+  <h3>Core Thesis</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  subgraph GPU["🖥️ Traditional GPU Cluster"]
+    direction TB
+    G1[GPU 1] -->|"PCIe / NVLink
+    bottleneck"| G2[GPU 2]
+    G2 -->|"inter-chip
+    latency"| G3[GPU 3]
+    G3 -->|"... "| G4[GPU n]
+    G1 -.- M1[Model shard 1]
+    G2 -.- M2[Model shard 2]
+    G3 -.- M3[Model shard 3]
+    G4 -.- M4[Model shard n]
+  end
+
+  subgraph CS["⚡ Cerebras Wafer-Scale"]
+    direction TB
+    W["WSE-3 Single Chip
+    46,225 mm² · 4T transistors
+    900,000 AI cores"]
+    FULL["Entire model on ONE chip
+    ZERO inter-chip hops"]
+    W --> FULL
+  end
+
+  GPU -->|"15× slower
+  data movement dominates"| CS
+  style GPU fill:#331100,stroke:#f97316,color:#ffe0c0
+  style CS fill:#002211,stroke:#22c55e,color:#c0ffe0
+  style W fill:#005522,stroke:#22c55e,color:#fff
+  style FULL fill:#007733,stroke:#22c55e,color:#fff
+    </div>
+  </div>
+  <p class="accent-left">
+    <strong>Key insight:</strong> In GPU clusters, most time is spent <em>moving data</em>, not computing.
+    Cerebras puts the entire model on one wafer — <strong>zero inter-chip communication</strong>.
+  </p>
+</section>
+
+<section>
+  <h3>WSE-3 vs NVIDIA B200</h3>
+  <table class="compact">
+    <tr><th>Spec</th><th><span class="hl-orange">WSE-3 (Cerebras)</span></th><th>NVIDIA B200</th></tr>
+    <tr><td>Die size</td><td><strong>46,225 mm²</strong> (57×)</td><td>~800 mm²</td></tr>
+    <tr><td>Transistors</td><td><strong>4 trillion</strong> (19×)</td><td>~208 billion</td></tr>
+    <tr><td>AI cores</td><td><strong>900,000</strong></td><td>~18,432 CUDA</td></tr>
+    <tr><td>Peak perf (FP16)</td><td><strong>125 petaflops</strong></td><td>~4.5 petaflops</td></tr>
+    <tr><td>On-chip memory</td><td><strong>44 GB SRAM</strong></td><td>192 GB HBM3e (off-die)</td></tr>
+    <tr><td>Memory bandwidth</td><td><strong>20 PB/sec</strong> (5,000×)</td><td>8 TB/sec</td></tr>
+    <tr><td>Time-to-first-token</td><td><strong>Sub-second</strong></td><td>Several seconds</td></tr>
+  </table>
+  <p class="source">Sources: cerebras.ai, Wikipedia — Cerebras Systems</p>
+</section>
+
+<section>
+  <h3>Why Wafer-Scale Was "Impossible"</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart LR
+  A["🔴 A single defect
+  on a wafer
+  → entire chip ruined"] --> B["🔧 Cerebras solution:
+  <strong>Redundant cores</strong>"]
+  B --> C["Defective cores are
+  detected &amp; bypassed"]
+  C --> D["✅ Chip works
+  at full spec"]
+  A -- "Historical
+  barrier" -->|"Solved!"| B
+  style A fill:#550000,stroke:#ef4444,color:#fdd
+  style B fill:#003311,stroke:#22c55e,color:#cfc
+  style C fill:#004422,stroke:#22c55e,color:#cfc
+  style D fill:#005533,stroke:#22c55e,color:#fff
+    </div>
+  </div>
+  <p>This was <strong>the</strong> engineering breakthrough that made wafer-scale viable.</p>
+</section>
+
+<section>
+  <h3>Products &amp; Differentiators</h3>
+  <div class="two-col">
+    <div>
+      <h4 style="color:#fb923c;">Offerings</h4>
+      <ul style="font-size:0.8em;">
+        <li><strong>CS-3 System</strong> — compute appliance</li>
+        <li><strong>Cerebras Cloud</strong> — inference API
+          <br><small style="opacity:0.6;">inference.cerebras.ai</small></li>
+        <li>Models: Llama-4-31B, Kimi K2.6,
+          <br>GLM 4.7, Codex-Spark</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#fb923c;">Differentiators</h4>
+      <ul style="font-size:0.8em;">
+        <li>⚡ Sub-second TTFT</li>
+        <li>🚀 1000+ tok/sec throughput</li>
+        <li>🔋 Less energy on data movement</li>
+        <li>🧩 One chip vs. complex topologies</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:0.7em; margin-top:1em;">
+    <strong>Ideal for:</strong> Real-time voice agents · Coding assistants · Enterprise RAG
+  </p>
+</section>
+
+<section>
+  <h3>The Speed Gap — Visualised</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+xychart-beta
+  title "Inference Speed Comparison"
+  x-axis [ "Time-to-first-token (ms)", "Throughput (tok/s)" ]
+  y-axis "Relative performance (log scale)" 1 --> 2000
+  bar [ 200, 1500 ]
+  bar [ 2000, 100 ]
+</div>
+<!-- NOTE: mermaid xychart-beta with log is tricky; use a cleaner chart -->
+    </div>
+  </div>
+  <div class="two-col" style="font-size:0.75em; margin-top:0.5em;">
+    <div style="text-align:center;">
+      <span class="big-num" style="font-size:1.8em;">&lt; 1 sec<small>Time-to-first-token<br>Cerebras</small></span>
+    </div>
+    <div style="text-align:center;">
+      <span class="big-num" style="font-size:1.8em;">~ 3-5 sec<small>Time-to-first-token<br>GPU cluster</small></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ MERCURY 2 SECTION ════ -->
+<section data-background="#001a1a">
+  <h2><span class="tag tag-diff">MERCURY 2</span></h2>
+  <h1>The Diffusion Rebel</h1>
+  <p style="font-size:1.2em;">Text as Diffusion, Not Next-Token</p>
+</section>
+
+<section>
+  <h3>Core Thesis</h3>
+  <p style="text-align:left;">
+    Mercury 2 by <strong>Inception Labs</strong> is the world's first <strong>reasoning diffusion LLM</strong>.
+    Instead of generating text token-by-token (autoregressive, like GPT/Claude/Gemini),
+    it uses <strong>diffusion-based parallel decoding</strong> — generating multiple tokens simultaneously.
+  </p>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart LR
+  subgraph AR["🔤 Autoregressive (GPT et al.)"]
+    direction LR
+    A1["Token 1"] --> A2["Token 2"] --> A3["Token 3"] --> A4["..."]
+  end
+  subgraph DF["⚡ Diffusion (Mercury 2)"]
+    direction TB
+    D0["Noise / masked tokens
+    ███ ███ ███ ███ ███"] --> D1["Iterative denoising
+    ███ The ███ cat ███"]
+    D1 --> D2["Further refinement
+    The quick cat sat"]
+    D2 --> D3["Final output
+    The quick cat sat down"]
+  end
+  AR -. "Inherently sequential
+  50-100 tok/s" .-> AR
+  DF -. "Parallel blocks
+  1000+ tok/s" .-> DF
+  style AR fill:#001a33,stroke:#3b82f6,color:#dde
+  style DF fill:#002233,stroke:#06b6d4,color:#cff
+  style D0 fill:#004455,stroke:#06b6d4,color:#eee
+  style D1 fill:#005566,stroke:#06b6d4,color:#eee
+  style D2 fill:#006677,stroke:#06b6d4,color:#fff
+  style D3 fill:#007788,stroke:#22d3ee,color:#fff
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>The Diffusion Difference — Detailed</h3>
+  <table class="compact">
+    <tr><th></th><th>Autoregressive</th><th><span class="hl-cyan">Diffusion (Mercury 2)</span></th></tr>
+    <tr><td>Generation</td><td>One token at a time</td><td><strong>Multiple tokens in parallel</strong></td></tr>
+    <tr><td>Speed</td><td>~50-100 tok/s</td><td><strong>1000+ tok/s</strong></td></tr>
+    <tr><td>Latency</td><td>~3 sec reasoning</td><td><strong>~300 ms reasoning</strong></td></tr>
+    <tr><td>Context</td><td>Varies</td><td><strong>128K tokens</strong></td></tr>
+    <tr><td>Philosophy</td><td>"Think one word at a time"</td><td><strong>"Think in parallel, then refine"</strong></td></tr>
+  </table>
+  <p style="font-size:0.65em; margin-top:1em;">
+    This challenges the entire GPT paradigm that has dominated LLMs since 2018.
+  </p>
+</section>
+
+<section>
+  <h3>Mercury 2 at a Glance</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+mindmap
+  root((Mercury 2))
+    Speed
+      1000+ tok/s
+      Standard NVIDIA GPUs
+      5-10× faster than AR
+    Latency
+      300ms reasoning
+      Down from ~3s
+      Natural conversation
+    Capabilities
+      Reasoning
+      Tool use
+      Structured output
+      Function calling
+    API
+      OpenAI-compatible
+      Drop-in replacement
+    Pricing
+      $0.25 / 1M in
+      $0.025 / 1M cached
+      $0.75 / 1M out
+      Cheaper than frontier AR
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Research Foundation</h3>
+  <table class="compact">
+    <tr><th>Paper</th><th>arXiv</th><th>Focus</th></tr>
+    <tr><td><strong>Mercury</strong></td><td>2506.17298</td><td>Main — reasoning diffusion LLM</td></tr>
+    <tr><td><strong>Block Diffusion</strong></td><td>2503.09573</td><td>Block-level diffusion decoding</td></tr>
+    <tr><td><strong>d1</strong></td><td>2504.12216</td><td>Diffusion reasoning</td></tr>
+    <tr><td><strong>LaViDa</strong></td><td>2505.16839</td><td>Latent vision diffusion</td></tr>
+  </table>
+  <p style="font-size:0.65em; margin-top:0.8em;">
+    <strong>Team:</strong> Stanford, UCLA, Cornell researchers · Experience at Google DeepMind, Meta AI, Microsoft AI, OpenAI
+  </p>
+  <p style="font-size:0.65em;">
+    <strong>Products:</strong> Mercury 2 (general) · Mercury Edit 2 (coding) · platform.inceptionlabs.ai
+  </p>
+</section>
+
+<section>
+  <h3>Why Mercury 2 Matters</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  Q["❓ Why was text diffusion
+  considered extremely hard?"] --> A["Text is <strong>discrete</strong> (tokens)
+  while diffusion works naturally on
+  <strong>continuous</strong> spaces (images)"]
+  A --> B["🔬 Mercury 2's breakthrough:
+  making diffusion work on
+  discrete text tokens"]
+  B --> C["🌊 If this scales, it could
+  <strong>fundamentally shift</strong> the LLM
+  architecture landscape away from
+  autoregressive dominance"]
+  style Q fill:#330022,stroke:#a855f7,color:#edf
+  style A fill:#220033,stroke:#c084fc,color:#edf
+  style B fill:#003322,stroke:#22c55e,color:#cfc
+  style C fill:#004433,stroke:#22c55e,color:#fff
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ QWEN WORLD SECTION ════ -->
+<section data-background="#001a00">
+  <h2><span class="tag tag-sim">QWEN WORLD</span></h2>
+  <h1>The Simulator</h1>
+  <p style="font-size:1.2em;">Predicts Consequences Before Acting</p>
+</section>
+
+<section>
+  <h3>Core Thesis</h3>
+  <p style="text-align:left;">
+    <strong>Qwen-AgentWorld</strong> is a <em>native language world model</em> — an LLM trained not to chat or write code,
+    but to <strong>simulate environments</strong>. Given the current state of an environment and an agent's action,
+    it predicts what the environment will return.
+  </p>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart LR
+  S["🌍 Current
+  Environment State"] --> WM["🧠 Qwen-AgentWorld
+  Language World Model"]
+  A["🎯 Agent Action
+  e.g. 'run git status'"] --> WM
+  WM --> P["📋 Predicted
+  Environment Response"]
+  P -->|"Compare"| R["✅ Reality
+  Ground Truth"]
+  style S fill:#001a33,stroke:#3b82f6,color:#dde
+  style A fill:#332200,stroke:#f97316,color:#fed
+  style WM fill:#003311,stroke:#22c55e,color:#cfc
+  style P fill:#001a44,stroke:#6366f1,color:#ddf
+  style R fill:#330022,stroke:#ec4899,color:#fdf
+    </div>
+  </div>
+  <p style="font-size:0.75em;">This is <strong>predict consequences before acting</strong> — the cognitive mechanism needed for truly agentic AI.</p>
+</section>
+
+<section>
+  <h3>Qwen-AgentWorld — Quick Card</h3>
+  <table class="compact">
+    <tr><td><strong>Paper</strong></td><td>arxiv 2606.24597 (submitted June 23, 2026)</td></tr>
+    <tr><td><strong>GitHub</strong></td><td>QwenLM/Qwen-AgentWorld · 854 ⭐ · Apache 2.0</td></tr>
+    <tr><td><strong>Models</strong></td><td>35B-A3B (MoE) · 397B-A17B (MoE) · Open-weight</td></tr>
+    <tr><td><strong>Context</strong></td><td>256K tokens</td></tr>
+    <tr><td><strong>Training data</strong></td><td>10M+ real-world interaction trajectories</td></tr>
+    <tr><td><strong>Deployment</strong></td><td>SGLang · vLLM · OpenAI-compatible API</td></tr>
+  </table>
+</section>
+
+<section>
+  <h3>Seven Unified Domains</h3>
+  <p style="font-size:0.7em;">A single model simulates environments across <strong>7 agent-interaction domains</strong>:</p>
+  <div class="mermaid-container">
+    <div class="mermaid">
+mindmap
+  root((Qwen-AgentWorld
+    7 Domains))
+    MCP
+      Model Context Protocol
+      Tool use
+    Search
+      Web / information
+      retrieval
+    Terminal
+      Linux command line
+      Bash environment
+    SWE
+      Software engineering
+      Code repos
+    Android
+      Mobile device
+      interaction
+    Web
+      Browser automation
+      HTML / DOM
+    OS
+      Operating system
+      interaction
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Three-Stage Training Pipeline</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  subgraph Stage1["🔵 Stage 1: CPT (Continual Pre-Training)"]
+    S1["Inject general-purpose world-modeling
+    capabilities from state transition
+    dynamics + augmented professional corpora"]
+  end
+  subgraph Stage2["🟡 Stage 2: SFT (Supervised Fine-Tuning)"]
+    S2["Activate next-state-prediction
+    reasoning capabilities"]
+  end
+  subgraph Stage3["🟢 Stage 3: RL (Reinforcement Learning)"]
+    S3["Sharpen simulation fidelity through
+    hybrid rubric-and-rule rewards"]
+  end
+  Stage1 --> Stage2 --> Stage3
+  D["📦 10M+ real-world interaction
+  trajectories across 7 domains"] --> Stage1
+  Stage3 --> M["✅ Qwen-AgentWorld
+  Native World Model"]
+  style Stage1 fill:#002244,stroke:#3b82f6,color:#dde
+  style Stage2 fill:#332200,stroke:#eab308,color:#fed
+  style Stage3 fill:#003311,stroke:#22c55e,color:#cfc
+  style D fill:#220033,stroke:#a855f7,color:#edf
+  style M fill:#004422,stroke:#22c55e,color:#fff
+    </div>
+  </div>
+  <p style="font-size:0.65em; margin-top:0.5em;">
+    <strong>Key innovation:</strong> World-modeling is the <em>training objective from CPT onward</em>, not a post-hoc add-on.
+  </p>
+</section>
+
+<section>
+  <h3>Performance — AgentWorldBench</h3>
+  <p style="font-size:0.65em;">Comprehensive benchmark evaluating on 5 dimensions: Format, Factuality, Consistency, Realism, Quality</p>
+  <div class="mermaid-container">
+    <div class="mermaid">
+xychart-beta
+  title "AgentWorldBench Overall Scores"
+  x-axis [ "Qwen-AW\n397B", "GPT\n5.4", "Claude\nOpus 4.6", "Claude\nOpus 4.8", "Claude\nSonnet 4.6", "Gemini\n3.1 Pro", "DeepSeek\nV4-Pro", "GLM\n5.1" ]
+  y-axis "Score" 45 --> 62
+  bar [ 58.71, 58.25, 57.80, 56.59, 56.04, 54.57, 52.97, 51.31 ]
+    </div>
+  </div>
+  <p style="font-size:0.6em; margin-top:0.3em;">
+    <strong style="color:#4ade80;">Qwen-AgentWorld-35B-A3B (56.39)</strong> shows <strong>+8.66</strong> improvement over Qwen3.5-35B-A3B (47.73) without LWM training.
+  </p>
+</section>
+
+<section>
+  <h3>Two Paradigms for Agent Enhancement</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  M["Qwen-AgentWorld
+  Language World Model"]
+  M --> P1["🔹 Paradigm 1:
+  <strong>Decoupled Environment Simulator</strong>"]
+  M --> P2["🔹 Paradigm 2:
+  <strong>Unified Agent Foundation Model</strong>"]
+  P1 --> P1a["Sim RL on 4k OOD OpenClaw:
+  +4.3 Claw-Eval, +7.1 QwenClawBench"]
+  P1 --> P1b["Controlled perturbations (MCP):
+  +12.3 MCPMark"]
+  P1 --> P1c["Fictional-world (Search):
+  +16.29 F1 Item"]
+  P2 --> P2a["Terminal-Bench 2.0: +6.30"]
+  P2 --> P2b["SWE-Bench Verified: +3.39"]
+  P2 --> P2c["SWE-Bench Pro: +5.24"]
+  P2 --> P2d["WideSearch F1: +12.79"]
+  P2 --> P2e["BFCL v4: +8.96"]
+  style M fill:#003311,stroke:#22c55e,color:#cfc
+  style P1 fill:#001a44,stroke:#6366f1,color:#ddf
+  style P2 fill:#330022,stroke:#ec4899,color:#fdf
+  style P1a fill:#001a55,stroke:#818cf8,color:#eef
+  style P1b fill:#001a55,stroke:#818cf8,color:#eef
+  style P1c fill:#001a55,stroke:#818cf8,color:#eef
+  style P2a fill:#440033,stroke:#f472b6,color:#fef
+  style P2b fill:#440033,stroke:#f472b6,color:#fef
+  style P2c fill:#440033,stroke:#f472b6,color:#fef
+  style P2d fill:#440033,stroke:#f472b6,color:#fef
+  style P2e fill:#440033,stroke:#f472b6,color:#fef
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Why Qwen World Matters</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  NOW["🤖 Current agents:
+  act blindly, observe results"] -->|"Evolutionary leap"| NEXT["🧠 World-model agents:
+  <strong>imagine</strong> consequences
+  <strong>before</strong> executing"]
+  NEXT --> PROOF["✅ Qwen-AgentWorld proves:
+  1. Single model → 7 domain types
+  2. Sim training can beat real training
+  3. World-model training transfers
+     to better agent performance"]
+  style NOW fill:#330011,stroke:#ef4444,color:#fcc
+  style NEXT fill:#003311,stroke:#22c55e,color:#cfc
+  style PROOF fill:#004422,stroke:#22c55e,color:#fff
+    </div>
+  </div>
+  <p style="font-size:0.7em;">This is analogous to how <strong>humans think through consequences</strong> before acting.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════ OPENROUTER SYNTHESIS ════ -->
+<section data-background="#1a0020">
+  <h2><span class="tag tag-syn">OpenRouter</span></h2>
+  <h1>Synthesis</h1>
+  <p style="font-size:1.2em;">One API · Radically Different Brains</p>
+</section>
+
+<section>
+  <h3>The Synthesis — One API, Three Architectures</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  USER["👤 User / Application
+  Same prompt · Same API call"]
+  OR["🔀 OpenRouter
+  Unified API Gateway
+  POST /v1/chat/completions"]
+  OR --> C["<span class='tag tag-hw'>Cerebras</span>
+  Wafer-Scale
+  ⚡ Sub-second TTFT
+  🔥 1000+ tok/s"]
+  OR --> M["<span class='tag tag-diff'>Mercury 2</span>
+  Diffusion
+  🌊 Parallel decoding
+  💨 1000+ tok/s on GPUs"]
+  OR --> Q["<span class='tag tag-sim'>Qwen World</span>
+  World Model
+  🧠 Predicts consequences
+  🎯 7 domains"]
+  C --> R["📊 Three fundamentally
+  different ways of
+  computing intelligence"]
+  M --> R
+  Q --> R
+  style USER fill:#1a1a2e,stroke:#6366f1,color:#eef
+  style OR fill:#2d1b69,stroke:#a855f7,color:#edf
+  style C fill:#331100,stroke:#f97316,color:#ffe0c0
+  style M fill:#002233,stroke:#06b6d4,color:#cff
+  style Q fill:#003311,stroke:#22c55e,color:#cfc
+  style R fill:#1a1a2e,stroke:#a855f7,color:#edf
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>Architecture Comparison Matrix</h3>
+  <table class="compact">
+    <tr><th>Dimension</th><th><span class="hl-orange">Cerebras</span></th><th><span class="hl-cyan">Mercury 2</span></th><th><span class="hl-green">Qwen World</span></th></tr>
+    <tr><td><strong>Core idea</strong></td><td>Wafer-scale hardware</td><td>Diffusion for text</td><td>Language world model</td></tr>
+    <tr><td><strong>What it changes</strong></td><td>Where compute happens</td><td>How text is generated</td><td>Why agents can plan</td></tr>
+    <tr><td><strong>Speed</strong></td><td>1000+ tok/s</td><td>1000+ tok/s</td><td>N/A (planning, not generation)</td></tr>
+    <tr><td><strong>Latency</strong></td><td>Sub-second TTFT</td><td>300ms reasoning</td><td>Predictive, not reactive</td></tr>
+    <tr><td><strong>Key metric</strong></td><td>Time-to-first-token</td><td>Tokens/sec throughput</td><td>Simulation fidelity</td></tr>
+    <tr><td><strong>Maturity</strong></td><td>Production cloud</td><td>API available</td><td>Open-weight, research</td></tr>
+  </table>
+</section>
+
+<!-- ════════════════════════════════════════════════════ SHOWCASE CONCEPTS ════ -->
+<section data-background="#0f0f23">
+  <h2>Showcase Concepts</h2>
+  <p style="font-size:0.8em; opacity:0.7;">Interactive demos for the blog post</p>
+</section>
+
+<section>
+  <h3>① Cerebras — Latency Race</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+sequenceDiagram
+    participant User as 👤 Reader
+    participant OR as OpenRouter
+    participant C as Cerebras<br/>⚡ Wafer-Scale
+    participant G as GPU Provider<br/>🐢 Standard
+
+    User->>OR: "Write a haiku about AI"
+    par Parallel API calls
+        OR->>C: chat/completions
+        OR->>G: chat/completions
+    end
+    C-->>OR: ⚡ Done (0.3s)
+    G-->>OR: ⏳ Done (4.2s)
+    OR-->>User: Cerebras wins by 14×
+    Note over User,G: Reader types a prompt, watches two progress bars race
+    </div>
+  </div>
+  <p style="font-size:0.7em;">
+    <strong>Showcase:</strong> Interactive side-by-side latency race — two parallel API calls to OpenRouter, one Cerebras, one GPU. Animated progress bars. Fallback: pre-recorded GIF.
+  </p>
+</section>
+
+<section>
+  <h3>② Mercury 2 — Diffusion Visualization</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart LR
+  subgraph AR["Autoregressive side"]
+    direction LR
+    T1["T"] --> T2["h"] --> T3["e"] --> T4[" "] --> T5["c"] --> T6["a"] --> T7["t"]
+  end
+  subgraph DF["Diffusion side"]
+    direction TB
+    D1["███ ███ ███"] --> D2["The ███ cat"] --> D3["The quick cat"]
+  end
+  style AR fill:#001a33,stroke:#3b82f6,color:#dde
+  style DF fill:#002233,stroke:#06b6d4,color:#cff
+  style D1 fill:#333,stroke:#666,color:#aaa
+  style D2 fill:#004455,stroke:#06b6d4,color:#ddd
+  style D3 fill:#006677,stroke:#22d3ee,color:#fff
+    </div>
+  </div>
+  <p style="font-size:0.7em;">
+    <strong>Showcase:</strong> Split-panel animation — autoregressive side shows tokens appearing one-by-one, diffusion side shows blocks of placeholder text "snapping into focus." Speed counter for each. Pedagogical visualization of the paradigm shift.
+  </p>
+</section>
+
+<section>
+  <h3>③ Qwen World — What-If Simulator</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  subgraph Panels["Three-panel interactive"]
+    direction LR
+    P1["① Action Selector
+    User picks an agent action
+    e.g. 'run git status'"]
+    P2["② Prediction Panel
+    Qwen-AgentWorld simulates
+    what the environment returns"]
+    P3["③ Reality Panel
+    Real environment response
+    (Docker sandbox / pre-recorded)"]
+  end
+  P2 --> DIFF["📊 Diff View
+  Side-by-side comparison
+  highlighting where the world model
+  got it right vs. wrong"]
+  P3 --> DIFF
+  DIFF --> SCORE["🎯 Simulation Fidelity Score"]
+  style P1 fill:#332200,stroke:#f97316,color:#fed
+  style P2 fill:#003311,stroke:#22c55e,color:#cfc
+  style P3 fill:#001a44,stroke:#6366f1,color:#ddf
+  style DIFF fill:#1a1a2e,stroke:#a855f7,color:#edf
+  style SCORE fill:#1a1a2e,stroke:#22c55e,color:#edf
+    </div>
+  </div>
+  <p style="font-size:0.65em;">
+    <strong>Showcase:</strong> Tabbed interface for 7 domains. Terminal domain easiest to demo — real bash in Docker sandbox vs. Qwen-AgentWorld prediction. Model is open-weight (Apache 2.0), deployable via SGLang/vLLM.
+  </p>
+</section>
+
+<section>
+  <h3>④ OpenRouter — Three Brains, One Prompt</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  INPUT["✍️ Single text input
+  'Explain quantum computing
+  in simple terms'"]
+  SEND["📤 One Send button"]
+  COL1["<span class='tag tag-hw'>Cerebras</span>
+  ⚡ Blazing fast
+  TTFT highlighted"]
+  COL2["<span class='tag tag-diff'>Mercury 2</span>
+  🌊 High throughput
+  tok/s highlighted"]
+  COL3["<span class='tag tag-sim'>Qwen World</span>
+  🧠 Predicts consequences
+  of acting on the answer"]
+  INPUT --> SEND
+  SEND --> COL1
+  SEND --> COL2
+  SEND --> COL3
+  COL1 --> META["Each annotated with:
+  architecture type · provider
+  TTFT · tok/s · cost accrued"]
+  COL2 --> META
+  COL3 --> META
+  style INPUT fill:#1a1a2e,stroke:#6366f1,color:#eef
+  style SEND fill:#2d1b69,stroke:#a855f7,color:#edf
+  style COL1 fill:#331100,stroke:#f97316,color:#ffe0c0
+  style COL2 fill:#002233,stroke:#06b6d4,color:#cff
+  style COL3 fill:#003311,stroke:#22c55e,color:#cfc
+  style META fill:#1a1a2e,stroke:#a855f7,color:#edf
+    </div>
+  </div>
+  <p style="font-size:0.65em;">
+    <strong>Showcase:</strong> Three-column dashboard, color-coded by architecture. Real-time cost counter per model. Reader literally sees that "thinking" has multiple paths.
+  </p>
+</section>
+
+<section>
+  <h3>Build Priority &amp; Infrastructure</h3>
+  <div class="three-col">
+    <div>
+      <h4 style="color:#c084fc;">Priority Order</h4>
+      <ol style="font-size:0.85em;">
+        <li><strong>Synthesis</strong> — highest impact, technically simplest (3 API calls)</li>
+        <li><strong>Cerebras race</strong> — 2 API calls, high visual impact</li>
+        <li><strong>Mercury 2 viz</strong> — creative frontend work for animation</li>
+        <li><strong>Qwen World sim</strong> — most complex but most unique</li>
+      </ol>
+    </div>
+    <div>
+      <h4 style="color:#c084fc;">Common Infrastructure</h4>
+      <ul style="font-size:0.85em;">
+        <li>Single OpenRouter API key</li>
+        <li>Static HTML/JS widgets embedded in Hugo blog</li>
+        <li>Pre-recorded GIF/MP4 fallbacks</li>
+        <li>Serverless proxy to protect API key</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:#c084fc;">Tool Recommendations</h4>
+      <ul style="font-size:0.85em;">
+        <li>D3.js / SVG+CSS for animated diagrams</li>
+        <li>Chart.js for race animations</li>
+        <li>xterm.js for terminal sim</li>
+        <li>Lottie for high-quality animations</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ KEY TAKEAWAYS ════ -->
+<section data-background="#0a0a14">
+  <h2>Key Takeaways</h2>
+</section>
+
+<section>
+  <h3>Three Paths, One Destination</h3>
+  <div class="mermaid-container">
+    <div class="mermaid">
+flowchart TB
+  subgraph H["<span class='tag tag-hw'>HARDWARE PATH</span>"]
+    H1["Cerebras: Change WHERE
+    compute happens"]
+    H2["Wafer-scale chips
+    eliminate interconnect overhead"]
+  end
+  subgraph A["<span class='tag tag-diff'>ALGORITHM PATH</span>"]
+    A1["Mercury 2: Change HOW
+    text is generated"]
+    A2["Diffusion replaces
+    autoregressive decoding"]
+  end
+  subgraph P["<span class='tag tag-sim'>PLANNING PATH</span>"]
+    P1["Qwen World: Change WHY
+    agents can plan"]
+    P2["World models enable
+    consequence prediction"]
+  end
+  H --> F["🚀 Faster AI"]
+  A --> F
+  P --> F
+  F --> SYN["<span class='tag tag-syn'>OpenRouter</span> makes all three
+  accessible through ONE API"]
+  style H fill:#331100,stroke:#f97316,color:#ffe0c0
+  style A fill:#002233,stroke:#06b6d4,color:#cff
+  style P fill:#003311,stroke:#22c55e,color:#cfc
+  style F fill:#1a1a2e,stroke:#a855f7,color:#edf
+  style SYN fill:#2d1b69,stroke:#c084fc,color:#edf
+    </div>
+  </div>
+</section>
+
+<section>
+  <h3>The Three Breakthroughs</h3>
+  <table class="compact">
+    <tr>
+      <td style="text-align:center;font-size:2em;">🔴</td>
+      <td><strong>Cerebras proved</strong></td>
+      <td>Wafer-scale chips are commercially viable — <strong>inference at speeds GPUs can't match</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-size:2em;">🔵</td>
+      <td><strong>Mercury 2 proved</strong></td>
+      <td>Diffusion works for discrete text — <strong>a legitimate alternative to autoregressive LLMs</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align:center;font-size:2em;">🟢</td>
+      <td><strong>Qwen World proved</strong></td>
+      <td>Language models can simulate environments — <strong>the path to agents that plan before acting</strong></td>
+    </tr>
+  </table>
+  <p style="margin-top:1em; font-size:0.8em;">
+    Together: <strong style="color:#c084fc;">Hardware × Algorithms × Planning → The next generation of AI</strong>
+  </p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ THANK YOU ════ -->
+<section>
+  <h2>Thank You</h2>
+  <p style="font-size:0.8em; margin-top:1.5em;">
+    <span class="tag tag-hw">CEREBRAS</span> <span class="tag tag-diff">MERCURY 2</span> <span class="tag tag-sim">QWEN WORLD</span>
+  </p>
+  <p style="font-size:0.7em; opacity:0.6; margin-top:2em;">
+    All research content sourced from official docs, papers, and the scratchpad.md<br>
+    Presentation built with reveal.js + Mermaid · July 2026
+  </p>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<!-- ═══════════════════════════════════════════════════════════════ SCRIPTS ════ -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+
+<script>
+  // ── Mermaid configuration ──
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'dark',
+    themeVariables: {
+      fontFamily: '"Segoe UI", system-ui, -apple-system, sans-serif',
+      fontSize: '15px',
+      darkMode: true,
+      background: 'transparent',
+      primaryColor: '#3b82f6',
+      primaryTextColor: '#e2e8f0',
+      lineColor: '#94a3b8',
+      secondaryColor: '#1e293b',
+      tertiaryColor: '#0f172a',
+    },
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+    sequence: { useMaxWidth: true, mirrorActors: false },
+    mindmap: { useMaxWidth: true },
+    xyChart: { useMaxWidth: true },
+  });
+
+  // ── Render Mermaid diagrams after Reveal initializes ──
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    center: true,
+    width: 960,
+    height: 700,
+    margin: 0.1,
+    minScale: 0.2,
+    maxScale: 2.0,
+    // No plugins needed — mermaid handled manually
+  });
+
+  // Render all Mermaid diagrams when Reveal is ready
+  Reveal.on('ready', async function() {
+    const mermaidEls = document.querySelectorAll('.mermaid');
+    for (let i = 0; i < mermaidEls.length; i++) {
+      const el = mermaidEls[i];
+      // Skip already-rendered diagrams
+      if (el.hasAttribute('data-processed')) continue;
+      el.setAttribute('data-processed', 'true');
+      try {
+        const id = 'mermaid-svg-' + i;
+        const { svg } = await mermaid.render(id, el.textContent || el.innerText);
+        el.innerHTML = svg;
+      } catch (e) {
+        console.error('Mermaid render error on slide', i, e);
+        el.innerHTML = '<p style="color:#ef4444;">Diagram render error</p>';
+      }
+    }
+  });
+
+  // Re-render diagrams when a slide changes (for any lazy-loaded or sizing-dependent diagrams)
+  Reveal.on('slidechanged', async function(event) {
+    const unprocessed = event.currentSlide.querySelectorAll('.mermaid:not([data-processed])');
+    for (let i = 0; i < unprocessed.length; i++) {
+      const el = unprocessed[i];
+      el.setAttribute('data-processed', 'true');
+      try {
+        const id = 'mermaid-dyn-' + Date.now() + '-' + i;
+        const { svg } = await mermaid.render(id, el.textContent || el.innerText);
+        el.innerHTML = svg;
+      } catch (e) {
+        console.error('Mermaid render error on slidechange', e);
+        el.innerHTML = '<p style="color:#ef4444;">Diagram render error</p>';
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
