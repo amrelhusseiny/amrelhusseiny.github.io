@@ -1,5 +1,5 @@
 ---
-date: 2026-07-22T08:35:00Z
+date: 2026-07-21T20:35:00Z
 title: "Cisco Antares, 350M/1B Parameter SLMs for CVE detection"
 ---
 
