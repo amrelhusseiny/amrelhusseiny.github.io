@@ -1,18 +1,28 @@
 ---
-date: 2026-07-19T20:00:00Z
-title: "Cisco released Fine tuned Models for CVE detection"
+date: 2026-07-22T08:35:00Z
+title: "Cisco Antares, 350M/1B parameter open weight SLMs for CVE detection"
 ---
 
-Yesterday, Cisco released its own fine tuned models (SLMs) based on IBM's Granite 4.0, with its Antares CLI, you can use it to inspect your Repo / Package for CVEs, 
-2 variants available, 350M & a 1B versions, a 3B version is being released however not on Huggingface yet.
-You can run it easily on your local machine, 
-It does not need internet access to search for CVEs, it was trained on the exisiting ones, 
-So to test it i spin up a small sandbox, using Ollama,
-Using a Production level repo @ https://github.com/indexzero/nconf/tree/v0.11.3 which was identified in **CVE-2022-21803** (Prototype Pollution, CWE-1321),
+Yesterday (21st July), Cisco has released its own fine-tuned models (SLMs) on Hugging Face
+(Gated — Access must be approved by Cisco) based on IBM's Granite 4.0, targeted at security
+vulnerability scanning of your packages, using its Antares CLI.
 
-The agent were able to identify a vurenable file indeed (**`lib/nconf/common.js`**), however it could not point out the main culprit that was mentiond in the cve which is (**`lib/nconf/stores/memory.js`**)
+2 variants available, **350M parameters** & **1B parameters** versions, a **3B version** is
+being released however not on Hugging Face yet, to be released later.
 
-**Verdict** : still gonna run more tests, but its a good start for Cisco i think, however, i dont believer Baking the existing CVEs into the model's training is the way to go, tool using is the identifiec best practice now or Cisco can offer a Vector Database for the model to refer to so it can get up to date info 
+You can run it easily on your local machine, and it does not need internet access to search
+for CVEs, it was trained on CWE categories and code patterns.
+
+---
+
+## My Testbed
+
+Using a Production level repo @ https://github.com/indexzero/nconf/tree/v0.11.3 which was
+identified in **CVE-2022-21803** *(Prototype Pollution, CWE-1321)*.
+
+The agent was able to identify a vulnerable file indeed (**`lib/nconf/common.js`**), however
+it could not point out the main culprit that was mentioned in the CVE which is
+(**`lib/nconf/stores/memory.js`**).
 
 ```bash
 $ docker exec -it antares-cli antares
@@ -45,23 +55,20 @@ $ docker exec -it antares-cli antares
 ╰──────────────────────────────────────────────────────────────────────────────╯
 ```
 
-```mermaid
-%%{init: {'look': 'handDrawn', 'theme': 'base', 'themeVariables': { 'primaryColor': '#FFB3BA', 'secondaryColor': '#BAFFC9', 'tertiaryColor': '#BAE1FF' }}}%%
-flowchart TD
-    subgraph "Sandbox : antares-net (isolated)"
-        O["antares-ollama\nollama/ollama — antares-1b Q8_0"]
-        subgraph "antares-cli container"
-            C["antares-cli 1.0.0"]
-            R["nconf v0.11.3\nCVE-2022-21803 · CWE-1321"]
-        end
-    end
-    C -->|"POST /v1/completions"| O
-    C -->|"rg / grep / cat / find\n→ found lib/nconf/common.js"| R
-    style O fill:#FFB3BA,stroke:#333,stroke-width:2px
-    style C fill:#BAFFC9,stroke:#333,stroke-width:2px
-    style R fill:#BAE1FF,stroke:#333,stroke-width:2px
-```
+---
 
-References:
-- [Introducing Antares: The Most Efficient Open-Weight AI Models for Vulnerability Localization](https://blogs.cisco.com/ai/introducing-antares-the-most-efficient-open-weight-ai-models-for-vulnerability-localization)
-- [Antares 1B Model on Hugging Face](https://huggingface.co/fdtn-ai/antares-1b/tree/main)
+## Verdict
+
+Still gonna run more tests, but it's a good start for Cisco I think, however, I don't believe
+baking the existing CVE patterns into the model's training is the way to go, since these things
+need to be updated and shipped regularly *(cutoff date for knowledge was **April 2025**)*,
+tool use is the identified best practice now, or Cisco can offer a **Vector Database** for the
+model to refer to so it can get up to date info.
+
+---
+
+## References
+
+- [Antares Technical Report (PDF)](https://cisco-foundation-ai.github.io/antares/technical-report.pdf) — the actual research paper behind the model
+- [CVE-2022-21803 on GitHub Advisory Database](https://github.com/advisories/GHSA-6xwr-q98w-rvg7) — direct link to the CVE used in the test
+- [nconf v0.11.3 → v0.11.4 fix (PR #397)](https://github.com/indexzero/nconf/pull/397) — shows exactly what the fix was (`memory.js`), useful context for why the model missed it
