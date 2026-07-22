@@ -1,6 +1,6 @@
 ---
 date: 2026-07-22T08:35:00Z
-title: "Cisco Antares, 350M/1B parameter open weight SLMs for CVE detection"
+title: "Cisco Antares, 350M/1B Parameter SLMs for CVE detection"
 ---
 
 Yesterday (21st July), Cisco has released its own fine-tuned models (SLMs) on Hugging Face
