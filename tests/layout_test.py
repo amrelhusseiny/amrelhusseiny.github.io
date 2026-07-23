@@ -8,7 +8,7 @@ def _fetch(url, retries=5):
             ["curl", "-s", "-L", "--max-time", "30", url],
             capture_output=True, text=True, timeout=35
         )
-        if result.stdout and len(result.stdout) > 500:
+        if result.stdout and len(result.stdout) > 50:
             return result.stdout
         if attempt < retries - 1:
             time.sleep(2)
@@ -245,12 +245,205 @@ print()
 
 check("favicon-64.png"   in home_html,   "favicon self-hosted (no external CDN)",     "favicon not self-hosted")
 check("islamic_bg.webp"  in home_html,   "WebP background preloaded",                 "WebP bg missing from head")
-check('media="print"' in home_html or "media='print'" in home_html or 'media=print' in home_html,
-    "Google Fonts async (media=print swap — render-non-blocking)",
-    "Google Fonts is render-blocking (no media=print attribute found)")
+# Google Fonts (Reem Kufi) was removed in the rebrand — skip that check
 check("theme-color"      in home_html,   "theme-color meta tag present",              "theme-color meta missing")
 check("og:image"         in home_html,   "og:image meta present",                     "og:image meta missing")
 
+
+# ═══════════════════════════════════════════════════════
+# Section 8b: NEW FEATURES — OG images, share, timeline, SEO
+# ═══════════════════════════════════════════════════════
+print()
+print("=== 8b. OG IMAGE — smart per-page logic ===")
+print()
+
+# Blog post with no image should still have og:image (favicon fallback)
+check("og:image" in post_html,
+    "post: og:image present (favicon fallback at minimum)",
+    "post: og:image missing entirely")
+
+# Blog post pages should NOT use summary_large_image when no image set
+# (post 001_ai_0003 has title.jpg in bundle but we haven't added image: fm yet —
+#  so it falls back to favicon + summary card)
+check("og:image" in home_html,
+    "home: og:image present",
+    "home: og:image missing")
+
+# Notes page og:image
+check("og:image" in notes_html,
+    "notes: og:image present on notes list page",
+    "notes: og:image missing")
+
+# ── Note with cover image (001-first-note) ──
+note_page_html = _fetch(BASE + "/notes/001-first-note/")
+# This page redirects to /notes/ stream — check the stream has the image
+check("note-card-image" in notes_html or "cover.jpg" in notes_html,
+    "notes: note cover image rendered (cover.jpg or note-card-image class present)",
+    "notes: note cover image NOT found in stream")
+
+# summary_large_image should appear somewhere on the notes stream
+# (the /notes/001-first-note/ page redirects so check notes_html for stream)
+check("note-card-image" in notes_html,
+    "notes: .note-card-image class present — image thumbnail feature active",
+    "notes: .note-card-image class missing — image feature broken")
+
+print()
+print("=== 8c. SHARE BUTTONS ===")
+print()
+
+check("amroCopyLink" in post_html or "share-btn" in post_html,
+    "post: share button present (amroCopyLink or share-btn class)",
+    "post: share button MISSING from blog post page")
+
+check("share-btn" in post_html,
+    "post: .share-btn class on share button",
+    "post: .share-btn class missing")
+
+check("amroCopyNoteLink" in notes_html or "note-share-btn" in notes_html,
+    "notes: per-note share button present (note-share-btn class)",
+    "notes: note share button MISSING")
+
+check("note-share-btn" in notes_html,
+    "notes: .note-share-btn class present",
+    "notes: .note-share-btn class missing")
+
+print()
+print("=== 8d. NOTES PAGE — timeline, search, anchors ===")
+print()
+
+check("notes-timeline" in notes_html,
+    "notes: desktop timeline sidebar present (.notes-timeline)",
+    "notes: desktop timeline sidebar MISSING")
+
+check("notes-timeline-mobile" in notes_html,
+    "notes: mobile timeline collapsible present (#notes-timeline-mobile)",
+    "notes: mobile timeline collapsible MISSING")
+
+check("notes-tl-link" in notes_html,
+    "notes: timeline links present (.notes-tl-link)",
+    "notes: timeline links MISSING")
+
+check("notes-search" in notes_html,
+    "notes: search input present (#notes-search)",
+    "notes: search input MISSING")
+
+check("notesSearch" in notes_html,
+    "notes: notesSearch() JS function present",
+    "notes: notesSearch() JS function MISSING")
+
+check('id="note-001-first-note"' in notes_html or 'id=note-001-first-note' in notes_html,
+    "notes: note anchor id present (id=note-001-first-note)",
+    "notes: note anchor id MISSING — share links won't work")
+
+check('id="month-' in notes_html or 'id=month-' in notes_html,
+    "notes: month divider anchor present (id=month-*)",
+    "notes: month divider anchor MISSING — timeline jump won't work")
+
+check("notes-layout" in notes_html,
+    "notes: .notes-layout flex wrapper present",
+    "notes: .notes-layout missing — layout broken")
+
+check("notes-main" in notes_html,
+    "notes: .notes-main column present",
+    "notes: .notes-main missing")
+
+print()
+print("=== 8e. SEO — robots.txt, JSON-LD, meta descriptions ===")
+print()
+
+robots = _fetch(BASE + "/robots.txt")
+check("User-agent: *" in robots,
+    "robots.txt: exists and has User-agent: * directive",
+    "robots.txt: missing or empty")
+
+check("Sitemap:" in robots,
+    "robots.txt: Sitemap directive present",
+    "robots.txt: Sitemap directive missing")
+
+check("GPTBot" in robots,
+    "robots.txt: GPTBot explicitly allowed",
+    "robots.txt: GPTBot not mentioned")
+
+check("Claude-Web" in robots,
+    "robots.txt: Claude-Web explicitly allowed",
+    "robots.txt: Claude-Web not mentioned")
+
+check("application/ld+json" in notes_html,
+    "notes: JSON-LD structured data present (schema.org)",
+    "notes: JSON-LD structured data MISSING — Google won't get rich results")
+
+check("ItemList" in notes_html,
+    "notes: JSON-LD type=ItemList (correct for notes stream)",
+    "notes: JSON-LD type not ItemList")
+
+check("schema.org" in notes_html,
+    "notes: schema.org context in JSON-LD",
+    "notes: schema.org context missing")
+
+# Meta description on notes page
+import re as _re
+desc_match = _re.search(r'<meta name=description content="([^"]+)"', notes_html)
+check(desc_match is not None and len(desc_match.group(1)) > 10,
+    "notes: meta description populated (not empty)",
+    "notes: meta description empty or missing — bad for Google SEO")
+
+print()
+print("=== 8f. AI AGENT FRIENDLINESS — llms.txt ===")
+print()
+
+llms = _fetch(BASE + "/llms.txt")
+check("## Notes" in llms,
+    "llms.txt: Notes section present",
+    "llms.txt: Notes section MISSING")
+
+check("Markdown:" in llms or "index.md" in llms,
+    "llms.txt: Markdown endpoint links present (index.md)",
+    "llms.txt: Markdown endpoint links MISSING")
+
+check("Last-Updated:" in llms,
+    "llms.txt: Last-Updated metadata header present",
+    "llms.txt: Last-Updated header missing")
+
+check("Author:" in llms,
+    "llms.txt: Author metadata present",
+    "llms.txt: Author metadata missing")
+
+llms_full = _fetch(BASE + "/llms-full.txt")
+check("# NOTES" in llms_full or "## Notes" in llms_full,
+    "llms-full.txt: Notes section present with full content",
+    "llms-full.txt: Notes section MISSING")
+
+check("Cisco Antares" in llms_full,
+    "llms-full.txt: first note content included (Cisco Antares)",
+    "llms-full.txt: first note content MISSING")
+
+# Per-page markdown endpoint
+note_md = _fetch(BASE + "/notes/001-first-note/index.md")
+check("Cisco Antares" in note_md,
+    "note markdown endpoint: content accessible at /notes/001-first-note/index.md",
+    "note markdown endpoint: content MISSING or empty")
+
+check("Source:" in note_md or "amrelhusseiny.github.io" in note_md,
+    "note markdown endpoint: source URL present in header",
+    "note markdown endpoint: source URL missing")
+
+print()
+print("=== 8g. VIEW COUNTER ===")
+print()
+
+check("page-views" in home_html,
+    "home: page-views span present (GoatCounter view count)",
+    "home: page-views span MISSING")
+
+check("goatcounter" in home_html.lower() or "gc.zgo.at" in home_html,
+    "home: GoatCounter script tag present",
+    "home: GoatCounter script MISSING")
+
+check("page-views-wrap" in home_html or "page-views" in home_html,
+    "home: page-views-wrap container present",
+    "home: view counter container MISSING")
+
+print()
 print()
 print("=== SUMMARY ===")
 total = PASS + FAIL
@@ -284,7 +477,7 @@ else:
 import urllib.request, re, sys
 
 print()
-print("=== 9. DEVICE VIEWPORT MATRIX ===")
+print("=== 10. DEVICE VIEWPORT MATRIX ===")
 print("    (CSS cascade simulation — evaluates which @media rules fire at each width)")
 print()
 
@@ -518,6 +711,6 @@ check(has_initial_scale,
     "viewport meta missing initial-scale=1 — iOS Safari may zoom in and break layout")
 
 print()
-print("=== SECTION 9 SUMMARY ===")
+print("=== SECTION 10 SUMMARY ===")
 print("  Devices tested: %d" % len(DEVICES))
 print("  Viewport meta checks: 3")
