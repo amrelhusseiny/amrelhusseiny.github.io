@@ -1426,21 +1426,6 @@ html[data-theme='dark'] pre {
   border-radius: 10px;
 }
 
-/* ═══════════════════════════════════════════════════════
-   VIEW COUNTER — discreet bottom-of-page
-   ═══════════════════════════════════════════════════════ */
-
-.page-views-wrap {
-  text-align: center;
-  padding: 6px 0 2px;
-  font-size: 0.6rem;
-  color: var(--text-muted);
-  opacity: 0.3;
-  letter-spacing: 0.04em;
-  user-select: none;
-  pointer-events: none;
-  min-height: 18px;
-}
 
 /* ═══════════════════════════════════════════════════════
    MOBILE overrides for new components (< 768px)

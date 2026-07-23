@@ -427,23 +427,7 @@ check("Source:" in note_md or "amrelhusseiny.github.io" in note_md,
     "note markdown endpoint: source URL present in header",
     "note markdown endpoint: source URL missing")
 
-print()
-print("=== 8g. VIEW COUNTER ===")
-print()
 
-check("page-views" in home_html,
-    "home: page-views span present (GoatCounter view count)",
-    "home: page-views span MISSING")
-
-check("goatcounter" in home_html.lower() or "gc.zgo.at" in home_html,
-    "home: GoatCounter script tag present",
-    "home: GoatCounter script MISSING")
-
-check("page-views-wrap" in home_html or "page-views" in home_html,
-    "home: page-views-wrap container present",
-    "home: view counter container MISSING")
-
-print()
 
 # ═══════════════════════════════════════════════════════
 # Section 8h: BLOG POST JSON-LD + META DESCRIPTION
