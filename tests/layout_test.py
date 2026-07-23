@@ -444,6 +444,81 @@ check("page-views-wrap" in home_html or "page-views" in home_html,
     "home: view counter container MISSING")
 
 print()
+
+# ═══════════════════════════════════════════════════════
+# Section 8h: BLOG POST JSON-LD + META DESCRIPTION
+# ═══════════════════════════════════════════════════════
+print()
+print("=== 8h. BLOG POST — JSON-LD BlogPosting + meta description ===")
+print()
+
+check("application/ld+json" in post_html,
+    "post: JSON-LD structured data present",
+    "post: JSON-LD MISSING")
+
+check("BlogPosting" in post_html,
+    "post: JSON-LD type=BlogPosting (correct for blog posts)",
+    "post: JSON-LD type not BlogPosting")
+
+check("schema.org" in post_html,
+    "post: schema.org context in JSON-LD",
+    "post: schema.org context missing from post JSON-LD")
+
+check("datePublished" in post_html,
+    "post: datePublished field in JSON-LD",
+    "post: datePublished MISSING from JSON-LD")
+
+check("dateModified" in post_html,
+    "post: dateModified field in JSON-LD",
+    "post: dateModified MISSING from JSON-LD")
+
+check('"author"' in post_html,
+    "post: author field in JSON-LD",
+    "post: author MISSING from JSON-LD")
+
+# meta description should now be auto-populated from summary when no explicit description
+import re as _re2
+post_desc = _re2.search(r'<meta name=description content="?([^"<>]+)"?', post_html)
+check(post_desc is not None and len(post_desc.group(1)) > 10,
+    "post: meta description auto-populated from summary (not empty)",
+    "post: meta description still empty — summary fallback not working")
+
+print()
+print("=== 8i. ARCHETYPES — pipeline fields present ===")
+print()
+
+import subprocess
+repo = "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io"
+
+blog_arch = open(repo + "/archetypes/blog/index.md").read()
+check("description:" in blog_arch,
+    "archetype blog: description field present",
+    "archetype blog: description field MISSING")
+check("image:" in blog_arch,
+    "archetype blog: image field present",
+    "archetype blog: image field MISSING")
+check("tags:" in blog_arch,
+    "archetype blog: tags field present",
+    "archetype blog: tags field MISSING")
+check("draft: true" in blog_arch,
+    "archetype blog: draft:true default (safe — won't publish accidentally)",
+    "archetype blog: draft field missing")
+check("PIPELINE CHECKLIST" in blog_arch,
+    "archetype blog: pipeline checklist comment block present",
+    "archetype blog: pipeline checklist MISSING")
+
+notes_arch = open(repo + "/archetypes/notes/index.md").read()
+check("description:" in notes_arch,
+    "archetype notes: description field present",
+    "archetype notes: description field MISSING")
+check("image:" in notes_arch,
+    "archetype notes: image field present",
+    "archetype notes: image field MISSING")
+check("PIPELINE CHECKLIST" in notes_arch,
+    "archetype notes: pipeline checklist comment block present",
+    "archetype notes: pipeline checklist MISSING")
+
+print()
 print()
 print("=== SUMMARY ===")
 total = PASS + FAIL
