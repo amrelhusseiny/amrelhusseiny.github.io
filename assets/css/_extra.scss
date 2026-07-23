@@ -1173,3 +1173,335 @@ html[data-theme='dark'] pre {
   .post h2 { font-size: 1.15rem !important; }
   .post h3 { font-size: 1rem !important; }
 }
+
+
+/* ═══════════════════════════════════════════════════════
+   BLOG SINGLE POST — post header, cover image, share btn
+   ═══════════════════════════════════════════════════════ */
+
+.post-header {
+  margin-bottom: 2rem;
+}
+
+.post-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  svg { vertical-align: middle; opacity: 0.6; }
+}
+
+.post-tag-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  &:hover { color: var(--text-primary); }
+}
+
+.post-cover-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: var(--glass-bg);
+}
+
+.post-cover {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.post-content {
+  color: var(--text-primary);
+  line-height: 1.75;
+}
+
+.post-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.post-footer-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── Share button (blog post) ── */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  backdrop-filter: blur(6px);
+
+  svg { opacity: 0.6; flex-shrink: 0; }
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+    background: var(--hover-bg);
+  }
+
+  &.share-btn-copied {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   NOTES PAGE — layout: timeline + main column
+   ═══════════════════════════════════════════════════════ */
+
+.notes-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  position: relative;
+}
+
+/* ── Desktop/tablet timeline sidebar ── */
+.notes-timeline {
+  width: 130px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.notes-timeline-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.55;
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+.notes-timeline-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notes-tl-link {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  line-height: 1.4;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
+    border-left-color: var(--text-muted);
+  }
+
+  &.tl-active {
+    color: var(--text-primary);
+    border-left-color: var(--text-primary);
+    background: var(--hover-bg);
+    font-weight: 600;
+  }
+}
+
+/* ── Mobile timeline (hidden on ≥768px) ── */
+.notes-timeline-mobile {
+  display: none;
+}
+
+/* ── Notes main column ── */
+.notes-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.notes-header {
+  margin-bottom: 1.2rem;
+}
+
+.notes-search-wrap {
+  margin-bottom: 1.4rem;
+}
+
+/* ── Month divider in stream ── */
+.note-month-divider {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin: 24px 0 8px;
+  padding-left: 2px;
+  scroll-margin-top: 80px;
+}
+
+/* ── Note card header row ── */
+.note-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* ── Note share button ── */
+.note-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+  flex-shrink: 0;
+
+  svg { flex-shrink: 0; }
+
+  &:hover {
+    opacity: 1;
+    background: var(--hover-bg);
+  }
+
+  &.share-btn-copied {
+    opacity: 1;
+    color: var(--text-primary);
+  }
+}
+
+/* ── Note cover image ── */
+.note-card-image-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: var(--glass-bg);
+}
+
+.note-card-image {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   VIEW COUNTER — discreet bottom-of-page
+   ═══════════════════════════════════════════════════════ */
+
+.page-views-wrap {
+  text-align: center;
+  padding: 6px 0 2px;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  opacity: 0.3;
+  letter-spacing: 0.04em;
+  user-select: none;
+  pointer-events: none;
+  min-height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE overrides for new components (< 768px)
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Hide desktop timeline sidebar, show mobile collapsible */
+  .notes-timeline { display: none; }
+  .notes-timeline-mobile {
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+  }
+
+  .notes-tl-mobile-summary {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    &::marker { display: none; }
+    &::-webkit-details-marker { display: none; }
+  }
+
+  .notes-tl-mobile-months {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 8px 14px 12px;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .notes-tl-mobile-chip {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+    &:hover { color: var(--text-primary); background: var(--hover-bg); }
+  }
+
+  /* notes layout stacks to single column */
+  .notes-layout { flex-direction: column; gap: 0; }
+
+  /* post cover max height on mobile */
+  .post-cover { max-height: 200px; }
+  .post-title { font-size: 1.4rem; }
+
+  /* note image on mobile */
+  .note-card-image { max-height: 170px; }
+}

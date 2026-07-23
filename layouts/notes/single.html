@@ -1,7 +1,9 @@
 {{ define "main" }}
-  {{/* Notes are not meant to be viewed individually — redirect to the stream */}}
+  {{/* Notes are viewed in the stream — redirect to the correct anchor */}}
   <div class="notes-redirect">
     <p>This note is part of the <a href="/notes/">Notes stream</a>.</p>
   </div>
-  <script>window.location.replace("/notes/");</script>
+  <script>
+    window.location.replace("/notes/#note-{{ .File.ContentBaseName }}");
+  </script>
 {{ end }}

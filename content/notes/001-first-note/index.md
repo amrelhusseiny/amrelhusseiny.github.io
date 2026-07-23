@@ -1,6 +1,8 @@
 ---
 date: 2026-07-21T20:35:00Z
 title: "Cisco Antares, 350M/1B Parameter SLMs for CVE detection"
+description: "Cisco released Antares, fine-tuned SLMs on IBM Granite 4.0 for CVE detection and CWE pattern scanning. Tested against CVE-2022-21803 (Prototype Pollution) on a real repo."
+image: cover.jpg
 ---
 
 Yesterday (21st July), Cisco has released its own fine-tuned models (SLMs) on Hugging Face

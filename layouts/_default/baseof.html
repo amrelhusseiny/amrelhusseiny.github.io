@@ -17,9 +17,14 @@
     {{ template "_internal/google_analytics.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
-    {{ if not .Params.images }}
+    {{- if .Params.image }}
+    <meta property="og:image" content="{{ .Permalink }}{{ .Params.image }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="{{ .Permalink }}{{ .Params.image }}" />
+    {{- else if not .Params.images }}
     <meta property="og:image" content="{{ .Site.BaseURL }}favicon-180.png" />
-    {{ end }}
+    <meta name="twitter:card" content="summary" />
+    {{- end }}
 
     <!-- Theme color for mobile browser chrome -->
     <meta name="theme-color" content="#e8e8e8" media="(prefers-color-scheme: light)">
@@ -295,6 +300,24 @@
     }
 
     window.addEventListener('resize',function(){ if(_p.enabled)_sam7Init(); });
+    </script>
+
+    <!-- View counter (GoatCounter) -->
+    <div class="page-views-wrap">
+      <span id="page-views"></span>
+    </div>
+    <!-- GoatCounter analytics — cookieless, GDPR-safe -->
+    <script>
+      window.goatcounter = { no_onload: true };
+    </script>
+    <script data-goatcounter="https://GOATCOUNTER_PLACEHOLDER.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <script>
+      window.addEventListener('load', function() {
+        if (typeof window.goatcounter !== 'undefined' && window.goatcounter.visit_count) {
+          window.goatcounter.visit_count({ append: '#page-views', type: 'html' });
+        }
+      });
     </script>
   </body>
 </html>

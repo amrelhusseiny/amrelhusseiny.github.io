@@ -1,61 +1,228 @@
 {{ define "main" }}
-  <div class="notes-stream">
-    <h1 class="notes-stream-title">Notes</h1>
-    <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams &mdash; no article required.</p>
+{{ $notes := where .Site.RegularPages "Section" "notes" }}
+{{ $notes = $notes.ByDate.Reverse }}
+{{ $byMonth := $notes.GroupByDate "January 2006" }}
 
-    {{ $notes := where .Site.RegularPages "Section" "notes" }}
-    {{ $notes = $notes.ByDate.Reverse }}
-
-    {{ if not $notes }}
-      <p class="notes-empty">No notes yet. Check back soon.</p>
+{{/* ── JSON-LD: ItemList for Google ── */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Notes — {{ .Site.Title }}",
+  "description": "{{ .Site.Params.description }}",
+  "url": "{{ .Permalink }}",
+  "numberOfItems": {{ len $notes }},
+  "itemListElement": [
+    {{ range $i, $n := $notes -}}
+    {
+      "@type": "ListItem",
+      "position": {{ add $i 1 }},
+      "url": "{{ $n.Permalink }}",
+      "name": {{ $n.Title | jsonify }},
+      "datePublished": "{{ $n.Date.Format "2006-01-02" }}"
+    }{{ if lt (add $i 1) (len $notes) }},{{ end }}
     {{ end }}
+  ]
+}
+</script>
 
-    {{ range $notes }}
-      <article class="note-card">
-        <div class="note-card-date">
-          {{ .Date.Format "Jan 2, 2006" }}
-          <span class="note-card-dot">&middot;</span>
-          <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
-        </div>
-        {{ with .Title }}
-        <div class="note-card-title">{{ . }}</div>
+<div class="notes-layout">
+
+  {{/* ── Timeline sidebar (desktop/tablet ≥ 768px) ── */}}
+  <aside class="notes-timeline" aria-label="Jump to month">
+    <div class="notes-timeline-label">Timeline</div>
+    <nav class="notes-timeline-inner" id="notes-timeline-nav">
+      {{ range $byMonth }}
+      <a class="notes-tl-link" href="#month-{{ .Key | urlize }}" data-month="{{ .Key | urlize }}">
+        {{ .Key }}
+      </a>
+      {{ end }}
+    </nav>
+  </aside>
+
+  {{/* ── Mobile timeline (< 768px) ── */}}
+  <details class="notes-timeline-mobile" id="notes-timeline-mobile">
+    <summary class="notes-tl-mobile-summary">Jump to date</summary>
+    <div class="notes-tl-mobile-months">
+      {{ range $byMonth }}
+      <a class="notes-tl-mobile-chip" href="#month-{{ .Key | urlize }}">{{ .Key }}</a>
+      {{ end }}
+    </div>
+  </details>
+
+  {{/* ── Main column ── */}}
+  <div class="notes-main">
+    <div class="notes-header">
+      <h1 class="notes-stream-title">Notes</h1>
+      <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams &mdash; no article required.</p>
+    </div>
+
+    {{/* ── Search bar ── */}}
+    <div class="search-wrap notes-search-wrap">
+      <div class="search-wrap-inner">
+        <input id="notes-search" class="search-input" type="search"
+               placeholder="Search notes&hellip;"
+               oninput="notesSearch(this.value)"
+               autocomplete="off" aria-label="Search notes" />
+      </div>
+    </div>
+
+    <div class="notes-stream" id="notes-stream">
+      {{ if not $notes }}
+        <p class="notes-empty">No notes yet. Check back soon.</p>
+      {{ end }}
+
+      {{ $firstOfMonth := dict }}
+      {{ range $notes }}
+        {{ $mk := .Date.Format "January 2006" | urlize }}
+        {{ $isFirst := not (index $firstOfMonth $mk) }}
+        {{ if $isFirst }}
+          {{ $firstOfMonth = merge $firstOfMonth (dict $mk true) }}
         {{ end }}
-        <div class="note-card-content">
-          {{ .Content }}
-        </div>
-      </article>
-    {{ end }}
-  </div>
 
-  {{/* Mermaid — loaded only on notes page via ESM module import (official v11 pattern).
-       type="module" scripts are always deferred by the browser spec, so this never
-       blocks rendering. mermaid.initialize({startOnLoad:false}) + mermaid.run() is
-       the correct v10+ API. We read the current theme before the async import so the
-       themeVariables reflect the user's actual theme at render time. */}}
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'base',
-      flowchart: { curve: 'basis', nodeSpacing: 60, rankSpacing: 70, padding: 20, useMaxWidth: true },
-      themeVariables: {
-        primaryColor:        dark ? '#2a2a2a' : '#f0f0f0',
-        primaryTextColor:    dark ? '#eeeeee' : '#111111',
-        primaryBorderColor:  dark ? '#555555' : '#999999',
-        lineColor:           dark ? '#888888' : '#666666',
-        secondaryColor:      dark ? '#1e1e1e' : '#e8e8e8',
-        tertiaryColor:       dark ? '#333333' : '#dddddd',
-        background:          dark ? '#1c1c1c' : '#fafafa',
-        mainBkg:             dark ? '#2a2a2a' : '#f0f0f0',
-        nodeBorder:          dark ? '#555555' : '#999999',
-        clusterBkg:          dark ? '#1e1e1e' : '#e8e8e8',
-        titleColor:          dark ? '#eeeeee' : '#111111',
-        edgeLabelBackground: dark ? '#222222' : '#f5f5f5',
-        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
-        fontSize: '16px'
+        {{ $note := . }}
+        <article class="note-card" id="note-{{ .File.ContentBaseName }}"
+          {{ if $isFirst }}data-month-anchor="month-{{ $mk }}"{{ end }}>
+
+          {{ if $isFirst }}
+          <div class="note-month-divider" id="month-{{ $mk }}">{{ .Date.Format "January 2006" }}</div>
+          {{ end }}
+
+          <div class="note-card-header">
+            <div class="note-card-date">
+              {{ .Date.Format "Jan 2, 2006" }}
+              <span class="note-card-dot">&middot;</span>
+              <span class="note-card-time">{{ .Date.Format "15:04" }}</span>
+            </div>
+            <button class="note-share-btn"
+                    onclick="amroCopyNoteLink('{{ .Permalink }}')"
+                    title="Copy link to this note"
+                    aria-label="Copy link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+              <span class="note-share-label">Share</span>
+            </button>
+          </div>
+
+          {{ with .Title }}
+          <div class="note-card-title">{{ . }}</div>
+          {{ end }}
+
+          {{ with .Params.image }}
+          <div class="note-card-image-wrap">
+            <img class="note-card-image"
+                 src="{{ $note.RelPermalink }}{{ . }}"
+                 alt="{{ $note.Title }}"
+                 loading="lazy" />
+          </div>
+          {{ end }}
+
+          <div class="note-card-content">
+            {{ .Content }}
+          </div>
+
+        </article>
+      {{ end }}
+    </div>
+
+    <p id="notes-search-empty" class="search-empty" style="display:none">
+      No notes match your search.
+    </p>
+  </div><!-- .notes-main -->
+</div><!-- .notes-layout -->
+
+<script>
+/* ── Notes search ── */
+function notesSearch(q) {
+  var cards  = document.querySelectorAll('#notes-stream .note-card');
+  var empty  = document.getElementById('notes-search-empty');
+  var term   = q.trim().toLowerCase();
+  var visible = 0;
+  cards.forEach(function(c) {
+    var match = !term || c.textContent.toLowerCase().indexOf(term) !== -1;
+    c.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  empty.style.display = (visible === 0 && term) ? '' : 'none';
+}
+
+/* ── Copy note link ── */
+function amroCopyNoteLink(url) {
+  navigator.clipboard.writeText(url).then(function() {
+    _amroShareFlash(event.currentTarget);
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    _amroShareFlash(event.currentTarget);
+  });
+}
+function _amroShareFlash(btn) {
+  var lbl = btn ? btn.querySelector('.note-share-label') : null;
+  if (!lbl) return;
+  lbl.textContent = 'Copied!';
+  btn.classList.add('share-btn-copied');
+  setTimeout(function() {
+    lbl.textContent = 'Share';
+    btn.classList.remove('share-btn-copied');
+  }, 1800);
+}
+
+/* ── Timeline active highlight on scroll ── */
+(function() {
+  var anchors = document.querySelectorAll('[id^="month-"]');
+  var links   = document.querySelectorAll('.notes-tl-link');
+  if (!anchors.length || !links.length) return;
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        links.forEach(function(l) {
+          l.classList.toggle('tl-active', l.dataset.month === id.replace('month-', ''));
+        });
       }
     });
-    await mermaid.run({ querySelector: '.mermaid' });
-  </script>
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  anchors.forEach(function(a) { io.observe(a); });
+
+  /* close mobile timeline on chip click */
+  document.querySelectorAll('.notes-tl-mobile-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      document.getElementById('notes-timeline-mobile').removeAttribute('open');
+    });
+  });
+})();
+</script>
+
+{{/* ── Mermaid v11 ESM ── */}}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    flowchart: { curve: 'basis', nodeSpacing: 60, rankSpacing: 70, padding: 20, useMaxWidth: true },
+    themeVariables: {
+      primaryColor:        dark ? '#2a2a2a' : '#f0f0f0',
+      primaryTextColor:    dark ? '#eeeeee' : '#111111',
+      primaryBorderColor:  dark ? '#555555' : '#999999',
+      lineColor:           dark ? '#888888' : '#666666',
+      secondaryColor:      dark ? '#1e1e1e' : '#e8e8e8',
+      tertiaryColor:       dark ? '#333333' : '#dddddd',
+      background:          dark ? '#1c1c1c' : '#fafafa',
+      mainBkg:             dark ? '#2a2a2a' : '#f0f0f0',
+      nodeBorder:          dark ? '#555555' : '#999999',
+      clusterBkg:          dark ? '#1e1e1e' : '#e8e8e8',
+      titleColor:          dark ? '#eeeeee' : '#111111',
+      edgeLabelBackground: dark ? '#222222' : '#f5f5f5',
+      fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+      fontSize: '16px'
+    }
+  });
+  await mermaid.run({ querySelector: '.mermaid' });
+</script>
 {{ end }}

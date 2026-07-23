@@ -2,13 +2,40 @@
 
 > {{ .Site.Params.description }}
 
-{{ range where .Site.RegularPages "Section" "blog" | first 50 }}
+- Author: {{ .Site.Params.author }}
+- Site: {{ .Site.BaseURL }}
+- Last-Updated: {{ now.Format 2006-01-02 }}
+
+Each page also available as Markdown at <page-url>index.md
+
+---
+# BLOG POSTS
+---
+{{ range where .Site.RegularPages Section blog | first 50 }}
 ---
 
 ## {{ .Title }}
 
-*Published: {{ .Date.Format "2006-01-02" }}*
+*Published: {{ .Date.Format 2006-01-02 }}*
 URL: {{ .Permalink }}
+Markdown: {{ .Permalink }}index.md
+{{ with .Params.tags }}Tags: {{ delimit . ,  }}{{ end }}
+
+{{ .RawContent }}
+
+{{ end -}}
+
+---
+# NOTES
+---
+{{ range where .Site.RegularPages Section notes | first 100 }}
+---
+
+## {{ .Title }}
+
+*Published: {{ .Date.Format 2006-01-02T15:04:05Z }}*
+URL: {{ .Permalink }}
+Markdown: {{ .Permalink }}index.md
 
 {{ .RawContent }}
 

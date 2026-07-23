@@ -2,17 +2,28 @@
 
 > {{ .Site.Params.description }}
 
+- Author: {{ .Site.Params.author }}
+- Site: {{ .Site.BaseURL }}
+- Last-Updated: {{ now.Format 2006-01-02 }}
+- Source: {{ .Site.BaseURL }}llms.txt
+- Full content: {{ .Site.BaseURL }}llms-full.txt
+
 This site is written by {{ .Site.Params.author }}. Content covers networking, Linux, AI, and automation — technical posts aimed at engineers.
 
+Each page has a plain-text Markdown endpoint at <page-url>index.md for direct agent consumption.
+
 ## Blog
-{{ range where .Site.RegularPages "Section" "blog" | first 20 -}}
-- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+{{ range where .Site.RegularPages Section blog | first 20 -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format 2006-01-02 }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+  - Markdown: {{ .Permalink }}index.md
 {{ end }}
 ## Notes
-{{ range where .Site.RegularPages "Section" "notes" | first 20 -}}
-- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+{{ range where .Site.RegularPages Section notes | first 50 -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format 2006-01-02 }}{{ with .Summary }} — {{ . | plainify | htmlUnescape | truncate 120 }}{{ end }}
+  - Markdown: {{ .Permalink }}index.md
 {{ end }}
 ## Optional
-{{ range after 20 (where .Site.RegularPages "Section" "blog") -}}
-- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format "2006-01-02" }}
+{{ range after 20 (where .Site.RegularPages Section blog) -}}
+- [{{ .Title }}]({{ .Permalink }}): {{ .Date.Format 2006-01-02 }}
+  - Markdown: {{ .Permalink }}index.md
 {{ end -}}
