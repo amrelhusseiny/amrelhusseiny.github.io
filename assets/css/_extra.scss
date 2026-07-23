@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   Sam7oon — Apple Glass Restyle v2
+   Amro's Blog — Apple Glass Restyle v2
    Palette: white/grey glass, black selected, no colour accents
    ═══════════════════════════════════════════════════════ */
 
@@ -157,15 +157,6 @@ body:not(.cv-page) .app-container {
   text-align: center;
 }
 
-.app-header-arabic {
-  font-family: 'Reem Kufi','Amiri',serif;
-  font-size: 2.8rem;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--text-primary);
-  margin: 0 0 4px;
-  transition: color 0.3s ease;
-}
 
 .app-header-subtitle {
   font-size: 0.60rem;
@@ -1094,7 +1085,7 @@ html[data-theme='dark'] pre {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .app-header-arabic { font-size: 2.2rem !important; }
+
   .app-header-subtitle { font-size: 0.55rem !important; }
   body:not(.cv-page) .app-header p { font-size: 0.75rem !important; }
 

@@ -3,7 +3,7 @@
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
 theme: "m10c"
-title: "Sam7oon"
+title: "Amro's Blog"
 languageCode: "en-us"
 publishDir: "docs"
 pagination:
@@ -15,7 +15,7 @@ module:
     extended: true
 
 params:
-  author: Sam7oon
+  author: Amro
   avatar: "https://github.com/amrelhusseiny.png"
   description: Network engineer and automation advocate. Writing about networks, Linux, AI, and automation.
   menu_item_separator: "<br>"

@@ -28,17 +28,10 @@
     <!-- Preload background image (WebP first, JPEG fallback in CSS) -->
     <link rel="preload" as="image" href="/images/islamic_bg.webp" type="image/webp">
 
-    <!-- Reem Kufi Arabic display font — non-render-blocking -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;700&display=swap"
-          rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;700&display=swap" rel="stylesheet"></noscript>
-
     <!-- Theme init before first paint -->
     <script>
       (function(){
-        var t = localStorage.getItem('sam7oon_theme') || 'light';
+        var t = localStorage.getItem('amro_blog_theme') || 'light';
         document.documentElement.setAttribute('data-theme', t);
       })();
     </script>
@@ -47,7 +40,7 @@
   <body>
     <!-- ── Mobile top bar (shown only on < 768px via CSS) ── -->
     <div id="mobile-topbar">
-      <a id="mobile-topbar-title" href="/">Sam7oon's Blog</a>
+      <a id="mobile-topbar-title" href="/">Amro's Blog</a>
       <button id="mobile-hamburger" onclick="sam7ToggleDrawer()" aria-label="Open navigation">
         <span id="hamburger-icon">☰</span>
       </button>
@@ -84,8 +77,7 @@
 
     <header class="app-header" id="app-sidebar">
       <div class="app-header-title-wrap">
-        <div class="app-header-arabic">سامحون</div>
-        <div class="app-header-subtitle">Sam7oon's Blog</div>
+        <div class="app-header-subtitle">Amro's Blog</div>
       </div>
 
       <nav class="app-header-menu">
@@ -143,7 +135,7 @@
       var cur  = html.getAttribute('data-theme') || 'light';
       var next = cur === 'light' ? 'dark' : 'light';
       html.setAttribute('data-theme', next);
-      localStorage.setItem('sam7oon_theme', next);
+      localStorage.setItem('amro_blog_theme', next);
       document.getElementById('theme-icon').textContent  = next === 'dark' ? '☾' : '☀';
       document.getElementById('theme-label').textContent = next === 'dark' ? 'Dark Theme' : 'Light Theme';
       /* sync drawer icons */
