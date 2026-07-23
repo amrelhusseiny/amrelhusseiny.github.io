@@ -1,25 +1,26 @@
-# {{ .Site.Title }} — Full Content
+# {{ .Site.Title }} â Full Content
 
 > {{ .Site.Params.description }}
 
 - Author: {{ .Site.Params.author }}
 - Site: {{ .Site.BaseURL }}
-- Last-Updated: {{ now.Format 2006-01-02 }}
+{{- $df := "2006-01-02" }}
+- Last-Updated: {{ now.Format $df }}
 
 Each page also available as Markdown at <page-url>index.md
 
 ---
 # BLOG POSTS
 ---
-{{ range where .Site.RegularPages Section blog | first 50 }}
+{{ range where .Site.RegularPages "Section" "blog" | first 50 }}
 ---
 
 ## {{ .Title }}
 
-*Published: {{ .Date.Format 2006-01-02 }}*
+*Published: {{ .Date.Format $df }}*
 URL: {{ .Permalink }}
 Markdown: {{ .Permalink }}index.md
-{{ with .Params.tags }}Tags: {{ delimit . ,  }}{{ end }}
+{{ with .Params.tags }}Tags: {{ delimit . ", " }}{{ end }}
 
 {{ .RawContent }}
 
@@ -28,12 +29,12 @@ Markdown: {{ .Permalink }}index.md
 ---
 # NOTES
 ---
-{{ range where .Site.RegularPages Section notes | first 100 }}
+{{ range where .Site.RegularPages "Section" "notes" | first 100 }}
 ---
 
 ## {{ .Title }}
 
-*Published: {{ .Date.Format 2006-01-02T15:04:05Z }}*
+*Published: {{ .Date.Format $df }}*
 URL: {{ .Permalink }}
 Markdown: {{ .Permalink }}index.md
 
