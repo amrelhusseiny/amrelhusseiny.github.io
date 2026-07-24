@@ -28,7 +28,7 @@ EVE-NG Topology Diagram (Non-generated):
 You can find both the below script and all the EVE-NG Cisco devices configuration in the following Github Link : 
 [drawio_network_plot/examples/cisco_gather_cdp_and_plot](https://github.com/amroashram/drawio_network_plot/tree/main/examples/cisco_gather_cdp_and_plot)
 
-```
+```python
 from netmiko import ConnectHandler
 import re 
 from drawio_network_plot.drawio_network_plot import NetPlot
@@ -91,13 +91,13 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
+```python
 
 # Library Options
 
 Remember , you can gather the data however you like , this was just a simple demonstration of what you can do , main code to remember is the plotting part : 
 
-```
+```python
 # please adhere to the naming scheme in the variables 
 device_list = [{'nodeName' : 'TOR_1','nodeType' : 'l2_switch','nodeDescription' : 'Leaf Switch 01'}]
 x = NetPlot()

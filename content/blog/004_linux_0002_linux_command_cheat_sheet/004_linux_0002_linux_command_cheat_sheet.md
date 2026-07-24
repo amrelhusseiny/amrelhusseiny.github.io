@@ -14,7 +14,7 @@ tags:
 | **Command** |`$ tree DIRECTORY`| 
 | **Description** | show the directory and subdirectorys and file in a tree format |
 | **Output Sample** ||   
-```
+```bash
 # tree /sys/kernel/mm/hugepages
 /sys/kernel/mm/hugepages
 └── hugepages-2048kB
@@ -38,7 +38,7 @@ tags:
 | **Command** |`$ lshw / $ hostnamectl / $ uname -r`| 
 | **Description** | Check the Hardware, Software and Kernel version|
 | **Output Sample** | |
-```
+```bash
 $ sudo lshw
 USB                         
 node-1             
@@ -298,7 +298,7 @@ $ hostnamectl
 | **Command** |`$ systemd-analyze blame`| 
 | **Description** | check how much time each services took at bootup of kernel to start|
 | **Output Sample** | |
-```
+```bash
 # systemd-analyze blame
          47.630s openstack-nova-compute.service
          30.677s httpd.service
@@ -319,7 +319,7 @@ $ hostnamectl
 | **Command** |`$ cat /proc/interrupts `| 
 | **Description** | Shows the interrupts (Hardware and Software interrupts) counters and per CPU |
 | **Output Sample** ||   
-```
+```bash
 # cat /proc/interrupts
            CPU0       CPU1       CPU2       CPU3       CPU4           
   0:         28          0          0          0          0  IO-APIC   2-edge      timer
@@ -338,7 +338,7 @@ $ hostnamectl
 | **Command** |`$ cat /proc/net/softnet_stat `| 
 | **Description** | Shows a number of software counters per CPU (cpu per row) , the counters depends on the Linux kernel version, most important ones are Column 0 (Number of packets processed by CPU in Hex), Column 1 (Number of packets dropped per CPU), Column 3 (Number of time_squeezed events - times that Software Buffer ran out of CPU time before processing all the packets stored int the buffer), Column (CPU Core number), other column names can be checked by checking you Kernel version, dowloading the uncompiled kernel, then go to /net/core/net-procfs.c, then search for function _dev_seq_printf_stats_|
 | **Output Sample** ||   
-```
+```bash
 # cat /proc/net/softnet_stat 
 #   0        1       2        3        4         5       6        7        8        9        10       11       12
 0058bf1e 00000000 00000001 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
@@ -407,7 +407,7 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 | **Command** |`$ COMMAND HERE`| 
 | **Description** | Check huge pages stats, read the needed stat using cat for the files in the below directory |
 | **Output Sample** ||   
-```
+```bash
 # tree /sys/kernel/mm/hugepages
 /sys/kernel/mm/hugepages
 └── hugepages-2048kB                <<<<<<<<<<<< Directory containing 2MB huge pages, there can be 10G ones too
@@ -427,7 +427,7 @@ static void dev_seq_printf_stats(struct seq_file *seq, struct net_device *dev)
 | **Command** |`$ dig +trace www.example.com`| 
 | **Description** | Traces the whole chain of DS resolution from going to the Recursive resolver, to Root Servers and Authoritive servers (Good source : https://en.wikipedia.org/wiki/List_of_DNS_record_types)|
 | **Output Sample** ||   
-```
+```bash
 $ dig +trace www.example.com
 
 _____
@@ -472,7 +472,7 @@ www.example.com.        86400   IN      RRSIG   A 8 3 .....................
 | **Command** |`$ whois IP_ADDRESS`| 
 | **Description** | Lookup the IP address registration with ICANN, to see who owns this IP |
 | **Output Sample** ||   
-```
+```bash
 $ whois 1.1.1.1
 % [whois.apnic.net]
 % Whois data copyright terms    http://www.apnic.net/db/dbcopyright.html
@@ -579,7 +579,7 @@ source:         APNIC
 | **Command** |`$ host URL`| 
 | **Description** | Straightforward command to resolve Domain Names to IPs |
 | **Output Sample** ||   
-```
+```bash
 $ host google.com
 google.com has address 142.250.200.238
 google.com has IPv6 address 2a00:1450:4006:80d::200e
@@ -596,7 +596,7 @@ google.com mail is handled by 10 smtp.google.com.
 | **Command** |`$ ethtool -S INTERFACE_NAME`| 
 | **Description** | Check the driver of the NIC interface |
 | **Output Sample** ||   
-```
+```bash
 # ethtool -i ens192
 driver: vmxnet3
 version: 1.7.0.0-k-NAPI
@@ -614,7 +614,7 @@ bus-info: 0000:0b:00.0
 | **Command** |`$ ethtool -S INTERFACE_NAME`| 
 | **Description** | Check NIC's Rx and Tx buffers counters including drops|
 | **Output Sample** || 	 
-```
+```bash
 # ethtool -S ens192
 NIC statistics:
      Tx Queue#: 0
@@ -662,7 +662,7 @@ NIC statistics:
 | **Command** |`$ netstat -s`| 
 | **Description** | To check counters for Protocols instead of just checking interface counters, you can also see the number of connections and so on |
 | **Output Sample** ||   
-```
+```bash
 # netstat -s
 Ip:
     Forwarding: 1
@@ -766,7 +766,7 @@ MPTcpExt:
 | **Command** |`$ curl --trace-ascii trace_file https://amroashram.hopto.org \ cat trace_file `| 
 | **Description** | Trace/Debug the Transport layer of the Curl command |
 | **Output Sample** ||   
-```
+```text
 Long output 
 ``` 
 <!-- _________________ -->
@@ -778,7 +778,7 @@ Long output
 | **Command** |`$ ip -statistics neighbour`| 
 | **Description** | To check ARP table MAC caching duration |
 | **Output Sample** ||   
-```
+```bash
 $ ip -statistics neighbour
 10.0.2.2 dev eth0 lladdr 52:54:00:12:35:02 ref 1 used 7/0/2 probes 4 REACHABLE
 10.0.2.3 dev eth0 lladdr 52:54:00:12:35:03 used 60/60/21 probes 1 STALE
@@ -792,7 +792,7 @@ $ ip -statistics neighbour
 | **Command** |`$ ip -statistics neighbour`| 
 | **Description** | Inspect the Transport connectivity with the Curl command |
 | **Output Sample** ||   
-```
+```bash
 $ ip -statistics neighbour
 10.0.2.2 dev eth0 lladdr 52:54:00:12:35:02 ref 1 used 7/0/2 probes 4 REACHABLE
 10.0.2.3 dev eth0 lladdr 52:54:00:12:35:03 used 60/60/21 probes 1 STALE
@@ -805,7 +805,7 @@ $ ip -statistics neighbour
 | **Command** |`$ ethtool -g INTERFACE_NAME`| 
 | **Description** | Check NIC Ring buffer size, the max is the _Pre-set_ values, the actually configured is the _Current_|
 | **Output Sample** ||   
-```
+```bash
 # ethtool -g ens192 
 Ring parameters for ens192:
 Pre-set maximums:
@@ -828,7 +828,7 @@ TX:             512
 | **Command** |`$ sudo iptables -L -v -n`| 
 | **Description** | To Check all IPTables chains rules |
 | **Output Sample** ||   
-```
+```bash
 $ sudo iptables -L -v -n
 Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination
@@ -848,7 +848,7 @@ Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
 | **Command** |`$ iptables -t nat --list`| 
 | **Description** | To Check SNAT leases |
 | **Output Sample** ||   
-```
+```text
 CODE BLOCK ### ADD LATER
 ``` 
 <!-- _________________ -->
@@ -861,7 +861,7 @@ CODE BLOCK ### ADD LATER
 | **Command** |`$ cat -n /proc/net/nf_conntrack | grep dport=22 `| 
 | **Description** | To check current tracked connections to a particular port |
 | **Output Sample** ||   
-```
+```bash
 $ cat -n /proc/net/nf_conntrack | grep dport=22
      2  ipv4     2 tcp      6 431999 ESTABLISHED src=10.0.2.2 dst=10.0.2.15 sport=58008 dport=22 src=10.0.2.15 dst=10.0.2.2 sport=22 dport=58008 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 
@@ -877,7 +877,7 @@ $ cat -n /proc/net/nf_conntrack | grep dport=22
 | **Command** |`$ nmcli device show`| 
 | **Description** | Using Network Manager to show interfaces configuration, you can alsi use $nmtui to get a GUI like terminal inside of CLI |
 | **Output Sample** ||   
-```
+```bash
 $ nmcli device show eth1
 GENERAL.DEVICE:                         eth1
 GENERAL.TYPE:                           ethernet
@@ -903,7 +903,7 @@ IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 256
 | **Command** |`$ netstat -an | grep 80` <br> `netstat -anlp` | 
 | **Description** | Check if port is listening |
 | **Output Sample** ||   
-```
+```bash
 $ netstat -an | grep 80
 tcp        0      0 172.21.190.129:43612    91.189.91.39:80         TIME_WAIT
 
@@ -959,7 +959,7 @@ unix  3      [ ]         STREAM     CONNECTED     17521    -
 | **Command** |`$ cat /proc/sys/net/ipv4/ip_forward ` <br> `$ sysctl net.ipv4.ip_forward`| 
 | **Description** | Check if IP Forwarding is enabled on sever, used to forward traffic as a router, 0->Disabled, 1->Enabled  |
 | **Output Sample** ||   
-```
+```bash
 $ cat /proc/sys/net/ipv4/ip_forward
 0
 
@@ -989,7 +989,7 @@ $ sysctl -p
 | **Command** |`$ stat FILE_NAME`| 
 | **Description** | COMMAND DESCRIPTION |
 | **Output Sample** ||   
-```
+```bash
 # Example 1
 $ stat file.cfg
   File: file.cfg
@@ -1028,7 +1028,7 @@ Change: 2023-03-17 06:50:31.337359181 +0000
 | **Command** |`$ sudo ovs-ofctl dump-flows OVS_SWITCH_NAME`| 
 | **Description** | To show the OpenFlow rules for a bridge |
 | **Output Sample** ||   
-```
+```text
 CODE BLOCK
 ``` 
 <!-- _________________ -->
@@ -1040,7 +1040,7 @@ CODE BLOCK
 |--|--|
 | **Command** |`$ /etc/init.d/keepalived status / $ ipvsadm -ln / $ ipvsadm –lnc`| 
 | **Output Sample** ||    
-```
+```text
 CODE BLOCK
 ``` 
 <!-- _________________ -->
@@ -1057,7 +1057,7 @@ CODE BLOCK
 | **Command** |`$ COMMAND HERE`| 
 | **Description** | COMMAND DESCRIPTION |
 | **Output Sample** || 	 
-```
+```text
 CODE BLOCK
 ``` 
 <!-- _________________ -->

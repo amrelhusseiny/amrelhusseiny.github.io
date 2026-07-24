@@ -23,7 +23,7 @@ In this article, we are the basic flow IPv4/TCP traffic in Linux Kernel followin
 Before we get to the flow path, there is some helper tools and concepts we should be familiar with:
 ### 1) Ring Buffers
 At bootup of NIC devie and loading its driver module by the Kernel, the drivers starts by allocating Rx(Recieve) and Tx(Transmission) queues or buffers refered to as Ring Buffers in the device memory, usually the DMA part of the kernel space of memory, you can check the Max and configured sizes of these buffers :
-```
+```bash
 # ethtool -g INTERFACE_NAME 
 Ring parameters for ens192:
 Pre-set maximums:
@@ -36,7 +36,7 @@ RX:             1024    <<<<<<<<<<<<<<<, Configured size in bytes
 RX Mini:        128
 RX Jumbo:       512
 TX:             512     <<<<<<<<<<<<<<<, Configured size in bytes
-```
+```bash
 In earlier versions of the kernel, a packet arriving to those buffers, would trigger a hardware interrupt to the CPU per packet, which is very intrusive, but thankfully NAPI was introduced to help with this issue, below you will get to know it more.
 
 ### 2) Socket Buffers (sk_buff)
@@ -62,7 +62,7 @@ sk_buff consists of (shown in figure below):
 ### 3) Kernel Interrupts (IRQ vs SoftIRQ)
 Simply, interrupts are used to stop the CPU from what it is doing and work on the interrupter's part instead, there are models of interrupts, each include many many types, but following you can see there are two categories for these interrupts.
 - **Top-Half Interrupts (Hardware Interrupt)** : These kind of interrupts is very costly, and as a result the Interrupt handler masks it after 1st use, and then after that the NIC driver starts to use the SoftIRQ (Software interrupt) instead which can be interrupted by itself, you can observe these interrupts :
-```
+```bash
 $ cat /proc/interrupts
 ## These are the hardware interrupts, including the IRQ ID , the CPU and the number of interrupts of this type that was triggered .
            CPU0       CPU1       CPU2       CPU3       CPU4           
@@ -74,7 +74,7 @@ $ cat /proc/interrupts
  14:          0          0          0          0          0  IO-APIC  14-edge      ata_piix
  15:          0          0          0          0          0  IO-APIC  15-edge      ata_piix
 
-```
+```bash
 Each interrupt (Hardware Interrupt) is identified by a __vector__ which is a one byte identifier, ranging 0-255, from 0-31 are what are called Exceptions (Non-Maskable) interrupts, range 32-47 are maskable interrupts, from 48 to 255 are allocated to Software interrupts (SoftIRQ).
 
 Quickly, there are 3 types of Hardware interrupts you will face in the output above, MSI-X, MSI, and legacy IRQs, in a brief MSI stands for Message Signaled Interrupts which replaces the old way of handling interrupt using single pysical pin in the CPU socket for each device.
@@ -83,7 +83,7 @@ Also for more info about Hardware interrupts, check [this great paper "Linux Int
 
 - **Bottom-Half Interrupts (Software Interrupt)** : 
 SoftIRQs runs a queue per CPU, you can find them in the ps output, formated as \[ksoftiqd/CPU_Number\], these queues polls the device driver for processing traffic, instead of device (NIC) hardware interrupting the CPU each time it recieves traffic, you can see recieve and transmission queues :
-```
+```bash
 # SoftIRQs queues process 
 $ ps aux | grep ksoftirqd
 root          14  0.0  0.0      0     0 ?        S    22:56   0:00 [ksoftirqd/0]

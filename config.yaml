@@ -42,6 +42,12 @@ markup:
     renderer:
       # Enabled to embed HTML Code into markdown
       unsafe: true
+  highlight:
+    noClasses: false      # use CSS classes (not inline styles) — enables light/dark theming
+    codeFences: true      # process fenced code blocks
+    guessSyntax: false    # manual language tags only — no guessing
+    lineNos: false        # no line numbers
+    style: monokai        # base style (overridden by our CSS classes)
 
 uglyURLs: false
 

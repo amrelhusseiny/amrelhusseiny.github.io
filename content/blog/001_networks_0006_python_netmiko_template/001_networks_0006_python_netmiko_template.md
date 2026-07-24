@@ -12,7 +12,7 @@ The following is a ready to go netlike template , you just need to choose your w
 **Netmiko Source Code :** [Netmiko Github](https://github.com/ktbyers/netmiko)
 **API reference** _(must check for more functionality)_ : [Netmiko Doc](https://ktbyers.github.io/netmiko/docs/netmiko/index.html)
 
-```
+```python
 # netmiko_starter.py 
 from netmiko import ConnectHandler
 

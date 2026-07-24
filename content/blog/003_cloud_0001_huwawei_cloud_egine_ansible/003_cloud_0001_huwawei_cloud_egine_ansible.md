@@ -61,7 +61,7 @@ I created an ESXi CentOS machine to run the Ansible playbook from , you can inst
 
 - On device , paste the following configuration to add a user and start the Netconf Service : 
 
-```
+```text
 # Switch Configuration
 system
 !
@@ -93,11 +93,11 @@ snetconf server enable
 commit
 !
 save
-```
+```bash
 
 - To confirm that you are able to reach network connectivity , ping your gateway and your Ansible hosting device : 
 
-```
+```text
 <CloudEngine>ping -c 5 192.168.1.1 
   PING 192.168.1.1: 56  data bytes, press CTRL_C to break
     Reply from 192.168.1.1: bytes=56 Sequence=1 ttl=64 time=5 ms
@@ -125,7 +125,7 @@ save
     5 packet(s) received
     0.00% packet loss
     round-trip min/avg/max = 1/2/4 ms
-```
+```bash
 
 - To test the Netconf before moving forward to ansible , from your laptop or Ansible hosting VM , run the following command , you should get a long XML output , this means that we are ready for ansible :
 `$ ssh client001@192.168.1.130 -p 830 netconf`
@@ -142,7 +142,7 @@ Create a virtual environment , in my case using Python 3.10 :
 Activate the created virtual environment , you will find the default Python version is the one you created it with .
 
 The Ansible module we will be using is part of the net_commons collection : 
-```
+```bash
 (huawei_venv)$ python --version
 Python 3.10.5
 
@@ -163,12 +163,12 @@ ansible [core 2.13.3]
 
 # Double confirm that the Netcommons collection is installed 
 (huawei_venv)$ ansible-galaxy collection install ansible.netcommon
-```
+```bash
 
 ### B) lets create a simple Inventory and Playbook to run on our current switch :
 
 Inverntory.yaml
-```
+```yaml
 # inventory.yaml
 all:
   # ----- Variables for the whole inventory 
@@ -188,10 +188,10 @@ all:
             leaf_1:
               ansible_host: 192.168.1.130
               
-```
+```bash
 
 Playbook.yaml : will be adding a vlan (20) to the switch 
-```
+```yaml
 # Playbook.yaml
 - name: test
   hosts: leaf_1
@@ -204,7 +204,7 @@ Playbook.yaml : will be adding a vlan (20) to the switch
       vlan_id: 120
       name: WEB_Vlan
       description: "hello"
-```
+```bash
 
 To run the playbook on the inventory :
 `$ ansible-playbook -i huawei_cloud_engine_inventory.yaml huawei_cloud_engine_playbook.yaml `

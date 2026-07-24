@@ -48,7 +48,7 @@ then its easy peasy as follows.
    `docker build -t context7-mcp .`
 
 3. edit the Gemini's Settings.json, or the coresponding configuration file , for Claude desktop or OpenAI's Codex
-   ```
+   ```bash
    $ vim  ~/.gemini/settings.json
    {
      "mcpServers": {
