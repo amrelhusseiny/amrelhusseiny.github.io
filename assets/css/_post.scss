@@ -50,8 +50,20 @@
 }
 
 .post-content {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.post-content p:first-child { margin-top: 0; }
+.post-content p:last-child  { margin-bottom: 0; }
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
   color: var(--text-primary);
-  line-height: 1.75;
+  line-height: 1.35;
 }
 
 .post-footer {
