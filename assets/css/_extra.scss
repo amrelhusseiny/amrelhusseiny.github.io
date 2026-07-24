@@ -1222,7 +1222,7 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
     /* Right of the centred post card:
        post card is max 65rem wide, centred in viewport.
        We place the ToC 1.5rem to the right of the card edge. */
-    right: max(1.5rem, calc((100vw - 65rem) / 2 - 15rem));
+    right: calc((100vw - 65rem) / 2 - 15rem);
     top: 5rem;
     width: 13rem;
     max-height: calc(100vh - 7rem);
@@ -1332,7 +1332,7 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
 /* ── Extra wide: nudge ToC further right so it doesn't crowd the post card ── */
 @media (min-width: 1600px) {
   #post-toc-float {
-    right: max(2rem, calc((100vw - 65rem) / 2 - 16rem));
+    right: calc((100vw - 65rem) / 2 - 16rem);
     width: 14rem;
   }
 }
