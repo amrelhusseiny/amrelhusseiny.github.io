@@ -1219,10 +1219,7 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
   #post-toc-float {
     display: block;
     position: fixed;
-    /* Right of the centred post card:
-       post card is max 65rem wide, centred in viewport.
-       We place the ToC 1.5rem to the right of the card edge. */
-    right: calc((100vw - 65rem) / 2 - 15rem);
+    right: 1rem;          /* simple: 1rem from right edge of viewport */
     top: 5rem;
     width: 13rem;
     max-height: calc(100vh - 7rem);
@@ -1230,7 +1227,9 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
     scrollbar-width: thin;
     scrollbar-color: var(--divider) transparent;
     z-index: 50;
-    /* fade in */
+    /* pointer-events:none on the container so scroll passes through the
+       transparent gap between ToC panel and the article */
+    pointer-events: none;
     animation: sam7FadeIn 0.3s ease both;
   }
 
@@ -1253,6 +1252,7 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
     border-radius: 12px;
     padding: 0.8rem 0.2rem 0.8rem 0.6rem;
     transition: background 0.3s;
+    pointer-events: auto;  /* restore interaction on the actual glass card */
   }
 
   html[data-theme='dark'] .ptoc-inner {
@@ -1332,14 +1332,14 @@ html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
 /* ── Extra wide: nudge ToC further right so it doesn't crowd the post card ── */
 @media (min-width: 1600px) {
   #post-toc-float {
-    right: calc((100vw - 65rem) / 2 - 16rem);
+    right: 1.5rem;
     width: 14rem;
   }
 }
 
 @media (min-width: 1920px) {
   #post-toc-float {
-    right: calc((100vw - 65rem) / 2 - 17rem);
+    right: 2rem;
     width: 15rem;
   }
 }
