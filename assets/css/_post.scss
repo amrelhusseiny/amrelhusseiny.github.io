@@ -230,3 +230,123 @@ html[data-theme='dark'] pre {
   pre { padding: 1rem !important; border-radius: 10px !important; }
   .post-content .highlight pre { padding: 1rem !important; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   BARE PRE (no .highlight wrapper) — blog posts without
+   syntax highlighting still get the dark rounded container
+   ═══════════════════════════════════════════════════════ */
+
+/* Override m10c's left-border on bare pre inside post content */
+.post-content > pre,
+.post .post-content > pre {
+  background: #1c1c1c !important;
+  border-left: none !important;
+  border-radius: 14px !important;
+  padding: 1.4rem 1.6rem !important;
+  overflow-x: auto !important;
+  margin: 1.2rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+}
+
+.post-content > pre code,
+.post .post-content > pre code {
+  background: transparent !important;
+  color: #e2e2e2 !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 0.85em !important;
+  line-height: 1.65 !important;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
+}
+
+html[data-theme='dark'] .post-content > pre,
+html[data-theme='dark'] .post .post-content > pre {
+  background: #111111 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+
+@media (max-width: 767px) {
+  .post-content > pre,
+  .post .post-content > pre {
+    padding: 1rem !important;
+    border-radius: 10px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   TABLE OF CONTENTS — collapsible glass container
+   ═══════════════════════════════════════════════════════ */
+
+.toc-wrap {
+  margin: 1.5rem 0 1.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.toc-wrap summary {
+  padding: 0.7rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &::marker,
+  &::-webkit-details-marker { display: none; }
+
+  &::before {
+    content: '▶';
+    font-size: 0.6rem;
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+}
+
+.toc-wrap[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.toc-wrap summary:hover {
+  color: var(--text-primary);
+  background: var(--hover-bg);
+}
+
+.toc-wrap ul {
+  margin: 0;
+  padding: 0.5rem 1.1rem 0.9rem 1.6rem;
+  border-top: 1px solid var(--glass-border);
+  list-style: none;
+}
+
+.toc-wrap ul li {
+  margin: 0.25rem 0;
+}
+
+.toc-wrap ul li a {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  &:hover { color: var(--text-primary); }
+}
+
+.toc-wrap ul ul {
+  padding-left: 1rem;
+  border-top: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+html[data-theme='dark'] .toc-wrap {
+  background: rgba(18,18,18,0.72);
+  border-color: rgba(255,255,255,0.08);
+}

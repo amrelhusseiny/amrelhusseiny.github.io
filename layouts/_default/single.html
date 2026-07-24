@@ -86,6 +86,45 @@
 </article>
 
 <script>
+/* ── Collapsible Table of Contents ── */
+document.addEventListener('DOMContentLoaded', function() {
+  var pc = document.querySelector('.post-content');
+  if (!pc) return;
+
+  /* Find any heading that looks like a ToC heading */
+  var tocHeading = null;
+  pc.querySelectorAll('h1,h2,h3').forEach(function(h) {
+    var text = h.textContent.trim().toLowerCase();
+    var id   = (h.id || '').toLowerCase();
+    if (text === 'table of contents' || id === 'table-of-contents' ||
+        text === 'table of content'  || id === 'table-of-content') {
+      tocHeading = h;
+    }
+  });
+  if (!tocHeading) return;
+
+  /* The next sibling element should be the <ul> list */
+  var tocList = tocHeading.nextElementSibling;
+  if (!tocList || tocList.tagName !== 'UL') return;
+
+  /* Build the <details> wrapper */
+  var details = document.createElement('details');
+  details.className = 'toc-wrap';
+  /* collapsed by default — no 'open' attribute */
+
+  var summary = document.createElement('summary');
+  summary.textContent = 'Table of Contents';
+  details.appendChild(summary);
+
+  /* Move the list inside details, remove the heading */
+  details.appendChild(tocList.cloneNode(true));
+  tocList.parentNode.insertBefore(details, tocHeading);
+  tocHeading.parentNode.removeChild(tocHeading);
+  tocList.parentNode.removeChild(tocList);
+});
+</script>
+
+<script>
 function amroCopyLink() {
   var url = window.location.href;
   var btn = document.getElementById('post-share-btn');
