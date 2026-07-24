@@ -599,6 +599,78 @@ check("querySelector" in notes_html and "mermaid" in notes_html,
 
 print()
 
+# ═══════════════════════════════════════════════════════
+# Section 8k: TYPE BADGE + TAG FILTER
+# ═══════════════════════════════════════════════════════
+print()
+print("=== 8k. TYPE BADGE + TAG FILTER ===")
+print()
+
+# Tag filter row present on home and blog
+check("tag-filter-row" in home_html,
+    "home: tag-filter-row present",
+    "home: tag-filter-row MISSING")
+
+check("tag-filter-row" in blog_html,
+    "blog: tag-filter-row present",
+    "blog: tag-filter-row MISSING")
+
+# Filter buttons include known tags (minifier removes quotes so check unquoted too)
+check("data-filter=ai" in home_html or 'data-filter="ai"' in home_html,
+    "home: #ai filter button present",
+    "home: #ai filter button MISSING")
+
+check("data-filter=networks" in home_html or 'data-filter="networks"' in home_html,
+    "home: #networks filter button present",
+    "home: #networks filter button MISSING")
+
+# All button
+check("data-filter=all" in home_html or 'data-filter="all"' in home_html,
+    "home: All filter button present",
+    "home: All filter button MISSING")
+
+# Notes button on home only
+check("__note" in home_html,
+    "home: Notes filter button present (home-only)",
+    "home: Notes filter button MISSING")
+
+# __note appears in JS source on all pages — check for the button element specifically
+import re as _re_k
+_blog_note_btn = "__note" in blog_html and bool(_re_k.search(r"data-filter[=][__]note", blog_html))
+check(not _blog_note_btn,
+    "blog: Notes filter button correctly absent on /blog/ (only in JS, not as a button)",
+    "blog: Notes filter button incorrectly rendered as a button on /blog/")
+
+# sam7FilterTag JS present
+check("sam7FilterTag" in home_html,
+    "home: sam7FilterTag JS function present",
+    "home: sam7FilterTag JS MISSING")
+
+# data-section on cards
+check("data-section=notes" in home_html or 'data-section="notes"' in home_html,
+    "home: note card has data-section=notes",
+    "home: data-section=notes MISSING on note card")
+
+check("data-section=blog" in home_html or 'data-section="blog"' in home_html,
+    "home: blog card has data-section=blog",
+    "home: data-section=blog MISSING on blog cards")
+
+# data-tags on cards
+check("data-tags" in home_html,
+    "home: data-tags attribute on cards",
+    "home: data-tags attribute MISSING")
+
+# Type badges
+check("post-card-type-post" in home_html,
+    "home: Post type badge present on blog cards",
+    "home: Post type badge MISSING")
+
+check("post-card-type-note" in home_html,
+    "home: Note type badge present on note cards",
+    "home: Note type badge MISSING")
+
+print()
+
 # ── Check if fetched pages are valid (not proxy auth pages) ──
 _home_ok  = _valid(home_html)
 _notes_ok = _valid(notes_html)
