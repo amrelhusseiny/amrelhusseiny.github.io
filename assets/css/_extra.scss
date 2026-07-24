@@ -1016,9 +1016,10 @@ html[data-theme='dark'] .post .post-content > pre {
   color: #1a1a1a !important;
 }
 
-/* LINE WRAPPER — inline display */
+/* LINE WRAPPER — inline, transparent bg to prevent per-line artefacts */
 .chroma .line, .chroma .cl {
   display: inline !important;
+  background: transparent !important;
 }
 
 /* LINE HIGHLIGHT */
@@ -1131,6 +1132,7 @@ html[data-theme='dark'] .chroma .err {
 html[data-theme='dark'] .chroma .line,
 html[data-theme='dark'] .chroma .cl {
   display: inline !important;
+  background: transparent !important;
 }
 
 /* LINE HIGHLIGHT */

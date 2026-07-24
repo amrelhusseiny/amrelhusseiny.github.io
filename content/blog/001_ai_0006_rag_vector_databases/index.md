@@ -8,17 +8,6 @@ tags:
     - automation
 ---
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [RAG (Database for AI)](#rag-database-for-ai)
-  - [Understanding the Challenges](#understanding-the-challenges)
-  - [Cost Analysis and Real-World Experience](#cost-analysis-and-real-world-experience)
-  - [Chroma MCP Implementation](#chroma-mcp-implementation)
-  - [Semantic and Hybrid Search](#semantic-and-hybrid-search)
-- [Conclusion](#conclusion)
-- [References](#references)
-
 ## Introduction
 
 I have reached the conclusion to write this article after 7 months of continous studying , tweaking and testing many AI workflows in order to optimize my daily work,

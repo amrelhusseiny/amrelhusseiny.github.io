@@ -42,6 +42,10 @@ markup:
     renderer:
       # Enabled to embed HTML Code into markdown
       unsafe: true
+  tableOfContents:
+    startLevel: 2    # ## headings
+    endLevel: 5      # ##### headings
+    ordered: false
   highlight:
     noClasses: false      # use CSS classes (not inline styles) — enables light/dark theming
     codeFences: true      # process fenced code blocks

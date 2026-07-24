@@ -7,15 +7,6 @@ tags:
     - ai
 ---
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Understanding Local LLMs](#understanding-local-llms)
-- [Email RAG Explained](#email-rag-explained)
-- [Setting up the Environment](#setting-up-the-environment)
-- [Implementing Local LLM for Email RAG](#implementing-local-llm-for-email-rag)
-- [Challenges and Solutions](#challenges-and-solutions)
-- [Conclusion](#conclusion)
-
 ## Introduction
 To understand basic LLM stuff, the models gets trained on a set of data to a particular date, and the data used for training is usally not everything in the whole world, 
 
@@ -72,9 +63,6 @@ then its easy peasy as follows.
      "theme": "Default"
    }
    ```
-
-
-
 
 ## References
 

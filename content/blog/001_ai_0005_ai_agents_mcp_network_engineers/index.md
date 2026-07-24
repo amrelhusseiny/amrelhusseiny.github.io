@@ -5,15 +5,6 @@ draft: true
 toc: true
 ---
 
-## Table of Contents
-- [Introduction](#introduction)
-- [What are AI Agents](#what-are-ai-agents)
-- [Understanding MCP Servers](#understanding-mcp-servers)
-- [AI Agents for Network Engineers](#ai-agents-for-network-engineers)
-- [Setting Up MCP Servers](#setting-up-mcp-servers)
-- [Practical Examples](#practical-examples)
-- [Conclusion](#conclusion)
-
 ## Introduction
 
 I have reached the conclusion to write this article after 7 months of continous studying , tweaking and testing many AI workflows in order to optimize my daily work, 
@@ -99,8 +90,6 @@ One of the exciting new features being added to MCP standards, is the ability to
 ### MCP - Progrissive Discovery
 
 ### MCP - Programatic tool calling
-
-
 
 ### MCP 
 

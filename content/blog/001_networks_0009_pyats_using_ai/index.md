@@ -8,19 +8,6 @@ tags:
     - ai
 ---
 
-## Table of Contents
-- [Overview](#overview)
-  - [Starting with result](#starting-with-result)
-  - [Introduction](#introduction)
-- [What are MCP servers?](#what-are-mcp-servers)
-- [What is PyATS ?](#what-is-pyats)
-- [What is Gemini CLI ?](#what-is-gemini-cli)
-- [Dive in](#dive-in)
-  - [Our test setup](#our-test-setup)
-  - [Preparing PyATS MCP Server container](#preparing-pyats-mcp-server-container)
-  - [Using the MCP server](#using-the-mcp-server)
-- [References](#references)
-
 ## Overview
 
 ### Starting with result
@@ -38,9 +25,6 @@ $ gemini -m gemini-2.5-flash
    ███░      ░░███  ░░███  ░███ ░   █ ░███      ░███  ░███  ░███  ░░█████  ░███
  ███░         ░░█████████  ██████████ █████     █████ █████ █████  ░░█████ █████
 ░░░            ░░░░░░░░░  ░░░░░░░░░░ ░░░░░     ░░░░░ ░░░░░ ░░░░░    ░░░░░ ░░░░░
-
-
-
 
 ╭─────────────────────────────────────────────────────────────────────────────────────╮
 │  > get me the software verstion of clab-fullmesh-lab-n9kv1 and put it in cli table  │

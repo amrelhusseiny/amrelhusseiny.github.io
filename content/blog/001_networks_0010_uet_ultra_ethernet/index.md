@@ -4,8 +4,6 @@ date: 2025-10-15T01:11:49+03:00
 draft: true
 ---
 
-## Table of Contents
-
 ## Overview
 
 ### Introduction

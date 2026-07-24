@@ -4,11 +4,6 @@ date: 2025-12-14T06:04:01+01:00
 draft: true
 ---
 ```
-Table Of Content :
-
-- [Overview](#overview)
-- [Example](#example)
-
 ## Thoughts to follow
 
 ### Unorganized thoughts
