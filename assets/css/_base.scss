@@ -831,3 +831,99 @@ html[data-theme='dark'] .post-card:hover {
 }
 
 
+
+/* ═══════════════════════════════════════════════════════
+   TYPE BADGE — Note / Post pill on home page cards
+   ═══════════════════════════════════════════════════════ */
+
+.post-card-type-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 0.60rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  line-height: 1.6;
+}
+
+.post-card-type-post {
+  color: var(--text-muted);
+  background: transparent;
+  opacity: 0.5;
+}
+
+.post-card-type-note {
+  color: var(--text-primary);
+  background: var(--hover-bg);
+  border-color: var(--glass-border);
+  opacity: 0.75;
+}
+
+html[data-theme='dark'] .post-card-type-note {
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TAG FILTER ROW — topic filter buttons above card grid
+   ═══════════════════════════════════════════════════════ */
+
+.tag-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1.2rem;
+}
+
+.tag-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  user-select: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
+    border-color: var(--text-muted);
+  }
+
+  &.active {
+    color: var(--text-primary);
+    background: var(--selected-bg);
+    border-color: var(--selected-bg);
+  }
+}
+
+html[data-theme='dark'] .tag-filter-btn.active {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+}
+
+@media (max-width: 767px) {
+  .tag-filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-bottom: 1rem;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .tag-filter-btn {
+    flex-shrink: 0;
+  }
+}

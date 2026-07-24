@@ -12,9 +12,30 @@
       </div>
     </div>
 
+    {{/* ── Tag filter row ── */}}
+    <div class="tag-filter-row" id="tag-filter-row" role="group" aria-label="Filter by topic">
+      <button class="tag-filter-btn active" data-filter="all" onclick="sam7FilterTag('all', this)">All</button>
+      {{ range $tag, $pages := .Site.Taxonomies.tags -}}
+      <button class="tag-filter-btn" data-filter="{{ $tag }}" onclick="sam7FilterTag('{{ $tag }}', this)">#{{ $tag }}</button>
+      {{- end }}
+      {{- if .IsHome }}
+      <button class="tag-filter-btn" data-filter="__note" onclick="sam7FilterTag('__note', this)">Notes</button>
+      {{- end }}
+    </div>
+
     <div class="post-cards" id="post-cards-grid">
       {{ range where .Paginator.Pages "Type" "!=" "page" }}
-        <a class="post-card" href="{{ .RelPermalink }}">
+        {{- $tags := "" }}
+        {{- with .Params.tags }}{{ $tags = delimit . " " }}{{ end }}
+        <a class="post-card" href="{{ .RelPermalink }}"
+           data-tags="{{ $tags }}"
+           data-section="{{ .Section }}">
+          {{/* ── Type badge ── */}}
+          {{ if eq .Section "notes" }}
+          <span class="post-card-type-badge post-card-type-note">Note</span>
+          {{ else }}
+          <span class="post-card-type-badge post-card-type-post">Post</span>
+          {{ end }}
           <div class="post-card-title">{{ .Title }}</div>
           {{ with .Summary }}
           <div class="post-card-summary">{{ . | plainify | truncate 140 "…" }}</div>
@@ -43,18 +64,55 @@
   </article>
 
   <script>
-  function sam7Search(q) {
-    var grid  = document.getElementById('post-cards-grid');
-    var empty = document.getElementById('search-empty');
-    var cards = grid.querySelectorAll('.post-card');
-    var term  = q.trim().toLowerCase();
-    var visible = 0;
-    cards.forEach(function(c) {
-      var match = !term || c.textContent.toLowerCase().indexOf(term) !== -1;
-      c.style.display = match ? '' : 'none';
-      if (match) visible++;
+  /* ── Active filter state ── */
+  var _amroActiveTag = 'all';
+
+  /* ── Tag filter ── */
+  function sam7FilterTag(tag, btn) {
+    _amroActiveTag = tag;
+
+    /* update button states */
+    document.querySelectorAll('.tag-filter-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.filter === tag);
     });
-    empty.style.display = (visible === 0 && term) ? '' : 'none';
+
+    /* re-run combined filter (respects any active search too) */
+    _amroApplyFilters(document.getElementById('sam7-search').value.trim().toLowerCase());
+  }
+
+  /* ── Search ── */
+  function sam7Search(q) {
+    _amroApplyFilters(q.trim().toLowerCase());
+  }
+
+  /* ── Combined filter: tag + search ── */
+  function _amroApplyFilters(term) {
+    var cards   = document.querySelectorAll('#post-cards-grid .post-card');
+    var empty   = document.getElementById('search-empty');
+    var visible = 0;
+
+    cards.forEach(function(card) {
+      var tags    = (card.dataset.tags    || '').toLowerCase();
+      var section = (card.dataset.section || '').toLowerCase();
+      var text    = card.textContent.toLowerCase();
+
+      /* tag/section match */
+      var tagMatch = true;
+      if (_amroActiveTag === '__note') {
+        tagMatch = section === 'notes';
+      } else if (_amroActiveTag !== 'all') {
+        tagMatch = tags.split(' ').indexOf(_amroActiveTag) !== -1;
+      }
+
+      /* search match */
+      var searchMatch = !term || text.indexOf(term) !== -1;
+
+      var show = tagMatch && searchMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    empty.style.display = (visible === 0) ? '' : 'none';
   }
   </script>
 {{ end }}
