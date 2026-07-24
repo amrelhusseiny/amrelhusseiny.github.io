@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Build the <details> wrapper */
   var details = document.createElement('details');
   details.className = 'toc-wrap';
-  /* collapsed by default — no 'open' attribute */
+  details.setAttribute('open', ''); /* open by default — user can collapse */
 
   var summary = document.createElement('summary');
   summary.textContent = 'Table of Contents';
