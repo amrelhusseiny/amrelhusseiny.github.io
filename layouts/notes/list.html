@@ -31,6 +31,16 @@
 }
 </script>
 
+{{/* ── Mobile timeline (< 768px) — sits ABOVE layout, not inside flex row ── */}}
+<details class="notes-timeline-mobile" id="notes-timeline-mobile">
+  <summary class="notes-tl-mobile-summary">Jump to date</summary>
+  <div class="notes-tl-mobile-months">
+    {{ range $byMonth }}
+    <a class="notes-tl-mobile-chip" href="#month-{{ .Key | urlize }}">{{ .Key }}</a>
+    {{ end }}
+  </div>
+</details>
+
 <div class="notes-layout">
 
   {{/* ── Timeline sidebar (desktop/tablet ≥ 768px) ── */}}
@@ -44,16 +54,6 @@
       {{ end }}
     </nav>
   </aside>
-
-  {{/* ── Mobile timeline (< 768px) ── */}}
-  <details class="notes-timeline-mobile" id="notes-timeline-mobile">
-    <summary class="notes-tl-mobile-summary">Jump to date</summary>
-    <div class="notes-tl-mobile-months">
-      {{ range $byMonth }}
-      <a class="notes-tl-mobile-chip" href="#month-{{ .Key | urlize }}">{{ .Key }}</a>
-      {{ end }}
-    </div>
-  </details>
 
   {{/* ── Main column ── */}}
   <div class="notes-main">

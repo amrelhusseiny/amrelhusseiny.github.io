@@ -358,10 +358,29 @@ html[data-theme='dark'] pre {
    ═══════════════════════════════════════════════════════ */
 
 @media (max-width: 767px) {
-  /* Hide desktop timeline sidebar, show mobile collapsible */
-  .notes-timeline { display: none; }
+  /* ── Notes layout: single column, contained ── */
+  .notes-layout {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .notes-main {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── Mobile timeline: full-width, above notes-layout ── */
+  .notes-timeline { display: none !important; }
+
   .notes-timeline-mobile {
     display: block;
+    width: 100%;
+    box-sizing: border-box;
     margin-bottom: 1rem;
     border-radius: 10px;
     background: var(--glass-bg);
@@ -406,13 +425,25 @@ html[data-theme='dark'] pre {
     &:hover { color: var(--text-primary); background: var(--hover-bg); }
   }
 
-  /* notes layout stacks to single column */
-  .notes-layout { flex-direction: column; gap: 0; }
+  /* ── Note cards: full-width, no overflow ── */
+  .note-card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+  }
 
-  /* post cover max height on mobile */
-  .post-cover { max-height: 200px; }
-  .post-title { font-size: 1.4rem; }
+  /* ── Code blocks inside notes: scrollable, never overflow ── */
+  .note-card-content pre,
+  .note-card-content .highlight {
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+  }
 
-  /* note image on mobile */
+  /* ── Note images: constrained height on mobile ── */
   .note-card-image { max-height: 170px; }
+
+  /* ── Post cover (shared rule) ── */
+  .post-cover { max-height: 200px; }
+  .post-title  { font-size: 1.4rem; }
 }
