@@ -839,9 +839,10 @@ html[data-theme='dark'] .post-card:hover {
 
 
 /* ═══════════════════════════════════════════════════════
-   CODE BLOCKS — light & dark mode aware
-   Light: VS style (Microsoft Visual Studio)
-   Dark:  GitHub Dark style
+   CODE BLOCKS — greyscale + weight/style palette
+   No colour accents — bold/italic/weight distinguish tokens
+   Light: near-white bg, dark text
+   Dark:  near-black bg, light text
    ═══════════════════════════════════════════════════════ */
 
 /* ── Inline code ── */
@@ -860,7 +861,7 @@ html[data-theme='dark'] code {
   border-color: rgba(255,255,255,0.12) !important;
 }
 
-/* ── Block pre — light (VS) ── */
+/* ── Block pre — light ── */
 pre {
   background: #f8f8f8 !important;
   border-radius: 14px !important;
@@ -878,17 +879,16 @@ pre code {
   padding: 0 !important;
   font-size: 0.85em !important;
   line-height: 1.65 !important;
-  /* No color here — let .chroma base rule set it so token colours work */
 }
 
-/* ── Block pre — dark (GitHub Dark) ── */
+/* ── Block pre — dark ── */
 html[data-theme='dark'] pre {
-  background: #0d1117 !important;
+  background: #161b22 !important;
   border-color: rgba(255,255,255,0.06) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
 }
 
-/* ── .highlight / .chroma wrappers ── */
+/* ── .highlight wrappers ── */
 .post-content > pre,
 .post-content .highlight,
 .post-content .highlight > pre,
@@ -920,7 +920,7 @@ html[data-theme='dark'] .note-card-content .highlight {
   border: none !important;
 }
 
-/* Bare pre (no .highlight) */
+/* ── Bare pre (no .highlight, blog posts without syntax tag) ── */
 .post-content > pre,
 .post .post-content > pre {
   background: #f8f8f8 !important;
@@ -931,7 +931,7 @@ html[data-theme='dark'] .note-card-content .highlight {
 }
 html[data-theme='dark'] .post-content > pre,
 html[data-theme='dark'] .post .post-content > pre {
-  background: #0d1117 !important;
+  background: #161b22 !important;
   border-color: rgba(255,255,255,0.06) !important;
 }
 .post-content > pre code,
@@ -942,73 +942,128 @@ html[data-theme='dark'] .post .post-content > pre {
   font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
 }
 
-/* ── Chroma BASE — light (VS) ── */
-.chroma { background: #f8f8f8 !important; color: #000000 !important; }
-.chroma .err { color: #000000 !important; }
+/* ══════════════════════════════════════════════════════
+   CHROMA TOKEN PALETTE — greyscale, weight & style only
+   Light mode base: #1a1a1a on #f8f8f8
+   Dark  mode base: #e2e2e2 on #161b22
+   ══════════════════════════════════════════════════════ */
 
-/* Keywords — blue */
+/* ── Light base ── */
+.chroma {
+  background: #f8f8f8 !important;
+  color: #1a1a1a !important;
+}
+
+/* KEYWORDS — bold, darkest */
 .chroma .k,  .chroma .kc, .chroma .kd,
-.chroma .kn, .chroma .kp, .chroma .kr { color: #0000ff !important; }
-.chroma .kt { color: #2b91af !important; }
+.chroma .kn, .chroma .kp, .chroma .kr,
+.chroma .kt {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
 
-/* Comments — green */
+/* COMMENTS — italic, light grey (visually recedes) */
 .chroma .c,  .chroma .ch, .chroma .cm,
-.chroma .c1, .chroma .cs, .chroma .cpf { color: #008000 !important; font-style: italic !important; }
-.chroma .cp { color: #0000ff !important; font-weight: bold !important; }
+.chroma .c1, .chroma .cs, .chroma .cp,
+.chroma .cpf {
+  color: #888888 !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
 
-/* Strings — dark red */
-.chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc,
-.chroma .dl, .chroma .sd, .chroma .s2, .chroma .se,
-.chroma .sh, .chroma .si, .chroma .sx, .chroma .sr,
-.chroma .s1, .chroma .ss { color: #a31515 !important; }
+/* STRINGS — slightly lighter than default, normal weight */
+.chroma .s,  .chroma .sa, .chroma .sb,
+.chroma .sc, .chroma .dl, .chroma .sd,
+.chroma .s2, .chroma .se, .chroma .sh,
+.chroma .si, .chroma .sx, .chroma .sr,
+.chroma .s1, .chroma .ss {
+  color: #444444 !important;
+  font-weight: 400 !important;
+}
 
-/* Numbers */
-.chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
-.chroma .mi, .chroma .il, .chroma .mo { color: #000000 !important; }
+/* NUMBERS — same as default, slightly medium */
+.chroma .m,  .chroma .mb, .chroma .mf,
+.chroma .mh, .chroma .mi, .chroma .il,
+.chroma .mo {
+  color: #222222 !important;
+  font-weight: 500 !important;
+}
 
-/* Names */
-.chroma .nc { color: #2b91af !important; }
-.chroma .n,  .chroma .na, .chroma .nb, .chroma .nd,
-.chroma .ni, .chroma .ne, .chroma .nf, .chroma .nl,
+/* TYPES / CLASSES — bold italic */
+.chroma .nc, .chroma .nd {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
+
+/* OPERATORS — bold */
+.chroma .o,  .chroma .ow {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* NAMES / FUNCTIONS / BUILTINS — normal */
+.chroma .n,  .chroma .na, .chroma .nb,
+.chroma .ne, .chroma .nf, .chroma .nl,
 .chroma .nn, .chroma .nx, .chroma .py,
-.chroma .nv { color: #000000 !important; }
+.chroma .nv, .chroma .ni {
+  color: #1a1a1a !important;
+  font-weight: 400 !important;
+}
 
-/* Operators */
-.chroma .o,  .chroma .ow { color: #0000ff !important; }
+/* PUNCTUATION / default */
+.chroma .p,  .chroma .w, .chroma .err {
+  color: #1a1a1a !important;
+}
 
-/* Punctuation / default */
-.chroma .p,  .chroma .w  { color: #000000 !important; }
+/* LINE WRAPPER — inline display */
+.chroma .line, .chroma .cl {
+  display: inline !important;
+}
 
-/* Line highlight */
-.chroma .hl  { background: rgba(0,0,0,0.06) !important; display: block; }
-.chroma .line, .chroma .cl { display: inline !important; }
+/* LINE HIGHLIGHT */
+.chroma .hl {
+  background: rgba(0,0,0,0.07) !important;
+  display: block !important;
+}
 
-/* ── Chroma BASE — dark (GitHub Dark) ── */
-html[data-theme='dark'] .chroma { background: #0d1117 !important; color: #e6edf3 !important; }
-html[data-theme='dark'] .chroma .err { color: #f85149 !important; }
+/* ── Dark base ── */
+html[data-theme='dark'] .chroma {
+  background: #161b22 !important;
+  color: #e2e2e2 !important;
+}
 
-/* Keywords — salmon red */
+/* KEYWORDS — bold, brightest */
 html[data-theme='dark'] .chroma .k,
+html[data-theme='dark'] .chroma .kc,
 html[data-theme='dark'] .chroma .kd,
 html[data-theme='dark'] .chroma .kn,
+html[data-theme='dark'] .chroma .kp,
 html[data-theme='dark'] .chroma .kr,
-html[data-theme='dark'] .chroma .kt  { color: #ff7b72 !important; }
-html[data-theme='dark'] .chroma .kc,
-html[data-theme='dark'] .chroma .kp  { color: #79c0ff !important; }
+html[data-theme='dark'] .chroma .kt {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
 
-/* Comments — grey italic */
+/* COMMENTS — italic, dim */
 html[data-theme='dark'] .chroma .c,
 html[data-theme='dark'] .chroma .ch,
 html[data-theme='dark'] .chroma .cm,
 html[data-theme='dark'] .chroma .c1,
 html[data-theme='dark'] .chroma .cs,
-html[data-theme='dark'] .chroma .cpf { color: #8b949e !important; font-style: italic !important; }
-html[data-theme='dark'] .chroma .cp  { color: #8b949e !important; font-weight: bold !important; font-style: italic !important; }
+html[data-theme='dark'] .chroma .cp,
+html[data-theme='dark'] .chroma .cpf {
+  color: #666666 !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
 
-/* Strings — light blue */
+/* STRINGS — lighter grey */
 html[data-theme='dark'] .chroma .s,
+html[data-theme='dark'] .chroma .sa,
 html[data-theme='dark'] .chroma .sb,
 html[data-theme='dark'] .chroma .sc,
+html[data-theme='dark'] .chroma .dl,
 html[data-theme='dark'] .chroma .sd,
 html[data-theme='dark'] .chroma .s2,
 html[data-theme='dark'] .chroma .se,
@@ -1017,63 +1072,74 @@ html[data-theme='dark'] .chroma .si,
 html[data-theme='dark'] .chroma .sx,
 html[data-theme='dark'] .chroma .sr,
 html[data-theme='dark'] .chroma .s1,
-html[data-theme='dark'] .chroma .ss  { color: #a5d6ff !important; }
-html[data-theme='dark'] .chroma .sa,
-html[data-theme='dark'] .chroma .dl  { color: #79c0ff !important; }
+html[data-theme='dark'] .chroma .ss {
+  color: #aaaaaa !important;
+  font-weight: 400 !important;
+}
 
-/* Numbers — light blue */
+/* NUMBERS */
 html[data-theme='dark'] .chroma .m,
 html[data-theme='dark'] .chroma .mb,
 html[data-theme='dark'] .chroma .mf,
 html[data-theme='dark'] .chroma .mh,
 html[data-theme='dark'] .chroma .mi,
 html[data-theme='dark'] .chroma .il,
-html[data-theme='dark'] .chroma .mo  { color: #a5d6ff !important; }
+html[data-theme='dark'] .chroma .mo {
+  color: #dddddd !important;
+  font-weight: 500 !important;
+}
 
-/* Functions — purple bold */
-html[data-theme='dark'] .chroma .nf,
-html[data-theme='dark'] .chroma .fm  { color: #d2a8ff !important; font-weight: bold !important; }
-
-/* Classes — orange bold */
+/* TYPES / CLASSES — bold italic */
 html[data-theme='dark'] .chroma .nc,
-html[data-theme='dark'] .chroma .ne  { color: #f0883e !important; font-weight: bold !important; }
+html[data-theme='dark'] .chroma .nd {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
 
-/* Decorators — purple */
-html[data-theme='dark'] .chroma .nd  { color: #d2a8ff !important; font-weight: bold !important; }
+/* OPERATORS — bold, bright */
+html[data-theme='dark'] .chroma .o,
+html[data-theme='dark'] .chroma .ow {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
 
-/* Constants / variables — blue */
-html[data-theme='dark'] .chroma .no,
-html[data-theme='dark'] .chroma .nl,
-html[data-theme='dark'] .chroma .nv,
-html[data-theme='dark'] .chroma .vc,
-html[data-theme='dark'] .chroma .vg,
-html[data-theme='dark'] .chroma .vi,
-html[data-theme='dark'] .chroma .py  { color: #79c0ff !important; }
-
-/* Namespaces — salmon */
-html[data-theme='dark'] .chroma .nn  { color: #ff7b72 !important; }
-
-/* Names / other — default */
+/* NAMES / FUNCTIONS — normal */
 html[data-theme='dark'] .chroma .n,
 html[data-theme='dark'] .chroma .na,
 html[data-theme='dark'] .chroma .nb,
-html[data-theme='dark'] .chroma .ni,
-html[data-theme='dark'] .chroma .nx  { color: #e6edf3 !important; }
+html[data-theme='dark'] .chroma .ne,
+html[data-theme='dark'] .chroma .nf,
+html[data-theme='dark'] .chroma .nl,
+html[data-theme='dark'] .chroma .nn,
+html[data-theme='dark'] .chroma .nx,
+html[data-theme='dark'] .chroma .py,
+html[data-theme='dark'] .chroma .nv,
+html[data-theme='dark'] .chroma .ni {
+  color: #e2e2e2 !important;
+  font-weight: 400 !important;
+}
 
-/* Operators — salmon bold */
-html[data-theme='dark'] .chroma .o,
-html[data-theme='dark'] .chroma .ow  { color: #ff7b72 !important; font-weight: bold !important; }
-
-/* Punctuation / default */
+/* PUNCTUATION / default */
 html[data-theme='dark'] .chroma .p,
-html[data-theme='dark'] .chroma .w   { color: #e6edf3 !important; }
+html[data-theme='dark'] .chroma .w,
+html[data-theme='dark'] .chroma .err {
+  color: #e2e2e2 !important;
+}
 
-/* Line highlight */
-html[data-theme='dark'] .chroma .hl  { background: rgba(255,255,255,0.06) !important; display: block; }
+/* LINE WRAPPER */
 html[data-theme='dark'] .chroma .line,
-html[data-theme='dark'] .chroma .cl  { display: inline !important; }
+html[data-theme='dark'] .chroma .cl {
+  display: inline !important;
+}
 
-/* ── Mobile tweaks ── */
+/* LINE HIGHLIGHT */
+html[data-theme='dark'] .chroma .hl {
+  background: rgba(255,255,255,0.07) !important;
+  display: block !important;
+}
+
+/* ── Mobile ── */
 @media (max-width: 767px) {
   pre code { font-size: 0.78em !important; }
   pre { padding: 1rem !important; border-radius: 10px !important; }
