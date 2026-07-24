@@ -99,3 +99,134 @@
   }
 }
 
+
+/* ═══════════════════════════════════════════════════════
+   LINKS IN POST CONTENT — override browser default blue
+   ═══════════════════════════════════════════════════════ */
+
+.post-content a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--divider);
+  text-underline-offset: 2px;
+  transition: color 0.18s, text-decoration-color 0.18s;
+  &:hover {
+    color: var(--text-primary);
+    text-decoration-color: var(--text-primary);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CODE BLOCKS — same style as notes page
+   (inline code, block pre, highlight wrapper, chroma tokens)
+   ═══════════════════════════════════════════════════════ */
+
+/* Inline code */
+code {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
+  font-size: 0.82em !important;
+  background: rgba(0,0,0,0.07) !important;
+  color: #1a1a1a !important;
+  padding: 0.15em 0.4em !important;
+  border-radius: 5px !important;
+  border: 1px solid rgba(0,0,0,0.09) !important;
+}
+
+html[data-theme='dark'] code {
+  background: rgba(255,255,255,0.10) !important;
+  color: #e8e8e8 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+/* Block code / pre — dark background in both modes for contrast */
+pre {
+  background: #1c1c1c !important;
+  border-radius: 14px !important;
+  border: none !important;
+  border-left: none !important;
+  padding: 1.4rem 1.6rem !important;
+  overflow-x: auto !important;
+  margin: 1.2rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  position: relative !important;
+}
+
+pre code {
+  background: transparent !important;
+  color: #e2e2e2 !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 0.85em !important;
+  line-height: 1.65 !important;
+}
+
+html[data-theme='dark'] pre {
+  background: #111111 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+
+/* Override theme left-border on pre/highlight */
+.post-content > pre,
+.post-content .highlight,
+.post-content .highlight > pre,
+.post-content .highlight > div {
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 1.2rem 0 !important;
+}
+
+.post-content .highlight {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+}
+
+.post-content .highlight pre {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 1.4rem 1.6rem !important;
+}
+
+/* Chroma syntax highlight — greyscale token colours */
+.chroma { background: #1c1c1c !important; color: #e2e2e2 !important; }
+.chroma .err { color: #e2e2e2 !important; background: transparent !important; }
+
+/* keywords */
+.chroma .k,  .chroma .kc, .chroma .kd,
+.chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #f0f0f0 !important; font-weight: 700 !important; }
+
+/* strings */
+.chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc,
+.chroma .dl, .chroma .sd, .chroma .s2, .chroma .se,
+.chroma .sh, .chroma .si, .chroma .sx, .chroma .sr,
+.chroma .s1, .chroma .ss { color: #bbbbbb !important; }
+
+/* numbers */
+.chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
+.chroma .mi, .chroma .il, .chroma .mo { color: #cccccc !important; }
+
+/* comments */
+.chroma .c,  .chroma .ch, .chroma .cm, .chroma .c1,
+.chroma .cs, .chroma .cp, .chroma .cpf { color: #666666 !important; font-style: italic !important; }
+
+/* functions/names */
+.chroma .n,  .chroma .na, .chroma .nb, .chroma .nc,
+.chroma .nd, .chroma .ni, .chroma .ne, .chroma .nf,
+.chroma .nl, .chroma .nn, .chroma .nx, .chroma .py { color: #dddddd !important; }
+
+/* operators */
+.chroma .o,  .chroma .ow { color: #aaaaaa !important; }
+
+/* punctuation */
+.chroma .p { color: #999999 !important; }
+
+/* line highlight */
+.chroma .hl { background: rgba(255,255,255,0.06) !important; display: block; }
+
+/* Mobile: smaller font, tighter padding */
+@media (max-width: 767px) {
+  pre code { font-size: 0.78em !important; }
+  pre { padding: 1rem !important; border-radius: 10px !important; }
+  .post-content .highlight pre { padding: 1rem !important; }
+}
