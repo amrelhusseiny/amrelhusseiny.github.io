@@ -17,3 +17,8 @@ Thumbs.db
 *.swo
 *.bkp
 .aider*
+
+# Large binaries
+*.pkg
+*.dmg
+*.exe

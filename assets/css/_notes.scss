@@ -1,0 +1,418 @@
+/* Notes-specific CSS — loaded only on /notes/ */
+/* ═══════════════════════════════════════════════════════
+   Notes stream
+   ═══════════════════════════════════════════════════════ */
+.notes-stream { max-width: 720px; }
+
+.notes-stream-title {
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--text-primary); margin-bottom: 0.2rem;
+}
+
+.notes-stream-subtitle {
+  font-size: 0.82rem; color: var(--text-muted);
+  margin-bottom: 2rem; font-family: monospace;
+}
+
+.notes-empty { color: var(--text-muted); font-size: 0.9rem; }
+
+.note-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--card-shadow);
+  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+  animation: sam7FadeIn 0.4s ease both;
+}
+
+.note-card:hover {
+  background: rgba(240,240,240,0.90);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+
+html[data-theme='dark'] .note-card:hover {
+  background: rgba(30,41,59,0.65);
+}
+
+.note-card-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.note-card-date  { font-size: 0.74rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.6rem; font-family: monospace; }
+.note-card-dot   { margin: 0 0.3rem; color: var(--text-muted); }
+.note-card-time  { font-weight: 400; color: var(--text-muted); }
+.note-card-content { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; }
+.note-card-content p:first-child { margin-top: 0; }
+.note-card-content p:last-child  { margin-bottom: 0; }
+
+/* ── Mermaid diagrams — bigger, clearer, greyscale ── */
+.mermaid {
+  margin: 1.4rem 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+  min-height: 200px;
+  border-radius: 14px;
+  background: rgba(248,248,248,0.97);
+  padding: 1.5rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  display: block;
+  margin: 0 auto;
+}
+
+html[data-theme='dark'] .mermaid svg {
+  background: rgba(28,28,28,0.97);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.28);
+}
+
+/* Ensure mermaid text is legible */
+.mermaid svg .label,
+.mermaid svg text,
+.mermaid svg .nodeLabel {
+  font-size: 15px !important;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.note-card-content .mermaid { margin: 1.4rem 0; }
+
+/* ── Legacy compat ── */
+#theme-toggle {
+  background: none; border: 1px solid var(--tag-border);
+  color: var(--text-primary); padding: 8px 12px;
+  cursor: pointer; border-radius: 8px; font-size: 1em; margin-top: 10px;
+}
+.posts-list-item-title { font-weight: bold; }
+
+/* ═══════════════════════════════════════════════════════
+   Code blocks — consistent greyscale, dark bg, clear syntax
+   ═══════════════════════════════════════════════════════ */
+
+/* Inline code */
+code {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
+  font-size: 0.82em !important;
+  background: rgba(0,0,0,0.07) !important;
+  color: #1a1a1a !important;
+  padding: 0.15em 0.4em !important;
+  border-radius: 5px !important;
+  border: 1px solid rgba(0,0,0,0.09) !important;
+}
+
+html[data-theme='dark'] code {
+  background: rgba(255,255,255,0.10) !important;
+  color: #e8e8e8 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+/* Block code / pre — dark background in both modes for contrast */
+pre {
+  background: #1c1c1c !important;
+  border-radius: 14px !important;
+  border: none !important;
+  border-left: none !important;
+  padding: 1.4rem 1.6rem !important;
+  overflow-x: auto !important;
+  margin: 1.2rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  position: relative !important;
+}
+
+pre code {
+  background: transparent !important;
+  color: #e2e2e2 !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 0.85em !important;
+  line-height: 1.65 !important;
+}
+
+html[data-theme='dark'] pre {
+  background: #111111 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+
+/* Override theme left-border on pre/highlight */
+.post-content > pre,
+.post-content .highlight,
+.post-content .highlight > pre,
+.post-content .highlight > div {
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 1.2rem 0 !important;
+}
+
+.post-content .highlight {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+}
+
+.post-content .highlight pre {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 1.4rem 1.6rem !important;
+}
+
+/* Chroma syntax highlight — greyscale token colours */
+.chroma { background: #1c1c1c !important; color: #e2e2e2 !important; }
+.chroma .err { color: #e2e2e2 !important; background: transparent !important; }
+
+/* keywords — light grey/white */
+.chroma .k,  .chroma .kc, .chroma .kd,
+.chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #f0f0f0 !important; font-weight: 700 !important; }
+
+/* strings — medium grey */
+.chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc,
+.chroma .dl, .chroma .sd, .chroma .s2, .chroma .se,
+.chroma .sh, .chroma .si, .chroma .sx, .chroma .sr,
+.chroma .s1, .chroma .ss { color: #bbbbbb !important; }
+
+/* numbers */
+.chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
+.chroma .mi, .chroma .il, .chroma .mo { color: #cccccc !important; }
+
+/* comments — dark grey */
+.chroma .c,  .chroma .ch, .chroma .cm, .chroma .c1,
+.chroma .cs, .chroma .cp, .chroma .cpf { color: #666666 !important; font-style: italic !important; }
+
+/* functions/names — off-white */
+.chroma .n,  .chroma .na, .chroma .nb, .chroma .nc,
+.chroma .nd, .chroma .ni, .chroma .ne, .chroma .nf,
+.chroma .nl, .chroma .nn, .chroma .nx, .chroma .py { color: #dddddd !important; }
+
+/* operators */
+.chroma .o,  .chroma .ow { color: #aaaaaa !important; }
+
+/* punctuation */
+.chroma .p { color: #999999 !important; }
+
+/* line highlight */
+.chroma .hl { background: rgba(255,255,255,0.06) !important; display: block; }
+
+
+
+/* ═══════════════════════════════════════════════════════
+   NOTES PAGE — layout: timeline + main column
+   ═══════════════════════════════════════════════════════ */
+
+.notes-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  position: relative;
+}
+
+/* ── Desktop/tablet timeline sidebar ── */
+.notes-timeline {
+  width: 130px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.notes-timeline-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.55;
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+.notes-timeline-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notes-tl-link {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border-left: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  line-height: 1.4;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--hover-bg);
+    border-left-color: var(--text-muted);
+  }
+
+  &.tl-active {
+    color: var(--text-primary);
+    border-left-color: var(--text-primary);
+    background: var(--hover-bg);
+    font-weight: 600;
+  }
+}
+
+/* ── Mobile timeline (hidden on ≥768px) ── */
+.notes-timeline-mobile {
+  display: none;
+}
+
+/* ── Notes main column ── */
+.notes-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.notes-header {
+  margin-bottom: 1.2rem;
+}
+
+.notes-search-wrap {
+  margin-bottom: 1.4rem;
+}
+
+/* ── Month divider in stream ── */
+.note-month-divider {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin: 24px 0 8px;
+  padding-left: 2px;
+  scroll-margin-top: 80px;
+}
+
+/* ── Note card header row ── */
+.note-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* ── Note share button ── */
+.note-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+  flex-shrink: 0;
+
+  svg { flex-shrink: 0; }
+
+  &:hover {
+    opacity: 1;
+    background: var(--hover-bg);
+  }
+
+  &.share-btn-copied {
+    opacity: 1;
+    color: var(--text-primary);
+  }
+}
+
+/* ── Note cover image ── */
+.note-card-image-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: var(--glass-bg);
+}
+
+.note-card-image {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE overrides for new components (< 768px)
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Hide desktop timeline sidebar, show mobile collapsible */
+  .notes-timeline { display: none; }
+  .notes-timeline-mobile {
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+  }
+
+  .notes-tl-mobile-summary {
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    &::marker { display: none; }
+    &::-webkit-details-marker { display: none; }
+  }
+
+  .notes-tl-mobile-months {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 8px 14px 12px;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .notes-tl-mobile-chip {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+    &:hover { color: var(--text-primary); background: var(--hover-bg); }
+  }
+
+  /* notes layout stacks to single column */
+  .notes-layout { flex-direction: column; gap: 0; }
+
+  /* post cover max height on mobile */
+  .post-cover { max-height: 200px; }
+  .post-title { font-size: 1.4rem; }
+
+  /* note image on mobile */
+  .note-card-image { max-height: 170px; }
+}

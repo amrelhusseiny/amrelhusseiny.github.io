@@ -1,0 +1,101 @@
+/* Post-page CSS — loaded only on single blog posts */
+/* ═══════════════════════════════════════════════════════
+   BLOG SINGLE POST — post header, cover image, share btn
+   ═══════════════════════════════════════════════════════ */
+
+.post-header {
+  margin-bottom: 2rem;
+}
+
+.post-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+  svg { vertical-align: middle; opacity: 0.6; }
+}
+
+.post-tag-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  &:hover { color: var(--text-primary); }
+}
+
+.post-cover-wrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: var(--glass-bg);
+}
+
+.post-cover {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.post-content {
+  color: var(--text-primary);
+  line-height: 1.75;
+}
+
+.post-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.post-footer-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── Share button (blog post) ── */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  backdrop-filter: blur(6px);
+
+  svg { opacity: 0.6; flex-shrink: 0; }
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+    background: var(--hover-bg);
+  }
+
+  &.share-btn-copied {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+}
+

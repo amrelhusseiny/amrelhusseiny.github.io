@@ -1,0 +1,11 @@
+{{ define "page_css" }}
+{{ $ps := resources.Get "css/_about.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $ps.RelPermalink }}" />
+{{ end }}
+
+{{ define "main" }}
+<article>
+  {{ with .Title }}<h1>{{ . }}</h1>{{ end }}
+  {{ .Content }}
+</article>
+{{ end }}

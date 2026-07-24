@@ -16,7 +16,7 @@ module:
 
 params:
   author: Amro
-  avatar: "https://github.com/amrelhusseiny.png"
+  avatar: "/avatar.png"
   description: Network engineer and automation advocate. Writing about networks, Linux, AI, and automation.
   menu_item_separator: "<br>"
   favicon: "favicon.ico"

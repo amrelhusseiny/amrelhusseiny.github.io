@@ -1,3 +1,8 @@
+{{ define "page_css" }}
+{{ $ps := resources.Get "css/_post.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $ps.RelPermalink }}" />
+{{ end }}
+
 {{ define "main" }}
 
 <script type="application/ld+json">
@@ -53,7 +58,7 @@
     </div>
     {{ with .Params.image }}
     <div class="post-cover-wrap">
-      <img class="post-cover" src="{{ $.RelPermalink }}{{ . }}" alt="{{ $.Title }}" loading="eager" />
+      <img class="post-cover" src="{{ $.RelPermalink }}{{ . }}" alt="{{ $.Title }}" loading="eager" width="1200" height="630" />
     </div>
     {{ end }}
   </header>

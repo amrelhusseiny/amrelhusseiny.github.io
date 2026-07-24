@@ -1,3 +1,8 @@
+{{ define "page_css" }}
+{{ $ps := resources.Get "css/_notes.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $ps.RelPermalink }}" />
+{{ end }}
+
 {{ define "main" }}
 {{ $notes := where .Site.RegularPages "Section" "notes" }}
 {{ $notes = $notes.ByDate.Reverse }}
@@ -115,6 +120,7 @@
             <img class="note-card-image"
                  src="{{ $note.RelPermalink }}{{ . }}"
                  alt="{{ $note.Title }}"
+                 width="1200" height="630"
                  loading="lazy" />
           </div>
           {{ end }}
@@ -200,6 +206,7 @@ function _amroShareFlash(btn) {
 
 {{/* ── Mermaid v11 ESM ── */}}
 <script type="module">
+  if (!document.querySelector('.mermaid')) return;
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
   mermaid.initialize({

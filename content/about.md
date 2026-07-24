@@ -2,6 +2,7 @@
 title: "About Me"
 date: 2025-08-16
 draft: false
+layout: about
 ---
 
 {{< about_intro >}}
