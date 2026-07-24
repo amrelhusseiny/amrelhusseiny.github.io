@@ -1146,3 +1146,54 @@ html[data-theme='dark'] .chroma .hl {
   .post-content .highlight pre,
   .note-card-content .highlight pre { padding: 1rem !important; }
 }
+
+/* ═══════════════════════════════════════════════════════
+   LINKS — monochromatic throughout all content areas
+   ═══════════════════════════════════════════════════════ */
+
+/* Global content link — covers post body, note cards, about, any article */
+.post-content a,
+.note-card-content a,
+body:not(.cv-page) .app-container article a,
+body:not(.cv-page) .app-container .post a {
+  color: var(--text-secondary) !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--divider) !important;
+  text-underline-offset: 2px !important;
+  text-decoration-thickness: 1px !important;
+  transition: color 0.18s, text-decoration-color 0.18s !important;
+  font-weight: inherit !important;
+}
+
+.post-content a:hover,
+.note-card-content a:hover,
+body:not(.cv-page) .app-container article a:hover,
+body:not(.cv-page) .app-container .post a:hover {
+  color: var(--text-primary) !important;
+  text-decoration-color: var(--text-muted) !important;
+}
+
+/* Dark mode — slightly brighter so links are still discernible */
+html[data-theme='dark'] .post-content a,
+html[data-theme='dark'] .note-card-content a,
+html[data-theme='dark'] body:not(.cv-page) .app-container article a,
+html[data-theme='dark'] body:not(.cv-page) .app-container .post a {
+  color: var(--text-muted) !important;
+  text-decoration-color: var(--divider) !important;
+}
+
+html[data-theme='dark'] .post-content a:hover,
+html[data-theme='dark'] .note-card-content a:hover,
+html[data-theme='dark'] body:not(.cv-page) .app-container article a:hover,
+html[data-theme='dark'] body:not(.cv-page) .app-container .post a:hover {
+  color: var(--text-primary) !important;
+  text-decoration-color: var(--text-secondary) !important;
+}
+
+/* Exception: nav links, buttons, tags — do not override those */
+.post-content .post-card-tag,
+.post-content .post-tag-link,
+.post-footer a,
+.post-footer-tags a {
+  text-decoration: none !important;
+}

@@ -117,17 +117,7 @@
    LINKS IN POST CONTENT — override browser default blue
    ═══════════════════════════════════════════════════════ */
 
-.post-content a {
-  color: var(--text-muted);
-  text-decoration: underline;
-  text-decoration-color: var(--divider);
-  text-underline-offset: 2px;
-  transition: color 0.18s, text-decoration-color 0.18s;
-  &:hover {
-    color: var(--text-primary);
-    text-decoration-color: var(--text-primary);
-  }
-}
+/* link colours now in _extra.scss global rules */
 
 
 /* ═══════════════════════════════════════════════════════
