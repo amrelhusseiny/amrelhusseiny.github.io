@@ -304,11 +304,6 @@ body:not(.cv-page) .app-header p {
   letter-spacing: 0.05em;
 }
 
-.sidebar-ctrl-btn.ambient-on {
-  background: var(--selected-bg);
-  color: var(--selected-text);
-  border-color: var(--selected-bg);
-}
 
 /* Social icons */
 .app-header-social a { color: var(--text-muted); transition: color 0.18s; }
@@ -709,11 +704,6 @@ html[data-theme='dark'] .post-card:hover {
 }
 
 #mobile-drawer .drawer-ctrl-btn:hover { background: var(--hover-bg); color: var(--text-primary); }
-#mobile-drawer .drawer-ctrl-btn.ambient-on {
-  background: var(--selected-bg);
-  color: var(--selected-text);
-  border-color: var(--selected-bg);
-}
 
 /* Backdrop */
 #mobile-backdrop {
