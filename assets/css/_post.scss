@@ -128,20 +128,22 @@
   }
 }
 
+
 /* ═══════════════════════════════════════════════════════
-   CODE BLOCKS — same style as notes page
-   (inline code, block pre, highlight wrapper, chroma tokens)
+   CODE BLOCKS — light & dark mode aware
    ═══════════════════════════════════════════════════════ */
 
-/* Inline code */
+/* ── Inline code ── */
 code {
   font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
   font-size: 0.82em !important;
-  background: rgba(0,0,0,0.07) !important;
-  color: #1a1a1a !important;
   padding: 0.15em 0.4em !important;
   border-radius: 5px !important;
   border: 1px solid rgba(0,0,0,0.09) !important;
+
+  /* light mode */
+  background: rgba(0,0,0,0.06) !important;
+  color: #1a1a1a !important;
 }
 
 html[data-theme='dark'] code {
@@ -150,34 +152,40 @@ html[data-theme='dark'] code {
   border-color: rgba(255,255,255,0.12) !important;
 }
 
-/* Block code / pre — dark background in both modes for contrast */
+/* ── Block pre — light mode ── */
 pre {
-  background: #1c1c1c !important;
+  background: #f4f4f4 !important;
   border-radius: 14px !important;
-  border: none !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
   border-left: none !important;
   padding: 1.4rem 1.6rem !important;
   overflow-x: auto !important;
   margin: 1.2rem 0 !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07) !important;
   position: relative !important;
 }
 
 pre code {
   background: transparent !important;
-  color: #e2e2e2 !important;
+  color: #1a1a1a !important;
   border: none !important;
   padding: 0 !important;
   font-size: 0.85em !important;
   line-height: 1.65 !important;
 }
 
+/* ── Block pre — dark mode ── */
 html[data-theme='dark'] pre {
   background: #111111 !important;
+  border-color: rgba(255,255,255,0.06) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
 }
 
-/* Override theme left-border on pre/highlight */
+html[data-theme='dark'] pre code {
+  color: #e2e2e2 !important;
+}
+
+/* ── .highlight wrapper ── */
 .post-content > pre,
 .post-content .highlight,
 .post-content .highlight > pre,
@@ -190,7 +198,11 @@ html[data-theme='dark'] pre {
 .post-content .highlight {
   border-radius: 14px !important;
   overflow: hidden !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07) !important;
+}
+
+html[data-theme='dark'] .post-content .highlight {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
 }
 
 .post-content .highlight pre {
@@ -198,49 +210,94 @@ html[data-theme='dark'] pre {
   box-shadow: none !important;
   margin: 0 !important;
   padding: 1.4rem 1.6rem !important;
+  border: none !important;
 }
 
-/* Chroma syntax highlight — greyscale token colours */
-.chroma { background: #1c1c1c !important; color: #e2e2e2 !important; }
-.chroma .err { color: #e2e2e2 !important; background: transparent !important; }
+/* ── Chroma tokens — LIGHT MODE ── */
+.chroma { background: #f4f4f4 !important; color: #1a1a1a !important; }
+.chroma .err { color: #1a1a1a !important; background: transparent !important; }
 
 /* keywords */
 .chroma .k,  .chroma .kc, .chroma .kd,
-.chroma .kn, .chroma .kp, .chroma .kr, .chroma .kt { color: #f0f0f0 !important; font-weight: 700 !important; }
+.chroma .kn, .chroma .kp, .chroma .kr,
+.chroma .kt { color: #111111 !important; font-weight: 700 !important; }
 
 /* strings */
 .chroma .s,  .chroma .sa, .chroma .sb, .chroma .sc,
 .chroma .dl, .chroma .sd, .chroma .s2, .chroma .se,
 .chroma .sh, .chroma .si, .chroma .sx, .chroma .sr,
-.chroma .s1, .chroma .ss { color: #bbbbbb !important; }
+.chroma .s1, .chroma .ss { color: #444444 !important; }
 
 /* numbers */
 .chroma .m,  .chroma .mb, .chroma .mf, .chroma .mh,
-.chroma .mi, .chroma .il, .chroma .mo { color: #cccccc !important; }
+.chroma .mi, .chroma .il, .chroma .mo { color: #333333 !important; }
 
 /* comments */
 .chroma .c,  .chroma .ch, .chroma .cm, .chroma .c1,
-.chroma .cs, .chroma .cp, .chroma .cpf { color: #666666 !important; font-style: italic !important; }
+.chroma .cs, .chroma .cp, .chroma .cpf { color: #888888 !important; font-style: italic !important; }
 
 /* functions/names */
 .chroma .n,  .chroma .na, .chroma .nb, .chroma .nc,
 .chroma .nd, .chroma .ni, .chroma .ne, .chroma .nf,
-.chroma .nl, .chroma .nn, .chroma .nx, .chroma .py { color: #dddddd !important; }
+.chroma .nl, .chroma .nn, .chroma .nx,
+.chroma .py { color: #222222 !important; }
 
 /* operators */
-.chroma .o,  .chroma .ow { color: #aaaaaa !important; }
+.chroma .o,  .chroma .ow { color: #555555 !important; }
 
 /* punctuation */
-.chroma .p { color: #999999 !important; }
+.chroma .p { color: #666666 !important; }
 
 /* line highlight */
-.chroma .hl { background: rgba(255,255,255,0.06) !important; display: block; }
+.chroma .hl { background: rgba(0,0,0,0.06) !important; display: block; }
 
-/* Mobile: smaller font, tighter padding */
+/* ── Chroma tokens — DARK MODE ── */
+html[data-theme='dark'] .chroma { background: #111111 !important; color: #e2e2e2 !important; }
+html[data-theme='dark'] .chroma .err { color: #e2e2e2 !important; background: transparent !important; }
+
+html[data-theme='dark'] .chroma .k,  html[data-theme='dark'] .chroma .kc,
+html[data-theme='dark'] .chroma .kd, html[data-theme='dark'] .chroma .kn,
+html[data-theme='dark'] .chroma .kp, html[data-theme='dark'] .chroma .kr,
+html[data-theme='dark'] .chroma .kt { color: #f0f0f0 !important; font-weight: 700 !important; }
+
+html[data-theme='dark'] .chroma .s,  html[data-theme='dark'] .chroma .sa,
+html[data-theme='dark'] .chroma .sb, html[data-theme='dark'] .chroma .sc,
+html[data-theme='dark'] .chroma .dl, html[data-theme='dark'] .chroma .sd,
+html[data-theme='dark'] .chroma .s2, html[data-theme='dark'] .chroma .se,
+html[data-theme='dark'] .chroma .sh, html[data-theme='dark'] .chroma .si,
+html[data-theme='dark'] .chroma .sx, html[data-theme='dark'] .chroma .sr,
+html[data-theme='dark'] .chroma .s1,
+html[data-theme='dark'] .chroma .ss { color: #bbbbbb !important; }
+
+html[data-theme='dark'] .chroma .m,  html[data-theme='dark'] .chroma .mb,
+html[data-theme='dark'] .chroma .mf, html[data-theme='dark'] .chroma .mh,
+html[data-theme='dark'] .chroma .mi, html[data-theme='dark'] .chroma .il,
+html[data-theme='dark'] .chroma .mo { color: #cccccc !important; }
+
+html[data-theme='dark'] .chroma .c,  html[data-theme='dark'] .chroma .ch,
+html[data-theme='dark'] .chroma .cm, html[data-theme='dark'] .chroma .c1,
+html[data-theme='dark'] .chroma .cs, html[data-theme='dark'] .chroma .cp,
+html[data-theme='dark'] .chroma .cpf { color: #666666 !important; font-style: italic !important; }
+
+html[data-theme='dark'] .chroma .n,  html[data-theme='dark'] .chroma .na,
+html[data-theme='dark'] .chroma .nb, html[data-theme='dark'] .chroma .nc,
+html[data-theme='dark'] .chroma .nd, html[data-theme='dark'] .chroma .ni,
+html[data-theme='dark'] .chroma .ne, html[data-theme='dark'] .chroma .nf,
+html[data-theme='dark'] .chroma .nl, html[data-theme='dark'] .chroma .nn,
+html[data-theme='dark'] .chroma .nx,
+html[data-theme='dark'] .chroma .py { color: #dddddd !important; }
+
+html[data-theme='dark'] .chroma .o,
+html[data-theme='dark'] .chroma .ow { color: #aaaaaa !important; }
+
+html[data-theme='dark'] .chroma .p { color: #999999 !important; }
+
+html[data-theme='dark'] .chroma .hl { background: rgba(255,255,255,0.06) !important; display: block; }
+
+/* ── Mobile tweaks ── */
 @media (max-width: 767px) {
   pre code { font-size: 0.78em !important; }
   pre { padding: 1rem !important; border-radius: 10px !important; }
-  .post-content .highlight pre { padding: 1rem !important; }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -251,19 +308,20 @@ html[data-theme='dark'] pre {
 /* Override m10c's left-border on bare pre inside post content */
 .post-content > pre,
 .post .post-content > pre {
-  background: #1c1c1c !important;
+  background: #f4f4f4 !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
   border-left: none !important;
   border-radius: 14px !important;
   padding: 1.4rem 1.6rem !important;
   overflow-x: auto !important;
   margin: 1.2rem 0 !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18) !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07) !important;
 }
 
 .post-content > pre code,
 .post .post-content > pre code {
   background: transparent !important;
-  color: #e2e2e2 !important;
+  color: #1a1a1a !important;
   border: none !important;
   padding: 0 !important;
   font-size: 0.85em !important;
@@ -274,7 +332,13 @@ html[data-theme='dark'] pre {
 html[data-theme='dark'] .post-content > pre,
 html[data-theme='dark'] .post .post-content > pre {
   background: #111111 !important;
+  border-color: rgba(255,255,255,0.06) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+}
+
+html[data-theme='dark'] .post-content > pre code,
+html[data-theme='dark'] .post .post-content > pre code {
+  color: #e2e2e2 !important;
 }
 
 @media (max-width: 767px) {
