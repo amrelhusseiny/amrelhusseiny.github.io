@@ -246,3 +246,147 @@ html[data-theme='dark'] .toc-wrap {
   background: rgba(18,18,18,0.72);
   border-color: rgba(255,255,255,0.08);
 }
+
+/* ═══════════════════════════════════════════════════════
+   FLOATING TOC — right-side sticky panel, desktop only
+   Hidden below 1280px; inline .toc-wrap hidden above 1280px
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Hidden by default on all sizes (JS/CSS enables on wide) ── */
+#post-toc-float {
+  display: none;
+}
+
+/* ── Show floating ToC only on wide screens ── */
+@media (min-width: 1280px) {
+
+  /* Hide the inline collapsible ToC when floating one is visible */
+  .toc-wrap { display: none !important; }
+
+  #post-toc-float {
+    display: block;
+    position: fixed;
+    /* Right of the centred post card:
+       post card is max 65rem wide, centred in viewport.
+       We place the ToC 1.5rem to the right of the card edge. */
+    right: max(1.5rem, calc((100vw - 65rem) / 2 - 15rem));
+    top: 5rem;
+    width: 13rem;
+    max-height: calc(100vh - 7rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--divider) transparent;
+    z-index: 50;
+    /* fade in */
+    animation: sam7FadeIn 0.3s ease both;
+  }
+
+  #post-toc-float::-webkit-scrollbar {
+    width: 3px;
+  }
+  #post-toc-float::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #post-toc-float::-webkit-scrollbar-thumb {
+    background: var(--divider);
+    border-radius: 2px;
+  }
+
+  .ptoc-inner {
+    background: rgba(240,240,240,0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.8rem 0.2rem 0.8rem 0.6rem;
+    transition: background 0.3s;
+  }
+
+  html[data-theme='dark'] .ptoc-inner {
+    background: rgba(18,18,18,0.55);
+  }
+
+  .ptoc-label {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.6;
+    padding: 0 0.5rem 0.5rem;
+    margin-bottom: 0.3rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  /* Hugo's TableOfContents outputs: <nav id="TableOfContents"><ul>...</ul></nav> */
+  #post-toc-float nav#TableOfContents ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.2rem 0 0;
+  }
+
+  #post-toc-float nav#TableOfContents ul ul {
+    padding-left: 0.7rem;
+    margin: 0;
+  }
+
+  #post-toc-float nav#TableOfContents li {
+    margin: 0;
+  }
+
+  #post-toc-float nav#TableOfContents a {
+    display: block;
+    font-size: 0.71rem;
+    color: var(--text-muted) !important;
+    text-decoration: none !important;
+    padding: 0.22rem 0.5rem;
+    border-radius: 5px;
+    line-height: 1.35;
+    transition: color 0.15s, background 0.15s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #post-toc-float nav#TableOfContents a:hover {
+    color: var(--text-primary) !important;
+    background: var(--hover-bg);
+  }
+
+  /* ── Active link — transparent highlight ── */
+  #post-toc-float nav#TableOfContents a.ptoc-active {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    background: rgba(0,0,0,0.07);
+  }
+
+  html[data-theme='dark'] #post-toc-float nav#TableOfContents a.ptoc-active {
+    background: rgba(255,255,255,0.09);
+  }
+
+  /* Sub-levels (h3, h4, h5) slightly smaller */
+  #post-toc-float nav#TableOfContents ul ul a {
+    font-size: 0.67rem;
+    opacity: 0.85;
+  }
+
+  #post-toc-float nav#TableOfContents ul ul ul a {
+    font-size: 0.63rem;
+    opacity: 0.75;
+  }
+}
+
+/* ── Extra wide: nudge ToC further right so it doesn't crowd the post card ── */
+@media (min-width: 1600px) {
+  #post-toc-float {
+    right: max(2rem, calc((100vw - 65rem) / 2 - 16rem));
+    width: 14rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  #post-toc-float {
+    right: calc((100vw - 65rem) / 2 - 17rem);
+    width: 15rem;
+  }
+}

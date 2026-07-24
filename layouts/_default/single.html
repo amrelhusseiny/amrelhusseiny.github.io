@@ -91,6 +91,50 @@
   </footer>
 </article>
 
+{{- if .TableOfContents }}
+<aside id="post-toc-float" aria-label="Page contents">
+  <div class="ptoc-inner">
+    <div class="ptoc-label">On this page</div>
+    {{ .TableOfContents }}
+  </div>
+</aside>
+{{- end }}
+
+<script>
+/* ── Floating ToC: active section highlight via IntersectionObserver ── */
+(function() {
+  var floatToc = document.getElementById('post-toc-float');
+  if (!floatToc) return;
+  var links = floatToc.querySelectorAll('a');
+  if (!links.length) return;
+
+  var current = null;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        if (current === id) return;
+        current = id;
+        links.forEach(function(a) {
+          var href = a.getAttribute('href');
+          var active = href === '#' + id || href === '#' + id.replace(/:/g, '\\:');
+          a.classList.toggle('ptoc-active', active);
+          /* scroll the active link into view within the ToC panel */
+          if (active) {
+            a.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-8% 0px -82% 0px', threshold: 0 });
+
+  document.querySelectorAll(
+    '.post-content h2[id], .post-content h3[id], .post-content h4[id], .post-content h5[id]'
+  ).forEach(function(h) { observer.observe(h); });
+})();
+</script>
+
 <script>
 function amroCopyLink() {
   var url = window.location.href;
