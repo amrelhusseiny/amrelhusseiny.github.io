@@ -165,6 +165,9 @@ body:not(.cv-page) .app-container {
   text-transform: uppercase;
   color: var(--text-muted);
   transition: color 0.3s ease;
+  text-decoration: none;
+  display: block;
+  &:hover { color: var(--text-primary); }
 }
 
 /* Description paragraph */
