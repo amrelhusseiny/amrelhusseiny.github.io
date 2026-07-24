@@ -112,11 +112,6 @@
 
       <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
 
-      {{/* J: self-hosted avatar */}}
-      <div class="app-header-avatar">
-        <img src="/avatar.png" alt="{{ .Site.Params.author }}" width="64" height="64" loading="lazy" />
-      </div>
-
       {{- with .Site.Params.social }}
       <div class="app-header-social">
         {{ range . }}
