@@ -91,14 +91,6 @@
   </footer>
 </article>
 
-{{- if .TableOfContents }}
-<aside id="post-toc-float" aria-label="Page contents">
-  <div class="ptoc-inner">
-    <div class="ptoc-label">On this page</div>
-    {{ .TableOfContents }}
-  </div>
-</aside>
-{{- end }}
 
 <script>
 /* ── Floating ToC: active section highlight via IntersectionObserver ── */
@@ -161,4 +153,15 @@ function amroCopyLink() {
   });
 }
 </script>
+{{ end }}
+
+{{ define "post_toc" }}
+{{- if .TableOfContents }}
+<aside id="post-toc-float" aria-label="Page contents">
+  <div class="ptoc-inner">
+    <div class="ptoc-label">On this page</div>
+    {{ .TableOfContents }}
+  </div>
+</aside>
+{{- end }}
 {{ end }}

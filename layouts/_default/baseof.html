@@ -131,6 +131,9 @@
       {{ block "main" . }}{{ .Content }}{{ end }}
     </main>
 
+    {{/* Floating ToC — rendered OUTSIDE <main> so position:fixed works correctly */}}
+    {{ block "post_toc" . }}{{ end }}
+
     <!-- Floating sidebar toggle — shown on post pages -->
     <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation">&#8250;</button>
 
