@@ -28,16 +28,37 @@
   svg { vertical-align: middle; opacity: 0.7; }
 }
 
+/* M3 Filter Chip: 32dp height, shape-small(8dp), outline, state layer */
 .post-tag-link {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 0.75rem;
+  border-radius: var(--md-shape-small);
+  border: 1px solid var(--md-color-outline);
+  background: transparent;
   color: var(--md-color-on-surface-variant);
   text-decoration: none;
-  font-size: var(--md-type-label-small-size);
-  font-weight: var(--md-type-label-small-weight);
-  line-height: var(--md-type-label-small-line-height);
-  letter-spacing: var(--md-type-label-small-tracking);
-  transition: color 0.2s;
-  &:hover { color: var(--md-color-on-surface); }
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  line-height: var(--md-type-label-large-line-height);
+  letter-spacing: var(--md-type-label-large-tracking);
+  position: relative;
+  overflow: hidden;
+  transition: color var(--md-duration-short4) var(--md-easing-standard),
+              background var(--md-duration-short4) var(--md-easing-standard),
+              border-color var(--md-duration-short4) var(--md-easing-standard);
 }
+.post-tag-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity var(--md-duration-short4) var(--md-easing-standard);
+}
+.post-tag-link:hover::before { opacity: var(--md-state-hover); }
+.post-tag-link:active::before { opacity: var(--md-state-pressed); }
 
 .post-cover-wrap {
   width: 100%;
@@ -118,12 +139,13 @@
 }
 .post-footer-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-/* Share button -- M3 Outlined Button */
+/* Share button -- M3 Outlined Button (height 40dp per spec, min-height 48dp touch target) */
 .share-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   height: 40px;
+  min-height: 48px;
   padding: 0 1.25rem;
   border-radius: var(--md-shape-full);
   border: 1px solid var(--md-color-outline);
@@ -136,8 +158,8 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard),
-              border-color 0.2s var(--md-easing-standard);
+  transition: color var(--md-duration-short4) var(--md-easing-standard),
+              border-color var(--md-duration-short4) var(--md-easing-standard);
   svg { opacity: 0.7; flex-shrink: 0; }
 }
 .share-btn::before {
@@ -146,7 +168,7 @@
   inset: 0;
   background: var(--md-color-on-surface);
   opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
+  transition: opacity var(--md-duration-short4) var(--md-easing-standard);
 }
 .share-btn:hover::before { opacity: 0.08; }
 .share-btn:active::before { opacity: 0.12; }
@@ -173,9 +195,9 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: background 0.2s;
+  transition: background var(--md-duration-short4);
   &::marker, &::-webkit-details-marker { display: none; }
-  &::before { content: '\25B6'; font-size: 0.55rem; transition: transform 0.2s var(--md-easing-standard); display: inline-block; }
+  &::before { content: '\25B6'; font-size: 0.55rem; transition: transform var(--md-duration-short4) var(--md-easing-standard); display: inline-block; }
 }
 .toc-wrap[open] summary::before { transform: rotate(90deg); }
 .toc-wrap summary:hover { background: var(--md-color-surface-container); }
@@ -186,7 +208,7 @@
   letter-spacing: var(--md-type-body-medium-tracking);
   color: var(--md-color-on-surface-variant);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: color var(--md-duration-short3);
   &:hover { color: var(--md-color-on-surface); }
 }
 .toc-wrap ul ul { padding-left: 1rem; border-top: none; padding-top: 0; padding-bottom: 0; }

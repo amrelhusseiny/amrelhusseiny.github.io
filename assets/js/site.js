@@ -10,12 +10,19 @@ function sam7ToggleTheme() {
   _sam7SyncThemeUI(next);
 }
 function _sam7SyncThemeUI(t) {
+  var icon  = t === 'dark' ? '\u263E' : '\u2600';
+  var label = t === 'dark' ? 'Dark mode' : 'Light mode';
+  /* Drawer */
   var ti = document.getElementById('theme-icon');
   var tl = document.getElementById('theme-label');
+  if (ti) ti.textContent = icon;
+  if (tl) tl.textContent = label;
+  /* Rail */
+  var ri = document.getElementById('rail-theme-icon');
+  if (ri) ri.textContent = icon;
+  /* Mobile nav bar */
   var nb = document.getElementById('nav-theme-icon');
-  if (ti) ti.textContent = t === 'dark' ? '\u263E' : '\u2600';
-  if (tl) tl.textContent = t === 'dark' ? 'Dark mode' : 'Light mode';
-  if (nb) nb.textContent = t === 'dark' ? '\u263E' : '\u2600';
+  if (nb) nb.textContent = icon;
 }
 
 /* ── M3 Ripple (Web Animations API) ── */

@@ -35,9 +35,9 @@
   box-shadow: var(--md-elev-1);
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.2s var(--md-easing-standard),
-              transform  0.2s var(--md-easing-standard);
-  animation: m3FadeIn 0.3s var(--md-easing-decel) both;
+  transition: box-shadow var(--md-duration-short4) var(--md-easing-standard),
+              transform  var(--md-duration-short4) var(--md-easing-standard);
+  animation: m3FadeIn var(--md-duration-medium2) var(--md-easing-decel) both;
 }
 .note-card::before {
   content: '';
@@ -45,7 +45,7 @@
   inset: 0;
   background: var(--md-color-on-surface);
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity var(--md-duration-short4);
   pointer-events: none;
 }
 .note-card:hover { box-shadow: var(--md-elev-2); transform: translateY(-1px); }
@@ -146,8 +146,8 @@
   border-radius: var(--md-shape-full);
   position: relative;
   overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard),
-              background 0.2s var(--md-easing-standard);
+  transition: color var(--md-duration-short4) var(--md-easing-standard),
+              background var(--md-duration-short4) var(--md-easing-standard);
 }
 .notes-tl-link::before {
   content: '';
@@ -155,10 +155,10 @@
   inset: 0;
   background: var(--md-color-on-surface);
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity var(--md-duration-short4);
 }
 .notes-tl-link:hover { color: var(--md-color-on-surface); }
-.notes-tl-link:hover::before { opacity: 0.08; }
+.notes-tl-link:hover::before { opacity: var(--md-state-hover); }
 .notes-tl-link.tl-active {
   color: var(--md-color-on-primary-container);
   background: var(--md-color-primary-container);
@@ -202,6 +202,7 @@
   align-items: center;
   gap: 0.25rem;
   height: 32px;
+  min-height: 48px;
   padding: 0 0.75rem;
   border-radius: var(--md-shape-full);
   border: none;
@@ -214,7 +215,7 @@
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: color 0.2s;
+  transition: color var(--md-duration-short4) var(--md-easing-standard);
   svg { flex-shrink: 0; }
 }
 .note-share-btn::before {
@@ -223,9 +224,9 @@
   inset: 0;
   background: var(--md-color-on-surface);
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity var(--md-duration-short4);
 }
-.note-share-btn:hover::before { opacity: 0.08; }
+.note-share-btn:hover::before { opacity: var(--md-state-hover); }
 .note-share-btn.share-btn-copied { color: var(--md-color-on-surface); }
 
 /* ── Note cover image ── */
@@ -296,7 +297,7 @@
     letter-spacing: var(--md-type-label-large-tracking);
     text-decoration: none;
     flex-shrink: 0;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    transition: background var(--md-duration-short4), color var(--md-duration-short4), border-color var(--md-duration-short4);
     &:hover {
       background: var(--md-color-secondary-container);
       color: var(--md-color-on-secondary-container);
