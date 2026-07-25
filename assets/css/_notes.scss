@@ -3,17 +3,28 @@
 
 .notes-stream { max-width: 720px; }
 .notes-stream-title {
-  font-size: 1.75rem;
-  font-weight: 400;
+  font-size: var(--md-type-display-small-size);
+  font-weight: var(--md-type-display-small-weight);
+  line-height: var(--md-type-display-small-line-height);
+  letter-spacing: var(--md-type-display-small-tracking);
   color: var(--md-color-on-surface);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 .notes-stream-subtitle {
-  font-size: 0.875rem;
+  font-size: var(--md-type-body-medium-size);
+  font-weight: var(--md-type-body-medium-weight);
+  line-height: var(--md-type-body-medium-line-height);
+  letter-spacing: var(--md-type-body-medium-tracking);
   color: var(--md-color-on-surface-variant);
   margin-bottom: 2rem;
 }
-.notes-empty { color: var(--md-color-on-surface-variant); font-size: 0.875rem; }
+.notes-empty {
+  color: var(--md-color-on-surface-variant);
+  font-size: var(--md-type-body-medium-size);
+  font-weight: var(--md-type-body-medium-weight);
+  line-height: var(--md-type-body-medium-line-height);
+  letter-spacing: var(--md-type-body-medium-tracking);
+}
 
 /* ── Note card — M3 Elevated Card ── */
 .note-card {
@@ -40,11 +51,34 @@
 .note-card:hover { box-shadow: var(--md-elev-2); transform: translateY(-1px); }
 .note-card:hover::before { opacity: 0.04; }
 
-.note-card-title { font-size: 1rem; font-weight: 500; color: var(--md-color-on-surface); margin-bottom: 0.5rem; position: relative; }
-.note-card-date  { font-size: 0.75rem; font-weight: 500; color: var(--md-color-on-surface-variant); margin-bottom: 0.625rem; position: relative; }
+.note-card-title {
+  font-size: var(--md-type-title-medium-size);
+  font-weight: var(--md-type-title-medium-weight);
+  line-height: var(--md-type-title-medium-line-height);
+  letter-spacing: var(--md-type-title-medium-tracking);
+  color: var(--md-color-on-surface);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.note-card-date {
+  font-size: var(--md-type-label-medium-size);
+  font-weight: var(--md-type-label-medium-weight);
+  line-height: var(--md-type-label-medium-line-height);
+  letter-spacing: var(--md-type-label-medium-tracking);
+  color: var(--md-color-on-surface-variant);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
 .note-card-dot   { margin: 0 0.3rem; }
 .note-card-time  { font-weight: 400; }
-.note-card-content { font-size: 1rem; color: var(--md-color-on-surface-variant); line-height: 1.5; position: relative; }
+.note-card-content {
+  font-size: var(--md-type-body-large-size);
+  font-weight: var(--md-type-body-large-weight);
+  line-height: var(--md-type-body-large-line-height);
+  letter-spacing: var(--md-type-body-large-tracking);
+  color: var(--md-color-on-surface);
+  position: relative;
+}
 .note-card-content p:first-child { margin-top: 0; }
 .note-card-content p:last-child  { margin-bottom: 0; }
 
@@ -88,9 +122,10 @@
   &::-webkit-scrollbar { display: none; }
 }
 .notes-timeline-label {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: var(--md-type-label-small-size);
+  font-weight: var(--md-type-label-small-weight);
+  line-height: var(--md-type-label-small-line-height);
+  letter-spacing: var(--md-type-label-small-tracking);
   text-transform: uppercase;
   color: var(--md-color-on-surface-variant);
   opacity: 0.6;
@@ -101,8 +136,10 @@
 
 .notes-tl-link {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--md-type-label-medium-size);
+  font-weight: var(--md-type-label-medium-weight);
+  line-height: var(--md-type-label-medium-line-height);
+  letter-spacing: var(--md-type-label-medium-tracking);
   color: var(--md-color-on-surface-variant);
   text-decoration: none;
   padding: 0.375rem 0.75rem;
@@ -138,9 +175,10 @@
 
 /* ── Month divider ── */
 .note-month-divider {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: var(--md-type-label-small-size);
+  font-weight: var(--md-type-label-small-weight);
+  line-height: var(--md-type-label-small-line-height);
+  letter-spacing: var(--md-type-label-small-tracking);
   text-transform: uppercase;
   color: var(--md-color-on-surface-variant);
   opacity: 0.6;
@@ -169,8 +207,10 @@
   border: none;
   background: transparent;
   color: var(--md-color-on-surface-variant);
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--md-type-label-medium-size);
+  font-weight: var(--md-type-label-medium-weight);
+  line-height: var(--md-type-label-medium-line-height);
+  letter-spacing: var(--md-type-label-medium-tracking);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -230,8 +270,10 @@
   }
   .notes-tl-mobile-summary {
     padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: var(--md-type-label-large-size);
+    font-weight: var(--md-type-label-large-weight);
+    line-height: var(--md-type-label-large-line-height);
+    letter-spacing: var(--md-type-label-large-tracking);
     color: var(--md-color-on-surface-variant);
     cursor: pointer;
     list-style: none;
@@ -259,8 +301,10 @@
     border: 1px solid var(--md-color-outline);
     background: transparent;
     color: var(--md-color-on-surface-variant);
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: var(--md-type-label-large-size);
+    font-weight: var(--md-type-label-large-weight);
+    line-height: var(--md-type-label-large-line-height);
+    letter-spacing: var(--md-type-label-large-tracking);
     text-decoration: none;
     flex-shrink: 0;
     transition: background 0.2s, color 0.2s, border-color 0.2s;

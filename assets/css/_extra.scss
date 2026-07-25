@@ -23,81 +23,81 @@
   --md-type-display-large-size:        3.5625rem;
   --md-type-display-large-line-height: 4rem;
   --md-type-display-large-weight:      400;
-  --md-type-display-large-tracking:    -0.016em;
+  --md-type-display-large-tracking:    -0.015625rem;
 
   --md-type-display-medium-size:        2.8125rem;
   --md-type-display-medium-line-height: 3.25rem;
   --md-type-display-medium-weight:      400;
-  --md-type-display-medium-tracking:    0;
+  --md-type-display-medium-tracking:    0rem;
 
   --md-type-display-small-size:        2.25rem;
   --md-type-display-small-line-height: 2.75rem;
   --md-type-display-small-weight:      400;
-  --md-type-display-small-tracking:    0;
+  --md-type-display-small-tracking:    0rem;
 
   /* Headline */
   --md-type-headline-large-size:        2rem;
   --md-type-headline-large-line-height: 2.5rem;
   --md-type-headline-large-weight:      400;
-  --md-type-headline-large-tracking:    0;
+  --md-type-headline-large-tracking:    0rem;
 
   --md-type-headline-medium-size:        1.75rem;
   --md-type-headline-medium-line-height: 2.25rem;
   --md-type-headline-medium-weight:      400;
-  --md-type-headline-medium-tracking:    0;
+  --md-type-headline-medium-tracking:    0rem;
 
   --md-type-headline-small-size:        1.5rem;
   --md-type-headline-small-line-height: 2rem;
   --md-type-headline-small-weight:      400;
-  --md-type-headline-small-tracking:    0;
+  --md-type-headline-small-tracking:    0rem;
 
   /* Title */
   --md-type-title-large-size:        1.375rem;
   --md-type-title-large-line-height: 1.75rem;
   --md-type-title-large-weight:      400;
-  --md-type-title-large-tracking:    0;
+  --md-type-title-large-tracking:    0rem;
 
   --md-type-title-medium-size:        1rem;
   --md-type-title-medium-line-height: 1.5rem;
   --md-type-title-medium-weight:      500;
-  --md-type-title-medium-tracking:    0.009em;
+  --md-type-title-medium-tracking:    0.009375rem;
 
   --md-type-title-small-size:        0.875rem;
   --md-type-title-small-line-height: 1.25rem;
   --md-type-title-small-weight:      500;
-  --md-type-title-small-tracking:    0.006em;
+  --md-type-title-small-tracking:    0.00625rem;
 
   /* Body */
   --md-type-body-large-size:        1rem;
   --md-type-body-large-line-height: 1.5rem;
   --md-type-body-large-weight:      400;
-  --md-type-body-large-tracking:    0.031em;
+  --md-type-body-large-tracking:    0.03125rem;
 
   --md-type-body-medium-size:        0.875rem;
   --md-type-body-medium-line-height: 1.25rem;
   --md-type-body-medium-weight:      400;
-  --md-type-body-medium-tracking:    0.016em;
+  --md-type-body-medium-tracking:    0.015625rem;
 
   --md-type-body-small-size:        0.75rem;
   --md-type-body-small-line-height: 1rem;
   --md-type-body-small-weight:      400;
-  --md-type-body-small-tracking:    0.025em;
+  --md-type-body-small-tracking:    0.025rem;
 
   /* Label */
   --md-type-label-large-size:        0.875rem;
   --md-type-label-large-line-height: 1.25rem;
   --md-type-label-large-weight:      500;
-  --md-type-label-large-tracking:    0.006em;
+  --md-type-label-large-tracking:    0.00625rem;
 
   --md-type-label-medium-size:        0.75rem;
   --md-type-label-medium-line-height: 1rem;
   --md-type-label-medium-weight:      500;
-  --md-type-label-medium-tracking:    0.031em;
+  --md-type-label-medium-tracking:    0.03125rem;
 
   --md-type-label-small-size:        0.6875rem;
   --md-type-label-small-line-height: 1rem;
   --md-type-label-small-weight:      500;
-  --md-type-label-small-tracking:    0.031em;
+  --md-type-label-small-tracking:    0.03125rem;
 
   /* ── Claude colour palette -- Light scheme ── */
   --md-color-background:              #F9F9F7;
@@ -843,7 +843,7 @@ body:not(.cv-page) .app-container article a:hover,
 body:not(.cv-page) .app-container .post a:hover {
   text-decoration-color: var(--md-color-primary) !important;
 }
-.post-card-tag, .post-tag-link, .post-footer a,
+.post-card, .post-card-tag, .post-tag-link, .post-footer a,
 .post-footer-tags a { text-decoration: none !important; }
 
 /* ================================================================
@@ -1024,6 +1024,17 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
 .mermaid { overflow-x: auto; }
 .mermaid svg { min-width: 320px; }
 
+
+/* ── Page / section title (Blog, Notes list pages) = Display Small ── */
+body:not(.cv-page) .app-container article > h1:not(.post-title),
+body:not(.cv-page) .app-container .notes-main h1 {
+  font-size: var(--md-type-display-small-size);
+  font-weight: var(--md-type-display-small-weight);
+  line-height: var(--md-type-display-small-line-height);
+  letter-spacing: var(--md-type-display-small-tracking);
+  color: var(--md-color-on-surface);
+  margin: 0 0 1.5rem;
+}
 /* Post content text */
 .post-content {
   font-size: var(--md-type-body-large-size);
