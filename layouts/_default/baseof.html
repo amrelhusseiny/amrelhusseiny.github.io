@@ -46,6 +46,8 @@
     <!-- Fonts: async non-render-blocking (preload pattern) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- DNS prefetch for Mermaid CDN (Notes pages) -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Slab:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Slab:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 
@@ -168,6 +170,18 @@
     {{ block "post_toc" . }}{{ end }}
 
     <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation" aria-label="Show navigation">&#8250;</button>
+
+    <!-- M3 Lightbox — native <dialog>, zero dependencies -->
+    <dialog id="m3-lightbox" aria-label="Image viewer">
+      <div class="m3-lightbox-inner">
+        <img id="m3-lightbox-img" src="" alt="">
+        <button class="m3-lightbox-close" aria-label="Close image viewer">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+    </dialog>
 
   </body>
 </html>

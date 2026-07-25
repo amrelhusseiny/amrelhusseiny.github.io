@@ -58,7 +58,14 @@
     </div>
     {{ with .Params.image }}
     <div class="post-cover-wrap">
-      <img class="post-cover" src="{{ $.RelPermalink }}{{ . }}" alt="{{ $.Title }}" loading="eager" width="1200" height="630" />
+      <button class="m3-lightbox-trigger m3-cover-trigger"
+              aria-label="View full size: {{ $.Title }}"
+              data-src="{{ $.RelPermalink }}{{ . }}"
+              data-alt="{{ $.Title }}">
+        <img class="post-cover" src="{{ $.RelPermalink }}{{ . }}" alt="{{ $.Title }}"
+             loading="eager" width="1200" height="630"
+             fetchpriority="high" />
+      </button>
     </div>
     {{ end }}
   </header>

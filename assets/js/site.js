@@ -153,3 +153,52 @@ document.addEventListener('DOMContentLoaded', function () {
   ).forEach(window.m3AttachRipple);
 
 });
+
+
+/* ── M3 Lightbox ── */
+(function () {
+  var dialog  = null;
+  var imgEl   = null;
+
+  function init() {
+    dialog = document.getElementById('m3-lightbox');
+    imgEl  = document.getElementById('m3-lightbox-img');
+    if (!dialog || !imgEl) return;
+
+    /* Open on any lightbox trigger click */
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.m3-lightbox-trigger');
+      if (!trigger) return;
+      var src = trigger.getAttribute('data-src');
+      var alt = trigger.getAttribute('data-alt') || '';
+      imgEl.src = src;
+      imgEl.alt = alt;
+      dialog.showModal();
+    });
+
+    /* Close on backdrop click (clicking the <dialog> outside the inner div) */
+    dialog.addEventListener('click', function (e) {
+      if (e.target === dialog) dialog.close();
+    });
+
+    /* Close button */
+    var closeBtn = dialog.querySelector('.m3-lightbox-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () { dialog.close(); });
+    }
+
+    /* Clear src on close to free memory */
+    dialog.addEventListener('close', function () {
+      imgEl.src = '';
+      imgEl.alt = '';
+    });
+
+    /* Esc key is handled natively by <dialog> — no extra code needed */
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

@@ -1,10 +1,15 @@
-{{- $src  := .Destination -}}
-{{- $alt  := .PlainText -}}
+{{- $src   := .Destination -}}
+{{- $alt   := .PlainText -}}
 {{- $title := .Title -}}
-<img
-  src="{{ $src }}"
-  alt="{{ $alt }}"
-  {{- with $title }} title="{{ . }}"{{ end }}
-  loading="lazy"
-  decoding="async"
->
+<button class="m3-lightbox-trigger"
+        aria-label="View full size{{ with $alt }}: {{ . }}{{ end }}"
+        data-src="{{ $src }}"
+        data-alt="{{ $alt }}">
+  <img
+    src="{{ $src }}"
+    alt="{{ $alt }}"
+    {{- with $title }} title="{{ . }}"{{ end }}
+    loading="lazy"
+    decoding="async"
+  >
+</button>
