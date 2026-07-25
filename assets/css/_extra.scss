@@ -740,13 +740,12 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
    POST CARDS -- M3 Elevated Card
    ================================================================ */
 .post-cards {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   padding: 0;
-  max-width: 720px;
+  width: 100%;
 }
-@media (min-width: 840px) { .post-cards { grid-template-columns: 1fr 1fr; } }
 
 .post-card {
   display: block;
@@ -839,6 +838,15 @@ body:not(.cv-page) .app-container > article:not(.post) {
   padding: 2rem 2.5rem;
   box-shadow: var(--md-elev-1);
   animation: m3FadeIn 0.3s var(--md-easing-decel) both;
+}
+
+/* Blog/Notes list page article: same max-width as notes-stream (720px) */
+body:not(.cv-page) .app-container > article:not(.post) {
+  max-width: 720px;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
 }
 
 /* ================================================================
