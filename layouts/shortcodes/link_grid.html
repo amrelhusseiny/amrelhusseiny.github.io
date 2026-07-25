@@ -1,14 +1,8 @@
 <div class="link-sections">
   {{ range .Site.Data.links }}
-  <details class="resource-category" {{ if eq .category "Networking Blogs" }}open{{ end }}>
-    <summary class="resource-category-title">{{ .category }}</summary>
+  <div class="resource-category">
+    <div class="resource-category-title">{{ .category }}</div>
     <table class="link-table">
-      <thead>
-      <tr>
-        <th>Link</th>
-        <th>Description</th>
-      </tr>
-      </thead>
       <tbody>
       {{ range .links }}
       <tr>
@@ -18,6 +12,6 @@
       {{ end }}
       </tbody>
     </table>
-  </details>
+  </div>
   {{ end }}
 </div>
