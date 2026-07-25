@@ -165,7 +165,12 @@ html[data-theme='dark'] {
 }
 
 /* ── Scroll offsets ── */
-html { scroll-padding-top: 16px; scroll-padding-bottom: 88px; }
+html {
+  scroll-padding-top: 16px;
+  scroll-padding-bottom: 88px;
+  color-scheme: light;
+}
+html[data-theme='dark'] { color-scheme: dark; }
 
 /* ── Body ── */
 body {
@@ -240,6 +245,18 @@ code, pre, kbd, samp, .highlight, .chroma {
 ::view-transition-new(root) {
   animation-duration: 250ms;
   animation-timing-function: var(--md-easing-emphasized);
+}
+
+/* M3 motion: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ================================================================
@@ -483,7 +500,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   color: var(--md-color-on-primary-container);
   border: none;
   box-shadow: var(--md-elev-2);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   cursor: pointer;
   display: none;
   align-items: center;
@@ -715,7 +732,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   width: 100%;
   height: 56px;
   padding: 0 1.25rem 0 3rem;
-  border-radius: var(--md-shape-xl);
+  border-radius: var(--md-shape-full);
   border: none;
   background: var(--md-color-surface-container-high);
   font-family: inherit;
@@ -831,9 +848,8 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 }
 
 /* Post reading surface */
-/* Post reading page + blog list: same max-width as notes-stream (720px) */
-body:not(.cv-page) .app-container .post,
-body:not(.cv-page) .app-container > article:not(.post) {
+/* Post reading page: 720px max-width, reading padding (matches note card internal padding) */
+body:not(.cv-page) .app-container .post {
   max-width: 720px;
   background: transparent;
   border-radius: 0;
@@ -842,6 +858,22 @@ body:not(.cv-page) .app-container > article:not(.post) {
   animation: m3FadeIn 0.3s var(--md-easing-decel) both;
 }
 
+/* Blog list article: 720px, minimal top padding only */
+body:not(.cv-page) .app-container > article:not(.post) {
+  max-width: 720px;
+  background: transparent;
+  border-radius: 0;
+  padding: 1.5rem 0 0;
+  box-shadow: none;
+  animation: m3FadeIn 0.3s var(--md-easing-decel) both;
+}
+
+
+/* About page: full content width (not constrained to 720px like blog/notes) */
+body:not(.cv-page) .app-container > article.about-page {
+  max-width: none;
+  padding: 0;
+}
 /* ================================================================
    CONTENT LINKS
    ================================================================ */
@@ -1012,7 +1044,7 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     text-decoration: none !important;
     padding: 0.25rem 0.5rem;
     border-radius: var(--md-shape-xs);
-    line-height: 1.4;
+    line-height: var(--md-type-body-small-line-height);
     transition: color 0.15s, background 0.15s;
     overflow: hidden;
     text-overflow: ellipsis;

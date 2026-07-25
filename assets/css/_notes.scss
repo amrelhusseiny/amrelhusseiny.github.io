@@ -69,7 +69,7 @@
   margin-bottom: 0.5rem;
   position: relative;
 }
-.note-card-dot   { margin: 0 0.3rem; }
+.note-card-dot   { margin: 0 0.25rem; }
 .note-card-time  { font-weight: var(--md-type-body-medium-weight); }
 .note-card-content {
   font-size: var(--md-type-body-large-size);
@@ -97,7 +97,7 @@
   margin: 0 auto;
 }
 .mermaid svg .label, .mermaid svg text, .mermaid svg .nodeLabel {
-  font-size: 15px !important;
+  font-size: 0.9375rem !important;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 .note-card-content .mermaid { margin: 1.25rem 0; }
@@ -112,7 +112,7 @@
 
 /* ── Desktop timeline sidebar — M3 Navigation Rail style ── */
 .notes-timeline {
-  width: 120px;
+  width: 112px;
   flex-shrink: 0;
   position: sticky;
   top: 16px;
@@ -132,7 +132,7 @@
   margin-bottom: 0.5rem;
   padding-left: 0.5rem;
 }
-.notes-timeline-inner { display: flex; flex-direction: column; gap: 2px; }
+.notes-timeline-inner { display: flex; flex-direction: column; gap: 0.25rem; }
 
 .notes-tl-link {
   display: block;
@@ -160,8 +160,8 @@
 .notes-tl-link:hover { color: var(--md-color-on-surface); }
 .notes-tl-link:hover::before { opacity: 0.08; }
 .notes-tl-link.tl-active {
-  color: var(--md-color-on-secondary-container);
-  background: var(--md-color-secondary-container);
+  color: var(--md-color-on-primary-container);
+  background: var(--md-color-primary-container);
   font-weight: var(--md-type-label-medium-weight);
 }
 
@@ -238,18 +238,7 @@
 }
 .note-card-image { width: 100%; max-height: 220px; object-fit: cover; display: block; }
 
-/* ── Legacy compat ── */
-#theme-toggle {
-  background: none;
-  border: 1px solid var(--md-color-outline);
-  color: var(--md-color-on-surface);
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: var(--md-shape-small);
-  font-size: 1em;
-  margin-top: 10px;
-}
-.posts-list-item-title { font-weight: bold; }
+/* Legacy CSS removed: #theme-toggle and .posts-list-item-title no longer used */
 
 /* ── Mobile overrides (< 600px) ── */
 @media (max-width: 599px) {

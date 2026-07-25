@@ -212,8 +212,8 @@
 .book-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 10px;
-  padding: 10px;
+  gap: 8px;
+  padding: 8px;
 }
 .book-card {
   display: flex;
@@ -228,7 +228,7 @@
   background: var(--md-color-surface-container-low);
   box-shadow: var(--md-elev-1);
   transition: box-shadow 0.2s var(--md-easing-standard), transform 0.2s var(--md-easing-standard);
-  height: 200px;
+  min-height: 192px;
   overflow: hidden;
 }
 .book-card:hover { transform: translateY(-4px); box-shadow: var(--md-elev-2); }

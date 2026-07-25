@@ -128,24 +128,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (href && href !== '/' && path.startsWith(href)) a.classList.add('nav-active');
   });
 
-  /* Sidebar behaviour on post pages */
-  var sidebar  = document.getElementById('app-sidebar');
-  var floatBtn = document.getElementById('sidebar-float-btn');
-  if (sidebar && document.querySelector('.app-container .post')) {
-    sidebar.classList.add('sidebar-hidden');
-    document.querySelector('.app-container').classList.add('sidebar-collapsed');
-    if (floatBtn) floatBtn.style.display = 'flex';
-  }
-
-  /* Post-card clicks — collapse sidebar, navigate */
+  /* M3: drawer is persistent on expanded layout -- no auto-hide on post pages */
+  /* Post-card clicks: navigate directly, drawer stays visible */
   document.querySelectorAll('.post-card').forEach(function (card) {
     card.addEventListener('click', function (e) {
       e.preventDefault();
-      var href = card.getAttribute('href');
-      if (sidebar) sidebar.classList.add('sidebar-hidden');
-      var ac = document.querySelector('.app-container');
-      if (ac) ac.classList.add('sidebar-collapsed');
-      window.location.href = href;
+      window.location.href = card.getAttribute('href');
     });
   });
 
