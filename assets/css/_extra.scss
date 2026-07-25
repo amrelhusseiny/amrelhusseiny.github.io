@@ -88,7 +88,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
     box-sizing: border-box;
   }
 
-  /* Content gets bottom padding so nav bar doesn't cover it */
+  /* Content gets bottom padding so nav bar does not cover it */
   body:not(.cv-page) .app-container {
     padding-bottom: 80px !important;
   }
