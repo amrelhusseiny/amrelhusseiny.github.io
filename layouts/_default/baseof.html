@@ -37,14 +37,6 @@
     <meta name="theme-color" content="#F9F9F9" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
 
-    <!-- Roboto (UI) + JetBrains Mono (code) — single Google Fonts request -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap">
-
     <!-- Theme init — prevents FOUC -->
     <script>
       (function(){
@@ -61,112 +53,99 @@
   <body>
 
     <!-- ═══════════════════════════════════════════════════
-         M3 NAVIGATION DRAWER — standard variant
-         surface · 0 16px 16px 0 end-corner · 360px
-         Structure: header → nav items → section label → secondary nav → divider → footer
+         M3 NAVIGATION DRAWER (desktop ≥ 600px)
+         surface · 0 16px 16px 0 end corner
     ════════════════════════════════════════════════════ -->
     <header class="app-header" id="app-sidebar">
-
-      <!-- Drawer header: app name in headline-small (1.5rem/400wt) -->
+      <!-- M3 Drawer Header — Headline Small typescale -->
       <div class="m3-drawer-header">
-        <a href="/blog" class="m3-drawer-headline">Amro's Blog</a>
+        <a href="/blog" class="m3-drawer-headline">Amro El Husseiny</a>
+        <span class="m3-drawer-tagline">Network Engineer</span>
       </div>
 
-      <!-- Primary nav destinations -->
       <nav class="app-header-menu">
-        <a class="sidebar-blog-link" href="/blog">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-          </svg>
+        <!-- Primary destinations -->
+        <a class="sidebar-blog-link"  href="/blog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           Blog
         </a>
         <a class="sidebar-notes-link" href="/notes">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
           Notes
         </a>
 
-        <!-- M3 section headline label (title-small) before secondary destinations -->
-        <div class="m3-drawer-section-label">More</div>
+        <div class="sidebar-tags">
+          <a class="sidebar-tag" href="/tags/networks/">#networks</a>
+          <a class="sidebar-tag" href="/tags/ai/">#ai</a>
+          <a class="sidebar-tag" href="/tags/automation/">#automation</a>
+          <a class="sidebar-tag" href="/tags/linux/">#linux</a>
+        </div>
 
+        <div class="sidebar-section-divider"></div>
+
+        <!-- Secondary destinations -->
         <a class="sidebar-about-link" href="/about">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
           About
         </a>
         <a class="sidebar-cv-link" href="/cv">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
           CV
         </a>
       </nav>
 
-      <!-- Drawer footer: divider → theme toggle → social icon buttons -->
-      <div class="m3-drawer-footer">
-        <div class="m3-drawer-divider"></div>
+      <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
 
-        <!-- Theme toggle as proper M3 nav item (icon + label, no badge) -->
-        <button class="m3-drawer-footer-item" onclick="sam7ToggleTheme()" aria-label="Toggle colour theme">
-          <span class="m3-drawer-footer-icon" id="theme-icon" aria-hidden="true">&#9728;</span>
-          <span id="theme-label">Light mode</span>
-        </button>
-
-        <!-- Social icon buttons (M3 Icon Button: 40px circular touch target) -->
-        {{- with .Site.Params.social }}
-        <div class="m3-drawer-social">
-          {{ range . }}
-            <a class="m3-drawer-social-btn" href="{{ .url }}" target="_blank"
-               rel="noreferrer noopener me" aria-label="{{ .name }}">
-              {{ partial "icon.html" (dict "ctx" $ "name" .icon "title" .name) }}
-            </a>
-          {{ end }}
-        </div>
-        {{- end }}
+      {{- with .Site.Params.social }}
+      <div class="app-header-social">
+        {{ range . }}
+          <a href="{{ .url }}" target="_blank" rel="noreferrer noopener me">
+            {{ partial "icon.html" (dict "ctx" $ "name" .icon "title" .name) }}
+          </a>
+        {{ end }}
       </div>
+      {{- end }}
 
+      <div class="sidebar-controls">
+        <button class="sidebar-ctrl-btn" onclick="sam7ToggleTheme()">
+          <span id="theme-icon">&#9728;</span>
+          <span id="theme-label">Light mode</span>
+          <span class="sidebar-ctrl-badge">Toggle</span>
+        </button>
+      </div>
     </header>
 
     <!-- ═══════════════════════════════════════════════════
-         M3 BOTTOM NAVIGATION BAR — mobile < 600px
-         80px · surface-container · 3 destinations + theme
+         M3 BOTTOM NAVIGATION BAR (mobile < 600px)
+         80px · surface-container · 3 destinations
     ════════════════════════════════════════════════════ -->
     <nav id="mobile-nav-bar" aria-label="Main navigation">
 
       <a class="m3-nav-item" href="/blog" aria-label="Blog">
         <span class="m3-nav-indicator">
-          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-          </svg>
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
         </span>
         <span class="m3-nav-label">Blog</span>
       </a>
 
       <a class="m3-nav-item" href="/notes" aria-label="Notes">
         <span class="m3-nav-indicator">
-          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-          </svg>
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
         </span>
         <span class="m3-nav-label">Notes</span>
       </a>
 
       <a class="m3-nav-item" href="/about" aria-label="About">
         <span class="m3-nav-indicator">
-          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg>
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </span>
         <span class="m3-nav-label">About</span>
       </a>
 
-      <button class="m3-nav-item" onclick="sam7ToggleTheme()"
-              aria-label="Toggle theme" style="background:none;border:none;cursor:pointer;">
+      <!-- Theme toggle as 4th item on mobile -->
+      <button class="m3-nav-item" onclick="sam7ToggleTheme()" aria-label="Toggle theme" style="background:none;border:none;cursor:pointer;">
         <span class="m3-nav-indicator">
-          <span id="nav-theme-icon" class="m3-nav-icon"
-                style="font-size:1.3rem;line-height:32px;text-align:center;display:block;">&#9728;</span>
+          <span id="nav-theme-icon" class="m3-nav-icon" style="font-size:1.3rem;line-height:32px;text-align:center;display:block;">&#9728;</span>
         </span>
         <span class="m3-nav-label">Theme</span>
       </button>
@@ -181,12 +160,7 @@
     {{ block "post_toc" . }}{{ end }}
 
     <!-- Floating sidebar toggle (post pages, desktop only) -->
-    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation"
-            style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:200;width:2.5rem;height:2.5rem;
-                   border-radius:9999px;background:var(--md-color-primary-container);
-                   color:var(--md-color-on-primary-container);border:none;
-                   box-shadow:var(--md-elev-2);font-size:1.1rem;cursor:pointer;
-                   display:none;align-items:center;justify-content:center;">&#8250;</button>
+    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:200;width:2.5rem;height:2.5rem;border-radius:9999px;background:var(--md-color-primary-container);color:var(--md-color-on-primary-container);border:none;box-shadow:var(--md-elev-2);font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;">&#8250;</button>
 
   </body>
 </html>
