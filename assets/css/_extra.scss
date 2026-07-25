@@ -244,7 +244,7 @@ code, pre, kbd, samp, .highlight, .chroma {
 
 /* ================================================================
    NAVIGATION DRAWER -- M3 spec (desktop >= 840px)
-   360px wide * surface bg * 0 16px 16px 0 corner
+   304px wide * surface bg * 0 16px 16px 0 corner (M3 spec)
    ================================================================ */
 body:not(.cv-page) .app-header {
   background: var(--md-color-surface) !important;
@@ -255,7 +255,7 @@ body:not(.cv-page) .app-header {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
-  width: 360px !important;
+  width: 304px !important;
   height: 100vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -312,9 +312,9 @@ body:not(.cv-page) .app-header::-webkit-scrollbar { display: none; }
   letter-spacing: var(--md-type-label-large-tracking);
   color: var(--md-color-on-surface-variant);
   text-decoration: none;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   height: 56px;
-  max-width: 336px;
+  max-width: 280px;
   border-radius: var(--md-shape-full);
   margin: 0 0.5rem 0.25rem;
   position: relative;
@@ -377,9 +377,9 @@ body:not(.cv-page) .app-header::-webkit-scrollbar { display: none; }
   align-items: center;
   gap: 0.75rem;
   width: calc(100% - 1rem);
-  max-width: 336px;
+  max-width: 280px;
   height: 56px;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
   margin: 0 0.5rem;
   border-radius: var(--md-shape-full);
   border: none;
@@ -569,9 +569,9 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   #mobile-nav-bar { display: none !important; }
 
   body:not(.cv-page) .app-container {
-    margin-left: 360px;
+    margin-left: 304px;
     padding: 1.5rem 2rem;
-    max-width: calc(360px + 65rem);
+    max-width: calc(304px + 65rem);
   }
 }
 
@@ -831,22 +831,15 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 }
 
 /* Post reading surface */
+/* Post reading page + blog list: same max-width as notes-stream (720px) */
 body:not(.cv-page) .app-container .post,
-body:not(.cv-page) .app-container > article:not(.post) {
-  background: var(--md-color-surface-container-low);
-  border-radius: var(--md-shape-medium);
-  padding: 2rem 2.5rem;
-  box-shadow: var(--md-elev-1);
-  animation: m3FadeIn 0.3s var(--md-easing-decel) both;
-}
-
-/* Blog/Notes list page article: same max-width as notes-stream (720px) */
 body:not(.cv-page) .app-container > article:not(.post) {
   max-width: 720px;
   background: transparent;
   border-radius: 0;
   padding: 0;
   box-shadow: none;
+  animation: m3FadeIn 0.3s var(--md-easing-decel) both;
 }
 
 /* ================================================================
