@@ -34,14 +34,10 @@
     <meta name="twitter:card" content="summary" />
     {{- end }}
 
-    <!-- Theme color for mobile browser chrome -->
-    <meta name="theme-color" content="#e8e8e8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#F9F9F9" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
 
-    <!-- B: Background image loaded low-priority — does not compete with CSS -->
-    <link rel="preload" as="image" href="/images/islamic_bg.webp" type="image/webp" fetchpriority="low">
-
-    <!-- Theme init before first paint (inline — prevents FOUC) -->
+    <!-- Theme init — prevents FOUC -->
     <script>
       (function(){
         var t = localStorage.getItem('amro_blog_theme') || 'light';
@@ -49,61 +45,51 @@
       })();
     </script>
 
-    {{/* ── E: External JS — fingerprinted, deferred (parses after HTML, cached by browser) ── */}}
+    {{/* ── JS — fingerprinted, deferred ── */}}
     {{ $js := resources.Get "js/site.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer></script>
 
   </head>
   <body>
-    <!-- ── Mobile top bar (shown only on < 768px via CSS) ── -->
-    <div id="mobile-topbar">
-      <a id="mobile-topbar-title" href="/blog">Amro's Blog</a>
-      <button id="mobile-hamburger" onclick="sam7ToggleDrawer()" aria-label="Open navigation">
-        <span id="hamburger-icon">&#9776;</span>
-      </button>
-    </div>
 
-    <!-- ── Mobile drawer ── -->
-    <nav id="mobile-drawer" aria-label="Mobile navigation">
-      <div class="drawer-nav">
-        <a class="drawer-blog-link"  href="/blog">Blog</a>
-        <a class="drawer-notes-link" href="/notes">Notes</a>
-        <a class="drawer-about-link" href="/about">About</a>
-        <a class="drawer-cv-link"    href="/cv">CV</a>
-      </div>
-      <div class="drawer-tags">
-        <a class="sidebar-tag" href="/tags/networks/">networks</a>
-        <a class="sidebar-tag" href="/tags/ai/">ai</a>
-        <a class="sidebar-tag" href="/tags/automation/">automation</a>
-        <a class="sidebar-tag" href="/tags/linux/">linux</a>
-      </div>
-      <div class="drawer-controls">
-        <button class="drawer-ctrl-btn" id="drawer-theme-btn" onclick="sam7ToggleTheme()">
-          <span id="drawer-theme-icon">&#9728;</span>
-          <span id="drawer-theme-label">Light</span>
-        </button>
-      </div>
-    </nav>
-
-    <!-- Backdrop: tap to close drawer -->
-    <div id="mobile-backdrop" onclick="sam7CloseDrawer()"></div>
-
+    <!-- ═══════════════════════════════════════════════════
+         M3 NAVIGATION DRAWER (desktop ≥ 600px)
+         surface · 0 16px 16px 0 end corner
+    ════════════════════════════════════════════════════ -->
     <header class="app-header" id="app-sidebar">
       <div class="app-header-title-wrap">
         <a href="/blog" class="app-header-subtitle">Amro's Blog</a>
       </div>
 
       <nav class="app-header-menu">
-        <a class="sidebar-blog-link"  href="/blog">Blog</a>
-        <a class="sidebar-notes-link" href="/notes">Notes</a>
+        <!-- Primary destinations -->
+        <a class="sidebar-blog-link"  href="/blog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          Blog
+        </a>
+        <a class="sidebar-notes-link" href="/notes">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          Notes
+        </a>
+
         <div class="sidebar-tags">
-          <a class="sidebar-tag" href="/tags/networks/">networks</a>
-          <a class="sidebar-tag" href="/tags/ai/">ai</a>
-          <a class="sidebar-tag" href="/tags/automation/">automation</a>
-          <a class="sidebar-tag" href="/tags/linux/">linux</a>
+          <a class="sidebar-tag" href="/tags/networks/">#networks</a>
+          <a class="sidebar-tag" href="/tags/ai/">#ai</a>
+          <a class="sidebar-tag" href="/tags/automation/">#automation</a>
+          <a class="sidebar-tag" href="/tags/linux/">#linux</a>
         </div>
-        <a class="sidebar-about-link" href="/about">About</a>
-        <a class="sidebar-cv-link"    href="/cv">CV</a>
+
+        <div class="sidebar-section-divider"></div>
+
+        <!-- Secondary destinations -->
+        <a class="sidebar-about-link" href="/about">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          About
+        </a>
+        <a class="sidebar-cv-link" href="/cv">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          CV
+        </a>
       </nav>
 
       <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
@@ -119,24 +105,60 @@
       {{- end }}
 
       <div class="sidebar-controls">
-        <button class="sidebar-ctrl-btn" id="theme-toggle-btn" onclick="sam7ToggleTheme()">
+        <button class="sidebar-ctrl-btn" onclick="sam7ToggleTheme()">
           <span id="theme-icon">&#9728;</span>
-          <span id="theme-label">Light Theme</span>
+          <span id="theme-label">Light mode</span>
           <span class="sidebar-ctrl-badge">Toggle</span>
         </button>
       </div>
     </header>
 
+    <!-- ═══════════════════════════════════════════════════
+         M3 BOTTOM NAVIGATION BAR (mobile < 600px)
+         80px · surface-container · 3 destinations
+    ════════════════════════════════════════════════════ -->
+    <nav id="mobile-nav-bar" aria-label="Main navigation">
+
+      <a class="m3-nav-item" href="/blog" aria-label="Blog">
+        <span class="m3-nav-indicator">
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </span>
+        <span class="m3-nav-label">Blog</span>
+      </a>
+
+      <a class="m3-nav-item" href="/notes" aria-label="Notes">
+        <span class="m3-nav-indicator">
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </span>
+        <span class="m3-nav-label">Notes</span>
+      </a>
+
+      <a class="m3-nav-item" href="/about" aria-label="About">
+        <span class="m3-nav-indicator">
+          <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </span>
+        <span class="m3-nav-label">About</span>
+      </a>
+
+      <!-- Theme toggle as 4th item on mobile -->
+      <button class="m3-nav-item" onclick="sam7ToggleTheme()" aria-label="Toggle theme" style="background:none;border:none;cursor:pointer;">
+        <span class="m3-nav-indicator">
+          <span id="nav-theme-icon" class="m3-nav-icon" style="font-size:1.3rem;line-height:32px;text-align:center;display:block;">&#9728;</span>
+        </span>
+        <span class="m3-nav-label">Theme</span>
+      </button>
+
+    </nav>
+
     <main class="app-container">
       {{ block "main" . }}{{ .Content }}{{ end }}
     </main>
 
-    {{/* Floating ToC — rendered OUTSIDE <main> so position:fixed works correctly */}}
+    {{/* Floating ToC — outside <main> so position:fixed works */}}
     {{ block "post_toc" . }}{{ end }}
 
-    <!-- Floating sidebar toggle — shown on post pages -->
-    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation">&#8250;</button>
-
+    <!-- Floating sidebar toggle (post pages, desktop only) -->
+    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:200;width:2.5rem;height:2.5rem;border-radius:9999px;background:var(--md-color-primary-container);color:var(--md-color-on-primary-container);border:none;box-shadow:var(--md-elev-2);font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;">&#8250;</button>
 
   </body>
 </html>

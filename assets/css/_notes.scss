@@ -1,113 +1,84 @@
-/* cache-bust: 20260724111837 */
-/* Notes-specific CSS — loaded only on /notes/ */
-/* ═══════════════════════════════════════════════════════
-   Notes stream
-   ═══════════════════════════════════════════════════════ */
+/* cache-bust: m3-001 */
+/* Notes CSS — M3 migration */
+
 .notes-stream { max-width: 720px; }
-
 .notes-stream-title {
-  font-size: 1.4rem; font-weight: 700;
-  color: var(--text-primary); margin-bottom: 0.2rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--md-color-on-surface);
+  margin-bottom: 0.25rem;
 }
-
 .notes-stream-subtitle {
-  font-size: 0.82rem; color: var(--text-muted);
-  margin-bottom: 2rem; font-family: monospace;
+  font-size: 0.875rem;
+  color: var(--md-color-on-surface-variant);
+  margin-bottom: 2rem;
 }
+.notes-empty { color: var(--md-color-on-surface-variant); font-size: 0.875rem; }
 
-.notes-empty { color: var(--text-muted); font-size: 0.9rem; }
-
+/* ── Note card — M3 Elevated Card ── */
 .note-card {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  -webkit-backdrop-filter: var(--card-blur);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
-  padding: 1.3rem 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--card-shadow);
-  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
-  animation: sam7FadeIn 0.4s ease both;
+  background: var(--md-color-surface-container-low);
+  border-radius: var(--md-shape-medium);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--md-elev-1);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s var(--md-easing-standard),
+              transform  0.2s var(--md-easing-standard);
+  animation: m3FadeIn 0.3s var(--md-easing-decel) both;
 }
-
-.note-card:hover {
-  background: rgba(240,240,240,0.90);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
-  transform: translateY(-1px);
+.note-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
+.note-card:hover { box-shadow: var(--md-elev-2); transform: translateY(-1px); }
+.note-card:hover::before { opacity: 0.04; }
 
-html[data-theme='dark'] .note-card:hover {
-  background: rgba(30,41,59,0.65);
-}
-
-.note-card-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
-.note-card-date  { font-size: 0.74rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.6rem; font-family: monospace; }
-.note-card-dot   { margin: 0 0.3rem; color: var(--text-muted); }
-.note-card-time  { font-weight: 400; color: var(--text-muted); }
-.note-card-content { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; }
+.note-card-title { font-size: 1rem; font-weight: 500; color: var(--md-color-on-surface); margin-bottom: 0.5rem; position: relative; }
+.note-card-date  { font-size: 0.75rem; font-weight: 500; color: var(--md-color-on-surface-variant); margin-bottom: 0.625rem; position: relative; }
+.note-card-dot   { margin: 0 0.3rem; }
+.note-card-time  { font-weight: 400; }
+.note-card-content { font-size: 1rem; color: var(--md-color-on-surface-variant); line-height: 1.5; position: relative; }
 .note-card-content p:first-child { margin-top: 0; }
 .note-card-content p:last-child  { margin-bottom: 0; }
 
-/* ── Mermaid diagrams — bigger, clearer, greyscale ── */
-.mermaid {
-  margin: 1.4rem 0;
-  text-align: center;
-  overflow-x: auto;
-  overflow-y: visible;
-}
-
+/* ── Mermaid ── */
+.mermaid { margin: 1.25rem 0; text-align: center; overflow-x: auto; overflow-y: visible; }
 .mermaid svg {
   max-width: 100%;
   height: auto;
   min-height: 200px;
-  border-radius: 14px;
-  background: rgba(248,248,248,0.97);
+  border-radius: var(--md-shape-medium);
+  background: var(--md-color-surface-container-low);
   padding: 1.5rem;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid var(--md-color-outline-variant);
+  box-shadow: var(--md-elev-1);
   display: block;
   margin: 0 auto;
 }
-
-html[data-theme='dark'] .mermaid svg {
-  background: rgba(28,28,28,0.97);
-  border-color: rgba(255,255,255,0.10);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.28);
-}
-
-/* Ensure mermaid text is legible */
-.mermaid svg .label,
-.mermaid svg text,
-.mermaid svg .nodeLabel {
+.mermaid svg .label, .mermaid svg text, .mermaid svg .nodeLabel {
   font-size: 15px !important;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
+.note-card-content .mermaid { margin: 1.25rem 0; }
 
-.note-card-content .mermaid { margin: 1.4rem 0; }
-
-/* ── Legacy compat ── */
-#theme-toggle {
-  background: none; border: 1px solid var(--tag-border);
-  color: var(--text-primary); padding: 8px 12px;
-  cursor: pointer; border-radius: 8px; font-size: 1em; margin-top: 10px;
-}
-.posts-list-item-title { font-weight: bold; }
-
-
-/* ═══════════════════════════════════════════════════════
-   NOTES PAGE — layout: timeline + main column
-   ═══════════════════════════════════════════════════════ */
-
+/* ── Notes layout: timeline sidebar + main column ── */
 .notes-layout {
   display: flex;
   align-items: flex-start;
-  gap: 28px;
+  gap: 24px;
   position: relative;
 }
 
-/* ── Desktop/tablet timeline sidebar ── */
+/* ── Desktop timeline sidebar — M3 Navigation Rail style ── */
 .notes-timeline {
-  width: 130px;
+  width: 120px;
   flex-shrink: 0;
   position: sticky;
   top: 16px;
@@ -116,78 +87,65 @@ html[data-theme='dark'] .mermaid svg {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
-
 .notes-timeline-label {
-  font-size: 0.62rem;
-  font-weight: 600;
+  font-size: 0.6875rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0.55;
-  margin-bottom: 10px;
-  padding-left: 2px;
+  color: var(--md-color-on-surface-variant);
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
 }
-
-.notes-timeline-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+.notes-timeline-inner { display: flex; flex-direction: column; gap: 2px; }
 
 .notes-tl-link {
   display: block;
-  font-size: 0.72rem;
-  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--md-color-on-surface-variant);
   text-decoration: none;
-  padding: 4px 8px;
-  border-radius: 6px;
-  border-left: 2px solid transparent;
-  transition: color 0.18s, border-color 0.18s, background 0.18s;
-  line-height: 1.4;
-
-  &:hover {
-    color: var(--text-primary);
-    background: var(--hover-bg);
-    border-left-color: var(--text-muted);
-  }
-
-  &.tl-active {
-    color: var(--text-primary);
-    border-left-color: var(--text-primary);
-    background: var(--hover-bg);
-    font-weight: 600;
-  }
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--md-shape-full);
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s var(--md-easing-standard),
+              background 0.2s var(--md-easing-standard);
+}
+.notes-tl-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.notes-tl-link:hover { color: var(--md-color-on-surface); }
+.notes-tl-link:hover::before { opacity: 0.08; }
+.notes-tl-link.tl-active {
+  color: var(--md-color-on-secondary-container);
+  background: var(--md-color-secondary-container);
+  font-weight: 700;
 }
 
-/* ── Mobile timeline (hidden on ≥768px) ── */
-.notes-timeline-mobile {
-  display: none;
-}
+/* ── Mobile timeline (hidden on ≥ 600px) ── */
+.notes-timeline-mobile { display: none; }
 
 /* ── Notes main column ── */
-.notes-main {
-  flex: 1;
-  min-width: 0;
-}
+.notes-main { flex: 1; min-width: 0; }
+.notes-header { margin-bottom: 1.25rem; }
+.notes-search-wrap { margin-bottom: 1.25rem; }
 
-.notes-header {
-  margin-bottom: 1.2rem;
-}
-
-.notes-search-wrap {
-  margin-bottom: 1.4rem;
-}
-
-/* ── Month divider in stream ── */
+/* ── Month divider ── */
 .note-month-divider {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0.5;
-  margin: 24px 0 8px;
-  padding-left: 2px;
+  color: var(--md-color-on-surface-variant);
+  opacity: 0.6;
+  margin: 1.5rem 0 0.5rem;
+  padding-left: 0.25rem;
   scroll-margin-top: 80px;
 }
 
@@ -196,78 +154,67 @@ html[data-theme='dark'] .mermaid svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: 0.375rem;
+  position: relative;
 }
 
-/* ── Note share button ── */
+/* ── Note share button — M3 Text Button ── */
 .note-share-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
+  gap: 0.25rem;
+  height: 32px;
+  padding: 0 0.75rem;
+  border-radius: var(--md-shape-full);
+  border: none;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.68rem;
+  color: var(--md-color-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 500;
   cursor: pointer;
-  opacity: 0.55;
-  transition: opacity 0.2s, color 0.2s, background 0.2s;
-  flex-shrink: 0;
-
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s;
   svg { flex-shrink: 0; }
-
-  &:hover {
-    opacity: 1;
-    background: var(--hover-bg);
-  }
-
-  &.share-btn-copied {
-    opacity: 1;
-    color: var(--text-primary);
-  }
 }
+.note-share-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.note-share-btn:hover::before { opacity: 0.08; }
+.note-share-btn.share-btn-copied { color: var(--md-color-on-surface); }
 
 /* ── Note cover image ── */
 .note-card-image-wrap {
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--md-shape-small);
   overflow: hidden;
-  margin-bottom: 14px;
-  background: var(--glass-bg);
+  margin-bottom: 1rem;
+  background: var(--md-color-surface-container);
 }
+.note-card-image { width: 100%; max-height: 220px; object-fit: cover; display: block; }
 
-.note-card-image {
-  width: 100%;
-  max-height: 220px;
-  object-fit: cover;
-  display: block;
-  border-radius: 10px;
+/* ── Legacy compat ── */
+#theme-toggle {
+  background: none;
+  border: 1px solid var(--md-color-outline);
+  color: var(--md-color-on-surface);
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: var(--md-shape-small);
+  font-size: 1em;
+  margin-top: 10px;
 }
+.posts-list-item-title { font-weight: bold; }
 
-
-/* ═══════════════════════════════════════════════════════
-   MOBILE overrides for new components (< 768px)
-   ═══════════════════════════════════════════════════════ */
-
-@media (max-width: 767px) {
-  /* ── Notes layout: single column, contained ── */
-  .notes-layout {
-    flex-direction: column;
-    gap: 0;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
-  .notes-main {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    overflow-x: hidden;
-  }
-
-  /* ── Mobile timeline: full-width, above notes-layout ── */
+/* ── Mobile overrides (< 600px) ── */
+@media (max-width: 599px) {
+  .notes-layout { flex-direction: column; gap: 0; width: 100%; max-width: 100%; overflow-x: hidden; }
+  .notes-main { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }
   .notes-timeline { display: none !important; }
 
   .notes-timeline-mobile {
@@ -275,68 +222,57 @@ html[data-theme='dark'] .mermaid svg {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1rem;
-    border-radius: 10px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
+    border-radius: var(--md-shape-medium);
+    background: var(--md-color-surface-container-low);
+    border: 1px solid var(--md-color-outline-variant);
     overflow: hidden;
+    box-shadow: var(--md-elev-1);
   }
-
   .notes-tl-mobile-summary {
-    padding: 10px 14px;
-    font-size: 0.78rem;
-    color: var(--text-muted);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--md-color-on-surface-variant);
     cursor: pointer;
     list-style: none;
     user-select: none;
     &::marker { display: none; }
     &::-webkit-details-marker { display: none; }
   }
-
   .notes-tl-mobile-months {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 8px;
-    padding: 8px 14px 12px;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0.75rem;
     scrollbar-width: none;
     &::-webkit-scrollbar { display: none; }
   }
-
+  /* M3 Filter Chip */
   .notes-tl-mobile-chip {
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    background: var(--card-bg);
-    color: var(--text-muted);
-    font-size: 0.72rem;
+    height: 32px;
+    padding: 0 1rem;
+    border-radius: var(--md-shape-small);
+    border: 1px solid var(--md-color-outline);
+    background: transparent;
+    color: var(--md-color-on-surface-variant);
+    font-size: 0.875rem;
+    font-weight: 500;
     text-decoration: none;
     flex-shrink: 0;
-    transition: color 0.15s, background 0.15s;
-    &:hover { color: var(--text-primary); background: var(--hover-bg); }
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    &:hover {
+      background: var(--md-color-secondary-container);
+      color: var(--md-color-on-secondary-container);
+      border-color: transparent;
+    }
   }
 
-  /* ── Note cards: full-width, no overflow ── */
-  .note-card {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  /* ── Code blocks inside notes: scrollable, never overflow ── */
+  .note-card { box-sizing: border-box; width: 100%; max-width: 100%; }
   .note-card-content pre,
-  .note-card-content .highlight {
-    max-width: 100%;
-    overflow-x: auto;
-    box-sizing: border-box;
-  }
-
-  /* ── Note images: constrained height on mobile ── */
+  .note-card-content .highlight { max-width: 100%; overflow-x: auto; box-sizing: border-box; }
   .note-card-image { max-height: 170px; }
-
-  /* ── Post cover (shared rule) ── */
-  .post-cover { max-height: 200px; }
-  .post-title  { font-size: 1.4rem; }
 }
