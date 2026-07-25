@@ -70,7 +70,7 @@
   position: relative;
 }
 .note-card-dot   { margin: 0 0.3rem; }
-.note-card-time  { font-weight: 400; }
+.note-card-time  { font-weight: var(--md-type-body-medium-weight); }
 .note-card-content {
   font-size: var(--md-type-body-large-size);
   font-weight: var(--md-type-body-large-weight);
@@ -162,7 +162,7 @@
 .notes-tl-link.tl-active {
   color: var(--md-color-on-secondary-container);
   background: var(--md-color-secondary-container);
-  font-weight: 700;
+  font-weight: var(--md-type-label-medium-weight);
 }
 
 /* ── Mobile timeline (hidden on ≥ 600px) ── */

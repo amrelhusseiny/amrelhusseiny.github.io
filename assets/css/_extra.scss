@@ -181,6 +181,23 @@ body {
               color      0.3s var(--md-easing-standard);
 }
 
+
+/* ── Global heading reset: neutralise m10c colour + weight leaks ── */
+body:not(.cv-page) h1,
+body:not(.cv-page) h2,
+body:not(.cv-page) h3,
+body:not(.cv-page) h4,
+body:not(.cv-page) h5,
+body:not(.cv-page) h6 {
+  color: var(--md-color-on-surface);
+  font-weight: 400;
+}
+
+/* ── Global link hover: neutralise m10c a:hover { color:#242930 } ── */
+body:not(.cv-page) a:hover {
+  color: inherit;
+}
+
 /* ── M3 Skip link (accessibility) ── */
 .m3-skip-link {
   position: absolute;
@@ -828,8 +845,8 @@ body:not(.cv-page) .app-container > article:not(.post) {
    ================================================================ */
 .post-content a,
 .note-card-content a,
-body:not(.cv-page) .app-container article a,
-body:not(.cv-page) .app-container .post a {
+body:not(.cv-page) .app-container article a:not(.post-card),
+body:not(.cv-page) .app-container .post a:not(.post-card) {
   color: var(--md-color-on-surface) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--md-color-outline-variant) !important;
@@ -839,11 +856,11 @@ body:not(.cv-page) .app-container .post a {
 }
 .post-content a:hover,
 .note-card-content a:hover,
-body:not(.cv-page) .app-container article a:hover,
-body:not(.cv-page) .app-container .post a:hover {
+body:not(.cv-page) .app-container article a:not(.post-card):hover,
+body:not(.cv-page) .app-container .post a:not(.post-card):hover {
   text-decoration-color: var(--md-color-primary) !important;
 }
-.post-card, .post-card-tag, .post-tag-link, .post-footer a,
+.post-card-tag, .post-tag-link, .post-footer a,
 .post-footer-tags a { text-decoration: none !important; }
 
 /* ================================================================
@@ -973,7 +990,7 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
   .ptoc-label {
     font-size: var(--md-type-label-small-size);
     font-weight: var(--md-type-label-small-weight);
-    letter-spacing: 0.08em;
+    letter-spacing: var(--md-type-label-small-tracking);
     text-transform: uppercase;
     color: var(--md-color-on-surface-variant);
     opacity: 0.7;
@@ -1000,8 +1017,8 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     white-space: nowrap;
   }
   #post-toc-float nav#TableOfContents a:hover { color: var(--md-color-on-surface) !important; background: var(--md-color-surface-container-high); }
-  #post-toc-float nav#TableOfContents a.ptoc-active { color: var(--md-color-on-primary-container) !important; font-weight: 600; background: var(--md-color-primary-container); }
-  #post-toc-float nav#TableOfContents ul ul a { font-size: 0.6875rem; opacity: 0.85; }
+  #post-toc-float nav#TableOfContents a.ptoc-active { color: var(--md-color-on-primary-container) !important; font-weight: 700; background: var(--md-color-primary-container); }
+  #post-toc-float nav#TableOfContents ul ul a { font-size: var(--md-type-label-small-size); opacity: 0.85; }
 }
 
 @media (min-width: 1600px) { #post-toc-float { right: 2rem; width: 15rem; } }
@@ -1020,7 +1037,14 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
 }
 .post-title { color: var(--md-color-on-surface); }
 .app-container { animation: m3FadeIn 0.28s var(--md-easing-decel) both; }
-.post img, article img, .post-content img { max-width: 100%; height: auto; border-radius: var(--md-shape-small); }
+.post img, article img, .post-content img, .note-card-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--md-shape-small);
+  margin-left: auto;
+  margin-right: auto;
+}
 .mermaid { overflow-x: auto; }
 .mermaid svg { min-width: 320px; }
 

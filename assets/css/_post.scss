@@ -215,7 +215,7 @@
 
 @media (max-width: 599px) {
   .post-cover { max-height: 200px; }
-  .post-title  { font-size: 1.5rem; }
+  .post-title  { font-size: var(--md-type-headline-small-size); }
   .post-content > pre,
   .post .post-content > pre { padding: 1rem !important; }
 }
