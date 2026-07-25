@@ -744,6 +744,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   grid-template-columns: 1fr;
   gap: 1rem;
   padding: 0;
+  max-width: 720px;
 }
 @media (min-width: 840px) { .post-cards { grid-template-columns: 1fr 1fr; } }
 
