@@ -28,7 +28,7 @@
           </div>
           {{ with .Params.tags }}
           <div class="post-card-tags">
-            {{ range . }}<a class="post-tag-link" href="/tags/{{ . | urlize }}/">#{{ . }}</a>{{ end }}
+            {{ range . }}<span class="post-card-tag">#{{ . }}</span>{{ end }}
           </div>
           {{ end }}
         </a>

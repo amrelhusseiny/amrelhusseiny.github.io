@@ -909,8 +909,8 @@ body:not(.cv-page) .app-container > article.about-page {
    ================================================================ */
 .post-content a,
 .note-card-content a,
-body:not(.cv-page) .app-container article a:not(.post-card),
-body:not(.cv-page) .app-container .post a:not(.post-card) {
+body:not(.cv-page) .app-container article a:not(.post-card):not(.post-tag-link):not(.post-card-tag),
+body:not(.cv-page) .app-container .post a:not(.post-card):not(.post-tag-link):not(.post-card-tag) {
   color: var(--md-color-on-surface) !important;
   text-decoration: underline !important;
   text-decoration-color: var(--md-color-outline-variant) !important;
@@ -920,8 +920,8 @@ body:not(.cv-page) .app-container .post a:not(.post-card) {
 }
 .post-content a:hover,
 .note-card-content a:hover,
-body:not(.cv-page) .app-container article a:not(.post-card):hover,
-body:not(.cv-page) .app-container .post a:not(.post-card):hover {
+body:not(.cv-page) .app-container article a:not(.post-card):not(.post-tag-link):not(.post-card-tag):hover,
+body:not(.cv-page) .app-container .post a:not(.post-card):not(.post-tag-link):not(.post-card-tag):hover {
   text-decoration-color: var(--md-color-primary) !important;
 }
 .post-card-tag, .post-tag-link, .post-footer a,
@@ -1114,13 +1114,14 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
 }
 .post-title { color: var(--md-color-on-surface); }
 .app-container { animation: m3FadeIn var(--md-duration-medium1) var(--md-easing-decel) both; }
-.post img, article img, .post-content img, .note-card-content img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--md-shape-small);
-  margin-left: auto;
-  margin-right: auto;
+.post img, article img, .post-content img, .note-card-content img,
+.post-content picture img, .note-card-content picture img, article picture img {
+  display: block !important;
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: var(--md-shape-small) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 .mermaid { overflow-x: auto; }
 .mermaid svg { min-width: 320px; }
