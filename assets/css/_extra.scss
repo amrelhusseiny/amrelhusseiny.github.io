@@ -1,316 +1,6 @@
-/* ═══════════════════════════════════════════════════════
-   Amro's Blog — Material Design 3
-   Neutral greyscale palette · M3 motion · No glassmorphism
-   ═══════════════════════════════════════════════════════ */
+/* Sidebar tag chips removed — filter chips belong in content area, not nav drawer (M3 spec) */
 
-/* ── M3 Shape tokens ── */
-:root {
-  --md-shape-full:        9999px;
-  --md-shape-xl:          28px;
-  --md-shape-large:       16px;
-  --md-shape-medium:      12px;
-  --md-shape-small:       8px;
-  --md-shape-xs:          4px;
-
-  /* ── M3 Motion tokens ── */
-  --md-easing-standard:   cubic-bezier(0.2, 0, 0, 1);
-  --md-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
-  --md-easing-decel:      cubic-bezier(0.05, 0.7, 0.1, 1);
-  --md-easing-accel:      cubic-bezier(0.3, 0, 0.8, 0.15);
-
-  /* ── M3 Colour roles — Light scheme (neutral/greyscale) ── */
-  --md-color-background:              #F9F9F9;
-  --md-color-surface:                 #F9F9F9;
-  --md-color-surface-container-low:   #F3F3F3;
-  --md-color-surface-container:       #EDEDED;
-  --md-color-surface-container-high:  #E7E7E7;
-  --md-color-surface-variant:         #E0E0E0;
-  --md-color-on-surface:              #1A1A1A;
-  --md-color-on-surface-variant:      #4A4A4A;
-  --md-color-outline:                 #767676;
-  --md-color-outline-variant:         #C4C4C4;
-  --md-color-primary:                 #1A1A1A;
-  --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #E8E8E8;
-  --md-color-on-primary-container:    #1A1A1A;
-  --md-color-secondary-container:     #E0E0E0;
-  --md-color-on-secondary-container:  #1A1A1A;
-  --md-color-inverse-surface:         #2E2E2E;
-  --md-color-inverse-on-surface:      #F0F0F0;
-  --md-color-scrim:                   rgba(0,0,0,0.32);
-
-  /* ── Elevation shadows (M3 tonal via box-shadow as secondary signal) ── */
-  --md-elev-1: 0 1px 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
-  --md-elev-2: 0 1px 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.10);
-  --md-elev-3: 0 2px 6px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.12);
-}
-
-/* ── Dark scheme ── */
-html[data-theme='dark'] {
-  --md-color-background:              #141414;
-  --md-color-surface:                 #141414;
-  --md-color-surface-container-low:   #1C1C1C;
-  --md-color-surface-container:       #222222;
-  --md-color-surface-container-high:  #2A2A2A;
-  --md-color-surface-variant:         #333333;
-  --md-color-on-surface:              #F0F0F0;
-  --md-color-on-surface-variant:      #AAAAAA;
-  --md-color-outline:                 #767676;
-  --md-color-outline-variant:         #3A3A3A;
-  --md-color-primary:                 #F0F0F0;
-  --md-color-on-primary:              #1A1A1A;
-  --md-color-primary-container:       #2A2A2A;
-  --md-color-on-primary-container:    #F0F0F0;
-  --md-color-secondary-container:     #333333;
-  --md-color-on-secondary-container:  #F0F0F0;
-  --md-color-inverse-surface:         #E6E6E6;
-  --md-color-inverse-on-surface:      #2E2E2E;
-  --md-color-scrim:                   rgba(0,0,0,0.60);
-}
-
-/* ── Scroll offset for sticky nav bar on mobile ── */
-html { scroll-padding-top: 16px; scroll-padding-bottom: 88px; }
-
-/* ── Body — flat M3 surface, no image, no blur ── */
-body {
-  background: var(--md-color-background);
-  color: var(--md-color-on-surface);
-  margin: 0;
-  transition: background 0.3s var(--md-easing-standard),
-              color      0.3s var(--md-easing-standard);
-}
-
-/* Page-load fade */
-@keyframes m3FadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── View transitions (page-to-page morph, Chrome/Firefox) ── */
-@view-transition { navigation: auto; }
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 250ms;
-  animation-timing-function: var(--md-easing-emphasized);
-}
-
-
-/* ═══════════════════════════════════════════════════════
-   NAVIGATION DRAWER — M3 spec (desktop ≥ 600px)
-   surface bg · 0 16px 16px 0 end-corner · 360px wide
-   ═══════════════════════════════════════════════════════ */
-body:not(.cv-page) .app-header {
-  background: var(--md-color-surface) !important;
-  border: none !important;
-  border-right: 1px solid var(--md-color-outline-variant) !important;
-  border-radius: 0 var(--md-shape-large) var(--md-shape-large) 0 !important;
-  box-shadow: var(--md-elev-1) !important;
-  top: 0 !important;
-  left: 0 !important;
-  height: 100vh !important;
-  min-height: 100vh !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  padding: 2rem 1rem !important;
-  box-sizing: border-box !important;
-  transition: transform 250ms var(--md-easing-decel),
-              opacity   200ms var(--md-easing-standard) !important;
-  will-change: transform, opacity;
-  scrollbar-width: none;
-  position: fixed !important;
-}
-body:not(.cv-page) .app-header::-webkit-scrollbar { display: none; }
-
-/* Hidden state — slides left */
-.app-header.sidebar-hidden {
-  transform: translateX(calc(-100% - 2px)) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-/* ── M3 Drawer Header — Headline Small ── */
-.m3-drawer-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  padding: 1rem 1rem 0.75rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--md-color-outline-variant);
-}
-.m3-drawer-headline {
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 2rem;
-  color: var(--md-color-on-surface);
-  text-decoration: none;
-  letter-spacing: 0;
-  transition: color 0.2s var(--md-easing-standard);
-}
-.m3-drawer-headline:hover { color: var(--md-color-on-surface-variant); }
-.m3-drawer-tagline {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--md-color-on-surface-variant);
-  text-transform: none;
-}
-
-/* Drawer description */
-body:not(.cv-page) .app-header p {
-  font-size: 0.875rem;
-  color: var(--md-color-on-surface-variant);
-  line-height: 1.5;
-  margin: 0 0 1rem;
-  padding: 0 0.5rem;
-}
-
-/* ── M3 Drawer nav item ── */
-.sidebar-blog-link,
-.sidebar-notes-link,
-.sidebar-about-link,
-.sidebar-cv-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-color-on-surface-variant);
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 56px;
-  border-radius: var(--md-shape-full);
-  margin: 0 0 0.125rem;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard);
-}
-/* State layer */
-.sidebar-blog-link::before,
-.sidebar-notes-link::before,
-.sidebar-about-link::before,
-.sidebar-cv-link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.sidebar-blog-link:hover::before,
-.sidebar-notes-link:hover::before,
-.sidebar-about-link:hover::before,
-.sidebar-cv-link:hover::before { opacity: 0.08; }
-.sidebar-blog-link:active::before,
-.sidebar-notes-link:active::before,
-.sidebar-about-link:active::before,
-.sidebar-cv-link:active::before { opacity: 0.12; }
-
-/* Active indicator — secondary-container pill background */
-.sidebar-blog-link.nav-active,
-.sidebar-notes-link.nav-active,
-.sidebar-about-link.nav-active,
-.sidebar-cv-link.nav-active {
-  background: var(--md-color-secondary-container);
-  color: var(--md-color-on-secondary-container);
-  font-weight: 700;
-}
-
-/* Divider */
-.sidebar-section-divider {
-  height: 1px;
-  background: var(--md-color-outline-variant);
-  margin: 0.5rem 1rem;
-}
-
-/* ── Drawer tag chips (M3 Filter Chip) ── */
-.sidebar-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0.5rem 0.5rem 1rem;
-}
-.sidebar-tag {
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0 1rem;
-  height: 32px;
-  border-radius: var(--md-shape-small);
-  border: 1px solid var(--md-color-outline);
-  background: transparent;
-  color: var(--md-color-on-surface-variant);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.2s var(--md-easing-standard),
-              color     0.2s var(--md-easing-standard),
-              border-color 0.2s var(--md-easing-standard);
-}
-.sidebar-tag::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.sidebar-tag:hover::before { opacity: 0.08; }
-.sidebar-tag.tag-active,
-.sidebar-tag:hover {
-  background: var(--md-color-secondary-container);
-  color: var(--md-color-on-secondary-container);
-  border-color: transparent;
-}
-
-/* ── Drawer controls (theme toggle) ── */
-.sidebar-controls {
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--md-color-outline-variant);
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.sidebar-ctrl-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  height: 56px;
-  padding: 0 1rem;
-  border-radius: var(--md-shape-full);
-  border: none;
-  background: transparent;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-color-on-surface-variant);
-  cursor: pointer;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard);
-}
-.sidebar-ctrl-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.sidebar-ctrl-btn:hover::before { opacity: 0.08; }
-.sidebar-ctrl-badge {
-  margin-left: auto;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--md-color-on-surface-variant);
-  opacity: 0.6;
-  text-transform: uppercase;
-}
+/* .sidebar-controls / .sidebar-ctrl-btn moved to .m3-drawer-footer-item */
 
 /* Social icons */
 .app-header-social { padding: 0.5rem; }
@@ -591,9 +281,9 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 
 /* Card typography — M3 scale */
 .post-card-title {
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: 1.375rem;    /* title-large per M3 card spec */
+  font-weight: 400;
+  line-height: 1.75rem;
   color: var(--md-color-on-surface);
   margin-bottom: 0.375rem;
   position: relative;
@@ -1121,5 +811,168 @@ code, pre {
   color: var(--md-color-on-surface) !important;
   border: 1px solid var(--md-color-outline-variant) !important;
   line-height: 1 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   M3 SPEC ALIGNMENT — drawer, typography, Roboto
+   ═══════════════════════════════════════════════════════ */
+
+/* ── M3 typeface reference tokens ── */
+:root {
+  --md-ref-typeface-brand:          'Roboto', sans-serif;
+  --md-ref-typeface-plain:          'Roboto', sans-serif;
+  --md-ref-typeface-weight-regular: 400;
+  --md-ref-typeface-weight-medium:  500;
+  --md-ref-typeface-weight-bold:    700;
+}
+
+/* ── Roboto as the global UI font — applies everywhere except code ── */
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+/* ── Drawer container width: 360px per M3 spec (was 20rem = 320px) ── */
+body:not(.cv-page) .app-header {
+  width: 360px !important;
+}
+@media (min-width: 600px) and (max-width: 1024px) {
+  body:not(.cv-page) .app-header {
+    width: 260px !important;
+  }
+  body:not(.cv-page) .app-container {
+    margin-left: 260px !important;
+  }
+}
+@media (min-width: 1025px) {
+  body:not(.cv-page) .app-container {
+    margin-left: 360px !important;
+  }
+}
+
+/* ── M3 active indicator: 336px wide × 56px tall, corner-full ── */
+/* Our nav items already use height:56px + corner-full.
+   Add max-width:336px so the pill is constrained per spec. */
+.sidebar-blog-link,
+.sidebar-notes-link,
+.sidebar-about-link,
+.sidebar-cv-link {
+  max-width: 336px !important;
+}
+
+/* ── M3 Drawer section headline label (title-small typescale) ── */
+.m3-drawer-section-label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;           /* title-small */
+  font-weight: 500;
+  line-height: 1.25rem;
+  letter-spacing: 0.00625rem;
+  color: var(--md-color-on-surface-variant);
+  padding: 1rem 1.75rem 0.25rem; /* 16px 28px per M3 layout grid */
+  margin: 0;
+}
+
+/* ── M3 Drawer footer ── */
+.m3-drawer-footer {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.m3-drawer-divider {
+  height: 1px;
+  background: var(--md-color-outline-variant);
+  margin: 0.5rem 1rem;
+}
+
+/* Theme toggle as M3 drawer nav item (same height/shape as nav links) */
+.m3-drawer-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 336px;
+  height: 56px;
+  padding: 0 1rem;
+  border-radius: var(--md-shape-full);
+  border: none;
+  background: transparent;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;           /* label-large */
+  font-weight: 500;
+  line-height: 1.25rem;
+  letter-spacing: 0.00625rem;
+  color: var(--md-color-on-surface-variant);
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s var(--md-easing-standard);
+}
+.m3-drawer-footer-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.m3-drawer-footer-item:hover::before { opacity: 0.08; }
+.m3-drawer-footer-item:active::before { opacity: 0.12; }
+.m3-drawer-footer-icon {
+  font-size: 1.25rem;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Social icon buttons in drawer footer — M3 Icon Button pattern */
+.m3-drawer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem 1rem;
+}
+.m3-drawer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-full);
+  color: var(--md-color-on-surface-variant);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s var(--md-easing-standard);
+}
+.m3-drawer-social-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.m3-drawer-social-btn:hover { color: var(--md-color-on-surface); }
+.m3-drawer-social-btn:hover::before { opacity: 0.08; }
+.m3-drawer-social-btn svg,
+.m3-drawer-social-btn .icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Drawer flex layout: header → nav → footer (footer sticks to bottom) */
+body:not(.cv-page) .app-header {
+  display: flex !important;
+  flex-direction: column !important;
+}
+body:not(.cv-page) .app-header .app-header-menu {
+  flex: 1;
 }
 
