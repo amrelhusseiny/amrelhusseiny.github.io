@@ -1,7 +1,7 @@
-/* ═══════════════════════════════════════════════════════
-   Amro's Blog — Material Design 3
-   Neutral greyscale palette · M3 motion · No glassmorphism
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   Amro's Blog -- Material Design 3 -- 100% spec compliance
+   Claude colour palette * Inter * M3 typescale * M3 layout
+   ================================================================ */
 
 /* ── M3 Shape tokens ── */
 :root {
@@ -18,7 +18,88 @@
   --md-easing-decel:      cubic-bezier(0.05, 0.7, 0.1, 1);
   --md-easing-accel:      cubic-bezier(0.3, 0, 0.8, 0.15);
 
-  /* ── Claude colour palette — Light scheme ── */
+  /* ── M3 Typescale tokens (exact spec values) ── */
+  /* Display */
+  --md-type-display-large-size:        3.5625rem;
+  --md-type-display-large-line-height: 4rem;
+  --md-type-display-large-weight:      400;
+  --md-type-display-large-tracking:    -0.016em;
+
+  --md-type-display-medium-size:        2.8125rem;
+  --md-type-display-medium-line-height: 3.25rem;
+  --md-type-display-medium-weight:      400;
+  --md-type-display-medium-tracking:    0;
+
+  --md-type-display-small-size:        2.25rem;
+  --md-type-display-small-line-height: 2.75rem;
+  --md-type-display-small-weight:      400;
+  --md-type-display-small-tracking:    0;
+
+  /* Headline */
+  --md-type-headline-large-size:        2rem;
+  --md-type-headline-large-line-height: 2.5rem;
+  --md-type-headline-large-weight:      400;
+  --md-type-headline-large-tracking:    0;
+
+  --md-type-headline-medium-size:        1.75rem;
+  --md-type-headline-medium-line-height: 2.25rem;
+  --md-type-headline-medium-weight:      400;
+  --md-type-headline-medium-tracking:    0;
+
+  --md-type-headline-small-size:        1.5rem;
+  --md-type-headline-small-line-height: 2rem;
+  --md-type-headline-small-weight:      400;
+  --md-type-headline-small-tracking:    0;
+
+  /* Title */
+  --md-type-title-large-size:        1.375rem;
+  --md-type-title-large-line-height: 1.75rem;
+  --md-type-title-large-weight:      400;
+  --md-type-title-large-tracking:    0;
+
+  --md-type-title-medium-size:        1rem;
+  --md-type-title-medium-line-height: 1.5rem;
+  --md-type-title-medium-weight:      500;
+  --md-type-title-medium-tracking:    0.009em;
+
+  --md-type-title-small-size:        0.875rem;
+  --md-type-title-small-line-height: 1.25rem;
+  --md-type-title-small-weight:      500;
+  --md-type-title-small-tracking:    0.006em;
+
+  /* Body */
+  --md-type-body-large-size:        1rem;
+  --md-type-body-large-line-height: 1.5rem;
+  --md-type-body-large-weight:      400;
+  --md-type-body-large-tracking:    0.031em;
+
+  --md-type-body-medium-size:        0.875rem;
+  --md-type-body-medium-line-height: 1.25rem;
+  --md-type-body-medium-weight:      400;
+  --md-type-body-medium-tracking:    0.016em;
+
+  --md-type-body-small-size:        0.75rem;
+  --md-type-body-small-line-height: 1rem;
+  --md-type-body-small-weight:      400;
+  --md-type-body-small-tracking:    0.025em;
+
+  /* Label */
+  --md-type-label-large-size:        0.875rem;
+  --md-type-label-large-line-height: 1.25rem;
+  --md-type-label-large-weight:      500;
+  --md-type-label-large-tracking:    0.006em;
+
+  --md-type-label-medium-size:        0.75rem;
+  --md-type-label-medium-line-height: 1rem;
+  --md-type-label-medium-weight:      500;
+  --md-type-label-medium-tracking:    0.031em;
+
+  --md-type-label-small-size:        0.6875rem;
+  --md-type-label-small-line-height: 1rem;
+  --md-type-label-small-weight:      500;
+  --md-type-label-small-tracking:    0.031em;
+
+  /* ── Claude colour palette -- Light scheme ── */
   --md-color-background:              #F9F9F7;
   --md-color-surface:                 #F9F9F7;
   --md-color-surface-container-low:   #F3F3F0;
@@ -29,23 +110,34 @@
   --md-color-on-surface-variant:      #6D6B67;
   --md-color-outline:                 #A5A49A;
   --md-color-outline-variant:         #E1E0D9;
+
+  /* Primary: clay orange -- used ONLY on filled containers, not as text */
   --md-color-primary:                 #D97757;
   --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #F0EFEC;
-  --md-color-on-primary-container:    #0B0B0B;
-  --md-color-secondary-container:     #F3F3F0;
-  --md-color-on-secondary-container:  #0B0B0B;
+  --md-color-primary-container:       #FDEEE7;
+  --md-color-on-primary-container:    #3D1A0A;
+
+  /* Secondary: warm grey -- active nav indicators */
+  --md-color-secondary-container:     #E8E6DF;
+  --md-color-on-secondary-container:  #1A1917;
+
+  /* Error role */
+  --md-color-error:                   #B3261E;
+  --md-color-on-error:                #FFFFFF;
+  --md-color-error-container:         #F9DEDC;
+  --md-color-on-error-container:      #410E0B;
+
   --md-color-inverse-surface:         #2C2C2A;
   --md-color-inverse-on-surface:      #F9F9F7;
   --md-color-scrim:                   rgba(0,0,0,0.32);
 
-  /* ── Elevation shadows ── */
+  /* ── Elevation ── */
   --md-elev-1: 0 1px 2px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
   --md-elev-2: 0 1px 4px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.08);
   --md-elev-3: 0 2px 6px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.10);
 }
 
-/* ── Claude colour palette — Dark scheme ── */
+/* ── Dark scheme ── */
 html[data-theme='dark'] {
   --md-color-background:              #131313;
   --md-color-surface:                 #131313;
@@ -59,25 +151,65 @@ html[data-theme='dark'] {
   --md-color-outline-variant:         #2C2C2A;
   --md-color-primary:                 #D97757;
   --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #2C2C2A;
-  --md-color-on-primary-container:    #F9F9F7;
-  --md-color-secondary-container:     #2C2C2A;
+  --md-color-primary-container:       #5C3020;
+  --md-color-on-primary-container:    #FDEEE7;
+  --md-color-secondary-container:     #383835;
   --md-color-on-secondary-container:  #F9F9F7;
+  --md-color-error:                   #F2B8B5;
+  --md-color-on-error:                #601410;
+  --md-color-error-container:         #8C1D18;
+  --md-color-on-error-container:      #F9DEDC;
   --md-color-inverse-surface:         #E1E0D9;
   --md-color-inverse-on-surface:      #20201F;
   --md-color-scrim:                   rgba(0,0,0,0.60);
 }
 
-/* ── Scroll offset for sticky nav bar on mobile ── */
+/* ── Scroll offsets ── */
 html { scroll-padding-top: 16px; scroll-padding-bottom: 88px; }
 
-/* ── Body — flat M3 surface, no image, no blur ── */
+/* ── Body ── */
 body {
   background: var(--md-color-background);
   color: var(--md-color-on-surface);
   margin: 0;
+  font-family: Inter, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: var(--md-type-body-large-size);
+  line-height: var(--md-type-body-large-line-height);
+  font-weight: var(--md-type-body-large-weight);
+  letter-spacing: var(--md-type-body-large-tracking);
   transition: background 0.3s var(--md-easing-standard),
               color      0.3s var(--md-easing-standard);
+}
+
+/* ── M3 Skip link (accessibility) ── */
+.m3-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
+  padding: 0.5rem 1rem;
+  border-radius: var(--md-shape-small);
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  text-decoration: none;
+  transition: top 0.15s;
+}
+.m3-skip-link:focus { top: 1rem; }
+
+/* ── Global focus-visible: M3 spec -- 3px outline, primary colour ── */
+:focus-visible {
+  outline: 3px solid var(--md-color-primary) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--md-shape-xs);
+}
+/* Suppress for mouse users */
+:focus:not(:focus-visible) { outline: none !important; }
+
+/* ── JetBrains Mono for code ── */
+code, pre, kbd, samp, .highlight, .chroma {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace !important;
 }
 
 /* Page-load fade */
@@ -86,86 +218,70 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── View transitions (page-to-page morph, Chrome/Firefox) ── */
 @view-transition { navigation: auto; }
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 250ms;
   animation-timing-function: var(--md-easing-emphasized);
 }
 
-
-/* ═══════════════════════════════════════════════════════
-   NAVIGATION DRAWER — M3 spec (desktop ≥ 600px)
-   surface bg · 0 16px 16px 0 end-corner · 360px wide
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   NAVIGATION DRAWER -- M3 spec (desktop >= 840px)
+   360px wide * surface bg * 0 16px 16px 0 corner
+   ================================================================ */
 body:not(.cv-page) .app-header {
   background: var(--md-color-surface) !important;
   border: none !important;
   border-right: 1px solid var(--md-color-outline-variant) !important;
   border-radius: 0 var(--md-shape-large) var(--md-shape-large) 0 !important;
   box-shadow: var(--md-elev-1) !important;
+  position: fixed !important;
   top: 0 !important;
   left: 0 !important;
+  width: 360px !important;
   height: 100vh !important;
-  min-height: 100vh !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: 2rem 1rem !important;
+  padding: 0.5rem 0 !important;
   box-sizing: border-box !important;
-  transition: transform 250ms var(--md-easing-decel),
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 250ms var(--md-easing-standard),
               opacity   200ms var(--md-easing-standard) !important;
   will-change: transform, opacity;
   scrollbar-width: none;
-  position: fixed !important;
+  z-index: 100;
 }
 body:not(.cv-page) .app-header::-webkit-scrollbar { display: none; }
 
-/* Hidden state — slides left */
 .app-header.sidebar-hidden {
   transform: translateX(calc(-100% - 2px)) !important;
   opacity: 0 !important;
   pointer-events: none !important;
 }
 
-/* ── M3 Drawer Header — Headline Small ── */
+/* Drawer Header -- Headline Small typescale */
 .m3-drawer-header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  padding: 1rem 1rem 0.75rem;
-  margin-bottom: 0.5rem;
+  padding: 1.5rem 1rem 0.5rem;
+  margin-bottom: 0.25rem;
   border-bottom: 1px solid var(--md-color-outline-variant);
 }
 .m3-drawer-headline {
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 2rem;
+  font-size: var(--md-type-headline-small-size);
+  font-weight: var(--md-type-headline-small-weight);
+  line-height: var(--md-type-headline-small-line-height);
+  letter-spacing: var(--md-type-headline-small-tracking);
   color: var(--md-color-on-surface);
   text-decoration: none;
-  letter-spacing: 0;
+  display: block;
   transition: color 0.2s var(--md-easing-standard);
 }
 .m3-drawer-headline:hover { color: var(--md-color-on-surface-variant); }
-.m3-drawer-tagline {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--md-color-on-surface-variant);
-  text-transform: none;
-}
 
-/* Drawer description */
-body:not(.cv-page) .app-header p {
-  font-size: 0.875rem;
-  color: var(--md-color-on-surface-variant);
-  line-height: 1.5;
-  margin: 0 0 1rem;
-  padding: 0 0.5rem;
-}
+/* Drawer nav takes flex space so footer sticks to bottom */
+.app-header-menu { flex: 1; padding-top: 0.5rem; }
 
-/* ── M3 Drawer nav item ── */
+/* M3 Drawer nav item -- Label Large typescale */
 .sidebar-blog-link,
 .sidebar-notes-link,
 .sidebar-about-link,
@@ -173,19 +289,21 @@ body:not(.cv-page) .app-header p {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  line-height: var(--md-type-label-large-line-height);
+  letter-spacing: var(--md-type-label-large-tracking);
   color: var(--md-color-on-surface-variant);
   text-decoration: none;
   padding: 0 1rem;
   height: 56px;
+  max-width: 336px;
   border-radius: var(--md-shape-full);
-  margin: 0 0 0.125rem;
+  margin: 0 0.5rem 0.25rem;
   position: relative;
   overflow: hidden;
   transition: color 0.2s var(--md-easing-standard);
 }
-/* State layer */
 .sidebar-blog-link::before,
 .sidebar-notes-link::before,
 .sidebar-about-link::before,
@@ -207,85 +325,52 @@ body:not(.cv-page) .app-header p {
 .sidebar-about-link:active::before,
 .sidebar-cv-link:active::before { opacity: 0.12; }
 
-/* Active indicator — secondary-container pill background */
+/* Active: primary-container + on-primary-container per M3 spec */
 .sidebar-blog-link.nav-active,
 .sidebar-notes-link.nav-active,
 .sidebar-about-link.nav-active,
 .sidebar-cv-link.nav-active {
-  background: var(--md-color-secondary-container);
-  color: var(--md-color-on-secondary-container);
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
   font-weight: 700;
 }
 
-/* Divider */
+/* Section label -- Title Small typescale */
+.m3-drawer-section-label {
+  font-size: var(--md-type-title-small-size);
+  font-weight: var(--md-type-title-small-weight);
+  line-height: var(--md-type-title-small-line-height);
+  letter-spacing: var(--md-type-title-small-tracking);
+  color: var(--md-color-on-surface-variant);
+  padding: 1rem 1.75rem 0.5rem;
+}
+
 .sidebar-section-divider {
   height: 1px;
   background: var(--md-color-outline-variant);
   margin: 0.5rem 1rem;
 }
 
-/* ── Drawer tag chips (M3 Filter Chip) ── */
-.sidebar-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0.5rem 0.5rem 1rem;
-}
-.sidebar-tag {
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0 1rem;
-  height: 32px;
-  border-radius: var(--md-shape-small);
-  border: 1px solid var(--md-color-outline);
-  background: transparent;
-  color: var(--md-color-on-surface-variant);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.2s var(--md-easing-standard),
-              color     0.2s var(--md-easing-standard),
-              border-color 0.2s var(--md-easing-standard);
-}
-.sidebar-tag::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.sidebar-tag:hover::before { opacity: 0.08; }
-.sidebar-tag.tag-active,
-.sidebar-tag:hover {
-  background: var(--md-color-secondary-container);
-  color: var(--md-color-on-secondary-container);
-  border-color: transparent;
-}
+/* Drawer footer */
+.m3-drawer-footer { margin-top: auto; padding-bottom: 0.5rem; }
 
-/* ── Drawer controls (theme toggle) ── */
-.sidebar-controls {
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--md-color-outline-variant);
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+/* Theme toggle -- Label Large typescale, M3 nav item height */
 .sidebar-ctrl-btn {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  width: 100%;
+  width: calc(100% - 1rem);
+  max-width: 336px;
   height: 56px;
   padding: 0 1rem;
+  margin: 0 0.5rem;
   border-radius: var(--md-shape-full);
   border: none;
   background: transparent;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-family: inherit;
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  letter-spacing: var(--md-type-label-large-tracking);
   color: var(--md-color-on-surface-variant);
   cursor: pointer;
   text-align: left;
@@ -302,32 +387,62 @@ body:not(.cv-page) .app-header p {
   transition: opacity 0.2s var(--md-easing-standard);
 }
 .sidebar-ctrl-btn:hover::before { opacity: 0.08; }
-.sidebar-ctrl-badge {
-  margin-left: auto;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--md-color-on-surface-variant);
-  opacity: 0.6;
-  text-transform: uppercase;
-}
+.sidebar-ctrl-badge { display: none !important; }
 
-/* Social icons */
-.app-header-social { padding: 0.5rem; }
-.app-header-social a {
+/* Social icon buttons in drawer footer */
+.m3-drawer-social {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem 1rem 0.75rem;
+}
+.m3-drawer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-full);
   color: var(--md-color-on-surface-variant);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
   transition: color 0.2s var(--md-easing-standard);
 }
-.app-header-social a:hover { color: var(--md-color-on-surface); }
+.m3-drawer-social-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.m3-drawer-social-btn:hover::before { opacity: 0.08; }
+.m3-drawer-social-btn svg { width: 20px; height: 20px; position: relative; z-index: 1; }
 
+/* Override m10c social leak */
+.app-header-social { font-size: 1rem !important; color: var(--md-color-on-surface-variant) !important; padding: 0 !important; }
+.app-header-social a { font-size: 1rem !important; color: var(--md-color-on-surface-variant) !important; }
+.m3-drawer-tagline { display: none !important; }
 
-/* ═══════════════════════════════════════════════════════
+/* ================================================================
+   NAVIGATION RAIL -- M3 spec (tablet 600-839px)
+   80px wide * surface bg * icon + label * persistent
+   ================================================================ */
+#nav-rail { display: none; }
+
+/* ================================================================
+   MOBILE BOTTOM NAVIGATION BAR -- M3 spec (< 600px)
+   ================================================================ */
+#mobile-nav-bar { display: none; }
+
+/* ================================================================
    CONTENT AREA
-   ═══════════════════════════════════════════════════════ */
+   ================================================================ */
 body:not(.cv-page) .app-container {
-  min-height: 100vh !important;
+  min-height: 100vh;
   box-sizing: border-box;
-  background: transparent !important;
+  background: transparent;
   position: relative;
   z-index: 2;
   transition: margin 250ms var(--md-easing-decel);
@@ -340,7 +455,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 
 /* ── Floating sidebar toggle (post pages, desktop) ── */
 #sidebar-float-btn {
-  position: fixed;
+  position: fixed !important;
   bottom: 1.5rem;
   left: 1.5rem;
   z-index: 200;
@@ -356,33 +471,31 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   display: none;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   transition: box-shadow 0.2s var(--md-easing-standard),
               transform  0.2s var(--md-easing-standard);
-  overflow: hidden;
-  position: relative;
 }
 #sidebar-float-btn::before {
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: var(--md-color-on-surface);
   opacity: 0;
   transition: opacity 0.2s;
-  border-radius: inherit;
 }
 #sidebar-float-btn:hover { box-shadow: var(--md-elev-3); transform: scale(1.04); }
 #sidebar-float-btn:hover::before { opacity: 0.08; }
 
-/* ═══════════════════════════════════════════════════════
-   MOBILE BOTTOM NAVIGATION BAR — M3 spec
-   80px · surface-container · bottom-fixed
-   3 destinations: Blog / Notes / About
-   ═══════════════════════════════════════════════════════ */
-#mobile-nav-bar {
-  display: none;
-}
 
+/* ── Breakpoints ── */
+
+/* COMPACT: 0-599px -- bottom nav bar */
 @media (max-width: 599px) {
+  body:not(.cv-page) .app-header { display: none !important; }
+  #nav-rail { display: none !important; }
+  #sidebar-float-btn { display: none !important; }
+
   #mobile-nav-bar {
     display: flex;
     position: fixed;
@@ -398,24 +511,109 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
     box-sizing: border-box;
   }
 
-  /* Content gets bottom padding so nav bar doesn't cover it */
-  body:not(.cv-page) .app-container {
-    padding-bottom: 80px !important;
-  }
-
-  /* Hide desktop sidebar entirely on mobile */
-  body:not(.cv-page) .app-header { display: none !important; }
-  #sidebar-float-btn { display: none !important; }
-
-  /* Content starts at top (no top bar offset) */
   body:not(.cv-page) .app-container {
     margin-left: 0 !important;
-    padding: 1rem 0.9rem !important;
+    padding: 1rem !important;
     padding-bottom: calc(80px + 1rem) !important;
   }
 }
 
-/* ── Nav bar destination item ── */
+/* MEDIUM: 600-839px -- Navigation Rail */
+@media (min-width: 600px) and (max-width: 839px) {
+  body:not(.cv-page) .app-header { display: none !important; }
+  #mobile-nav-bar { display: none !important; }
+
+  #nav-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0;
+    width: 80px;
+    height: 100vh;
+    z-index: 100;
+    background: var(--md-color-surface);
+    border-right: 1px solid var(--md-color-outline-variant);
+    padding: 1.25rem 0;
+    box-sizing: border-box;
+    gap: 0.25rem;
+    overflow: hidden;
+  }
+
+  body:not(.cv-page) .app-container {
+    margin-left: 80px !important;
+    padding: 1.5rem !important;
+  }
+}
+
+/* EXPANDED: >= 840px -- full Navigation Drawer */
+@media (min-width: 840px) {
+  #nav-rail { display: none !important; }
+  #mobile-nav-bar { display: none !important; }
+
+  body:not(.cv-page) .app-container {
+    margin-left: 360px;
+    padding: 1.5rem 2rem;
+    max-width: calc(360px + 65rem);
+  }
+}
+
+/* Nav Rail items -- Label Medium typescale */
+.rail-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 72px;
+  min-height: 72px;
+  padding: 12px 0;
+  text-decoration: none;
+  color: var(--md-color-on-surface-variant);
+  font-size: var(--md-type-label-medium-size);
+  font-weight: var(--md-type-label-medium-weight);
+  line-height: var(--md-type-label-medium-line-height);
+  letter-spacing: var(--md-type-label-medium-tracking);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  position: relative;
+  transition: color 0.2s var(--md-easing-standard);
+}
+.rail-indicator {
+  width: 56px;
+  height: 32px;
+  border-radius: var(--md-shape-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s var(--md-easing-standard);
+}
+.rail-indicator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.rail-item:hover .rail-indicator::before { opacity: 0.08; }
+.rail-item:active .rail-indicator::before { opacity: 0.12; }
+.rail-item.nav-active { color: var(--md-color-on-primary-container); }
+.rail-item.nav-active .rail-indicator {
+  background: var(--md-color-primary-container);
+}
+.rail-label {
+  font-size: var(--md-type-label-medium-size);
+  line-height: 1;
+}
+.rail-spacer { flex: 1; }
+.rail-theme-btn { margin-top: auto; }
+
+/* Bottom nav items */
 .m3-nav-item {
   display: flex;
   flex-direction: column;
@@ -425,16 +623,19 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   flex: 1;
   text-decoration: none;
   color: var(--md-color-on-surface-variant);
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--md-type-label-medium-size);
+  font-weight: var(--md-type-label-medium-weight);
+  letter-spacing: var(--md-type-label-medium-tracking);
   gap: 4px;
   position: relative;
   min-width: 48px;
   max-width: 168px;
   transition: color 0.2s var(--md-easing-standard);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
 }
-
-/* Active indicator pill — 64×32px pill behind the icon */
 .m3-nav-indicator {
   position: relative;
   width: 64px;
@@ -458,38 +659,19 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 }
 .m3-nav-item:hover .m3-nav-indicator::before { opacity: 0.08; }
 .m3-nav-item:active .m3-nav-indicator::before { opacity: 0.12; }
-
-/* Active state */
-.m3-nav-item.nav-active {
-  color: var(--md-color-on-secondary-container);
-  font-weight: 700;
-}
-.m3-nav-item.nav-active .m3-nav-indicator {
-  background: var(--md-color-secondary-container);
-}
-
-/* Nav icon */
-.m3-nav-icon {
-  width: 24px;
-  height: 24px;
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
-/* Nav label */
+.m3-nav-item.nav-active { color: var(--md-color-on-primary-container); font-weight: 700; }
+.m3-nav-item.nav-active .m3-nav-indicator { background: var(--md-color-primary-container); }
+.m3-nav-icon { width: 24px; height: 24px; display: block; position: relative; z-index: 1; }
 .m3-nav-label {
-  font-size: 0.75rem;
+  font-size: var(--md-type-label-medium-size);
   line-height: 1;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--md-type-label-medium-tracking);
 }
 
-
-/* ═══════════════════════════════════════════════════════
-   SEARCH BAR — M3 Search spec
-   28px radius · surface-container-high bg
-   ═══════════════════════════════════════════════════════ */
-.search-wrap { margin-bottom: 1.25rem; }
+/* ================================================================
+   SEARCH BAR -- M3 Search spec
+   ================================================================ */
+.search-wrap { margin-bottom: 1.5rem; }
 .search-wrap-inner {
   position: relative;
   display: inline-block;
@@ -519,35 +701,34 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   border-radius: var(--md-shape-xl);
   border: none;
   background: var(--md-color-surface-container-high);
-  font-size: 1rem;
+  font-family: inherit;
+  font-size: var(--md-type-body-large-size);
+  letter-spacing: var(--md-type-body-large-tracking);
   color: var(--md-color-on-surface);
   outline: none;
   box-sizing: border-box;
   transition: box-shadow 0.2s var(--md-easing-standard);
-  box-shadow: none;
 }
 .search-input::placeholder { color: var(--md-color-on-surface-variant); }
-.search-input:focus {
-  box-shadow: 0 0 0 2px var(--md-color-outline);
-}
+.search-input:focus { box-shadow: 0 0 0 2px var(--md-color-primary); }
 .search-empty {
   color: var(--md-color-on-surface-variant);
-  font-size: 0.875rem;
+  font-size: var(--md-type-body-medium-size);
+  letter-spacing: var(--md-type-body-medium-tracking);
   padding: 2rem 0;
   text-align: center;
 }
 
-/* ═══════════════════════════════════════════════════════
-   POST CARDS — M3 Elevated Card
-   surface-container-low · 12px radius · elev-1 → elev-2
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   POST CARDS -- M3 Elevated Card
+   ================================================================ */
 .post-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 0;
 }
-@media (min-width: 600px) { .post-cards { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 840px) { .post-cards { grid-template-columns: 1fr 1fr; } }
 
 .post-card {
   display: block;
@@ -563,7 +744,6 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
               transform  0.2s var(--md-easing-standard);
   animation: m3FadeIn 0.3s var(--md-easing-decel) both;
 }
-/* State layer */
 .post-card::before {
   content: '';
   position: absolute;
@@ -573,35 +753,35 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   opacity: 0;
   transition: opacity 0.2s var(--md-easing-standard);
 }
-.post-card:hover {
-  box-shadow: var(--md-elev-2);
-  transform: translateY(-2px);
-}
+.post-card:hover { box-shadow: var(--md-elev-2); transform: translateY(-2px); }
 .post-card:hover::before { opacity: 0.08; }
 .post-card:active::before { opacity: 0.12; }
 
-/* Card stagger */
-.post-card:nth-child(1)  { animation-delay: 0.00s; }
-.post-card:nth-child(2)  { animation-delay: 0.04s; }
-.post-card:nth-child(3)  { animation-delay: 0.08s; }
-.post-card:nth-child(4)  { animation-delay: 0.12s; }
-.post-card:nth-child(5)  { animation-delay: 0.16s; }
-.post-card:nth-child(6)  { animation-delay: 0.20s; }
-.post-card:nth-child(n+7){ animation-delay: 0.24s; }
+/* Card stagger animation */
+.post-card:nth-child(1)   { animation-delay: 0.00s; }
+.post-card:nth-child(2)   { animation-delay: 0.04s; }
+.post-card:nth-child(3)   { animation-delay: 0.08s; }
+.post-card:nth-child(4)   { animation-delay: 0.12s; }
+.post-card:nth-child(5)   { animation-delay: 0.16s; }
+.post-card:nth-child(6)   { animation-delay: 0.20s; }
+.post-card:nth-child(n+7) { animation-delay: 0.24s; }
 
-/* Card typography — M3 scale */
+/* Card typography */
 .post-card-title {
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: var(--md-type-title-medium-size);
+  font-weight: var(--md-type-title-medium-weight);
+  line-height: var(--md-type-title-medium-line-height);
+  letter-spacing: var(--md-type-title-medium-tracking);
   color: var(--md-color-on-surface);
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.5rem;
   position: relative;
 }
 .post-card-summary {
-  font-size: 0.875rem;
+  font-size: var(--md-type-body-medium-size);
+  font-weight: var(--md-type-body-medium-weight);
+  line-height: var(--md-type-body-medium-line-height);
+  letter-spacing: var(--md-type-body-medium-tracking);
   color: var(--md-color-on-surface-variant);
-  line-height: 1.43;
   margin: 0 0 0.75rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -610,26 +790,30 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   position: relative;
 }
 .post-card-meta {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--md-type-body-small-size);
+  font-weight: var(--md-type-body-small-weight);
+  line-height: var(--md-type-body-small-line-height);
+  letter-spacing: var(--md-type-body-small-tracking);
   color: var(--md-color-on-surface-variant);
-  margin-bottom: 0.625rem;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
   position: relative;
 }
-.post-card-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; position: relative; }
+.post-card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; position: relative; }
 .post-card-tag {
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.125rem 0.625rem;
+  font-size: var(--md-type-label-small-size);
+  font-weight: var(--md-type-label-small-weight);
+  line-height: var(--md-type-label-small-line-height);
+  letter-spacing: var(--md-type-label-small-tracking);
+  padding: 0.125rem 0.5rem;
   border-radius: var(--md-shape-xs);
   background: var(--md-color-surface-container-high);
   color: var(--md-color-on-surface-variant);
 }
 
-/* ── Article / post reading surface ── */
+/* Post reading surface */
 body:not(.cv-page) .app-container .post,
 body:not(.cv-page) .app-container > article:not(.post) {
   background: var(--md-color-surface-container-low);
@@ -639,10 +823,9 @@ body:not(.cv-page) .app-container > article:not(.post) {
   animation: m3FadeIn 0.3s var(--md-easing-decel) both;
 }
 
-
-/* ═══════════════════════════════════════════════════════
-   CONTENT LINKS — monochromatic, M3 on-surface
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   CONTENT LINKS
+   ================================================================ */
 .post-content a,
 .note-card-content a,
 body:not(.cv-page) .app-container article a,
@@ -658,19 +841,18 @@ body:not(.cv-page) .app-container .post a {
 .note-card-content a:hover,
 body:not(.cv-page) .app-container article a:hover,
 body:not(.cv-page) .app-container .post a:hover {
-  text-decoration-color: var(--md-color-outline) !important;
+  text-decoration-color: var(--md-color-primary) !important;
 }
-/* Exception: tags, footer links */
 .post-card-tag, .post-tag-link, .post-footer a,
 .post-footer-tags a { text-decoration: none !important; }
 
-/* ═══════════════════════════════════════════════════════
-   CODE BLOCKS — unchanged greyscale Chroma palette
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   CODE BLOCKS
+   ================================================================ */
 code {
-  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace !important;
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace !important;
   font-size: 0.82em !important;
-  padding: 0.15em 0.4em !important;
+  padding: 0.125rem 0.375rem !important;
   border-radius: var(--md-shape-xs) !important;
   background: var(--md-color-surface-container-high) !important;
   color: var(--md-color-on-surface) !important;
@@ -681,7 +863,6 @@ html[data-theme='dark'] code {
   color: var(--md-color-on-surface) !important;
   border-color: var(--md-color-outline-variant) !important;
 }
-
 pre {
   background: var(--md-color-surface-container) !important;
   border-radius: var(--md-shape-medium) !important;
@@ -689,7 +870,7 @@ pre {
   border-left: none !important;
   padding: 1.25rem 1.5rem !important;
   overflow-x: auto !important;
-  margin: 1.25rem 0 !important;
+  margin: 1.5rem 0 !important;
   box-shadow: var(--md-elev-1) !important;
   position: relative !important;
 }
@@ -700,7 +881,6 @@ pre code {
   font-size: 0.85em !important;
   line-height: 1.65 !important;
 }
-
 .post-content > pre,
 .post-content .highlight,
 .post-content .highlight > pre,
@@ -711,7 +891,7 @@ pre code {
 .note-card-content .highlight > div {
   border-left: none !important;
   padding: 0 !important;
-  margin: 1.25rem 0 !important;
+  margin: 1.5rem 0 !important;
 }
 .post-content .highlight,
 .note-card-content .highlight {
@@ -728,7 +908,7 @@ pre code {
   border: none !important;
 }
 
-/* Chroma token palette — unchanged */
+/* Chroma */
 .chroma { background: var(--md-color-surface-container) !important; color: #1a1a1a !important; }
 html[data-theme='dark'] .chroma { background: var(--md-color-surface-container) !important; color: #e2e2e2 !important; }
 .chroma .k,.chroma .kc,.chroma .kd,.chroma .kn,.chroma .kp,.chroma .kr,.chroma .kt { color:#000 !important; font-weight:700 !important; }
@@ -757,11 +937,9 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
   pre { padding: 1rem !important; border-radius: var(--md-shape-small) !important; }
 }
 
-
-/* ═══════════════════════════════════════════════════════
-   FLOATING / STICKY TOC — M3 surface-container-low card
-   Desktop ≥ 1280px: position:fixed right panel
-   ═══════════════════════════════════════════════════════ */
+/* ================================================================
+   FLOATING TOC -- M3 surface-container-low card
+   ================================================================ */
 #post-toc-float { display: none; }
 
 @media (min-width: 1280px) {
@@ -782,10 +960,7 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     animation: m3FadeIn 0.3s var(--md-easing-decel) both;
   }
   #post-toc-float::-webkit-scrollbar { width: 3px; }
-  #post-toc-float::-webkit-scrollbar-thumb {
-    background: var(--md-color-outline-variant);
-    border-radius: 2px;
-  }
+  #post-toc-float::-webkit-scrollbar-thumb { background: var(--md-color-outline-variant); border-radius: 2px; }
 
   .ptoc-inner {
     background: var(--md-color-surface-container-low);
@@ -795,10 +970,9 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     box-shadow: var(--md-elev-1);
     pointer-events: auto;
   }
-
   .ptoc-label {
-    font-size: 0.6875rem;
-    font-weight: 500;
+    font-size: var(--md-type-label-small-size);
+    font-weight: var(--md-type-label-small-weight);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--md-color-on-surface-variant);
@@ -807,21 +981,14 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     margin-bottom: 0.25rem;
     border-bottom: 1px solid var(--md-color-outline-variant);
   }
-
-  #post-toc-float nav#TableOfContents ul {
-    list-style: none;
-    margin: 0;
-    padding: 0.25rem 0 0;
-  }
-  #post-toc-float nav#TableOfContents ul ul {
-    padding-left: 0.75rem;
-    margin: 0;
-  }
+  #post-toc-float nav#TableOfContents ul { list-style: none; margin: 0; padding: 0.25rem 0 0; }
+  #post-toc-float nav#TableOfContents ul ul { padding-left: 0.75rem; margin: 0; }
   #post-toc-float nav#TableOfContents li { margin: 0; }
   #post-toc-float nav#TableOfContents a {
     display: block;
-    font-size: 0.75rem;
+    font-size: var(--md-type-body-small-size);
     font-weight: 400;
+    letter-spacing: var(--md-type-body-small-tracking);
     color: var(--md-color-on-surface-variant) !important;
     text-decoration: none !important;
     padding: 0.25rem 0.5rem;
@@ -832,278 +999,35 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  #post-toc-float nav#TableOfContents a:hover {
-    color: var(--md-color-on-surface) !important;
-    background: var(--md-color-surface-container-high);
-  }
-  #post-toc-float nav#TableOfContents a.ptoc-active {
-    color: var(--md-color-on-secondary-container) !important;
-    font-weight: 600;
-    background: var(--md-color-secondary-container);
-  }
+  #post-toc-float nav#TableOfContents a:hover { color: var(--md-color-on-surface) !important; background: var(--md-color-surface-container-high); }
+  #post-toc-float nav#TableOfContents a.ptoc-active { color: var(--md-color-on-primary-container) !important; font-weight: 600; background: var(--md-color-primary-container); }
   #post-toc-float nav#TableOfContents ul ul a { font-size: 0.6875rem; opacity: 0.85; }
-  #post-toc-float nav#TableOfContents ul ul ul a { font-size: 0.65rem; opacity: 0.75; }
 }
 
 @media (min-width: 1600px) { #post-toc-float { right: 2rem; width: 15rem; } }
 @media (min-width: 1920px) { #post-toc-float { right: 2.5rem; width: 16rem; } }
 
-/* ═══════════════════════════════════════════════════════
-   TABLET (600px – 1024px) — narrow sidebar
-   ═══════════════════════════════════════════════════════ */
-@media (min-width: 600px) and (max-width: 1024px) {
-  body:not(.cv-page) .app-header {
-    width: 14rem !important;
-    padding: 1.25rem 0.75rem !important;
-  }
-  body:not(.cv-page) .app-container {
-    margin-left: 14rem !important;
-    padding: 1.25rem 1.25rem !important;
-  }
-  body:not(.cv-page) .app-container.sidebar-collapsed {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-  .post-cards { grid-template-columns: 1fr !important; }
-  body:not(.cv-page) .app-container .post,
-  body:not(.cv-page) .app-container > article:not(.post) {
-    padding: 1.5rem 1.75rem !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   DESKTOP (≥ 1025px) — full sidebar
-   ═══════════════════════════════════════════════════════ */
-@media (min-width: 1025px) {
-  body:not(.cv-page) .app-container {
-    margin-left: 20rem;
-    padding: 2rem 2.5rem;
-    max-width: 65rem;
-  }
-}
-
-/* ── Blockquote ── */
+/* ================================================================
+   MISC: Blockquote, images, mermaid, post title, container fade
+   ================================================================ */
 .post-content blockquote {
   background: var(--md-color-surface-container-high);
   border-left: 3px solid var(--md-color-outline-variant);
   color: var(--md-color-on-surface-variant);
-  margin: 1rem 0;
+  margin: 1.5rem 0;
   padding: 0.75rem 1rem;
   border-radius: 0 var(--md-shape-xs) var(--md-shape-xs) 0;
 }
-
-/* ── Post title colour ── */
 .post-title { color: var(--md-color-on-surface); }
-
-/* Content area fade */
 .app-container { animation: m3FadeIn 0.28s var(--md-easing-decel) both; }
-
-/* ── Images ── */
-.post img, article img, .post-content img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ── Mermaid ── */
+.post img, article img, .post-content img { max-width: 100%; height: auto; border-radius: var(--md-shape-small); }
 .mermaid { overflow-x: auto; }
 .mermaid svg { min-width: 320px; }
 
-
-
-/* ================================================================
-   M3 COMPLETE MIGRATION — Phase 2 structural fixes
-   Claude palette · Inter UI font · Drawer spec compliance
-   ================================================================ */
-
-/* Inter as UI font — Claude fallback stack */
-body {
-  font-family: Inter, system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
-}
-
-/* JetBrains Mono for all code — unchanged */
-code, pre, kbd, samp,
-.highlight, .chroma {
-  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace !important;
-}
-
-/* Drawer: correct width to M3 spec 360px */
-body:not(.cv-page) .app-header {
-  width: 360px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  /* correct easing to M3 standard */
-  transition: transform 250ms var(--md-easing-standard),
-              opacity   200ms var(--md-easing-standard) !important;
-}
-
-/* Drawer nav takes all available space so footer sticks to bottom */
-body:not(.cv-page) .app-header .app-header-menu {
-  flex: 1 !important;
-}
-
-/* Desktop: sync content margin with new 360px drawer */
-@media (min-width: 1025px) {
-  body:not(.cv-page) .app-container {
-    margin-left: 360px !important;
-  }
-}
-
-/* Drawer: nav item active indicator max-width per M3 spec */
-.sidebar-blog-link,
-.sidebar-notes-link,
-.sidebar-about-link,
-.sidebar-cv-link {
-  max-width: 336px !important;
-}
-
-/* Drawer: section label — replaces old divider line before About/CV */
-.m3-drawer-section-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--md-color-on-surface-variant);
-  padding: 16px 28px 8px;
-  letter-spacing: 0;
-  font-family: Inter, system-ui, sans-serif;
-}
-
-/* Drawer: footer container */
-.m3-drawer-footer {
-  margin-top: auto;
-  padding-top: 0.25rem;
-}
-
-/* Drawer: theme toggle — clean M3 nav item, no badge */
-.sidebar-ctrl-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 336px;
-  height: 56px;
-  padding: 0 1rem;
-  border-radius: var(--md-shape-full);
-  border: none;
-  background: transparent;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--md-color-on-surface-variant);
-  cursor: pointer;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard);
-  font-family: Inter, system-ui, sans-serif;
-}
-.sidebar-ctrl-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.sidebar-ctrl-btn:hover::before { opacity: 0.08; }
-.sidebar-ctrl-badge { display: none !important; }
-
-/* Drawer: social icon buttons in footer */
-.m3-drawer-social {
-  display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem 0.75rem 0.75rem;
-}
-.m3-drawer-social-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--md-shape-full);
-  color: var(--md-color-on-surface-variant);
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.2s var(--md-easing-standard);
-}
-.m3-drawer-social-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s var(--md-easing-standard);
-}
-.m3-drawer-social-btn:hover::before { opacity: 0.08; }
-.m3-drawer-social-btn svg { width: 20px; height: 20px; position: relative; z-index: 1; }
-
-/* Override m10c app-header-social size leak */
-.app-header-social {
-  font-size: 1rem !important;
-  color: var(--md-color-on-surface-variant) !important;
-  padding: 0 !important;
-}
-.app-header-social a {
-  font-size: 1rem !important;
-  color: var(--md-color-on-surface-variant) !important;
-}
-
-/* Floating sidebar toggle — fixed position only, no inline style conflict */
-#sidebar-float-btn {
-  position: fixed !important;
-  bottom: 1.5rem;
-  left: 1.5rem;
-  z-index: 200;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--md-shape-full);
-  background: var(--md-color-primary-container);
-  color: var(--md-color-on-surface);
-  border: none;
-  box-shadow: var(--md-elev-2);
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  transition: box-shadow 0.2s var(--md-easing-standard),
-              transform  0.2s var(--md-easing-standard);
-  overflow: hidden;
-}
-#sidebar-float-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--md-color-on-surface);
-  opacity: 0;
-  transition: opacity 0.2s;
-  border-radius: inherit;
-}
-#sidebar-float-btn:hover { box-shadow: var(--md-elev-3); transform: scale(1.04); }
-#sidebar-float-btn:hover::before { opacity: 0.08; }
-
-/* Post body text — full contrast on-surface, not variant */
+/* Post content text */
 .post-content {
+  font-size: var(--md-type-body-large-size);
   color: var(--md-color-on-surface) !important;
+  line-height: var(--md-type-body-large-line-height);
+  letter-spacing: var(--md-type-body-large-tracking);
 }
-
-/* Drawer tagline — hidden (removed from HTML but keep rule safe) */
-.m3-drawer-tagline { display: none !important; }
-
-/* Claude orange accent on active nav state */
-.sidebar-blog-link.nav-active,
-.sidebar-notes-link.nav-active,
-.sidebar-about-link.nav-active,
-.sidebar-cv-link.nav-active {
-  background: var(--md-color-secondary-container) !important;
-  color: var(--md-color-on-secondary-container) !important;
-}
-
-/* Links in content — use Claude clay as hover accent */
-.post-content a:hover,
-.note-card-content a:hover,
-body:not(.cv-page) .app-container article a:hover,
-body:not(.cv-page) .app-container .post a:hover {
-  text-decoration-color: var(--md-color-primary) !important;
-}
-
-/* theme-color meta sync already in baseof.html */

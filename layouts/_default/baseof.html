@@ -10,12 +10,10 @@
     <meta name="author" content="{{ .Site.Params.author | default "John Doe" }}" />
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else if .Description }}{{ .Description }}{{ else }}{{ .Summary | plainify | truncate 160 }}{{ end }}" />
 
-    {{/* ── CSS — fingerprinted, render-critical ── */}}
+    {{/* CSS */}}
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | css.Sass | resources.Minify | resources.Fingerprint -}}
     <link rel="preload" as="style" href="{{ $style.RelPermalink }}" />
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
-
-    {{/* ── Page-specific CSS ── */}}
     {{ block "page_css" . }}{{ end }}
 
     {{ with .OutputFormats.Get "rss" -}}
@@ -37,7 +35,7 @@
     <meta name="theme-color" content="#F9F9F7" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
 
-    <!-- Theme init — prevents FOUC -->
+    <!-- Theme init: prevents FOUC -->
     <script>
       (function(){
         var t = localStorage.getItem('amro_blog_theme') || 'light';
@@ -45,31 +43,27 @@
       })();
     </script>
 
-    <!-- Inter + JetBrains Mono from Google Fonts -->
+    <!-- Inter + JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-    {{/* ── JS — fingerprinted, deferred ── */}}
     {{ $js := resources.Get "js/site.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer></script>
-
   </head>
   <body>
 
-    <!-- ═══════════════════════════════════════════════════
-         M3 NAVIGATION DRAWER (desktop >= 600px)
-         Claude palette · surface · 360px wide
-    ════════════════════════════════════════════════════ -->
-    <header class="app-header" id="app-sidebar">
+    <!-- Skip navigation: M3 accessibility requirement -->
+    <a class="m3-skip-link" href="#main-content">Skip to main content</a>
 
-      <!-- M3 Drawer Header -->
+    <!-- M3 Navigation Drawer (desktop >= 840px) -->
+    <nav class="app-header" id="app-sidebar" aria-label="Main navigation">
+
       <div class="m3-drawer-header">
         <a href="/blog" class="m3-drawer-headline">Amro&#39;s Blog</a>
       </div>
 
-      <!-- M3 Drawer nav -->
-      <nav class="app-header-menu">
+      <div class="app-header-menu">
         <a class="sidebar-blog-link"  href="/blog">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           Blog
@@ -89,17 +83,14 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
           CV
         </a>
-      </nav>
+      </div>
 
-      <!-- M3 Drawer Footer — theme toggle + social -->
       <div class="m3-drawer-footer">
         <div class="sidebar-section-divider"></div>
-
         <button class="sidebar-ctrl-btn" onclick="sam7ToggleTheme()">
           <span id="theme-icon">&#9728;</span>
           <span id="theme-label">Light mode</span>
         </button>
-
         {{- with .Site.Params.social }}
         <div class="m3-drawer-social">
           {{ range . }}
@@ -110,55 +101,72 @@
         </div>
         {{- end }}
       </div>
+    </nav>
 
-    </header>
+    <!-- M3 Navigation Rail (tablet 600-839px) -->
+    <nav id="nav-rail" aria-label="Main navigation">
+      <a class="rail-item" href="/blog">
+        <span class="rail-indicator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </span>
+        <span class="rail-label">Blog</span>
+      </a>
+      <a class="rail-item" href="/notes">
+        <span class="rail-indicator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </span>
+        <span class="rail-label">Notes</span>
+      </a>
+      <a class="rail-item" href="/about">
+        <span class="rail-indicator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </span>
+        <span class="rail-label">About</span>
+      </a>
+      <div class="rail-spacer"></div>
+      <button class="rail-item rail-theme-btn" onclick="sam7ToggleTheme()" aria-label="Toggle theme">
+        <span class="rail-indicator">
+          <span id="rail-theme-icon" style="font-size:1.25rem;line-height:1;display:block;">&#9728;</span>
+        </span>
+        <span class="rail-label">Theme</span>
+      </button>
+    </nav>
 
-    <!-- ═══════════════════════════════════════════════════
-         M3 BOTTOM NAVIGATION BAR (mobile < 600px)
-         80px · surface-container · 3 destinations
-    ════════════════════════════════════════════════════ -->
+    <!-- M3 Bottom Navigation Bar (mobile < 600px) -->
     <nav id="mobile-nav-bar" aria-label="Main navigation">
-
       <a class="m3-nav-item" href="/blog" aria-label="Blog">
         <span class="m3-nav-indicator">
           <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
         </span>
         <span class="m3-nav-label">Blog</span>
       </a>
-
       <a class="m3-nav-item" href="/notes" aria-label="Notes">
         <span class="m3-nav-indicator">
           <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
         </span>
         <span class="m3-nav-label">Notes</span>
       </a>
-
       <a class="m3-nav-item" href="/about" aria-label="About">
         <span class="m3-nav-indicator">
           <svg class="m3-nav-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
         </span>
         <span class="m3-nav-label">About</span>
       </a>
-
-      <!-- Theme toggle as 4th nav item -->
       <button class="m3-nav-item" onclick="sam7ToggleTheme()" aria-label="Toggle theme" style="background:none;border:none;cursor:pointer;">
         <span class="m3-nav-indicator">
           <span id="nav-theme-icon" class="m3-nav-icon" style="font-size:1.3rem;line-height:32px;text-align:center;display:block;">&#9728;</span>
         </span>
         <span class="m3-nav-label">Theme</span>
       </button>
-
     </nav>
 
-    <main class="app-container">
+    <main class="app-container" id="main-content">
       {{ block "main" . }}{{ .Content }}{{ end }}
     </main>
 
-    {{/* Floating ToC — outside main so position:fixed works */}}
     {{ block "post_toc" . }}{{ end }}
 
-    <!-- Floating sidebar toggle (post pages, desktop only) -->
-    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation">&#8250;</button>
+    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation" aria-label="Show navigation">&#8250;</button>
 
   </body>
 </html>

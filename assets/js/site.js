@@ -119,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var t = document.documentElement.getAttribute('data-theme') || 'light';
   _sam7SyncThemeUI(t);
 
-  /* Active nav highlight — sidebar + bottom nav bar */
+  /* Active nav highlight -- drawer, rail, bottom nav bar */
   var path = window.location.pathname;
   document.querySelectorAll(
-    '.app-header-menu a, #mobile-nav-bar .m3-nav-item'
+    '.app-header-menu a, #nav-rail .rail-item, #mobile-nav-bar .m3-nav-item'
   ).forEach(function (a) {
     var href = a.getAttribute('href');
     if (href && href !== '/' && path.startsWith(href)) a.classList.add('nav-active');
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     '.post-card, .sidebar-blog-link, .sidebar-notes-link, ' +
     '.sidebar-about-link, .sidebar-cv-link, .sidebar-ctrl-btn, ' +
     '.share-btn, .about-btn, .m3-nav-item, .notes-tl-link, ' +
-    '.notes-tl-mobile-chip, .sidebar-tag'
+    '.notes-tl-mobile-chip, .sidebar-tag, .rail-item'
   ).forEach(window.m3AttachRipple);
 
 });
