@@ -176,11 +176,55 @@
   padding: 0 !important;
   font-size: 0.85em !important;
   line-height: 1.65 !important;
-  font-family: 'SF Mono', 'Fira Code', monospace !important;
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace !important;
 }
 @media (max-width: 599px) {
   .post-cover { max-height: 200px; }
   .post-title  { font-size: 1.4rem; }
   .post-content > pre,
   .post .post-content > pre { padding: 1rem !important; }
+}
+
+/* ── M3 type scale for post headings ── */
+/* headline-medium: 1.75rem / 400wt */
+.post-content h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2.25rem;
+  letter-spacing: 0;
+  margin: 2rem 0 0.75rem;
+  color: var(--md-color-on-surface);
+}
+/* headline-small: 1.5rem / 400wt */
+.post-content h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: 0;
+  margin: 1.75rem 0 0.6rem;
+  color: var(--md-color-on-surface);
+}
+/* title-large: 1.375rem / 400wt */
+.post-content h4 {
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.75rem;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--md-color-on-surface);
+}
+/* title-medium: 1rem / 500wt */
+.post-content h5,
+.post-content h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  margin: 1.25rem 0 0.4rem;
+  color: var(--md-color-on-surface);
+}
+
+/* Mobile: scale down headings */
+@media (max-width: 599px) {
+  .post-content h2 { font-size: 1.375rem; }
+  .post-content h3 { font-size: 1.25rem; }
+  .post-content h4 { font-size: 1.125rem; }
 }
