@@ -1,3 +1,99 @@
+/* =======================================================
+   Amros Blog - Material Design 3
+   Neutral greyscale palette - M3 motion - No glassmorphism
+   ======================================================= */
+
+/* M3 Shape tokens */
+:root {
+  --md-shape-full:        9999px;
+  --md-shape-xl:          28px;
+  --md-shape-large:       16px;
+  --md-shape-medium:      12px;
+  --md-shape-small:       8px;
+  --md-shape-xs:          4px;
+
+  /* M3 Motion tokens */
+  --md-easing-standard:   cubic-bezier(0.2, 0, 0, 1);
+  --md-easing-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --md-easing-decel:      cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-easing-accel:      cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  /* M3 Colour roles - Light scheme */
+  --md-color-background:              #F9F9F9;
+  --md-color-surface:                 #F9F9F9;
+  --md-color-surface-container-low:   #F3F3F3;
+  --md-color-surface-container:       #EDEDED;
+  --md-color-surface-container-high:  #E7E7E7;
+  --md-color-surface-variant:         #E0E0E0;
+  --md-color-on-surface:              #1A1A1A;
+  --md-color-on-surface-variant:      #4A4A4A;
+  --md-color-outline:                 #767676;
+  --md-color-outline-variant:         #C4C4C4;
+  --md-color-primary:                 #1A1A1A;
+  --md-color-on-primary:              #FFFFFF;
+  --md-color-primary-container:       #E8E8E8;
+  --md-color-on-primary-container:    #1A1A1A;
+  --md-color-secondary-container:     #E0E0E0;
+  --md-color-on-secondary-container:  #1A1A1A;
+  --md-color-inverse-surface:         #2E2E2E;
+  --md-color-inverse-on-surface:      #F0F0F0;
+  --md-color-scrim:                   rgba(0,0,0,0.32);
+
+  /* Elevation shadows */
+  --md-elev-1: 0 1px 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
+  --md-elev-2: 0 1px 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.10);
+  --md-elev-3: 0 2px 6px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Dark scheme */
+html[data-theme=dark] {
+  --md-color-background:              #141414;
+  --md-color-surface:                 #141414;
+  --md-color-surface-container-low:   #1C1C1C;
+  --md-color-surface-container:       #222222;
+  --md-color-surface-container-high:  #2A2A2A;
+  --md-color-surface-variant:         #333333;
+  --md-color-on-surface:              #F0F0F0;
+  --md-color-on-surface-variant:      #AAAAAA;
+  --md-color-outline:                 #767676;
+  --md-color-outline-variant:         #3A3A3A;
+  --md-color-primary:                 #F0F0F0;
+  --md-color-on-primary:              #1A1A1A;
+  --md-color-primary-container:       #2A2A2A;
+  --md-color-on-primary-container:    #F0F0F0;
+  --md-color-secondary-container:     #333333;
+  --md-color-on-secondary-container:  #F0F0F0;
+  --md-color-inverse-surface:         #E6E6E6;
+  --md-color-inverse-on-surface:      #2E2E2E;
+  --md-color-scrim:                   rgba(0,0,0,0.60);
+}
+
+/* Scroll offset */
+html { scroll-padding-top: 16px; scroll-padding-bottom: 88px; }
+
+/* Body - flat M3 surface */
+body {
+  background: var(--md-color-background);
+  color: var(--md-color-on-surface);
+  margin: 0;
+  transition: background 0.3s var(--md-easing-standard),
+              color      0.3s var(--md-easing-standard);
+}
+
+/* Page-load fade */
+@keyframes m3FadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* View transitions */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: var(--md-easing-emphasized);
+}
+
 /* Sidebar tag chips removed — filter chips belong in content area, not nav drawer (M3 spec) */
 
 /* .sidebar-controls / .sidebar-ctrl-btn moved to .m3-drawer-footer-item */
