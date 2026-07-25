@@ -192,6 +192,7 @@ html {
   scroll-padding-top: 16px;
   scroll-padding-bottom: 88px;
   color-scheme: light;
+  overflow-x: hidden;
 }
 html[data-theme='dark'] { color-scheme: dark; }
 
@@ -200,6 +201,7 @@ body {
   background: var(--md-color-background);
   color: var(--md-color-on-surface);
   margin: 0;
+  overflow-x: hidden;
   font-family: Roboto, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: var(--md-type-body-large-size);
   line-height: var(--md-type-body-large-line-height);
@@ -502,6 +504,8 @@ body:not(.cv-page) .app-container {
   background: transparent;
   position: relative;
   z-index: 2;
+  overflow-x: hidden;
+  width: 100%;
   transition: margin var(--md-duration-medium1) var(--md-easing-decel);
 }
 body:not(.cv-page) .app-container.sidebar-collapsed {
@@ -903,6 +907,8 @@ body:not(.cv-page) .app-container > article:not(.post) {
 body:not(.cv-page) .app-container > article.about-page {
   max-width: none;
   padding: 0;
+  overflow-x: hidden;
+  width: 100%;
 }
 /* ================================================================
    CONTENT LINKS

@@ -262,6 +262,9 @@
 /* Primary text (link) -- Body Large */
 .link-sections .link-table-title {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
   font-size: var(--md-type-body-large-size);
   font-weight: var(--md-type-body-large-weight);
   line-height: var(--md-type-body-large-line-height);
@@ -291,6 +294,10 @@
 .link-sections .link-table-title a:hover { color: var(--md-color-primary); }
 /* Supporting text (description) -- Body Small */
 .link-sections .link-table-description {
+  flex: 2;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
   font-size: var(--md-type-body-small-size);
   font-weight: var(--md-type-body-small-weight);
   line-height: var(--md-type-body-small-line-height);

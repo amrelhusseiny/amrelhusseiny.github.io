@@ -206,9 +206,11 @@ function _amroShareFlash(btn) {
 
 {{/* ── Mermaid v11 ESM ── */}}
 <script type="module">
-  if (!document.querySelector('.mermaid')) return;
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  /* Dynamic import: Mermaid bundle (~900KB) only fetched when diagrams present */
+  if (!document.querySelector('.mermaid')) { /* nothing to render */ }
+  else {
   const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs').then(({ default: mermaid }) => {
   mermaid.initialize({
     startOnLoad: false,
     theme: 'base',
@@ -230,6 +232,8 @@ function _amroShareFlash(btn) {
       fontSize: '16px'
     }
   });
-  await mermaid.run({ querySelector: '.mermaid' });
+  mermaid.run({ querySelector: '.mermaid' });
+  }); /* end dynamic import */
+  } /* end querySelector check */
 </script>
 {{ end }}
