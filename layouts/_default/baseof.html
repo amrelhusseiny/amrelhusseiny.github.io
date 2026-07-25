@@ -34,8 +34,8 @@
     <meta name="twitter:card" content="summary" />
     {{- end }}
 
-    <meta name="theme-color" content="#F9F9F9" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F9F9F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
 
     <!-- Theme init — prevents FOUC -->
     <script>
@@ -45,6 +45,11 @@
       })();
     </script>
 
+    <!-- Inter + JetBrains Mono from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
     {{/* ── JS — fingerprinted, deferred ── */}}
     {{ $js := resources.Get "js/site.js" | resources.Minify | resources.Fingerprint }}
     <script src="{{ $js.RelPermalink }}" defer></script>
@@ -53,18 +58,18 @@
   <body>
 
     <!-- ═══════════════════════════════════════════════════
-         M3 NAVIGATION DRAWER (desktop ≥ 600px)
-         surface · 0 16px 16px 0 end corner
+         M3 NAVIGATION DRAWER (desktop >= 600px)
+         Claude palette · surface · 360px wide
     ════════════════════════════════════════════════════ -->
     <header class="app-header" id="app-sidebar">
-      <!-- M3 Drawer Header — Headline Small typescale -->
+
+      <!-- M3 Drawer Header -->
       <div class="m3-drawer-header">
-        <a href="/blog" class="m3-drawer-headline">Amro El Husseiny</a>
-        <span class="m3-drawer-tagline">Network Engineer</span>
+        <a href="/blog" class="m3-drawer-headline">Amro&#39;s Blog</a>
       </div>
 
+      <!-- M3 Drawer nav -->
       <nav class="app-header-menu">
-        <!-- Primary destinations -->
         <a class="sidebar-blog-link"  href="/blog">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           Blog
@@ -74,16 +79,8 @@
           Notes
         </a>
 
-        <div class="sidebar-tags">
-          <a class="sidebar-tag" href="/tags/networks/">#networks</a>
-          <a class="sidebar-tag" href="/tags/ai/">#ai</a>
-          <a class="sidebar-tag" href="/tags/automation/">#automation</a>
-          <a class="sidebar-tag" href="/tags/linux/">#linux</a>
-        </div>
+        <div class="m3-drawer-section-label">More</div>
 
-        <div class="sidebar-section-divider"></div>
-
-        <!-- Secondary destinations -->
         <a class="sidebar-about-link" href="/about">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
           About
@@ -94,25 +91,26 @@
         </a>
       </nav>
 
-      <p>{{ .Site.Params.description | default "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation." }}</p>
+      <!-- M3 Drawer Footer — theme toggle + social -->
+      <div class="m3-drawer-footer">
+        <div class="sidebar-section-divider"></div>
 
-      {{- with .Site.Params.social }}
-      <div class="app-header-social">
-        {{ range . }}
-          <a href="{{ .url }}" target="_blank" rel="noreferrer noopener me">
-            {{ partial "icon.html" (dict "ctx" $ "name" .icon "title" .name) }}
-          </a>
-        {{ end }}
-      </div>
-      {{- end }}
-
-      <div class="sidebar-controls">
         <button class="sidebar-ctrl-btn" onclick="sam7ToggleTheme()">
           <span id="theme-icon">&#9728;</span>
           <span id="theme-label">Light mode</span>
-          <span class="sidebar-ctrl-badge">Toggle</span>
         </button>
+
+        {{- with .Site.Params.social }}
+        <div class="m3-drawer-social">
+          {{ range . }}
+          <a class="m3-drawer-social-btn" href="{{ .url }}" target="_blank" rel="noreferrer noopener me" title="{{ .name }}">
+            {{ partial "icon.html" (dict "ctx" $ "name" .icon "title" .name) }}
+          </a>
+          {{ end }}
+        </div>
+        {{- end }}
       </div>
+
     </header>
 
     <!-- ═══════════════════════════════════════════════════
@@ -142,7 +140,7 @@
         <span class="m3-nav-label">About</span>
       </a>
 
-      <!-- Theme toggle as 4th item on mobile -->
+      <!-- Theme toggle as 4th nav item -->
       <button class="m3-nav-item" onclick="sam7ToggleTheme()" aria-label="Toggle theme" style="background:none;border:none;cursor:pointer;">
         <span class="m3-nav-indicator">
           <span id="nav-theme-icon" class="m3-nav-icon" style="font-size:1.3rem;line-height:32px;text-align:center;display:block;">&#9728;</span>
@@ -156,11 +154,11 @@
       {{ block "main" . }}{{ .Content }}{{ end }}
     </main>
 
-    {{/* Floating ToC — outside <main> so position:fixed works */}}
+    {{/* Floating ToC — outside main so position:fixed works */}}
     {{ block "post_toc" . }}{{ end }}
 
     <!-- Floating sidebar toggle (post pages, desktop only) -->
-    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:200;width:2.5rem;height:2.5rem;border-radius:9999px;background:var(--md-color-primary-container);color:var(--md-color-on-primary-container);border:none;box-shadow:var(--md-elev-2);font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;">&#8250;</button>
+    <button id="sidebar-float-btn" onclick="sam7ShowSidebar()" title="Show navigation">&#8250;</button>
 
   </body>
 </html>

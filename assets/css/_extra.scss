@@ -18,53 +18,53 @@
   --md-easing-decel:      cubic-bezier(0.05, 0.7, 0.1, 1);
   --md-easing-accel:      cubic-bezier(0.3, 0, 0.8, 0.15);
 
-  /* ── M3 Colour roles — Light scheme (neutral/greyscale) ── */
-  --md-color-background:              #F9F9F9;
-  --md-color-surface:                 #F9F9F9;
-  --md-color-surface-container-low:   #F3F3F3;
-  --md-color-surface-container:       #EDEDED;
-  --md-color-surface-container-high:  #E7E7E7;
-  --md-color-surface-variant:         #E0E0E0;
-  --md-color-on-surface:              #1A1A1A;
-  --md-color-on-surface-variant:      #4A4A4A;
-  --md-color-outline:                 #767676;
-  --md-color-outline-variant:         #C4C4C4;
-  --md-color-primary:                 #1A1A1A;
+  /* ── Claude colour palette — Light scheme ── */
+  --md-color-background:              #F9F9F7;
+  --md-color-surface:                 #F9F9F7;
+  --md-color-surface-container-low:   #F3F3F0;
+  --md-color-surface-container:       #EDECE8;
+  --md-color-surface-container-high:  #E7E6E1;
+  --md-color-surface-variant:         #E1E0D9;
+  --md-color-on-surface:              #0B0B0B;
+  --md-color-on-surface-variant:      #6D6B67;
+  --md-color-outline:                 #A5A49A;
+  --md-color-outline-variant:         #E1E0D9;
+  --md-color-primary:                 #D97757;
   --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #E8E8E8;
-  --md-color-on-primary-container:    #1A1A1A;
-  --md-color-secondary-container:     #E0E0E0;
-  --md-color-on-secondary-container:  #1A1A1A;
-  --md-color-inverse-surface:         #2E2E2E;
-  --md-color-inverse-on-surface:      #F0F0F0;
+  --md-color-primary-container:       #F0EFEC;
+  --md-color-on-primary-container:    #0B0B0B;
+  --md-color-secondary-container:     #F3F3F0;
+  --md-color-on-secondary-container:  #0B0B0B;
+  --md-color-inverse-surface:         #2C2C2A;
+  --md-color-inverse-on-surface:      #F9F9F7;
   --md-color-scrim:                   rgba(0,0,0,0.32);
 
-  /* ── Elevation shadows (M3 tonal via box-shadow as secondary signal) ── */
-  --md-elev-1: 0 1px 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
-  --md-elev-2: 0 1px 4px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.10);
-  --md-elev-3: 0 2px 6px rgba(0,0,0,0.15), 0 6px 16px rgba(0,0,0,0.12);
+  /* ── Elevation shadows ── */
+  --md-elev-1: 0 1px 2px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+  --md-elev-2: 0 1px 4px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.08);
+  --md-elev-3: 0 2px 6px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.10);
 }
 
-/* ── Dark scheme ── */
+/* ── Claude colour palette — Dark scheme ── */
 html[data-theme='dark'] {
-  --md-color-background:              #141414;
-  --md-color-surface:                 #141414;
-  --md-color-surface-container-low:   #1C1C1C;
-  --md-color-surface-container:       #222222;
-  --md-color-surface-container-high:  #2A2A2A;
-  --md-color-surface-variant:         #333333;
-  --md-color-on-surface:              #F0F0F0;
-  --md-color-on-surface-variant:      #AAAAAA;
-  --md-color-outline:                 #767676;
-  --md-color-outline-variant:         #3A3A3A;
-  --md-color-primary:                 #F0F0F0;
-  --md-color-on-primary:              #1A1A1A;
-  --md-color-primary-container:       #2A2A2A;
-  --md-color-on-primary-container:    #F0F0F0;
-  --md-color-secondary-container:     #333333;
-  --md-color-on-secondary-container:  #F0F0F0;
-  --md-color-inverse-surface:         #E6E6E6;
-  --md-color-inverse-on-surface:      #2E2E2E;
+  --md-color-background:              #131313;
+  --md-color-surface:                 #131313;
+  --md-color-surface-container-low:   #1C1C1B;
+  --md-color-surface-container:       #20201F;
+  --md-color-surface-container-high:  #2C2C2A;
+  --md-color-surface-variant:         #383835;
+  --md-color-on-surface:              #F9F9F7;
+  --md-color-on-surface-variant:      #C3C2B7;
+  --md-color-outline:                 #6D6B67;
+  --md-color-outline-variant:         #2C2C2A;
+  --md-color-primary:                 #D97757;
+  --md-color-on-primary:              #FFFFFF;
+  --md-color-primary-container:       #2C2C2A;
+  --md-color-on-primary-container:    #F9F9F7;
+  --md-color-secondary-container:     #2C2C2A;
+  --md-color-on-secondary-container:  #F9F9F7;
+  --md-color-inverse-surface:         #E1E0D9;
+  --md-color-inverse-on-surface:      #20201F;
   --md-color-scrim:                   rgba(0,0,0,0.60);
 }
 
@@ -908,3 +908,202 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
 .mermaid { overflow-x: auto; }
 .mermaid svg { min-width: 320px; }
 
+
+
+/* ================================================================
+   M3 COMPLETE MIGRATION — Phase 2 structural fixes
+   Claude palette · Inter UI font · Drawer spec compliance
+   ================================================================ */
+
+/* Inter as UI font — Claude fallback stack */
+body {
+  font-family: Inter, system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
+}
+
+/* JetBrains Mono for all code — unchanged */
+code, pre, kbd, samp,
+.highlight, .chroma {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace !important;
+}
+
+/* Drawer: correct width to M3 spec 360px */
+body:not(.cv-page) .app-header {
+  width: 360px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* correct easing to M3 standard */
+  transition: transform 250ms var(--md-easing-standard),
+              opacity   200ms var(--md-easing-standard) !important;
+}
+
+/* Drawer nav takes all available space so footer sticks to bottom */
+body:not(.cv-page) .app-header .app-header-menu {
+  flex: 1 !important;
+}
+
+/* Desktop: sync content margin with new 360px drawer */
+@media (min-width: 1025px) {
+  body:not(.cv-page) .app-container {
+    margin-left: 360px !important;
+  }
+}
+
+/* Drawer: nav item active indicator max-width per M3 spec */
+.sidebar-blog-link,
+.sidebar-notes-link,
+.sidebar-about-link,
+.sidebar-cv-link {
+  max-width: 336px !important;
+}
+
+/* Drawer: section label — replaces old divider line before About/CV */
+.m3-drawer-section-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--md-color-on-surface-variant);
+  padding: 16px 28px 8px;
+  letter-spacing: 0;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Drawer: footer container */
+.m3-drawer-footer {
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+
+/* Drawer: theme toggle — clean M3 nav item, no badge */
+.sidebar-ctrl-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 336px;
+  height: 56px;
+  padding: 0 1rem;
+  border-radius: var(--md-shape-full);
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--md-color-on-surface-variant);
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s var(--md-easing-standard);
+  font-family: Inter, system-ui, sans-serif;
+}
+.sidebar-ctrl-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.sidebar-ctrl-btn:hover::before { opacity: 0.08; }
+.sidebar-ctrl-badge { display: none !important; }
+
+/* Drawer: social icon buttons in footer */
+.m3-drawer-social {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem 0.75rem;
+}
+.m3-drawer-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-shape-full);
+  color: var(--md-color-on-surface-variant);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.2s var(--md-easing-standard);
+}
+.m3-drawer-social-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s var(--md-easing-standard);
+}
+.m3-drawer-social-btn:hover::before { opacity: 0.08; }
+.m3-drawer-social-btn svg { width: 20px; height: 20px; position: relative; z-index: 1; }
+
+/* Override m10c app-header-social size leak */
+.app-header-social {
+  font-size: 1rem !important;
+  color: var(--md-color-on-surface-variant) !important;
+  padding: 0 !important;
+}
+.app-header-social a {
+  font-size: 1rem !important;
+  color: var(--md-color-on-surface-variant) !important;
+}
+
+/* Floating sidebar toggle — fixed position only, no inline style conflict */
+#sidebar-float-btn {
+  position: fixed !important;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 200;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--md-shape-full);
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-surface);
+  border: none;
+  box-shadow: var(--md-elev-2);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s var(--md-easing-standard),
+              transform  0.2s var(--md-easing-standard);
+  overflow: hidden;
+}
+#sidebar-float-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-color-on-surface);
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: inherit;
+}
+#sidebar-float-btn:hover { box-shadow: var(--md-elev-3); transform: scale(1.04); }
+#sidebar-float-btn:hover::before { opacity: 0.08; }
+
+/* Post body text — full contrast on-surface, not variant */
+.post-content {
+  color: var(--md-color-on-surface) !important;
+}
+
+/* Drawer tagline — hidden (removed from HTML but keep rule safe) */
+.m3-drawer-tagline { display: none !important; }
+
+/* Claude orange accent on active nav state */
+.sidebar-blog-link.nav-active,
+.sidebar-notes-link.nav-active,
+.sidebar-about-link.nav-active,
+.sidebar-cv-link.nav-active {
+  background: var(--md-color-secondary-container) !important;
+  color: var(--md-color-on-secondary-container) !important;
+}
+
+/* Links in content — use Claude clay as hover accent */
+.post-content a:hover,
+.note-card-content a:hover,
+body:not(.cv-page) .app-container article a:hover,
+body:not(.cv-page) .app-container .post a:hover {
+  text-decoration-color: var(--md-color-primary) !important;
+}
+
+/* theme-color meta sync already in baseof.html */
