@@ -158,6 +158,8 @@
   --md-elev-1: 0 1px 2px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
   --md-elev-2: 0 1px 4px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.08);
   --md-elev-3: 0 2px 6px rgba(0,0,0,0.12), 0 6px 16px rgba(0,0,0,0.10);
+  --md-elev-4: 0 4px 8px rgba(0,0,0,0.14), 0 8px 24px rgba(0,0,0,0.12);
+  --md-elev-5: 0 6px 12px rgba(0,0,0,0.16), 0 12px 36px rgba(0,0,0,0.14);
 }
 
 /* ── Dark scheme ── */
@@ -254,6 +256,12 @@ body:not(.cv-page) a:hover {
 /* Suppress for mouse users */
 :focus:not(:focus-visible) { outline: none !important; }
 
+/* ── M3 text selection highlight ── */
+::selection {
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
+}
+
 /* ── JetBrains Mono for code ── */
 code, pre, kbd, samp, .highlight, .chroma {
   font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace !important;
@@ -293,7 +301,7 @@ body:not(.cv-page) .app-header {
   border: none !important;
   border-right: 1px solid var(--md-color-outline-variant) !important;
   border-radius: 0 var(--md-shape-large) var(--md-shape-large) 0 !important;
-  box-shadow: var(--md-elev-1) !important;
+  box-shadow: var(--md-elev-4) !important;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -547,6 +555,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 }
 #sidebar-float-btn:hover { box-shadow: var(--md-elev-3); transform: scale(1.04); }
 #sidebar-float-btn:hover::before { opacity: var(--md-state-hover); }
+#sidebar-float-btn:active { box-shadow: var(--md-elev-5); transform: scale(0.96); }
 
 
 /* ── Breakpoints ── */
@@ -667,6 +676,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 .rail-item.nav-active { color: var(--md-color-on-primary-container); }
 .rail-item.nav-active .rail-indicator {
   background: var(--md-color-primary-container);
+  max-width: 280px;
 }
 .rail-label {
   display: none;  /* M3 Rail: NavigationRailLabelType.none -- icons only */
@@ -932,6 +942,37 @@ body:not(.cv-page) .app-container article a:not(.post-card):not(.post-tag-link):
 body:not(.cv-page) .app-container .post a:not(.post-card):not(.post-tag-link):not(.post-card-tag):hover {
   text-decoration-color: var(--md-color-primary) !important;
 }
+
+/* ── Post heading anchor links (pilcrow `\u00b6` on hover) ── */
+.post-content h2 a,
+.post-content h3 a,
+.post-content h4 a,
+.post-content h5 a,
+.post-content h6 a {
+  color: var(--md-color-on-surface) !important;
+  text-decoration: none !important;
+}
+.post-content h2:hover a::before,
+.post-content h3:hover a::before,
+.post-content h4:hover a::before,
+.post-content h5:hover a::before,
+.post-content h6:hover a::before {
+  content: "¶";
+  display: inline-block;
+  width: 1.5rem;
+  margin-left: -1.5rem;
+  color: var(--md-color-on-surface-variant);
+  text-align: center;
+  opacity: 0.5;
+}
+.post-content h2 a:hover::before,
+.post-content h3 a:hover::before,
+.post-content h4 a:hover::before,
+.post-content h5 a:hover::before,
+.post-content h6 a:hover::before {
+  opacity: 1;
+  color: var(--md-color-primary);
+}
 .post-card-tag, .post-tag-link, .post-footer a,
 .post-footer-tags a { text-decoration: none !important; }
 
@@ -959,6 +1000,8 @@ pre {
   border-left: none !important;
   padding: 1.25rem 1.5rem !important;
   overflow-x: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-color-outline-variant) transparent;
   margin: 1.5rem 0 !important;
   box-shadow: var(--md-elev-1) !important;
   position: relative !important;
@@ -970,6 +1013,11 @@ pre code {
   font-size: 0.85em !important;
   line-height: 1.65 !important;
 }
+
+/* scrollbar thumb for WebKit (Chrome/Safari) */
+pre::-webkit-scrollbar { height: 6px; }
+pre::-webkit-scrollbar-track { background: transparent; }
+pre::-webkit-scrollbar-thumb { background: var(--md-color-outline-variant); border-radius: 3px; }
 .post-content > pre,
 .post-content .highlight,
 .post-content .highlight > pre,
@@ -1093,6 +1141,55 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
   #post-toc-float nav#TableOfContents ul ul a { font-size: var(--md-type-label-small-size); opacity: 0.85; }
 }
 
+
+/* ── M3 Pagination — Outlined Button style for pages ── */
+.m3-pagination { margin: 2rem 0; }
+.m3-pagination-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.m3-pagination-list li { margin: 0; }
+.m3-pagination-btn,
+.m3-pagination-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  line-height: 1;
+  color: var(--md-color-on-surface);
+  text-decoration: none;
+  border-radius: var(--md-shape-full);
+  transition: background var(--md-duration-short4) var(--md-easing-standard),
+              color var(--md-duration-short4) var(--md-easing-standard);
+}
+.m3-pagination-page { min-width: 2.5rem; padding: 0; }
+.m3-pagination-btn:hover,
+.m3-pagination-page:hover {
+  background: rgba(0,0,0,0.06);
+}
+html[data-theme="dark"] .m3-pagination-btn:hover,
+html[data-theme="dark"] .m3-pagination-page:hover {
+  background: rgba(255,255,255,0.08);
+}
+.m3-pagination-current {
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
+  font-weight: 700;
+}
+.m3-pagination-disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+html[data-theme="dark"] .m3-pagination-disabled { opacity: 0.3; }
 /* M3 Large breakpoint: 1200-1599dp */
 @media (min-width: 1200px) and (max-width: 1599px) {
   body:not(.cv-page) .app-container {
@@ -1113,12 +1210,20 @@ html[data-theme='dark'] .chroma .hl { background:rgba(255,255,255,0.07) !importa
    MISC: Blockquote, images, mermaid, post title, container fade
    ================================================================ */
 .post-content blockquote {
-  background: var(--md-color-surface-container-high);
-  border-left: 3px solid var(--md-color-outline-variant);
-  color: var(--md-color-on-surface-variant);
+  background: var(--md-color-primary-container);
+  border-left: 4px solid var(--md-color-primary);
+  color: var(--md-color-on-primary-container);
   margin: 1.5rem 0;
   padding: 0.75rem 1rem;
-  border-radius: 0 var(--md-shape-xs) var(--md-shape-xs) 0;
+  border-radius: var(--md-shape-small);
+}
+
+/* Horizontal rule -- M3 Divider */
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: var(--md-color-outline-variant);
+  margin: 2rem 0;
 }
 .post-title { color: var(--md-color-on-surface); }
 .app-container { animation: m3FadeIn var(--md-duration-medium1) var(--md-easing-decel) both; }
