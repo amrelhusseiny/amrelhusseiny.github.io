@@ -117,16 +117,18 @@
   --md-type-label-small-tracking:    0.03125rem;
 
   /* ── Claude colour palette -- Light scheme ── */
-  --md-color-background:              #F9F9F7;
-  --md-color-surface:                 #F9F9F7;
-  --md-color-surface-container-low:   #F3F3F0;
-  --md-color-surface-container:       #EDECE8;
-  --md-color-surface-container-high:  #E7E6E1;
-  --md-color-surface-variant:         #E1E0D9;
-  --md-color-on-surface:              #0B0B0B;
-  --md-color-on-surface-variant:      #6D6B67;
-  --md-color-outline:                 #A5A49A;
-  --md-color-outline-variant:         #E1E0D9;
+  --md-color-background:              #FEF7FF;
+  --md-color-surface:                 #FEF7FF;
+  --md-color-surface-container-low:   #F7F2FA;
+  --md-color-surface-container:       #F3EDF7;
+  --md-color-surface-container-high:  #ECE6F0;
+  --md-color-surface-container-highest: #E6E0E9;
+  --md-color-surface-container-lowest:  #FFFBFF;
+  --md-color-surface-variant:         #E7E0EC;
+  --md-color-on-surface:              #1D1B20;
+  --md-color-on-surface-variant:      #49454F;
+  --md-color-outline:                 #79747E;
+  --md-color-outline-variant:         #CAC4D0;
 
   /* Primary: clay orange -- used ONLY on filled containers, not as text */
   --md-color-primary:                 #D97757;
@@ -134,9 +136,17 @@
   --md-color-primary-container:       #FDEEE7;
   --md-color-on-primary-container:    #3D1A0A;
 
-  /* Secondary: warm grey -- active nav indicators */
-  --md-color-secondary-container:     #E8E6DF;
-  --md-color-on-secondary-container:  #1A1917;
+  /* Secondary: neutral-purple -- active nav indicators */
+  --md-color-secondary:               #625B71;
+  --md-color-on-secondary:            #FFFFFF;
+  --md-color-secondary-container:     #E8DEF8;
+  --md-color-on-secondary-container:  #1D192B;
+
+  /* Tertiary: plum accent */
+  --md-color-tertiary:                #7D5260;
+  --md-color-on-tertiary:             #FFFFFF;
+  --md-color-tertiary-container:      #FFD8E4;
+  --md-color-on-tertiary-container:   #31111D;
 
   /* Error role */
   --md-color-error:                   #B3261E;
@@ -144,8 +154,8 @@
   --md-color-error-container:         #F9DEDC;
   --md-color-on-error-container:      #410E0B;
 
-  --md-color-inverse-surface:         #2C2C2A;
-  --md-color-inverse-on-surface:      #F9F9F7;
+  --md-color-inverse-surface:         #322F35;
+  --md-color-inverse-on-surface:      #F5EFF7;
   --md-color-scrim:                   rgba(0,0,0,0.32);
 
   /* ── M3 State layer opacities (from _md-sys-state.scss v0.192) ── */
@@ -164,28 +174,36 @@
 
 /* ── Dark scheme ── */
 html[data-theme='dark'] {
-  --md-color-background:              #131313;
-  --md-color-surface:                 #131313;
-  --md-color-surface-container-low:   #1C1C1B;
-  --md-color-surface-container:       #20201F;
-  --md-color-surface-container-high:  #2C2C2A;
-  --md-color-surface-variant:         #383835;
-  --md-color-on-surface:              #F9F9F7;
-  --md-color-on-surface-variant:      #C3C2B7;
-  --md-color-outline:                 #6D6B67;
-  --md-color-outline-variant:         #2C2C2A;
+  --md-color-background:              #141218;
+  --md-color-surface:                 #141218;
+  --md-color-surface-container-low:   #1D1B20;
+  --md-color-surface-container:       #211F26;
+  --md-color-surface-container-high:  #2B2930;
+  --md-color-surface-container-highest: #36343B;
+  --md-color-surface-container-lowest:  #0F0D13;
+  --md-color-surface-variant:         #49454F;
+  --md-color-on-surface:              #E6E0E9;
+  --md-color-on-surface-variant:      #CAC4D0;
+  --md-color-outline:                 #938F99;
+  --md-color-outline-variant:         #49454F;
   --md-color-primary:                 #D97757;
   --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #5C3020;
+  --md-color-primary-container:       #6B3A28;
   --md-color-on-primary-container:    #FDEEE7;
-  --md-color-secondary-container:     #383835;
-  --md-color-on-secondary-container:  #F9F9F7;
+  --md-color-secondary:               #CCC2DC;
+  --md-color-on-secondary:            #332D41;
+  --md-color-secondary-container:     #4A4458;
+  --md-color-on-secondary-container:  #E8DEF8;
+  --md-color-tertiary:                #EFB8C8;
+  --md-color-on-tertiary:             #492532;
+  --md-color-tertiary-container:      #633B48;
+  --md-color-on-tertiary-container:   #FFD8E4;
   --md-color-error:                   #F2B8B5;
   --md-color-on-error:                #601410;
   --md-color-error-container:         #8C1D18;
   --md-color-on-error-container:      #F9DEDC;
-  --md-color-inverse-surface:         #E1E0D9;
-  --md-color-inverse-on-surface:      #20201F;
+  --md-color-inverse-surface:         #E6E0E9;
+  --md-color-inverse-on-surface:      #322F35;
   --md-color-scrim:                   rgba(0,0,0,0.60);
 }
 
