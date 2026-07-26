@@ -11,7 +11,7 @@
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else if .Description }}{{ .Description }}{{ else }}{{ .Summary | plainify | truncate 160 }}{{ end }}" />
 
     {{/* CSS */}}
-    {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | css.Sass | resources.Minify | resources.Fingerprint -}}
+    {{ $style := resources.Get "css/_extra.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
     <link rel="preload" as="style" href="{{ $style.RelPermalink }}" />
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
     {{ block "page_css" . }}{{ end }}
