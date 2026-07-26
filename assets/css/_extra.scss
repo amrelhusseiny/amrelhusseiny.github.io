@@ -942,6 +942,12 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   display: inline-block;
   flex-shrink: 0;
 }
+.icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+}
 .post-card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; position: relative; }
 /* M3 Filter Chip (read-only variant on cards): 32dp height, shape-small */
 .post-card-tag {
