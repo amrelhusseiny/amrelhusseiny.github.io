@@ -73,7 +73,9 @@ jobs:
         id: cache-restore
         uses: actions/cache/restore@v4
         with:
-          path: ${{ runner.temp }}/hugo_cache
+          path: |
+            ${{ runner.temp }}/hugo_cache
+            resources/_gen
           key: hugo-${{ github.run_id }}
           restore-keys:
             hugo-
@@ -88,7 +90,9 @@ jobs:
         id: cache-save
         uses: actions/cache/save@v4
         with:
-          path: ${{ runner.temp }}/hugo_cache
+          path: |
+            ${{ runner.temp }}/hugo_cache
+            resources/_gen
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
