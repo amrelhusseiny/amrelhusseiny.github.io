@@ -91,13 +91,13 @@ def main():
 
 if __name__ == "__main__":
     main()
-```python
+```
 
 # Library Options
 
 Remember , you can gather the data however you like , this was just a simple demonstration of what you can do , main code to remember is the plotting part : 
 
-```python
+```
 # please adhere to the naming scheme in the variables 
 device_list = [{'nodeName' : 'TOR_1','nodeType' : 'l2_switch','nodeDescription' : 'Leaf Switch 01'}]
 x = NetPlot()
