@@ -202,3 +202,51 @@ document.addEventListener('DOMContentLoaded', function () {
     init();
   }
 })();
+
+/* ── Code copy button ── */
+(function() {
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.m3-code-copy');
+    if (!btn) return;
+    var pre = btn.closest('pre');
+    if (!pre) return;
+    var code = pre.querySelector('code');
+    if (!code) return;
+    navigator.clipboard.writeText(code.textContent).then(function() {
+      btn.classList.add('m3-code-copied');
+      btn.textContent = 'Copied!';
+      setTimeout(function() {
+        btn.classList.remove('m3-code-copied');
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }, 1800);
+    });
+  });
+  
+  /* Add copy buttons to all <pre> blocks that contain <code> */
+  var observer = new MutationObserver(function() {
+    document.querySelectorAll('pre > code').forEach(function(code) {
+      var pre = code.closest('pre');
+      if (!pre || pre.querySelector('.m3-code-copy')) return;
+      var btn = document.createElement('button');
+      btn.className = 'm3-code-copy';
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      btn.setAttribute('aria-label', 'Copy code');
+      pre.style.position = 'relative';
+      pre.appendChild(btn);
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  /* Also run once now */
+  setTimeout(function() {
+    document.querySelectorAll('pre > code').forEach(function(code) {
+      var pre = code.closest('pre');
+      if (!pre || pre.querySelector('.m3-code-copy')) return;
+      var btn = document.createElement('button');
+      btn.className = 'm3-code-copy';
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      btn.setAttribute('aria-label', 'Copy code');
+      pre.style.position = 'relative';
+      pre.appendChild(btn);
+    });
+  }, 100);
+})();

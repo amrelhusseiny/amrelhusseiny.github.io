@@ -116,64 +116,57 @@
   --md-type-label-small-weight:      500;
   --md-type-label-small-tracking:    0.03125rem;
 
-    /* ── Light scheme (from Material Theme Builder) ── */
-  --md-color-background:              #F5FAFB;
-  --md-color-surface:                 #F5FAFB;
-  --md-color-surface-dim:             #D5DBDC;
-  --md-color-surface-bright:          #F5FAFB;
-  --md-color-surface-container-lowest:  #FFFFFF;
-  --md-color-surface-container-low:   #EFF5F6;
-  --md-color-surface-container:       #E9EFF0;
-  --md-color-surface-container-high:  #E3E9EA;
-  --md-color-surface-container-highest: #DEE3E5;
-  --md-color-surface-variant:         #DBE4E6;
-  --md-color-surface-tint:            #006874;
-  --md-color-on-surface:              #171D1E;
-  --md-color-on-surface-variant:      #3F484A;
-  --md-color-outline:                 #6F797A;
-  --md-color-outline-variant:         #BFC8CA;
+  /* ── Colour tokens (light-dark) ── */
+  color-scheme: light dark;
+  --md-color-background: light-dark(#F5FAFB, #0E1415);
+  --md-color-surface: light-dark(#F5FAFB, #0E1415);
+  --md-color-surface-dim: light-dark(#D5DBDC, #0E1415);
+  --md-color-surface-bright: light-dark(#F5FAFB, #343A3B);
+  --md-color-surface-container-lowest: light-dark(#FFFFFF, #090F10);
+  --md-color-surface-container-low: light-dark(#EFF5F6, #171D1E);
+  --md-color-surface-container: light-dark(#E9EFF0, #1B2122);
+  --md-color-surface-container-high: light-dark(#E3E9EA, #252B2C);
+  --md-color-surface-container-highest: light-dark(#DEE3E5, #303637);
+  --md-color-surface-variant: light-dark(#DBE4E6, #3F484A);
+  --md-color-surface-tint: light-dark(#006874, #82D3E0);
+  --md-color-on-surface: light-dark(#171D1E, #DEE3E5);
+  --md-color-on-surface-variant: light-dark(#3F484A, #BFC8CA);
+  --md-color-outline: light-dark(#6F797A, #899294);
+  --md-color-outline-variant: light-dark(#BFC8CA, #3F484A);
+  --md-color-primary: light-dark(#006874, #82D3E0);
+  --md-color-on-primary: light-dark(#FFFFFF, #00363D);
+  --md-color-primary-container: light-dark(#9EEFFD, #004F58);
+  --md-color-on-primary-container: light-dark(#004F58, #9EEFFD);
+  --md-color-primary-fixed: light-dark(#9EEFFD, #9EEFFD);
+  --md-color-on-primary-fixed: light-dark(#001F24, #001F24);
+  --md-color-primary-fixed-dim: light-dark(#82D3E0, #82D3E0);
+  --md-color-on-primary-fixed-variant: light-dark(#004F58, #004F58);
+  --md-color-secondary: light-dark(#4A6267, #B1CBD0);
+  --md-color-on-secondary: light-dark(#FFFFFF, #1C3438);
+  --md-color-secondary-container: light-dark(#CDE7EC, #334B4F);
+  --md-color-on-secondary-container: light-dark(#334B4F, #CDE7EC);
+  --md-color-secondary-fixed: light-dark(#CDE7EC, #CDE7EC);
+  --md-color-on-secondary-fixed: light-dark(#051F23, #051F23);
+  --md-color-secondary-fixed-dim: light-dark(#B1CBD0, #B1CBD0);
+  --md-color-on-secondary-fixed-variant: light-dark(#334B4F, #334B4F);
+  --md-color-tertiary: light-dark(#525E7D, #BAC6EA);
+  --md-color-on-tertiary: light-dark(#FFFFFF, #24304D);
+  --md-color-tertiary-container: light-dark(#DAE2FF, #3B4664);
+  --md-color-on-tertiary-container: light-dark(#3B4664, #DAE2FF);
+  --md-color-tertiary-fixed: light-dark(#DAE2FF, #DAE2FF);
+  --md-color-on-tertiary-fixed: light-dark(#0E1B37, #0E1B37);
+  --md-color-tertiary-fixed-dim: light-dark(#BAC6EA, #BAC6EA);
+  --md-color-on-tertiary-fixed-variant: light-dark(#3B4664, #3B4664);
+  --md-color-error: light-dark(#BA1A1A, #FFB4AB);
+  --md-color-on-error: light-dark(#FFFFFF, #690005);
+  --md-color-error-container: light-dark(#FFDAD6, #93000A);
+  --md-color-on-error-container: light-dark(#93000A, #FFDAD6);
+  --md-color-inverse-surface: light-dark(#2B3133, #DEE3E5);
+  --md-color-inverse-on-surface: light-dark(#ECF2F3, #2B3133);
+  --md-color-inverse-primary: light-dark(#82D3E0, #006874);
+  --md-color-shadow: light-dark(#000000, #000000);
+  --md-color-scrim: light-dark(#000000, #000000);
 
-  /* Primary: deep teal */
-  --md-color-primary:                 #006874;
-  --md-color-on-primary:              #FFFFFF;
-  --md-color-primary-container:       #9EEFFD;
-  --md-color-on-primary-container:    #004F58;
-  --md-color-primary-fixed:           #9EEFFD;
-  --md-color-on-primary-fixed:        #001F24;
-  --md-color-primary-fixed-dim:       #82D3E0;
-  --md-color-on-primary-fixed-variant: #004F58;
-
-  /* Secondary: grey-teal */
-  --md-color-secondary:               #4A6267;
-  --md-color-on-secondary:            #FFFFFF;
-  --md-color-secondary-container:     #CDE7EC;
-  --md-color-on-secondary-container:  #334B4F;
-  --md-color-secondary-fixed:         #CDE7EC;
-  --md-color-on-secondary-fixed:      #051F23;
-  --md-color-secondary-fixed-dim:     #B1CBD0;
-  --md-color-on-secondary-fixed-variant: #334B4F;
-
-  /* Tertiary: slate-blue */
-  --md-color-tertiary:                #525E7D;
-  --md-color-on-tertiary:             #FFFFFF;
-  --md-color-tertiary-container:      #DAE2FF;
-  --md-color-on-tertiary-container:   #3B4664;
-  --md-color-tertiary-fixed:          #DAE2FF;
-  --md-color-on-tertiary-fixed:       #0E1B37;
-  --md-color-tertiary-fixed-dim:      #BAC6EA;
-  --md-color-on-tertiary-fixed-variant: #3B4664;
-
-  /* Error role */
-  --md-color-error:                   #BA1A1A;
-  --md-color-on-error:                #FFFFFF;
-  --md-color-error-container:         #FFDAD6;
-  --md-color-on-error-container:      #93000A;
-
-  --md-color-inverse-surface:         #2B3133;
-  --md-color-inverse-on-surface:      #ECF2F3;
-  --md-color-inverse-primary:         #82D3E0;
-  --md-color-shadow:                  #000000;
-  --md-color-scrim:                   #000000;
 /* ── M3 State layer opacities (from _md-sys-state.scss v0.192) ── */
   --md-state-hover:   0.08;
   --md-state-focus:   0.12;
@@ -188,67 +181,12 @@
   --md-elev-5: 0 6px 12px rgba(0,0,0,0.16), 0 12px 36px rgba(0,0,0,0.14);
 }
 
-/* ── Dark scheme ── */
-html[data-theme='dark'] {
-  /* ── Dark scheme (from Material Theme Builder) ── */
-  --md-color-background:              #0E1415;
-  --md-color-surface:                 #0E1415;
-  --md-color-surface-dim:             #0E1415;
-  --md-color-surface-bright:          #343A3B;
-  --md-color-surface-container-lowest:  #090F10;
-  --md-color-surface-container-low:   #171D1E;
-  --md-color-surface-container:       #1B2122;
-  --md-color-surface-container-high:  #252B2C;
-  --md-color-surface-container-highest: #303637;
-  --md-color-surface-variant:         #3F484A;
-  --md-color-surface-tint:            #82D3E0;
-  --md-color-on-surface:              #DEE3E5;
-  --md-color-on-surface-variant:      #BFC8CA;
-  --md-color-outline:                 #899294;
-  --md-color-outline-variant:         #3F484A;
 
-  /* Primary: deep teal */
-  --md-color-primary:                 #82D3E0;
-  --md-color-on-primary:              #00363D;
-  --md-color-primary-container:       #004F58;
-  --md-color-on-primary-container:    #9EEFFD;
-  --md-color-primary-fixed:           #9EEFFD;
-  --md-color-on-primary-fixed:        #001F24;
-  --md-color-primary-fixed-dim:       #82D3E0;
-  --md-color-on-primary-fixed-variant: #004F58;
 
-  /* Secondary: grey-teal */
-  --md-color-secondary:               #B1CBD0;
-  --md-color-on-secondary:            #1C3438;
-  --md-color-secondary-container:     #334B4F;
-  --md-color-on-secondary-container:  #CDE7EC;
-  --md-color-secondary-fixed:         #CDE7EC;
-  --md-color-on-secondary-fixed:      #051F23;
-  --md-color-secondary-fixed-dim:     #B1CBD0;
-  --md-color-on-secondary-fixed-variant: #334B4F;
 
-  /* Tertiary: slate-blue */
-  --md-color-tertiary:                #BAC6EA;
-  --md-color-on-tertiary:             #24304D;
-  --md-color-tertiary-container:      #3B4664;
-  --md-color-on-tertiary-container:   #DAE2FF;
-  --md-color-tertiary-fixed:          #DAE2FF;
-  --md-color-on-tertiary-fixed:       #0E1B37;
-  --md-color-tertiary-fixed-dim:      #BAC6EA;
-  --md-color-on-tertiary-fixed-variant: #3B4664;
-
-  /* Error role */
-  --md-color-error:                   #FFB4AB;
-  --md-color-on-error:                #690005;
-  --md-color-error-container:         #93000A;
-  --md-color-on-error-container:      #FFDAD6;
-
-  --md-color-inverse-surface:         #DEE3E5;
-  --md-color-inverse-on-surface:      #2B3133;
-  --md-color-inverse-primary:         #006874;
-  --md-color-shadow:                  #000000;
-  --md-color-scrim:                   #000000;
-}
+/* ── Theme toggle drives color-scheme for light-dark() ── */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
 
 /* ── Scroll offsets ── */
 html {
@@ -1332,6 +1270,157 @@ body:not(.cv-page) .app-container .notes-main h1 {
 }
 
 
+/* ================================================================
+
+/* ── Reading progress bar (view-timeline) ── */
+@keyframes m3ProgressGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.m3-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--md-color-surface-container);
+  z-index: 300;
+  transform-origin: left center;
+  animation: m3ProgressGrow linear;
+  animation-timeline: scroll(root);
+  pointer-events: none;
+}
+.m3-progress-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: var(--md-color-primary);
+  transform-origin: left center;
+  animation: m3ProgressGrow linear;
+  animation-timeline: scroll(root);
+}
+
+/* ── Back-to-top FAB (scroll-driven visibility) ── */
+@keyframes m3BackToTopShow {
+  from { opacity: 0; transform: translateY(1rem) scale(0.9); pointer-events: none; }
+  to   { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+}
+@keyframes m3BackToTopHide {
+  from { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+  to   { opacity: 0; transform: translateY(1rem) scale(0.9); pointer-events: none; }
+}
+.m3-back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 250;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--md-shape-full);
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
+  border: none;
+  box-shadow: var(--md-elev-3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  opacity: 0;
+  transform: translateY(1rem) scale(0.9);
+  pointer-events: none;
+  transition: opacity var(--md-duration-medium1) var(--md-easing-standard),
+              transform var(--md-duration-medium1) var(--md-easing-standard),
+              box-shadow var(--md-duration-short4) var(--md-easing-standard);
+}
+.m3-back-to-top:hover {
+  box-shadow: var(--md-elev-4);
+  transform: translateY(-2px) scale(1.05);
+}
+/* Show when scrolled past 300px — using scroll-driven animation */
+.m3-back-to-top {
+  animation: m3BackToTopHide linear;
+  animation-timeline: scroll(root);
+  animation-range: 0 300px;
+}
+/* Reverse: after 300px scroll, show */
+@supports (animation-timeline: scroll(root)) {
+  .m3-back-to-top {
+    animation: m3BackToTopShow linear;
+    animation-timeline: scroll(root);
+    animation-range: 300px 600px;
+  }
+}
+
+/* ── Code copy button ── */
+.m3-code-copy {
+  position: absolute !important;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--md-shape-xs);
+  border: 1px solid var(--md-color-outline-variant);
+  background: var(--md-color-surface-container);
+  color: var(--md-color-on-surface-variant);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--md-duration-short3) var(--md-easing-standard);
+  z-index: 2;
+}
+pre:hover .m3-code-copy,
+.m3-code-copy:focus-visible {
+  opacity: 1;
+}
+.m3-code-copied {
+  opacity: 1 !important;
+  background: var(--md-color-primary-container);
+  color: var(--md-color-on-primary-container);
+  border-color: var(--md-color-primary);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* ── Mobile TOC (visible below 1280px) ── */
+.toc-wrap {
+  margin-bottom: 1.5rem;
+}
+.toc-wrap summary {
+  font-size: var(--md-type-label-large-size);
+  font-weight: var(--md-type-label-large-weight);
+  letter-spacing: var(--md-type-label-large-tracking);
+  color: var(--md-color-primary);
+  cursor: pointer;
+  padding: 0.5rem 0;
+  user-select: none;
+}
+.toc-wrap nav#TableOfContents ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+}
+.toc-wrap nav#TableOfContents ul ul {
+  padding-left: 1rem;
+}
+.toc-wrap nav#TableOfContents li {
+  margin: 0.15rem 0;
+}
+.toc-wrap nav#TableOfContents a {
+  color: var(--md-color-on-surface-variant);
+  text-decoration: none;
+  font-size: var(--md-type-body-small-size);
+  display: block;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--md-shape-xs);
+  transition: background var(--md-duration-short4) var(--md-easing-standard);
+}
+.toc-wrap nav#TableOfContents a:hover {
+  background: var(--md-color-surface-container-high);
+  color: var(--md-color-on-surface);
+}
 /* ================================================================
    M3 LIGHTBOX — native <dialog>, zero dependencies
    Click any content image to view full resolution

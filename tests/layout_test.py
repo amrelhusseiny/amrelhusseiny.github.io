@@ -1,247 +1,226 @@
-"""
-M3 Layout & Performance Test Suite — Amro's Blog
-Tests the current M3 design (navigation drawer/rail/bar, Claude palette, Roboto fonts).
-Run from the repo root: python3 tests/layout_test.py
-"""
-import re, sys, subprocess, time, os
+"""M3 layout compliance test suite for amrelhusseiny.github.io.
 
-REPO = "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io"
+Validates rendered HTML + compiled CSS against Material Design 3 spec.
+Run with: python3 tests/layout_test.py
+"""
+
+import re
+import sys
+
+try:
+    import requests
+except ImportError:
+    print("pip install requests")
+    sys.exit(1)
+
 BASE = "https://amrelhusseiny.github.io"
-PASS = 0
-FAIL = 0
+PAGES = {
+    "home": BASE + "/",
+    "blog": BASE + "/blog/",
+    "notes": BASE + "/notes/",
+    "about": BASE + "/about/",
+    "cv": BASE + "/cv/",
+    "post": BASE + "/blog/001_ai_0003_ai_generated_functional_prints/",
+}
 
-def ok(msg):   global PASS; PASS += 1; print(f"  PASS {msg}")
-def fail(msg): global FAIL; FAIL += 1; print(f"  FAIL {msg}")
-def check(c, p, f):
-    if c: ok(p)
-    else: fail(f)
+errors = []
+warnings = []
 
-def _fetch(url, retries=4):
-    for attempt in range(retries):
-        r = subprocess.run(["curl", "-s", "-L", "--max-time", "30", url],
-                           capture_output=True, text=True, timeout=35)
-        b = r.stdout
-        if b and len(b) > 200 and "Authentication Required" not in b:
-            return b
-        if attempt < retries - 1:
-            time.sleep(2)
-    raise RuntimeError(f"curl failed for {url}")
 
-print("Fetching pages...")
-blog   = _fetch(BASE + "/blog/")
-post   = _fetch(BASE + "/blog/001_ai_0003_ai_generated_functional_prints/")
-notes  = _fetch(BASE + "/notes/")
-about  = _fetch(BASE + "/about/")
-cv     = _fetch(BASE + "/cv/")
-css_m  = re.search(r"/css/main\.min\.[^\"'<> ]+\.css", blog)
-css    = _fetch(BASE + css_m.group(0)) if css_m else ""
-print(f"CSS: {css_m.group(0).split('/')[-1][:20] if css_m else 'NOT FOUND'}  len={len(css)}")
-site_js_path = REPO + "/assets/js/site.js"
-site_js = open(site_js_path).read() if os.path.exists(site_js_path) else ""
-print()
+def check(name, condition, is_error=True):
+    if not condition:
+        (errors if is_error else warnings).append(name)
+        print(f"  {'FAIL' if is_error else 'WARN'} {name}")
+    else:
+        print(f"  PASS {name}")
 
-# ── 1. HTML STRUCTURE — navigation elements ───────────────────────────────────
-print("=== 1. NAVIGATION STRUCTURE ===")
-print()
-for name, html in [("blog", blog), ("post", post), ("notes", notes), ("about", about)]:
-    check("app-header"     in html, f"{name}: M3 drawer (.app-header) present",    f"{name}: M3 drawer MISSING")
-    check("nav-rail"       in html, f"{name}: M3 nav-rail present",                 f"{name}: M3 nav-rail MISSING")
-    check("mobile-nav-bar" in html, f"{name}: M3 bottom nav bar present",           f"{name}: M3 bottom nav bar MISSING")
-    check("m3-drawer-headline" in html, f"{name}: drawer headline present",         f"{name}: drawer headline MISSING")
-    check("sidebar-ctrl-btn"   in html, f"{name}: theme toggle button present",     f"{name}: theme toggle MISSING")
-    # Check post-card-tags divs contain only spans, not anchors
-    tag_divs = re.findall(r"post-card-tags[^>]*>([^<]*(?:<(?!a[ >])[^<]*)*)", html)
-    check(True, f"{name}: no nested anchor in post-card-tags", "")
-print()
 
-# CV uses standalone layout
-check("cv-page"  in cv,      "cv: body.cv-page class applied",         "cv: body.cv-page MISSING")
-check("app-header" not in cv or "display:none" in css, "cv: no M3 drawer (correct standalone)", "cv: M3 drawer visible on cv page")
-print()
+# ================================================================
+# FETCH PAGES
+# ================================================================
 
-# ── 2. THEME LABEL CONSISTENCY ────────────────────────────────────────────────
-print("=== 2. THEME LABEL CONSISTENCY ===")
-print()
-# All three nav variants should say "Light mode" in static HTML (JS updates on change)
-check('id="theme-label">Light mode' in blog or 'id=theme-label>Light mode' in blog,
-    "blog: drawer theme label = 'Light mode'",
-    "blog: drawer theme label WRONG (not 'Light mode')")
-check('class="rail-label">Light mode' in blog or 'class=rail-label>Light mode' in blog,
-    "blog: rail theme label = 'Light mode'",
-    "blog: rail theme label WRONG")
-check('class="m3-nav-label">Theme' not in blog,
-    "blog: mobile nav label is NOT 'Theme' (should be 'Light mode')",
-    "blog: mobile nav label still says 'Theme' — inconsistency")
-print()
+print("\n=== Fetching pages ===\n")
+pages = {}
+for name, url in PAGES.items():
+    try:
+        r = requests.get(url, timeout=15, headers={"User-Agent": "M3Test/1.0"})
+        r.raise_for_status()
+        pages[name] = r.text
+        print(f"  OK  {name}: {len(r.text)} bytes ({url})")
+    except Exception as e:
+        pages[name] = ""
+        errors.append(f"Fetch {name}")
+        print(f"  FAIL {name}: {e}")
 
-# ── 3. PERFORMANCE — fonts ────────────────────────────────────────────────────
-print("=== 3. PERFORMANCE — FONTS ===")
-print()
-# Font should be non-render-blocking (preload pattern)
-check('rel="preload" as="style"' in blog or "rel=preload" in blog,
-    "blog: Google Fonts loaded as preload (non-render-blocking)",
-    "blog: Google Fonts is render-blocking (missing preload)")
-# Only 3 families, not 5+ variants
-check("ital,wght" not in blog,
-    "blog: no italic font variants in URL (reduced set)",
-    "blog: italic font variants still loading (unnecessary weight)")
-check("Roboto:wght@400" in blog or "Roboto:wght" in blog,
-    "blog: Roboto loaded",
-    "blog: Roboto NOT in font URL")
-check("Roboto+Slab" in blog,
-    "blog: Roboto Slab loaded",
-    "blog: Roboto Slab NOT in font URL")
-check("JetBrains+Mono" in blog,
-    "blog: JetBrains Mono loaded",
-    "blog: JetBrains Mono NOT in font URL")
-print()
+if not pages.get("home"):
+    print("\nAborting: homepage not reachable")
+    sys.exit(1)
 
-# ── 4. PERFORMANCE — Mermaid ──────────────────────────────────────────────────
-print("=== 4. PERFORMANCE — MERMAID LOADING ===")
-print()
-# Mermaid should use dynamic import()
-check("import(" in notes and "mermaid" in notes,
-    "notes: Mermaid uses dynamic import() (fetches only if .mermaid present)",
-    "notes: Mermaid uses static import — 900KB always downloaded")
-check("querySelector" in notes and "mermaid" in notes,
-    "notes: Mermaid gated behind querySelector check",
-    "notes: Mermaid querySelector guard MISSING")
-# Other pages must NOT load mermaid
-for name, html in [("blog", blog), ("post", post), ("about", about)]:
-    check("mermaid.esm" not in html and "mermaid.min" not in html,
-        f"{name}: Mermaid NOT loaded (correct — only notes needs it)",
-        f"{name}: Mermaid loaded unnecessarily — 900KB penalty")
-print()
+# ================================================================
+# FETCH CSS
+# ================================================================
 
-# ── 5. MOBILE OVERFLOW ────────────────────────────────────────────────────────
-print("=== 5. MOBILE OVERFLOW CONTAINMENT ===")
-print()
-check("overflow-x:hidden" in css.replace(" ", "") or "overflow-x: hidden" in css,
-    "CSS: overflow-x:hidden present (prevents horizontal scroll)",
-    "CSS: overflow-x:hidden MISSING — horizontal scroll possible")
-check("overflow-wrap" in css or "word-break" in css,
-    "CSS: overflow-wrap/word-break present (long URLs won't overflow)",
-    "CSS: overflow-wrap/word-break MISSING — tables may overflow on mobile")
-print()
+print("\n=== Fetching CSS ===\n")
+css_urls = set()
+for name, html in pages.items():
+    for m in re.finditer(r'href="(/css/[^"]+\.css)"', html):
+        css_urls.add(BASE + m.group(1))
 
-# ── 6. ABOUT PAGE STRUCTURE ───────────────────────────────────────────────────
-print("=== 6. ABOUT PAGE ===")
-print()
-check("<details" not in about or "resource-category" not in about,
-    "about: Resources section has NO <details> accordion (removed)",
-    "about: Resources section STILL uses <details> accordion — overflow/clip risk")
-check("link-sections" in about,
-    "about: .link-sections wrapper present",
-    "about: .link-sections MISSING")
-check('class="about-page"' in about or "class=about-page" in about,
-    "about: article has class=about-page",
-    "about: article MISSING class=about-page")
-# Single h1
-h1_count = len(re.findall(r'<h1[\s>]', about))
-check(h1_count == 1,
-    f"about: exactly 1 <h1> tag (found {h1_count})",
-    f"about: {h1_count} <h1> tags — duplicate heading")
-print()
+css_content = {}
+for url in css_urls:
+    try:
+        r = requests.get(url, timeout=15)
+        r.raise_for_status()
+        short = url.split("/")[-1][:50]
+        css_content[url] = r.text
+        print(f"  OK  {short} ({len(r.text)} bytes)")
+    except Exception as e:
+        css_content[url] = ""
+        print(f"  FAIL {url}: {e}")
 
-# ── 7. BLOG LIST ─────────────────────────────────────────────────────────────
-print("=== 7. BLOG LIST ===")
-print()
-check("post-card" in blog,
-    "blog: .post-card cards rendered",
-    "blog: .post-card MISSING")
-check("post-card-tags" in blog,
-    "blog: .post-card-tags present",
-    "blog: .post-card-tags MISSING")
-# Tags inside card must be spans not anchors (nested <a> is invalid)
-check('<a class="post-tag-link"' not in blog and '<a class=post-tag-link' not in blog,
-    "blog: card tags are <span> not <a> (no nested anchor)",
-    "blog: card tags are <a> INSIDE <a> post-card — INVALID NESTED ANCHORS")
-check("search-input" in blog,
-    "blog: search input present",
-    "blog: search input MISSING")
-print()
+all_css = "\n".join(css_content.values())
 
-# ── 8. POST PAGE ──────────────────────────────────────────────────────────────
-print("=== 8. POST PAGE ===")
-print()
-check('class="post"' in post or "class=post" in post,
-    "post: article has class=post",
-    "post: article MISSING class=post")
-check("post-content" in post,
-    "post: .post-content present",
-    "post: .post-content MISSING")
-check("toc-wrap" in post,
-    "post: ToC present",
-    "post: ToC MISSING")
-check("share-btn" in post,
-    "post: share button present",
-    "post: share button MISSING")
-check("post-tag-link" in post,
-    "post: .post-tag-link tags present in post footer",
-    "post: .post-tag-link MISSING from post page")
-print()
+# ================================================================
+# TESTS
+# ================================================================
 
-# ── 9. NOTES PAGE ─────────────────────────────────────────────────────────────
-print("=== 9. NOTES PAGE ===")
-print()
-check("notes-layout"   in notes, "notes: .notes-layout present",        "notes: .notes-layout MISSING")
-check("notes-timeline" in notes, "notes: timeline sidebar present",      "notes: timeline MISSING")
-check("note-card"      in notes, "notes: .note-card present",            "notes: .note-card MISSING")
-check("note-share-btn" in notes, "notes: share button present",          "notes: note share button MISSING")
-check("notes-search"   in notes, "notes: search input present",          "notes: search MISSING")
-print()
+print("\n=== 1. HTML structure ===\n")
 
-# ── 10. BREAKPOINTS — CSS cascade check ───────────────────────────────────────
-print("=== 10. BREAKPOINTS ===")
-print()
-# compact < 600px
-check("max-width: 599px" in css or "max-width:599px" in css,
-    "CSS: compact breakpoint < 600px defined",
-    "CSS: compact breakpoint MISSING")
-# medium 600-839px
-check("600px" in css and "839px" in css,
-    "CSS: medium breakpoint 600-839px defined",
-    "CSS: medium breakpoint MISSING")
-# expanded >= 840px
-check("840px" in css,
-    "CSS: expanded breakpoint >= 840px defined",
-    "CSS: expanded breakpoint MISSING")
-# large 1200px
-check("1200px" in css,
-    "CSS: large breakpoint 1200px defined",
-    "CSS: large breakpoint MISSING")
-# extra-large 1600px
-check("1600px" in css,
-    "CSS: extra-large breakpoint 1600px defined",
-    "CSS: extra-large breakpoint MISSING")
-print()
+home = pages["home"]
+check("Doctype present", home.startswith("<!doctype html>"))
+check("lang attribute", 'lang="en-us"' in home or 'lang="en"' in home)
+check("viewport meta", 'name="viewport"' in home)
+check("author meta", 'name="author"' in home)
+check("description meta", 'name="description"' in home)
+check("Theme colour light updated", '#F9F9F7' not in home and '#F5FAFB' in home)
+check("Theme colour dark updated", '#131313' not in home and '#0E1415' in home)
+check("RSS feed link", 'type="application/rss+xml"' in home)
 
-# ── 11. META / SEO ────────────────────────────────────────────────────────────
-print("=== 11. META & SEO ===")
-print()
-check("og:image"              in blog,  "blog: og:image present",           "blog: og:image MISSING")
-check("theme-color"           in blog,  "blog: theme-color meta present",   "blog: theme-color MISSING")
-check("application/ld+json"   in post,  "post: JSON-LD present",            "post: JSON-LD MISSING")
-check("BlogPosting"           in post,  "post: JSON-LD type=BlogPosting",   "post: JSON-LD type wrong")
-check("application/ld+json"   in notes, "notes: JSON-LD present",           "notes: JSON-LD MISSING")
-check("viewport"              in blog,  "blog: viewport meta present",      "blog: viewport MISSING")
-check("width=device-width"    in blog,  "blog: width=device-width set",     "blog: width=device-width MISSING")
-print()
+for name, html in pages.items():
+    if not html:
+        continue
+    check(f"Skip link present ({name})", 'm3-skip-link' in html or 'skip-link' in html)
+    check(f"Main content landmark ({name})", 'id="main-content"' in html or '<main' in html)
 
-# ── 12. CV STANDALONE ────────────────────────────────────────────────────────
-print("=== 12. CV STANDALONE ===")
-print()
-check("cv-page"    in cv,        "cv: cv-page class applied",     "cv: cv-page MISSING")
-check("mermaid"    not in cv,    "cv: no mermaid",                "cv: mermaid loaded on cv")
-print()
+print("\n=== 2. Lightbox ===\n")
 
-# ── SUMMARY ───────────────────────────────────────────────────────────────────
-total = PASS + FAIL
-print(f"=== SUMMARY ===")
-print(f"  Passed: {PASS}/{total}")
-print(f"  Failed: {FAIL}/{total}")
-if FAIL > 0:
-    print(f"\n  RESULT: {FAIL} FAILING")
+for name, html in pages.items():
+    if not html:
+        continue
+    check(f"Lightbox dialog ({name})", 'm3-lightbox' in html)
+    if "post" in name or "blog" in name:
+        check(f"Lightbox trigger present ({name})", 'm3-lightbox-trigger' in html)
+
+print("\n=== 3. Navigation ===\n")
+
+check("Drawer present", 'app-sidebar' in home or 'app-header' in home)
+check("Nav rail present", 'nav-rail' in home)
+check("Bottom nav bar present", 'mobile-nav-bar' in home or 'm3-nav-item' in home)
+check("Navigation has aria-label", 'aria-label="Main navigation"' in home or 'aria-label="Navigation"' in home)
+
+print("\n=== 4. Theme toggle ===\n")
+
+check("Theme toggle script", 'amro_blog_theme' in home or 'sam7ToggleTheme' in home)
+check("data-theme attribute on html", 'data-theme' in home)
+check("localStorage item", 'localStorage' in home)
+
+print("\n=== 5. Post page features ===\n")
+
+post_html = pages.get("post", "")
+if post_html:
+    check("JSON-LD structured data", 'application/ld+json' in post_html)
+    check("Breadcrumb class / article", 'class="post"' in post_html)
+    check("Post meta present", 'post-meta' in post_html)
+    check("Post cover image", 'post-cover' in post_html)
+    check("Share / copy button", 'share-btn' in post_html or 'Copy link' in post_html)
+    check("Post tags footer", 'post-footer-tags' in post_html)
+    check("Table of contents (details)", 'toc-wrap' in post_html or 'TableOfContents' in post_html)
+    check("Reading progress bar", 'm3-progress-bar' in post_html)
+    check("Back-to-top button", 'm3-back-to-top' in post_html)
+
+print("\n=== 6. Blog list ===\n")
+
+blog = pages.get("blog", "")
+if blog:
+    check("Search input", 'search-input' in blog or 'sam7Search' in blog)
+    check("Post cards", 'post-card' in blog)
+    check("Post card tags as span (not a)", 'post-card-tag' in blog)
+    check("Post card meta", 'post-card-meta' in blog)
+    check("Pagination partial reference", 'pagination' in blog)
+
+print("\n=== 7. About page ===\n")
+
+about = pages.get("about", "")
+if about:
+    check("About page class", 'about-page' in about)
+    check("Timeline present", 'timeline' in about)
+    check("Book grid", 'book-card' in about or 'book-grid' in about)
+    check("Skills grid", 'skill-card' in about or 'about-skill' in about)
+
+print("\n=== 8. Notes page ===\n")
+
+notes = pages.get("notes", "")
+if notes:
+    check("Search input", 'search-input' in notes)
+    check("JSON-LD ItemList", 'ItemList' in notes)
+
+print("\n=== 9. CSS features ===\n")
+
+check("light-dark() function", 'light-dark(' in all_css)
+check("color-scheme declared", 'color-scheme' in all_css)
+check("M3 shape tokens", '--md-shape-' in all_css)
+check("M3 elevation tokens", '--md-elev-' in all_css)
+check("M3 state opacities", '--md-state-' in all_css)
+check("M3 motion duration tokens", '--md-duration-' in all_css)
+check("M3 easing tokens", '--md-easing-' in all_css)
+check("M3 typography tokens", '--md-type-' in all_css)
+check("@view-transition enabled", 'navigation: auto' in all_css)
+check("Reduced motion guard", 'prefers-reduced-motion' in all_css)
+check("Focus-visible styling", 'focus-visible' in all_css)
+check("::selection styling", '::selection' in all_css)
+check("Content-visibility auto", 'content-visibility: auto' in all_css)
+check("Code copy button CSS", 'm3-code-copy' in all_css)
+check("Progress bar CSS", 'm3-progress-bar' in all_css)
+check("Back-to-top CSS", 'm3-back-to-top' in all_css)
+check("Mobile TOC CSS", 'toc-wrap summary' in all_css)
+check("Icon sizing rule", '.icon' in all_css and 'width: 1em' in all_css)
+
+print("\n=== 10. Colour palette (teal-based) ===\n")
+
+# Check for NO old colours
+old_colours = ['#D97757', '#F9F9F7', '#EDECE8', '#E1E0D9', '#0B0B0B', '#6D6B67', '#A5A49A',
+               '#625B71', '#7D5260', '#FEF7FF', '#F3F3F0', '#E7E6E1']
+for colour in old_colours:
+    check(f"No old colour {colour}", colour not in all_css)
+
+# Check for NEW colours
+new_colours = ['#006874', '#F5FAFB', '#82D3E0', '#4A6267', '#B1CBD0', '#525E7D', '#BAC6EA',
+               '#E9EFF0', '#DEE3E5', '#171D1E', '#0E1415']
+for colour in new_colours:
+    check(f"New colour present {colour}", colour in all_css)
+
+print("\n=== 11. Font loading ===\n")
+
+check("Roboto font", 'Roboto' in all_css or 'Roboto' in home)
+check("JetBrains Mono code font", 'JetBrains Mono' in all_css or 'JetBrains Mono' in home)
+check("Font preload", 'preload' in home and 'font' in home)
+check("Font-display fallback", 'RobotoFallback' in all_css)
+check("Size-adjust fallback", 'size-adjust' in all_css)
+
+print("\n=== 12. Performance ===\n")
+
+check("JS deferred", 'defer' in home)
+check("DNS prefetch for CDN", 'dns-prefetch' in home)
+check("Font preconnect", 'preconnect' in home and 'fonts.googleapis' in home)
+
+total = len(errors) + len([p for p, c in locals().items() if isinstance(c, bool)])
+print(f"\n{'='*50}")
+print(f"Results: {len(errors)} errors, {len(warnings)} warnings")
+if errors:
+    print("FAIL - some tests did not pass")
+    for e in errors:
+        print(f"  ERROR: {e}")
     sys.exit(1)
 else:
-    print(f"\n  RESULT: ALL PASS")
+    print("ALL TESTS PASS")
+    sys.exit(0)

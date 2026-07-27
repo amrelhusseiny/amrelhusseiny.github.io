@@ -32,8 +32,8 @@
     <meta name="twitter:card" content="summary" />
     {{- end }}
 
-    <meta name="theme-color" content="#F9F9F7" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#131313" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F5FAFB" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E1415" media="(prefers-color-scheme: dark)">
 
     <!-- Theme init: prevents FOUC -->
     <script>
@@ -57,6 +57,7 @@
   <body>
 
     <!-- Skip navigation: M3 accessibility requirement -->
+    <div class="m3-progress-bar" role="progressbar" aria-label="Reading progress"></div>
     <a class="m3-skip-link" href="#main-content">Skip to main content</a>
 
     <!-- M3 Navigation Drawer (desktop >= 840px) -->
@@ -183,5 +184,6 @@
       </div>
     </dialog>
 
+      <button class="m3-back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&uarr;</button>
   </body>
 </html>
