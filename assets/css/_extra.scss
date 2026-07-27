@@ -1547,3 +1547,16 @@ pre:hover .m3-code-copy,
   from { opacity: 0; transform: scale(0.92); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+/* Fallback font @font-face with size-adjust to reduce CLS from font swap */
+@font-face {
+  font-family: "RobotoFallback";
+  src: local("Arial");
+  size-adjust: 100.3%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+body {
+  font-family: Roboto, RobotoFallback, system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
+}
