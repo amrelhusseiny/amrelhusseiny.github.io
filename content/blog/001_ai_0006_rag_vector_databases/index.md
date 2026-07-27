@@ -45,7 +45,7 @@ But 2 hurdles i faced to do that [1 Updated],
    And more importantly you must remember the quality of the embedding model affects the data search, since, you Must use the same model to seach that database,
    Lets take the following example of an email :
 
-   ``````bash
+``````bash
    To: sarah.johnson@company.com, james.lee@company.com, maria.garcia@company.com
    CC: robert.smith@company.com, emily.wang@company.com, david.brown@company.com, lisa.anderson@company.com
    Subject: Q3 Project Kickoff Meeting - Action Items Required
@@ -65,7 +65,7 @@ But 2 hurdles i faced to do that [1 Updated],
    Project Manager
    michael.chen@company.com
    (555) 123-4567
-   ``````
+``````
 
    Input count for such an email would be approx 150 tokens, in addition to the prompt could be in total 200 tokens, with google's embedding 001 @ $0.15 per million token , a single email would cost you $0.00002025, to embed.
 

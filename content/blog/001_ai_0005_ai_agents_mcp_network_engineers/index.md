@@ -34,7 +34,7 @@ So what is the solution,
 Here comes the use of the AGENTS.md and the IDE md files, in my case Opencode.json :
 
 1. Selective enabling of MCP servers per project / Directory, using your IDE's md file, in my case I can use an opencode.json per project, in the following format for example :
-   ```json
+```json
    # opencode.json
    {
      "$schema": "https://opencode.ai/config.json",
@@ -44,10 +44,10 @@ Here comes the use of the AGENTS.md and the IDE md files, in my case Opencode.js
        ....
      }
    }
-   ```
+```
 
 2. Using the standardized AGENTS.md file to gorup the tools into more specific usage cases : 
-   ```markdown
+```markdown
    # .opencode/AGENTS.md
    
    ## Agent: default
@@ -59,13 +59,13 @@ Here comes the use of the AGENTS.md and the IDE md files, in my case Opencode.js
    - When: Network device management, firewall config, Cisco ISE tasks
    
    .....
-   ```
+```
    
    Then you can start the right Agent you need whe you initiate the IDE : 
    
-   ```bash
+```bash
    opencode "Check firewall policies" --agent=network
-   ```
+```
 
 Not only did that fix some of the Cloud providers limits for me, it significantly decreased the token usage for me with each API call to a model, i dont need to send all those tools for the model to select in-between, 
 

@@ -55,7 +55,7 @@ You can follow teh guide @ https://github.com/ahujasid/blender-mcp, if you are u
    ![image-20251123103317926](image-20251123103317926.png)
 
 3. Then copy paste the following config :
-   ```yaml
+```yaml
    {
        "mcpServers": {
            "blender": {
@@ -66,7 +66,7 @@ You can follow teh guide @ https://github.com/ahujasid/blender-mcp, if you are u
            }
        }
    }
-   ```
+```
 
 Now you are ready,
 

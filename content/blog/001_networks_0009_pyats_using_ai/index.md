@@ -129,7 +129,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
    `git clone https://github.com/automateyournetwork/pyATS_MCP.git`
 
 2) You need to update the `testbed.yaml` with your devices details, you can just follow the format from the examples set in  the exisitng Repo `testbed.yaml`, for our lab, the file looks like :
-   ```
+```
    # testbed.yaml
    
    ---
@@ -206,16 +206,16 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
            port: 2202
            arguments:
              connection_timeout: 360
-   ```bash
+```bash
 
    
 
 3) The Docker file is already there, however we need to create an app directory and move "pyats_mcp_server.py" and "testbed.yaml" to 
-   ```
+```
    mkdir app
    cp testbed.yaml app
    cp pyats_mcp_server.py app
-   ```bash
+```bash
 
 4) Then we can build the container : (If you are familiar with docker, this is a simple standard Ptyhon image, which will run the `pyats_mcp_server.py` python script copied to the `app`  folder)
    `docker build -t pyats-mcp-server .`
@@ -227,7 +227,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
 In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`, now lets start : 
 
 1. Assuming you have installed Gemini CLI and already authenticated, we need to edit `~/.gemini/settings.json`, replace `YOUR_FULL_PATH_TO/app` with the right path to your `app` folder on your machine:
-   ```
+```
    $ cat ~/.gemini/settings.json 
    {
      "theme": "ANSI",
@@ -251,10 +251,10 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
        }
      }
    }
-   ```bash
+```bash
 
 2. Then we start  Gemini, i prefer to use the flash model as it has much higher limits : 
-   ```
+```
    $ gemini -m gemini-2.5-flash 
    
     ███            █████████  ██████████ ██████   ██████ █████ ██████   █████ █████
@@ -280,10 +280,10 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
    ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
    
    ~/pyATS_MCP              no sandbox (see /docs)               gemini-2.5-flash (100% context left)
-   ```bash
+```bash
 
 3. You can see its saying `Using 1 MCP server (ctrl+t to view)`, no you can view it by typing `/mcp` : 
-   ```
+```
    ╭──────────╮
    │  > /mcp  │
    ╰──────────╯
@@ -298,7 +298,7 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
        - pyats_show_logging
        - pyats_ping_from_network_device
        - pyats_run_linux_command
-   ```
+```
 
 Now you are ready to go :).
 

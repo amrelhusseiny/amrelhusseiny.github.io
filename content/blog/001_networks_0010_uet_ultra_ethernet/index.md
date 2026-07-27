@@ -37,7 +37,7 @@ Semantic Sub Layer :
 
 CSIG
 
-![image-20260509101419007](/Users/amro/Library/Application Support/typora-user-images/image-20260509101419007.png)
+![image-20260509101419007](image-20260509101419007.png)
 
 - CSIG must be supported by the switching layer for UET operations.
 - 
