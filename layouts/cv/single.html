@@ -8,9 +8,9 @@
     <meta name="author" content="{{ .Params.name }}" />
     <meta name="description" content="CV of {{ .Params.name }} — {{ .Params.tagline }}" />
     {{ $style := resources.Get "css/_extra.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
-    <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" />
     {{ $cvstyle := resources.Get "css/cv.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
-    <link rel="stylesheet" href="{{ $cvstyle.RelPermalink }}" />
+    <link rel="stylesheet" href="{{ $cvstyle.RelPermalink }}" integrity="{{ $cvstyle.Data.Integrity }}" crossorigin="anonymous" />
   </head>
   <body class="cv-page">
 

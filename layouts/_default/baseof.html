@@ -12,8 +12,8 @@
 
     {{/* CSS */}}
     {{ $style := resources.Get "css/_extra.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
-    <link rel="preload" as="style" href="{{ $style.RelPermalink }}" />
-    <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+    <link rel="preload" as="style" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" />
     {{ block "page_css" . }}{{ end }}
 
     {{ with .OutputFormats.Get "rss" -}}
@@ -52,7 +52,17 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Slab:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 
     {{ $js := resources.Get "js/site.js" | resources.Minify | resources.Fingerprint }}
-    <script src="{{ $js.RelPermalink }}" defer></script>
+    <script src="{{ $js.RelPermalink }}" defer integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+  
+    <script type="speculationrules">
+    {
+      "prerender": [{
+        "where": { "href_matches": "/blog/*" },
+        "eagerness": "moderate"
+      }]
+    }
+    </script>
+
   </head>
   <body>
 

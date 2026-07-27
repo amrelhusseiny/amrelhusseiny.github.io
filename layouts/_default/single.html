@@ -1,6 +1,6 @@
 {{ define "page_css" }}
 {{ $ps := resources.Get "css/_post.scss" | css.Sass | resources.Minify | resources.Fingerprint }}
-<link rel="stylesheet" href="{{ $ps.RelPermalink }}" />
+<link rel="stylesheet" href="{{ $ps.RelPermalink }}" integrity="{{ $ps.Data.Integrity }}" crossorigin="anonymous" />
 {{ end }}
 
 {{ define "main" }}
@@ -57,6 +57,7 @@
       {{ end }}
     </div>
     {{ with .Params.image }}
+    <link rel="preload" as="image" href="{{ $.RelPermalink }}{{ . }}" fetchpriority="high">
     <div class="post-cover-wrap">
       <button class="m3-lightbox-trigger m3-cover-trigger"
               aria-label="View full size: {{ $.Title }}"

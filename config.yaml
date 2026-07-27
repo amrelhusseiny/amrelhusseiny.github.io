@@ -2,6 +2,7 @@
 # baseURL: http://localhost:1313/
 baseURL: https://amrelhusseiny.github.io/
 buildDrafts: false
+noJSConfigInHead: true
 theme: "m10c"
 title: "Amro's Blog"
 languageCode: "en-us"
