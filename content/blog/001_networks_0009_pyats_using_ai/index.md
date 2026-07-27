@@ -117,7 +117,7 @@ $ containerlab inspect fullmesh-lab.clab.yml
 │ clab-fullmesh-lab-n9kv2 │ cisco_n9kv                      │ running            │ 172.100.100.3  │
 │                         │ vrnetlab/cisco_n9kv:9500-10.4.6 │ (health: starting) │ N/A            │
 ╰─────────────────────────┴─────────────────────────────────┴────────────────────┴────────────────╯
-```bash
+```
 
 you can follow stes to setup your own containerlab setup @ https://containerlab.dev/install/ , we wont be covering this part.
 
@@ -206,7 +206,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
            port: 2202
            arguments:
              connection_timeout: 360
-```bash
+```
 
    
 
@@ -215,7 +215,7 @@ Since this is an individual's effort to create this MCP server for Cisco, and si
    mkdir app
    cp testbed.yaml app
    cp pyats_mcp_server.py app
-```bash
+```
 
 4) Then we can build the container : (If you are familiar with docker, this is a simple standard Ptyhon image, which will run the `pyats_mcp_server.py` python script copied to the `app`  folder)
    `docker build -t pyats-mcp-server .`
@@ -251,7 +251,7 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
        }
      }
    }
-```bash
+```
 
 2. Then we start  Gemini, i prefer to use the flash model as it has much higher limits : 
 ```
@@ -280,7 +280,7 @@ In Gemini CLIl, you can add your mcp servers under the `~/.gemini/settings.json`
    ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
    
    ~/pyATS_MCP              no sandbox (see /docs)               gemini-2.5-flash (100% context left)
-```bash
+```
 
 3. You can see its saying `Using 1 MCP server (ctrl+t to view)`, no you can view it by typing `/mcp` : 
 ```
