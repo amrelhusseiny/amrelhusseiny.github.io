@@ -37,7 +37,7 @@ $ gemini -m gemini-2.5-flash
    4 | clab-fullmesh-lab-n9kv1 | 10.4(6)         |
    5 +-------------------------+-----------------+
     
-```bash
+```
 
 ### Introduction
 
