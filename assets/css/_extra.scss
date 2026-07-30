@@ -1,6 +1,6 @@
 /* ================================================================
    Amro Blog -- Material Design 3 -- 100% spec compliance
-   Claude colour palette * Inter * M3 typescale * M3 layout
+   Claude warm palette * Source Serif Pro + Inter * M3 typescale * M3 layout
    ================================================================ */
 
 /* ── M3 Shape tokens ── */
@@ -86,17 +86,17 @@
 
   /* Body */
   --md-type-body-large-size:        1rem;
-  --md-type-body-large-line-height: 1.5rem;
+  --md-type-body-large-line-height: 1.7rem;
   --md-type-body-large-weight:      400;
   --md-type-body-large-tracking:    0.03125rem;
 
   --md-type-body-medium-size:        0.875rem;
-  --md-type-body-medium-line-height: 1.25rem;
+  --md-type-body-medium-line-height: 1.6rem;
   --md-type-body-medium-weight:      400;
   --md-type-body-medium-tracking:    0.015625rem;
 
   --md-type-body-small-size:        0.75rem;
-  --md-type-body-small-line-height: 1rem;
+  --md-type-body-small-line-height: 1.5rem;
   --md-type-body-small-weight:      400;
   --md-type-body-small-tracking:    0.025rem;
 
@@ -116,56 +116,56 @@
   --md-type-label-small-weight:      500;
   --md-type-label-small-tracking:    0.03125rem;
 
-  /* ── Colour tokens (light-dark) ── */
+  /* ── Claude warm palette ── */
   color-scheme: light dark;
-  --md-color-background: light-dark(#F5FAFB, #0E1415);
-  --md-color-surface: light-dark(#F5FAFB, #0E1415);
-  --md-color-surface-dim: light-dark(#D5DBDC, #0E1415);
-  --md-color-surface-bright: light-dark(#F5FAFB, #343A3B);
-  --md-color-surface-container-lowest: light-dark(#FFFFFF, #090F10);
-  --md-color-surface-container-low: light-dark(#EFF5F6, #171D1E);
-  --md-color-surface-container: light-dark(#E9EFF0, #1B2122);
-  --md-color-surface-container-high: light-dark(#E3E9EA, #252B2C);
-  --md-color-surface-container-highest: light-dark(#DEE3E5, #303637);
-  --md-color-surface-variant: light-dark(#DBE4E6, #3F484A);
-  --md-color-surface-tint: light-dark(#006874, #82D3E0);
-  --md-color-on-surface: light-dark(#171D1E, #DEE3E5);
-  --md-color-on-surface-variant: light-dark(#3F484A, #BFC8CA);
-  --md-color-outline: light-dark(#6F797A, #899294);
-  --md-color-outline-variant: light-dark(#BFC8CA, #3F484A);
-  --md-color-primary: light-dark(#006874, #82D3E0);
-  --md-color-on-primary: light-dark(#FFFFFF, #00363D);
-  --md-color-primary-container: light-dark(#9EEFFD, #004F58);
-  --md-color-on-primary-container: light-dark(#004F58, #9EEFFD);
-  --md-color-primary-fixed: light-dark(#9EEFFD, #9EEFFD);
-  --md-color-on-primary-fixed: light-dark(#001F24, #001F24);
-  --md-color-primary-fixed-dim: light-dark(#82D3E0, #82D3E0);
-  --md-color-on-primary-fixed-variant: light-dark(#004F58, #004F58);
-  --md-color-secondary: light-dark(#4A6267, #B1CBD0);
-  --md-color-on-secondary: light-dark(#FFFFFF, #1C3438);
-  --md-color-secondary-container: light-dark(#CDE7EC, #334B4F);
-  --md-color-on-secondary-container: light-dark(#334B4F, #CDE7EC);
-  --md-color-secondary-fixed: light-dark(#CDE7EC, #CDE7EC);
-  --md-color-on-secondary-fixed: light-dark(#051F23, #051F23);
-  --md-color-secondary-fixed-dim: light-dark(#B1CBD0, #B1CBD0);
-  --md-color-on-secondary-fixed-variant: light-dark(#334B4F, #334B4F);
-  --md-color-tertiary: light-dark(#525E7D, #BAC6EA);
-  --md-color-on-tertiary: light-dark(#FFFFFF, #24304D);
-  --md-color-tertiary-container: light-dark(#DAE2FF, #3B4664);
-  --md-color-on-tertiary-container: light-dark(#3B4664, #DAE2FF);
-  --md-color-tertiary-fixed: light-dark(#DAE2FF, #DAE2FF);
-  --md-color-on-tertiary-fixed: light-dark(#0E1B37, #0E1B37);
-  --md-color-tertiary-fixed-dim: light-dark(#BAC6EA, #BAC6EA);
-  --md-color-on-tertiary-fixed-variant: light-dark(#3B4664, #3B4664);
+  --md-color-background: light-dark(#F9F6F1, #1A1816);
   --md-color-error: light-dark(#BA1A1A, #FFB4AB);
-  --md-color-on-error: light-dark(#FFFFFF, #690005);
   --md-color-error-container: light-dark(#FFDAD6, #93000A);
+  --md-color-inverse-on-surface: light-dark(#F2EFEA, #2C2C2C);
+  --md-color-inverse-primary: light-dark(#E8C4B0, #D97757);
+  --md-color-inverse-surface: light-dark(#2C2C2C, #E8E2D9);
+  --md-color-on-error: light-dark(#FFFFFF, #690005);
   --md-color-on-error-container: light-dark(#93000A, #FFDAD6);
-  --md-color-inverse-surface: light-dark(#2B3133, #DEE3E5);
-  --md-color-inverse-on-surface: light-dark(#ECF2F3, #2B3133);
-  --md-color-inverse-primary: light-dark(#82D3E0, #006874);
-  --md-color-shadow: light-dark(#000000, #000000);
+  --md-color-on-primary: light-dark(#FFFFFF, #3D1A0A);
+  --md-color-on-primary-container: light-dark(#3D1A0A, #FDEEE7);
+  --md-color-on-primary-fixed: light-dark(#3D1A0A, #3D1A0A);
+  --md-color-on-primary-fixed-variant: light-dark(#5C3020, #5C3020);
+  --md-color-on-secondary: light-dark(#FFFFFF, #2C2A26);
+  --md-color-on-secondary-container: light-dark(#1D1D1D, #F4F0E8);
+  --md-color-on-secondary-fixed: light-dark(#1D1D1D, #1D1D1D);
+  --md-color-on-secondary-fixed-variant: light-dark(#454240, #454240);
+  --md-color-on-surface: light-dark(#1D1D1D, #E8E2D9);
+  --md-color-on-surface-variant: light-dark(#6B6B6B, #A09890);
+  --md-color-on-tertiary: light-dark(#FFFFFF, #2D2415);
+  --md-color-on-tertiary-container: light-dark(#2D2415, #F0E8D8);
+  --md-color-on-tertiary-fixed: light-dark(#2D2415, #2D2415);
+  --md-color-on-tertiary-fixed-variant: light-dark(#5C4A30, #5C4A30);
+  --md-color-outline: light-dark(#E5E1DA, #6B6760);
+  --md-color-outline-variant: light-dark(#EFECE6, #454240);
+  --md-color-primary: light-dark(#D97757, #D97757);
+  --md-color-primary-container: light-dark(#FDEEE7, #5C3020);
+  --md-color-primary-fixed: light-dark(#FDEEE7, #FDEEE7);
+  --md-color-primary-fixed-dim: light-dark(#E8C4B0, #E8C4B0);
   --md-color-scrim: light-dark(#000000, #000000);
+  --md-color-secondary: light-dark(#6B6B6B, #C8C2B8);
+  --md-color-secondary-container: light-dark(#F4F0E8, #454240);
+  --md-color-secondary-fixed: light-dark(#F4F0E8, #F4F0E8);
+  --md-color-secondary-fixed-dim: light-dark(#E5E1DA, #E5E1DA);
+  --md-color-shadow: light-dark(#000000, #000000);
+  --md-color-surface: light-dark(#FFFFFF, #1A1816);
+  --md-color-surface-bright: light-dark(#FFFFFF, #383430);
+  --md-color-surface-container: light-dark(#F4F0E8, #262420);
+  --md-color-surface-container-high: light-dark(#EDE9E2, #302E2A);
+  --md-color-surface-container-highest: light-dark(#E5E1DA, #3C3834);
+  --md-color-surface-container-low: light-dark(#FAF8F4, #22201D);
+  --md-color-surface-container-lowest: light-dark(#FFFFFF, #141210);
+  --md-color-surface-dim: light-dark(#E8E4DE, #1A1816);
+  --md-color-surface-tint: light-dark(#D97757, #D97757);
+  --md-color-surface-variant: light-dark(#E5E1DA, #454240);
+  --md-color-tertiary: light-dark(#8B7355, #D5C8B0);
+  --md-color-tertiary-container: light-dark(#F0E8D8, #5C4A30);
+  --md-color-tertiary-fixed: light-dark(#F0E8D8, #F0E8D8);
+  --md-color-tertiary-fixed-dim: light-dark(#D5C8B0, #D5C8B0);
 
 /* ── M3 State layer opacities (from _md-sys-state.scss v0.192) ── */
   --md-state-hover:   0.08;
@@ -203,7 +203,7 @@ body {
   color: var(--md-color-on-surface);
   margin: 0;
   overflow-x: hidden;
-  font-family: Roboto, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: var(--md-type-body-large-size);
   line-height: var(--md-type-body-large-line-height);
   font-weight: var(--md-type-body-large-weight);
@@ -212,6 +212,17 @@ body {
               color      var(--md-duration-medium2) var(--md-easing-standard);
 }
 
+
+
+/* ── Headings: Source Serif Pro (Claude aesthetic) ── */
+body:not(.cv-page) h1,
+body:not(.cv-page) h2,
+body:not(.cv-page) h3,
+body:not(.cv-page) h4,
+body:not(.cv-page) h5,
+body:not(.cv-page) h6 {
+  font-family: "Source Serif Pro", Georgia, "Times New Roman", serif !important;
+}
 
 /* ── Global heading reset: neutralise m10c colour + weight leaks ── */
 body:not(.cv-page) h1,
@@ -803,11 +814,12 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
 .post-card {
   display: block;
   background: var(--md-color-surface-container-low);
-  border-radius: var(--md-shape-medium);
+  border-radius: 8px;
   padding: 1.25rem 1.5rem;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--md-elev-1);
+  border: 1px solid var(--md-color-outline);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   position: relative;
   overflow: hidden;
   content-visibility: auto;
@@ -825,7 +837,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   opacity: 0;
   transition: opacity var(--md-duration-short4) var(--md-easing-standard);
 }
-.post-card:hover { box-shadow: var(--md-elev-2); transform: translateY(-2px); }
+.post-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
 .post-card:hover::before { opacity: var(--md-state-hover); }
 .post-card:active::before { opacity: var(--md-state-pressed); }
 
@@ -1550,13 +1562,13 @@ pre:hover .m3-code-copy,
 
 /* Fallback font @font-face with size-adjust to reduce CLS from font swap */
 @font-face {
-  font-family: "RobotoFallback";
+  font-family: "InterFallback";
   src: local("Arial");
-  size-adjust: 100.3%;
-  ascent-override: 92%;
-  descent-override: 24%;
+  size-adjust: 99%;
+  ascent-override: 90%;
+  descent-override: 22%;
   line-gap-override: 0%;
 }
 body {
-  font-family: Roboto, RobotoFallback, system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  font-family: Inter, "InterFallback", system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
 }
