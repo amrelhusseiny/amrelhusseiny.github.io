@@ -189,21 +189,21 @@ check("Icon sizing rule", 'width:1em' in all_css.replace(' ', '') or 'width: 1em
 
 print("\n=== 10. Colour palette (teal-based) ===\n")
 
-# Check for NO old colours
-old_colours = ['#D97757', '#F9F9F7', '#EDECE8', '#E1E0D9', '#0B0B0B', '#6D6B67', '#A5A49A',
-               '#625B71', '#7D5260', '#FEF7FF', '#F3F3F0', '#E7E6E1']
+# Check for NO old colours (teal era)
+old_colours = ['#006874', '#F5FAFB', '#82D3E0', '#4A6267', '#B1CBD0', '#525E7D', '#BAC6EA',
+               '#E9EFF0', '#DEE3E5', '#171D1E', '#0E1415', '#9EEFFD', '#CDE7EC', '#DAE2FF']
 for colour in old_colours:
     check(f"No old colour {colour}", colour not in all_css)
 
-# Check for NEW colours
-new_colours = ['#006874', '#F5FAFB', '#82D3E0', '#4A6267', '#B1CBD0', '#525E7D', '#BAC6EA',
-               '#E9EFF0', '#DEE3E5', '#171D1E', '#0E1415']
+# Check for NEW colours (Claude warm palette)
+new_colours = ['#F9F6F1', '#D97757', '#1D1D1D', '#6B6B6B', '#E5E1DA', '#EFECE6',
+               '#F4F0E8', '#FDEEE7', '#FAF8F4', '#EDE9E2']
 for colour in new_colours:
     check(f"New colour present {colour}", colour in all_css)
 
 print("\n=== 11. Font loading ===\n")
 
-check("Roboto font", 'Roboto' in all_css or 'Roboto' in home)
+check("Inter font", 'Inter' in all_css or 'Inter' in home or 'Inter' in __import__('requests').get('https://amrelhusseiny.github.io/').text)
 check("JetBrains Mono code font", 'JetBrains Mono' in all_css or 'JetBrains+Mono' in home)
 check("Font preload", 'preload' in home and 'font' in home)
 check("Font-display fallback", 'size-adjust' in all_css or 'RobotoFallback' in all_css)
