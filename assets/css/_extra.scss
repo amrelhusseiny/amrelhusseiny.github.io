@@ -203,7 +203,7 @@ body {
   color: var(--md-color-on-surface);
   margin: 0;
   overflow-x: hidden;
-  font-family: Inter, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: Inter, "InterFallback", system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
   font-size: var(--md-type-body-large-size);
   line-height: var(--md-type-body-large-line-height);
   font-weight: var(--md-type-body-large-weight);
@@ -823,7 +823,7 @@ body:not(.cv-page) .app-container.sidebar-collapsed {
   position: relative;
   overflow: hidden;
   content-visibility: auto;
-  contain-intrinsic-size: 0 160px;
+  contain-intrinsic-size: auto 160px;
   transition: box-shadow var(--md-duration-short4) var(--md-easing-standard),
               transform  var(--md-duration-short4) var(--md-easing-standard);
   animation: m3FadeIn var(--md-duration-medium2) var(--md-easing-decel) both;
@@ -1396,43 +1396,7 @@ pre:hover .m3-code-copy,
   font-weight: 500;
 }
 
-/* ── Mobile TOC (visible below 1280px) ── */
-.toc-wrap {
-  margin-bottom: 1.5rem;
-}
-.toc-wrap summary {
-  font-size: var(--md-type-label-large-size);
-  font-weight: var(--md-type-label-large-weight);
-  letter-spacing: var(--md-type-label-large-tracking);
-  color: var(--md-color-primary);
-  cursor: pointer;
-  padding: 0.5rem 0;
-  user-select: none;
-}
-.toc-wrap nav#TableOfContents ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0.5rem 0 0;
-}
-.toc-wrap nav#TableOfContents ul ul {
-  padding-left: 1rem;
-}
-.toc-wrap nav#TableOfContents li {
-  margin: 0.15rem 0;
-}
-.toc-wrap nav#TableOfContents a {
-  color: var(--md-color-on-surface-variant);
-  text-decoration: none;
-  font-size: var(--md-type-body-small-size);
-  display: block;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--md-shape-xs);
-  transition: background var(--md-duration-short4) var(--md-easing-standard);
-}
-.toc-wrap nav#TableOfContents a:hover {
-  background: var(--md-color-surface-container-high);
-  color: var(--md-color-on-surface);
-}
+/* ── Mobile TOC: styles live in _post.scss (loaded on post pages) ── */
 /* ================================================================
    M3 LIGHTBOX — native <dialog>, zero dependencies
    Click any content image to view full resolution
@@ -1568,7 +1532,4 @@ pre:hover .m3-code-copy,
   ascent-override: 90%;
   descent-override: 22%;
   line-gap-override: 0%;
-}
-body {
-  font-family: Inter, "InterFallback", system-ui, "Segoe UI", Helvetica, Arial, sans-serif !important;
 }

@@ -12,7 +12,6 @@
 
     {{/* CSS */}}
     {{ $style := resources.Get "css/_extra.scss" | css.Sass | resources.Minify | resources.Fingerprint -}}
-    <link rel="preload" as="style" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous" />
     {{ block "page_css" . }}{{ end }}
 
@@ -32,8 +31,8 @@
     <meta name="twitter:card" content="summary" />
     {{- end }}
 
-    <meta name="theme-color" content="#F5FAFB" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0E1415" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F9F6F1" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1A1816" media="(prefers-color-scheme: dark)">
 
     <!-- Theme init: prevents FOUC -->
     <script>
@@ -57,7 +56,7 @@
     <script type="speculationrules">
     {
       "prerender": [{
-        "where": { "href_matches": "/blog/*" },
+        "where": { "href_matches": ["/blog/*", "/notes/*", "/about"] },
         "eagerness": "moderate"
       }]
     }

@@ -29,13 +29,6 @@ params:
       name: "amrelhusseiny linkedin"
       url: "https://www.linkedin.com/in/amro-elhusseini-2a330456"
 
-  style:
-    darkestColor: "#ffffff"
-    darkColor: "#ffffff"
-    lightColor: "#353b43"
-    lightestColor: "#242930"
-    primaryColor: "#666666"
-
 
 
 markup:

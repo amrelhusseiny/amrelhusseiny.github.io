@@ -8,24 +8,36 @@
     {{- $img := . -}}
     {{- $webp := $img.Process "resize 900x webp" -}}
     {{- $orig := $img.Process "resize 900x" -}}
-    <picture>
-      <source srcset="{{- $webp.RelPermalink -}}" type="image/webp">
-      <img src="{{- $orig.RelPermalink -}}" alt="{{- $alt -}}"
-           {{ with $title }}title="{{- . -}}" {{ end }}
-           loading="lazy" decoding="async"
-           style="max-width:100%;height:auto;border-radius:8px;">
-    </picture>
+    <button class="m3-lightbox-trigger"
+            aria-label="View full size{{ with $alt }}: {{ . }}{{ end }}"
+            data-src="{{- $orig.RelPermalink -}}"
+            data-alt="{{- $alt -}}">
+      <picture>
+        <source srcset="{{- $webp.RelPermalink -}}" type="image/webp">
+        <img src="{{- $orig.RelPermalink -}}" alt="{{- $alt -}}"
+             {{ with $title }}title="{{- . -}}" {{ end }}
+             loading="lazy" decoding="async">
+      </picture>
+    </button>
   {{- else -}}
-    {{- /* Fallback: image not in page bundle, render as-is with lazy */ -}}
-    <img src="{{- $src -}}" alt="{{- $alt -}}"
-         {{ with $title }}title="{{- . -}}" {{ end }}
-         loading="lazy" decoding="async"
-         style="max-width:100%;height:auto;border-radius:8px;">
+    {{- /* Fallback: image not in page bundle, render with lightbox */ -}}
+    <button class="m3-lightbox-trigger"
+            aria-label="View full size{{ with $alt }}: {{ . }}{{ end }}"
+            data-src="{{- $src -}}"
+            data-alt="{{- $alt -}}">
+      <img src="{{- $src -}}" alt="{{- $alt -}}"
+           {{ with $title }}title="{{- . -}}" {{ end }}
+           loading="lazy" decoding="async">
+    </button>
   {{- end -}}
 {{- else -}}
-  {{- /* Absolute or external URL — render as-is with lazy */ -}}
-  <img src="{{- $src -}}" alt="{{- $alt -}}"
-       {{ with $title }}title="{{- . -}}" {{ end }}
-       loading="lazy" decoding="async"
-       style="max-width:100%;height:auto;border-radius:8px;">
+  {{- /* Absolute or external URL — render with lightbox */ -}}
+  <button class="m3-lightbox-trigger"
+          aria-label="View full size{{ with $alt }}: {{ . }}{{ end }}"
+          data-src="{{- $src -}}"
+          data-alt="{{- $alt -}}">
+    <img src="{{- $src -}}" alt="{{- $alt -}}"
+         {{ with $title }}title="{{- . -}}" {{ end }}
+         loading="lazy" decoding="async">
+  </button>
 {{- end -}}

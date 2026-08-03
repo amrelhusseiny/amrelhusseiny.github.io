@@ -22,3 +22,19 @@ Thumbs.db
 *.pkg
 *.dmg
 *.exe
+*.tar.gz
+*.tape
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment / secrets
+.env
+.env.*
+
+# Research artifacts
+content/blog/001_ai_0007_three_architectures_reshaping_ai/research/
+
+# Dev notes
+SCRATCHPAD.md
