@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://amrelhusseiny.github.io/sitemap.xml
+Sitemap: https://amroelhusseini.vercel.app/sitemap.xml
 
 # AI crawlers — explicitly allowed
 User-agent: GPTBot
@@ -20,5 +20,5 @@ User-agent: Googlebot
 Allow: /
 
 # LLM-friendly plain-text endpoints
-# https://amrelhusseiny.github.io/llms.txt
-# https://amrelhusseiny.github.io/llms-full.txt
+# https://amroelhusseini.vercel.app/llms.txt
+# https://amroelhusseini.vercel.app/llms-full.txt
