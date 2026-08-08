@@ -135,6 +135,7 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   display: flex; align-items: center; gap: 8px;
   height: 40px; padding: 0 16px;
+  white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
   border-radius: var(--radius-full);
   color: var(--color-ink-soft);
   font-size: 0.875rem; font-weight: 500;
@@ -198,6 +199,7 @@ a { color: inherit; text-decoration: none; }
 .post-card:hover { background: var(--color-paper-raise); transform: translateY(-2px); }
 .post-card:active { transform: translateY(0); }
 .post-card-title { font-family: "Source Serif 4", serif; font-size: 1.125rem; font-weight: 700; margin-bottom: 6px; }
+.nav-item.nav-item-wrap { white-space: normal; text-overflow: clip; overflow: visible; height: auto; }
 .post-card-summary { color: var(--color-ink-soft); font-size: 0.9375rem; line-height: 1.6; margin-bottom: 10px; }
 .post-card-meta { color: var(--color-ink-mute); font-size: 0.8125rem; display: flex; align-items: center; gap: 6px; }
 .post-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
@@ -315,7 +317,9 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Notes page ── */
 .notes-layout { display: flex; align-items: flex-start; gap: 24px; position: relative; }
-.notes-stream { max-width: 720px; }
+.notes-main { flex: 1; min-width: 0; width: 100%; }
+.notes-header { margin-bottom: 1.25rem; }
+.notes-stream { max-width: 720px; width: 100%; min-width: 0; box-sizing: border-box; }
 .notes-stream-title { font-size: 1.75rem; margin-bottom: 0.5rem; }
 .notes-stream-subtitle { color: var(--color-ink-soft); margin-bottom: 2rem; }
 .notes-empty { color: var(--color-ink-soft); }
@@ -409,6 +413,11 @@ a { color: inherit; text-decoration: none; }
 
 /* Notes responsive */
 @media (max-width: 839px) {
+  .notes-layout { flex-direction: column; gap: 0; width: 100%; max-width: 100%; overflow-x: hidden; }
+  .notes-main { width: 100%; max-width: 100%; min-width: 0; overflow-x: hidden; }
+  .notes-stream { max-width: 100%; width: 100%; min-width: 0; overflow-x: hidden; }
+  .note-card { min-width: 0; max-width: 100%; overflow-wrap: break-word; }
+  .note-card-content { min-width: 0; max-width: 100%; overflow-wrap: break-word; }
   .notes-timeline { display: none !important; }
   .notes-timeline-mobile {
     display: block; width: 100%; box-sizing: border-box;

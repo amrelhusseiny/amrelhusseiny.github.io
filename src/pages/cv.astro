@@ -58,6 +58,7 @@ const langLevel = (lvl: string) => {
       .sheet {
         max-width: 210mm; margin: 20px auto 60px; background: var(--ep-white);
         box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+        width: 100%; box-sizing: border-box;
       }
 
       /* ── Header band ── */
@@ -143,6 +144,23 @@ const langLevel = (lvl: string) => {
       .cv-gate .btn:hover { background: var(--ep-blue-dark); }
       .cv-gate-note { font-size: 9.5px; color: var(--ep-light); margin-top: 6px; line-height: 1.4; }
       .cv-contact-hidden { display: none; }
+      /* ── Mobile (<600px): single column, full width ── */
+      @media (max-width: 599px) {
+        body { font-size: 12px; }
+        .cv-body { grid-template-columns: 1fr; }
+        .cv-sidebar { border-right: none; border-bottom: 1px solid #d8e0f2; padding-bottom: 16px; }
+        .sheet { margin: 0 0 40px; box-shadow: none; border-radius: 0; }
+        .cv-head { padding: 20px 18px 16px; }
+        .cv-head h1 { font-size: 24px; }
+        .cv-job-head { flex-direction: column; gap: 2px; }
+        .cv-job-period { white-space: normal; }
+        .cv-skill .chips { flex-wrap: wrap; }
+      }
+      /* Tablet 600-839px */
+      @media (min-width: 600px) and (max-width: 839px) {
+        .cv-body { grid-template-columns: 200px 1fr; }
+      }
+
       /* ── Print-only contact (A4) ── */
       .cv-contact-print { display: none; }
 

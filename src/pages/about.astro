@@ -72,7 +72,7 @@ const skills = [
     <h2 style="font-size:1.5rem;margin-bottom:16px;">Featured Posts</h2>
     <div style="display:flex;flex-direction:column;gap:8px;">
       {posts.map((p) => (
-        <a href={`/blog/${p.id}/`} class="nav-item" style="height:auto;padding:10px 16px;align-items:flex-start;flex-direction:column;gap:2px;">
+        <a href={`/blog/${p.id}/`} class="nav-item nav-item-wrap" style="padding:10px 16px;align-items:flex-start;flex-direction:column;gap:2px;">
           <span style="color:var(--color-ink);font-weight:600;">{p.data.title}</span>
           <span style="color:var(--color-ink-mute);font-size:0.8125rem;">
             {p.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {readingMinutes(p.body)} min read
