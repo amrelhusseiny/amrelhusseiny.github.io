@@ -1,0 +1,111 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { books } from "../lib/books";
+import { timeline } from "../lib/timeline";
+import { links } from "../lib/links";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+
+
+
+const skills = [
+  { title: "Network Engineering", years: "8+ years", chips: ["BGP / MPLS / OSPF", "Routing & Switching", "Palo Alto / Cisco ASA", "Juniper MX / SRX"] },
+  { title: "Network Automation", years: "6+ years", chips: ["Python", "REST API / NetConf", "MCP Servers", "N8N"] },
+  { title: "Cloud & Virtualisation", years: "5+ years", chips: ["OpenStack Neutron", "Arista (DC)", "Terraform", "Docker"] },
+  { title: "Linux & Observability", years: "6+ years", chips: ["Linux Admin", "Grafana / InfluxDB", "Telegraf", "SolarWinds NPM"] },
+];
+---
+<Layout title="About" description="About Amro El Husseini — network engineer and automation advocate.">
+  <section data-reveal style="margin-bottom:40px;">
+    <p style="color:var(--color-ink-soft);">Senior Network &amp; Cloud Engineer · Automation Advocate</p>
+    <p style="color:var(--color-ink-mute);margin-bottom:20px;">Frankfurt am Main, Germany</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a class="share-btn" href="/cv/">CV</a>
+      <a class="share-btn" href="https://www.linkedin.com/in/amro-elhusseini-2a330456" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="share-btn" href="https://github.com/amrelhusseiny" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </section>
+
+  <section data-reveal style="margin-bottom:48px;">
+    <h1 style="font-size:2rem;margin-bottom:12px;">Hi, I'm Amro El Husseini</h1>
+    <div class="post-content">
+      <p>Network Engineer focused on automation, cloud networking, and Linux internals.</p>
+      <p>I design and operate resilient network platforms, then automate repetitive operations with Python and Ansible.</p>
+      <p>I use this blog to share practical labs, implementation notes, and lessons from production environments.</p>
+    </div>
+  </section>
+
+  <section data-reveal style="margin-bottom:48px;">
+    <h2 style="font-size:1.5rem;margin-bottom:16px;">My Expertise</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+      {skills.map((s) => (
+        <div style="background:var(--color-paper-soft);border-radius:var(--radius-md);padding:20px;">
+          <h3 style="font-size:1.05rem;margin:0 0 4px;">{s.title}</h3>
+          <p style="color:var(--color-ink-soft);font-size:0.875rem;margin:0 0 12px;">{s.years}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            {s.chips.map((c) => <span class="post-card-tag" style="background:var(--color-paper-high);">{c}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section data-reveal style="margin-bottom:48px;">
+    <h2 style="font-size:1.5rem;margin-bottom:16px;">Work Experience</h2>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      {timeline.map((t) => (
+        <div>
+          <div style="color:var(--color-ink-mute);font-size:0.8125rem;margin-bottom:4px;">{t.date}</div>
+          <h3 style="font-size:1.05rem;margin:0 0 2px;">{t.title}</h3>
+          <p style="color:var(--color-ink-soft);margin:0 0 4px;">{t.company}</p>
+          {t.achievement && <p style="color:var(--color-ink-soft);font-size:0.9375rem;margin:0;">{t.achievement}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section data-reveal style="margin-bottom:48px;">
+    <h2 style="font-size:1.5rem;margin-bottom:16px;">Featured Posts</h2>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      {posts.map((p) => (
+        <a href={`/blog/${p.id}/`} class="nav-item" style="height:auto;padding:10px 16px;align-items:flex-start;flex-direction:column;gap:2px;">
+          <span style="color:var(--color-ink);font-weight:600;">{p.data.title}</span>
+          <span style="color:var(--color-ink-mute);font-size:0.8125rem;">
+            {p.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {Math.max(1, Math.round((p.body?.length || 800) / 2500))} min read
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section data-reveal style="margin-bottom:48px;">
+    <h2 style="font-size:1.5rem;margin-bottom:16px;">My Reading Corner</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:12px;">
+      {books.map((b) => (
+        <a href={b.url} target="_blank" rel="noopener noreferrer" title="View Book">
+          <img src={b.image} alt="Book cover" loading="lazy" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius-sm);background:var(--color-paper-raise);" />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section data-reveal>
+    <h2 style="font-size:1.5rem;margin-bottom:16px;">Favorite Resources</h2>
+    {links.map((cat) => (
+      <div style="margin-bottom:20px;">
+        <h3 style="font-size:1rem;margin:0 0 8px;">{cat.category}</h3>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          {cat.links.map((l) => (
+            <a href={l.url} target="_blank" rel="noopener noreferrer" style="padding:8px 12px;border-radius:var(--radius-sm);transition:background var(--duration-s2) var(--ease-m3);" on:mouseover={null}>
+              <span style="font-weight:500;color:var(--color-ink);">{l.title}</span>
+              <span style="color:var(--color-ink-soft);font-size:0.875rem;"> — {l.description}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Layout>

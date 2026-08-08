@@ -1,8 +1,0 @@
-<ul class="featured-posts-list">
-  {{ range first 4 ((where .Site.RegularPages "Section" "blog").ByDate.Reverse) }}
-    <li class="featured-posts-item">
-      <a class="featured-posts-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      <p class="featured-posts-meta">{{ .PublishDate.Format "Jan 2, 2006" }} • {{ .ReadingTime }} min read</p>
-    </li>
-  {{ end }}
-</ul>

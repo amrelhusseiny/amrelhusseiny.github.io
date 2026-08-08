@@ -1,0 +1,76 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const date = post.data.date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+const words = (post.body?.split(/\s+/).length || 0);
+const minutes = Math.max(1, Math.round(words / 220));
+---
+<Layout title={post.data.title} description={post.data.description}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    datePublished: post.data.date.toISOString(),
+    author: { "@type": "Person", "name": "Amro El Husseini" },
+    url: Astro.url.href,
+    description: post.data.description || ""
+  })} />
+
+  <article>
+    <header class="post-header" data-reveal>
+      <h1 class="post-title">{post.data.title}</h1>
+      <div class="post-meta">
+        <span>{date}</span>
+        <span>&middot;</span>
+        <span>{minutes} min read</span>
+        {post.data.tags && post.data.tags.map((t) => (
+          <a class="post-tag-link" href={`/blog/?q=${encodeURIComponent(t)}`}>#{t}</a>
+        ))}
+      </div>
+    </header>
+
+    {headings.length > 1 && (
+      <details class="toc-wrap" open data-reveal>
+        <summary style="cursor:pointer;font-weight:600;padding:12px 0;color:var(--color-ink);">Table of Contents</summary>
+        <ol style="padding-left:20px;color:var(--color-ink-soft);">
+          {headings.filter((h) => h.depth >= 2 && h.depth <= 4).map((h) => (
+            <li style={h.depth > 2 ? "margin-left:20px;" : ""}>
+              <a href={`#${h.slug}`} style="text-decoration:none;color:inherit;">{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </details>
+    )}
+
+    <div class="post-content" data-reveal>
+      <Content />
+    </div>
+
+    <footer class="post-footer">
+      <button class="share-btn" id="post-share-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span id="post-share-label">Copy link</span>
+      </button>
+    </footer>
+  </article>
+
+  <script>
+    const btn = document.getElementById("post-share-btn");
+    const lbl = document.getElementById("post-share-label");
+    btn?.addEventListener("click", () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        lbl.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => { lbl.textContent = "Copy link"; btn.classList.remove("copied"); }, 1800);
+      });
+    });
+  </script>
+</Layout>

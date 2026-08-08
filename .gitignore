@@ -1,40 +1,23 @@
-# Hugo/Jekyll
-/public/
-/resources/
-/docs/
-.hugo_build.lock
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
+# Astro / Node
+node_modules/
+dist/
+.astro/
+.vercel/
+*.log
 
-# Operating System files
+# OS
 .DS_Store
 Thumbs.db
-
-# Temporary files
-*~
-*.swp
-*.swo
-*.bkp
-.aider*
-
-# Large binaries
-*.pkg
-*.dmg
-*.exe
-*.tar.gz
-*.tape
 
 # Python
 __pycache__/
 *.pyc
 
-# Environment / secrets
+# Env / secrets
 .env
 .env.*
 
-# Research artifacts
-content/blog/001_ai_0007_three_architectures_reshaping_ai/research/
-
-# Dev notes
-SCRATCHPAD.md
+# Temporary
+*~
+*.swp
+*.bkp

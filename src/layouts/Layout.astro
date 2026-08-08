@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+import Nav from "./Nav.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  bodyClass?: string;
+}
+const { title, description, bodyClass = "" } = Astro.props;
+const siteTitle = "Amro's Blog";
+const pageTitle = title ? `${title} // ${siteTitle}` : siteTitle;
+const desc = description ?? "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation.";
+---
+<!doctype html>
+<html lang="en-us" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="author" content="Amro El Husseini" />
+    <meta name="description" content={desc} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/png" href="/favicon-64.png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
+
+    <!-- Theme init (no FOUC) -->
+    <script is:inline>
+      (function () {
+        var t = localStorage.getItem("amro_blog_theme") || "light";
+        document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+
+    <!-- Fonts: non-render-blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- GoatCounter analytics -->
+    <script is:inline data-goatcounter="https://amro.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </head>
+  <body class={bodyClass}>
+    <div class="progress-bar" data-progress aria-hidden="true"></div>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <Nav />
+
+    <main id="main" class="page-main">
+      <slot />
+    </main>
+
+    <!-- Lightbox -->
+    <dialog id="lightbox" aria-label="Image viewer">
+      <div class="lightbox-inner">
+        <img id="lightbox-img" src="" alt="" />
+        <button class="lightbox-close" aria-label="Close image viewer">&#10005;</button>
+      </div>
+    </dialog>
+
+    <button class="back-to-top" data-back-to-top aria-label="Back to top">&uarr;</button>
+
+    <script>
+      import "../lib/client";
+    </script>
+  </body>
+</html>

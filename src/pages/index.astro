@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+---
+<Layout title="Blog" description="Technical blog on networks, Linux, AI, and automation.">
+  <section data-reveal>
+    <h1 style="font-size:2rem;margin-bottom:8px;">Blog</h1>
+    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Networks, Linux, AI, and automation.</p>
+  </section>
+
+  <div class="search-wrap" data-reveal>
+    <input id="blog-search" class="search-input" type="search" placeholder="Search articles…" autocomplete="off" />
+  </div>
+
+  <div class="post-cards" id="blog-cards">
+    {posts.map((post, i) => (
+      <a href={`/blog/${post.id}/`} class="post-card" data-reveal style={i < 5 ? `transition-delay:${i * 40}ms` : ""}>
+        <div class="post-card-title">{post.data.title}</div>
+        <div class="post-card-summary">{post.body ? post.body.replace(/[#*`>\[\]()!-]/g, "").slice(0, 140) + "…" : ""}</div>
+        <div class="post-card-meta">
+          <span>{post.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+          <span>&middot;</span>
+          <span>{Math.max(1, Math.round((post.body?.length || 800) / 2500))} min read</span>
+        </div>
+        {post.data.tags && (
+          <div class="post-card-tags">
+            {post.data.tags.map((t) => <span class="post-card-tag">#{t}</span>)}
+          </div>
+        )}
+      </a>
+    ))}
+  </div>
+
+  <p id="search-empty" class="search-empty" style="display:none">No articles match your search.</p>
+
+  <script>
+    const input = document.getElementById("blog-search");
+    const cards = document.querySelectorAll("#blog-cards .post-card");
+    const empty = document.getElementById("search-empty");
+    input?.addEventListener("input", () => {
+      const term = input.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((c) => {
+        const match = !term || c.textContent.toLowerCase().includes(term);
+        c.style.display = match ? "" : "none";
+        if (match) visible++;
+      });
+      if (empty) empty.style.display = visible === 0 && term ? "" : "none";
+    });
+  </script>
+</Layout>
