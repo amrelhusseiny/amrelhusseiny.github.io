@@ -30,6 +30,8 @@ function themeInit() {
     if (label) label.textContent = dark ? 'Dark mode' : 'Light mode';
     if (sun) sun.style.display = dark ? 'none' : 'block';
     if (moon) moon.style.display = dark ? 'block' : 'none';
+    const tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', dark ? '#101010' : '#ffffff');
   };
   sync();
   btn?.addEventListener('click', () => {

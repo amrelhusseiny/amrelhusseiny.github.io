@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#101010"/>
+  <g fill="#e8e8e8" font-family="'Source Serif 4', Georgia, 'Times New Roman', serif" font-weight="700">
+    <text x="256" y="188" text-anchor="middle" font-size="150">AMRO</text>
+    <text x="280" y="420" text-anchor="middle" font-size="105">blog</text>
+  </g>
+</svg>

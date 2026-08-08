@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-08T22:30:47.343660",
+  "architecture": "LPU (wafer-scale)",
+  "provider": "cerebras",
+  "model": "openai/gpt-oss-120b",
+  "ttft_ms": 979.26,
+  "tps": 1041.89,
+  "total_tokens": 6939,
+  "total_time_s": 7.64,
+  "chunks_received": 793,
+  "response_preview": "# Configuring a Robust Network Infrastructure for a Mid\u2011Size Enterprise  \n**(\u2248\u202f3\u202f000\u202fwords \u2013 vendor\u2011agnostic, practical guide for a 500\u2011employee campus)**  \n\n---\n\n## 1. Introduction  \n\nA modern mid\u2011size enterprise (\u2248\u202f500 users, multiple buildings, mixed\u2011use devices) must balance three competing goals:\n\n| Goal | Why it matters | Typical metric |\n|------|----------------|----------------|\n| **Performance** | Low latency, high throughput for core services (VoIP, collaboration, SaaS) | <\u202f5\u202fms intra\u2011"
+}
