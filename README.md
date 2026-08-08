@@ -38,6 +38,11 @@ The `@astrojs/vercel` adapter is configured. To add server-side features (forms,
 set `output: 'server'` in `astro.config.mjs` and add routes under `src/pages/api/` or `api/`.
 Serverless functions live in `api/` (e.g. `api/stats.ts` for the GoatCounter heatmap).
 
+## CV contact gate
+
+On /cv/, the email and phone are hidden. Visitors must enter their own email + phone
+(validated for format) before the details are revealed via the serverless function in
+`api/contact.ts`, which reads them from Vercel env vars `CV_EMAIL` and `CV_PHONE`.
 ## Rollback
 
 Tag `v5-hugo-github-pages` pins the previous Hugo + GitHub Pages version of this site.
