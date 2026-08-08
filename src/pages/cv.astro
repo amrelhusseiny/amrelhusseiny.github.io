@@ -64,10 +64,6 @@ const langLevel = (lvl: string) => {
       .cv-head {
         background: var(--ep-blue); color: #fff; padding: 26px 30px 22px;
       }
-      .cv-head .ep-brand {
-        font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
-        color: rgba(255,255,255,0.75); margin-bottom: 10px; font-weight: 600;
-      }
       .cv-head h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
       .cv-head .tagline { font-size: 13px; margin-top: 6px; color: rgba(255,255,255,0.9); }
 
@@ -174,7 +170,6 @@ const langLevel = (lvl: string) => {
     <div class="sheet">
       <!-- Header band -->
       <header class="cv-head">
-        <div class="ep-brand">Europass &middot; Curriculum Vitae</div>
         <h1>{cv.name}</h1>
         <div class="tagline">{cv.tagline}</div>
       </header>
