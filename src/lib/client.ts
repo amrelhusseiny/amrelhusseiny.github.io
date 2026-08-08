@@ -104,7 +104,7 @@ function revealInit() {
         io.unobserve(en.target);
       }
     });
-  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  }, { threshold: 0 });
   els.forEach((el) => io.observe(el));
 }
 
