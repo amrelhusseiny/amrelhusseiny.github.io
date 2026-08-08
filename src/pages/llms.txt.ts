@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { excerpt } from "../lib/format";
 
 export const GET: APIRoute = async () => {
   const posts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -23,7 +24,7 @@ export const GET: APIRoute = async () => {
     "## Blog",
     ...posts.slice(0, 20).map((p) => {
       const d = p.data.date.toISOString().slice(0, 10);
-      const s = p.body ? p.body.replace(/[#*`>\[\]()!-]/g, "").slice(0, 120) : "";
+      const s = excerpt(p.body, 120);
       return `- [${p.data.title}](https://amroelhusseini.vercel.app/blog/${p.id}/): ${d} — ${s}`;
     }),
     "## Notes",

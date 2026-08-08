@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { books } from "../lib/books";
+import { readingMinutes } from "../lib/format";
 import { timeline } from "../lib/timeline";
 import { links } from "../lib/links";
 
@@ -74,7 +75,7 @@ const skills = [
         <a href={`/blog/${p.id}/`} class="nav-item" style="height:auto;padding:10px 16px;align-items:flex-start;flex-direction:column;gap:2px;">
           <span style="color:var(--color-ink);font-weight:600;">{p.data.title}</span>
           <span style="color:var(--color-ink-mute);font-size:0.8125rem;">
-            {p.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {Math.max(1, Math.round((p.body?.length || 800) / 2500))} min read
+            {p.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} · {readingMinutes(p.body)} min read
           </span>
         </a>
       ))}
