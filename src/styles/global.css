@@ -174,6 +174,21 @@ html[data-theme="dark"] .astro-code, html[data-theme="dark"] .astro-code .line, 
 }
 .nav-social-btn:hover { background: var(--color-paper-raise); color: var(--color-ink); }
 
+/* Mobile-only top brand bar (shown <600px) */
+.mobile-brand-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 56px; z-index: 100;
+  background: var(--color-paper);
+  display: none; align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 1px 0 var(--color-line);
+}
+.mobile-brand {
+  font-family: "Source Serif 4", serif;
+  font-size: 1.15rem; font-weight: 700;
+  color: var(--color-ink);
+}
+
 /* Main content offset for top header */
 .page-main { margin: 0 auto; min-height: 100vh; padding: 96px clamp(20px, 5vw, 72px) 64px; max-width: 880px; box-sizing: border-box; }
 
@@ -391,6 +406,8 @@ a.post-card-tag:hover { background: var(--color-primary-container); color: var(-
 
 /* Bottom bar nav (<600px mobile) */
 @media (max-width: 599px) {
+  .mobile-brand-bar { display: flex; }
+  .page-main { padding-top: 72px; }
   .nav-drawer {
     flex-direction: row; align-items: center;
     width: 100%; height: 64px; padding: 0 8px;
