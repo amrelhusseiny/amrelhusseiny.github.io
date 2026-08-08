@@ -23,7 +23,7 @@ What happens that the BGP running device validates the recieved BGP route againt
 
 side note - Certificate providers are AFRINIC, APNIC, RIPE NCC, LACNIC, ARIN.
 
-![RIRs](https://www.iana.org/_img/2013.1/rir-map.svg)
+![RIRs](/images/rir-map.svg)
 
 ### what is an ROA ?
 The Route of Origin Authorization simply consists of a Prefix and its Origin, indicating which AS (Autonomous System) is authorised to advertise this Prefix.
