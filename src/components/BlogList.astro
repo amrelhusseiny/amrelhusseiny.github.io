@@ -1,0 +1,27 @@
+---
+import { excerpt, readingMinutes } from "../lib/format";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+const { posts } = Astro.props;
+---
+<div class="post-cards" id="blog-cards">
+  {posts.map((post, i) => (
+    <a href={`/blog/${post.id}/`} class="post-card" data-reveal style={i < 5 ? `transition-delay:${i * 40}ms` : ""}>
+      <div class="post-card-title">{post.data.title}</div>
+      <div class="post-card-summary">{excerpt(post.body)}</div>
+      <div class="post-card-meta">
+        <span>{post.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+        <span>&middot;</span>
+        <span>{readingMinutes(post.body)} min read</span>
+      </div>
+      {post.data.tags && (
+        <div class="post-card-tags">
+          {post.data.tags.map((t) => <span class="post-card-tag">#{t}</span>)}
+        </div>
+      )}
+    </a>
+  ))}
+</div>
