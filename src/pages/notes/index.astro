@@ -6,35 +6,109 @@ const notes = (await getCollection("notes", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const rendered = await Promise.all(
-  notes.map(async (n) => ({ note: n, content: (await render(n)).Content }))
+  notes.map(async (n) => ({ note: n, Content: (await render(n)).Content }))
 );
+
+// Group by month, descending: [{ key, label, notes: [...] }]
+const groups = [];
+const seen = new Set();
+for (const r of rendered) {
+  const d = r.note.data.date;
+  const label = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const key = label.toLowerCase().replace(/\s+/g, "-");
+  if (!seen.has(key)) {
+    seen.add(key);
+    groups.push({ key, label, notes: [] });
+  }
+  groups[groups.length - 1].notes.push(r);
+}
 ---
 <Layout title="Notes" description="Short thoughts, observations, and diagrams.">
-  <section data-reveal>
-    <h1 style="font-size:2rem;margin-bottom:8px;">Notes</h1>
-    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Short thoughts, observations, and diagrams — no article required.</p>
-  </section>
+  <!-- Mobile timeline: jump to month -->
+  {groups.length > 0 && (
+    <details class="notes-timeline-mobile" id="notes-timeline-mobile" data-reveal>
+      <summary class="notes-tl-mobile-summary">Jump to date</summary>
+      <div class="notes-tl-mobile-months">
+        {groups.map((g) => (
+          <a class="notes-tl-mobile-chip" href={`#month-${g.key}`}>{g.label}</a>
+        ))}
+      </div>
+    </details>
+  )}
 
-  <div class="search-wrap" data-reveal>
-    <input id="notes-search" class="search-input" type="search" placeholder="Search notes…" autocomplete="off" />
+  <div class="notes-layout">
+    <!-- Timeline sidebar (desktop/tablet) -->
+    <aside class="notes-timeline" aria-label="Jump to month">
+      <div class="notes-timeline-label">Timeline</div>
+      <nav class="notes-timeline-inner" id="notes-timeline-nav">
+        {groups.map((g) => (
+          <a class="notes-tl-link" href={`#month-${g.key}`} data-month={g.key}>{g.label}</a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="notes-main">
+      <div class="notes-header" data-reveal>
+        <h1 class="notes-stream-title">Notes</h1>
+        <p class="notes-stream-subtitle">Short thoughts, observations, and diagrams &mdash; no article required.</p>
+      </div>
+
+      <div class="search-wrap notes-search-wrap" data-reveal>
+        <input id="notes-search" class="search-input" type="search" placeholder="Search notes&hellip;" autocomplete="off" aria-label="Search notes" />
+      </div>
+
+      <div class="notes-stream" id="notes-stream">
+        {!groups.length && <p class="notes-empty">No notes yet. Check back soon.</p>}
+
+        {groups.map((g) => g.notes.map(({ note, Content }, i) => {
+          const bundle = note.id.split("/")[0];
+          const permalink = `/notes/${bundle}/`;
+          const isFirst = i === 0;
+          return (
+            <article class="note-card" id={`note-${bundle}`} data-reveal>
+              {isFirst && <div class="note-month-divider" id={`month-${g.key}`}>{g.label}</div>}
+
+              <div class="note-card-header">
+                <div class="note-card-date">
+                  {note.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                  <span class="note-card-dot">&middot;</span>
+                  <span class="note-card-time">{note.data.date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}</span>
+                </div>
+                <button class="note-share-btn" data-copy-link={permalink} title="Copy link to this note" aria-label="Copy link">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                  </svg>
+                  <span class="note-share-label">Share</span>
+                </button>
+              </div>
+
+              {note.data.title && (
+                <a class="note-card-title" href={permalink} data-note-link>{note.data.title}</a>
+              )}
+
+              {note.data.image && (
+                <div class="note-card-image-wrap">
+                  <a href={permalink} tabindex="-1" aria-hidden="true">
+                    <img class="note-card-image" src={`/notes/${bundle}/${note.data.image}`} alt={note.data.title || ""} width="1200" height="630" loading="lazy" />
+                  </a>
+                </div>
+              )}
+
+              <div class="note-card-content">
+                <Content />
+              </div>
+            </article>
+          );
+        }))}
+      </div>
+
+      <p id="notes-search-empty" class="search-empty" style="display:none">No notes match your search.</p>
+    </div>
   </div>
-
-  <div id="notes-stream" style="display:flex;flex-direction:column;gap:12px;">
-    {rendered.map(({ note, content }) => (
-      <article class="note-card" id={`note-${note.id.split("/")[0]}`} data-reveal style="background:var(--color-paper-soft);border-radius:var(--radius-md);padding:20px 24px;transition:background var(--duration-s2) var(--ease-m3);">
-        {note.data.title && <h2 style="font-size:1.125rem;margin:0 0 8px;">{note.data.title}</h2>}
-        <div style="color:var(--color-ink-mute);font-size:0.8125rem;margin-bottom:10px;">
-          {note.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-          {note.data.date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
-        </div>
-        <div class="post-content note-card-content" set:html={content.toString()} />
-      </article>
-    ))}
-  </div>
-
-  <p id="notes-search-empty" class="search-empty" style="display:none">No notes match your search.</p>
 
   <script>
+    // Search
     const input = document.getElementById("notes-search");
     const cards = document.querySelectorAll("#notes-stream .note-card");
     const empty = document.getElementById("notes-search-empty");
@@ -48,5 +122,44 @@ const rendered = await Promise.all(
       });
       if (empty) empty.style.display = visible === 0 && term ? "" : "none";
     });
+
+    // Copy note link
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".note-share-btn");
+      if (!btn) return;
+      const url = btn.getAttribute("data-copy-link");
+      const lbl = btn.querySelector(".note-share-label");
+      navigator.clipboard.writeText(new URL(url, window.location.origin).href).then(() => {
+        if (lbl) lbl.textContent = "Copied!";
+        btn.classList.add("share-btn-copied");
+        setTimeout(() => {
+          if (lbl) lbl.textContent = "Share";
+          btn.classList.remove("share-btn-copied");
+        }, 1800);
+      });
+    });
+
+    // Timeline scroll-spy
+    (() => {
+      const anchors = document.querySelectorAll('[id^="month-"]');
+      const links = document.querySelectorAll(".notes-tl-link");
+      if (!anchors.length || !links.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            const id = en.target.id.replace("month-", "");
+            links.forEach((l) => l.classList.toggle("tl-active", l.dataset.month === id));
+          }
+        });
+      }, { rootMargin: "-10% 0px -80% 0px" });
+      anchors.forEach((a) => io.observe(a));
+
+      // Close mobile timeline on chip click
+      document.querySelectorAll(".notes-tl-mobile-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document.getElementById("notes-timeline-mobile")?.removeAttribute("open");
+        });
+      });
+    })();
   </script>
 </Layout>

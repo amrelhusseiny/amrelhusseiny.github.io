@@ -132,3 +132,38 @@ document.addEventListener('DOMContentLoaded', () => {
   rippleInit();
   navActiveInit();
 });
+
+/* Auto-hide nav on scroll down, reappear on scroll up */
+function navHideInit() {
+  const nav = document.querySelector('.nav-drawer');
+  if (!nav) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  const update = () => {
+    const y = window.scrollY;
+    const delta = y - lastY;
+    lastY = y;
+    // Hide only when scrolling down past 120px; show when scrolling up (or near top)
+    if (y > 120 && delta > 4) {
+      nav.classList.add('nav-hidden');
+    } else if (delta < -4 || y <= 120) {
+      nav.classList.remove('nav-hidden');
+    }
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  navHideInit();
+});
