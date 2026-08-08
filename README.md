@@ -1,6 +1,6 @@
 # Amro El Husseiny — Personal Blog
 
-Live site: **https://amrelhusseiny.github.io/**
+Live site: **https://amroelhusseini.vercel.app/**
 
 A personal technical blog covering networks, Linux, AI, and automation.
 Built with Hugo + the m10c theme, fully migrated to **Material Design 3** with a Claude-inspired colour palette.
