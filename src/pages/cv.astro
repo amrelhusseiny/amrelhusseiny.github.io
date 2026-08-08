@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { cv } from "../lib/cv";
+---
+<Layout title={`${cv.name} — CV`} description={`CV of ${cv.name} — ${cv.tagline}`}>
+  <article data-reveal>
+    <header class="cv-header" style="margin-bottom:32px;">
+      <h1 style="font-size:2.2rem;margin-bottom:4px;">{cv.name}</h1>
+      <p style="color:var(--color-ink-soft);margin-bottom:16px;">{cv.tagline}</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:0.9375rem;color:var(--color-ink-soft);">
+        <a href={cv.linkedin_url} target="_blank" rel="noopener" style="text-decoration:underline;">LinkedIn</a>
+        <a href={cv.github_url} target="_blank" rel="noopener" style="text-decoration:underline;">GitHub: amrelhusseiny</a>
+        <a href={cv.website} style="text-decoration:underline;">{cv.website}</a>
+        {cv.work_permit && <span>Work permit: {cv.work_permit}</span>}
+      </div>
+      {cv.contact_print && (
+        <p style="color:var(--color-ink-mute);font-size:0.875rem;margin-top:12px;">
+          {cv.contact_print.email} · {cv.contact_print.phone} · {cv.contact_print.location}
+        </p>
+      )}
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+        <button class="share-btn" id="cv-print">Print / Save as PDF</button>
+        <a class="share-btn" href="/AmroElhusseini_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:40px;" class="cv-body">
+      <aside class="cv-sidebar">
+        <section style="margin-bottom:24px;">
+          <h2 class="cv-section-title">Languages</h2>
+          {cv.languages.map((l) => (
+            <div style="margin-bottom:10px;">
+              <div style="font-weight:600;">{l.language}</div>
+              <div style="color:var(--color-ink-soft);font-size:0.875rem;">{l.level}{l.note ? ` — ${l.note}` : ""}</div>
+            </div>
+          ))}
+        </section>
+        <section style="margin-bottom:24px;">
+          <h2 class="cv-section-title">Education</h2>
+          {cv.education.map((e) => (
+            <div style="margin-bottom:10px;">
+              <div style="font-weight:600;">{e.degree}</div>
+              <div style="color:var(--color-ink-soft);font-size:0.875rem;">{e.institution}</div>
+              <div style="color:var(--color-ink-mute);font-size:0.8125rem;">{e.period} · {e.location}</div>
+            </div>
+          ))}
+        </section>
+        <section>
+          <h2 class="cv-section-title">Driving Licence</h2>
+          <p style="color:var(--color-ink-soft);font-size:0.875rem;">{cv.driving_licence}</p>
+        </section>
+      </aside>
+
+      <div class="cv-main">
+        <section style="margin-bottom:32px;">
+          <h2 class="cv-section-title">About Me</h2>
+          <p style="color:var(--color-ink);line-height:1.7;">{cv.about}</p>
+        </section>
+
+        <section style="margin-bottom:32px;">
+          <h2 class="cv-section-title">Technical Skills</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+            {cv.skills.map((s) => (
+              <div style="background:var(--color-paper-soft);border-radius:var(--radius-md);padding:16px;">
+                <div style="font-weight:600;margin-bottom:8px;">{s.category}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                  {s.items.map((i) => <span class="post-card-tag" style="background:var(--color-paper-high);">{i}</span>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section style="margin-bottom:32px;">
+          <h2 class="cv-section-title">Work Experience</h2>
+          {cv.experience.map((job) => (
+            <div style="margin-bottom:24px;">
+              <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+                <span style="font-weight:700;">{job.title} — {job.company}</span>
+                <span style="color:var(--color-ink-mute);font-size:0.875rem;">{job.period} · {job.location}</span>
+              </div>
+              <p style="color:var(--color-ink-soft);font-size:0.9375rem;margin:8px 0;">{job.description}</p>
+              {job.bullets && (
+                <ul style="color:var(--color-ink-soft);font-size:0.875rem;padding-left:18px;margin:0;">
+                  {job.bullets.map((b) => <li style="margin-bottom:4px;">{b}</li>)}
+                </ul>
+              )}
+            </div>
+          ))}
+        </section>
+
+        <section>
+          <h2 class="cv-section-title">Projects</h2>
+          {cv.projects.map((p) => (
+            <div style="margin-bottom:16px;">
+              <div style="font-weight:600;">
+                {p.name}
+                {p.link && <a href={p.link} target="_blank" rel="noopener" style="text-decoration:underline;font-weight:400;"> ↗ GitHub</a>}
+              </div>
+              <p style="color:var(--color-ink-soft);font-size:0.9375rem;margin:6px 0 0;">{p.description}</p>
+            </div>
+          ))}
+        </section>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<script>
+  const btn = document.getElementById("cv-print");
+  btn?.addEventListener("click", () => window.print());
+</script>

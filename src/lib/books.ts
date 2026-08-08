@@ -1,0 +1,42 @@
+export const books = [
+  {
+    "image": "https://m.media-amazon.com/images/I/51orzwreQeL.jpg",
+    "url": "https://read.amazon.com/kp/card?asin=B004UA79HS&preview=inline&linkCode=kpe&ref_=cm_sw_r_kb_dp_MSC81HXC7PHXJPGPGHK8"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/51uBv9E7+QL.jpg",
+    "url": "https://www.amazon.com/Mobile-Backhaul-Juha-Salmelin/dp/1119974208"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/61tb21UAKSL.jpg",
+    "url": "https://www.amazon.com/Center-Network-Architectures-Technologies-Communication/dp/0367695707"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/9147rZp4HSL.jpg",
+    "url": "https://www.amazon.com/MPLS-SDN-Era-Interoperable-Scenarios/dp/149190545X"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/81it2w-xYXL.jpg",
+    "url": "https://www.amazon.com/Cloud-Native-Data-Center-Networking/dp/1492045608"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/61aG7Ma5tZL.jpg",
+    "url": "https://www.amazon.com/Openstack-Architects-Michael-Solberg/dp/1784395102"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/91Cxcx7Y6uL.jpg",
+    "url": "https://www.amazon.com/How-Linux-Works-2nd-Superuser/dp/1593275676"
+  },
+  {
+    "image": "https://d2sofvawe08yqg.cloudfront.net/ccie-spv4-comp-guide/s_hero?1620536027",
+    "url": "https://leanpub.com/ccie-spv4-comp-guide"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/61k7Z74UuZL.jpg",
+    "url": "https://www.amazon.com/Python-Tricks-Buffet-Awesome-Features/dp/1775093301"
+  },
+  {
+    "image": "https://m.media-amazon.com/images/I/41aM65an82L._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
+    "url": "https://www.amazon.com/Linux-Kernel-Development-Robert-Love/dp/0672329468"
+  }
+];

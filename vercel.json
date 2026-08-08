@@ -1,5 +1,0 @@
-{
-  "framework": "hugo",
-  "buildCommand": "bash scripts/vercel-build.sh",
-  "outputDirectory": "docs"
-}

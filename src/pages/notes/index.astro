@@ -1,0 +1,52 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+const notes = (await getCollection("notes", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const rendered = await Promise.all(
+  notes.map(async (n) => ({ note: n, content: (await render(n)).Content }))
+);
+---
+<Layout title="Notes" description="Short thoughts, observations, and diagrams.">
+  <section data-reveal>
+    <h1 style="font-size:2rem;margin-bottom:8px;">Notes</h1>
+    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Short thoughts, observations, and diagrams — no article required.</p>
+  </section>
+
+  <div class="search-wrap" data-reveal>
+    <input id="notes-search" class="search-input" type="search" placeholder="Search notes…" autocomplete="off" />
+  </div>
+
+  <div id="notes-stream" style="display:flex;flex-direction:column;gap:12px;">
+    {rendered.map(({ note, content }) => (
+      <article class="note-card" id={`note-${note.id.split("/")[0]}`} data-reveal style="background:var(--color-paper-soft);border-radius:var(--radius-md);padding:20px 24px;transition:background var(--duration-s2) var(--ease-m3);">
+        {note.data.title && <h2 style="font-size:1.125rem;margin:0 0 8px;">{note.data.title}</h2>}
+        <div style="color:var(--color-ink-mute);font-size:0.8125rem;margin-bottom:10px;">
+          {note.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+          {note.data.date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+        </div>
+        <div class="post-content note-card-content" set:html={content.toString()} />
+      </article>
+    ))}
+  </div>
+
+  <p id="notes-search-empty" class="search-empty" style="display:none">No notes match your search.</p>
+
+  <script>
+    const input = document.getElementById("notes-search");
+    const cards = document.querySelectorAll("#notes-stream .note-card");
+    const empty = document.getElementById("notes-search-empty");
+    input?.addEventListener("input", () => {
+      const term = input.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((c) => {
+        const match = !term || c.textContent.toLowerCase().includes(term);
+        c.style.display = match ? "" : "none";
+        if (match) visible++;
+      });
+      if (empty) empty.style.display = visible === 0 && term ? "" : "none";
+    });
+  </script>
+</Layout>

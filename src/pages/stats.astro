@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout title="Stats" description="Visitor statistics for this blog.">
+  <section data-reveal>
+    <h1 style="font-size:2rem;margin-bottom:8px;">Stats</h1>
+    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Visitors to this blog over the last year.</p>
+    <p id="stats-total" style="font-size:2.5rem;font-weight:700;font-family:&quot;Source Serif 4&quot;,serif;margin-bottom:4px;">&ndash;</p>
+    <p id="stats-total-label" style="color:var(--color-ink-soft);font-size:0.875rem;margin-bottom:28px;">loading&hellip;</p>
+  </section>
+
+  <section id="heatmap-wrap" data-reveal>
+    <div id="heatmap" style="overflow-x:auto;padding:4px 0 12px;"></div>
+  </section>
+
+  <section data-reveal style="margin-top:32px;">
+    <h2 style="font-size:1.25rem;margin-bottom:12px;">About</h2>
+    <p style="color:var(--color-ink-soft);">This page is powered by <a href="https://www.goatcounter.com/" target="_blank" rel="noopener" style="text-decoration:underline;">GoatCounter</a> — open-source, privacy-friendly, cookie-free analytics. Daily counts are fetched through a serverless function and rendered as a calendar heatmap.</p>
+  </section>
+
+  <script>
+    (async () => {
+      const cell = (count, max) => {
+        const levels = ["#eeeeee", "#d4d4d4", "#a8a8a8", "#6b6b6b", "#2a2a2a"];
+        const idx = count === 0 ? 0 : Math.max(1, Math.min(4, Math.round((count / max) * 4)));
+        return `<div title="${count} visitors" style="width:14px;height:14px;border-radius:3px;background:${levels[idx]};flex-shrink:0;"></div>`;
+      };
+
+      try {
+        const res = await fetch("/api/stats");
+        const data = await res.json();
+        // GoatCounter stats/total daily returns { stats: { total: { daily: { "2026-01-01": 5, ... } } } }
+        const daily = data?.stats?.total?.daily || {};
+        const entries = Object.entries(daily);
+        const total = entries.reduce((s, [, v]) => s + v, 0);
+        const max = Math.max(1, ...entries.map(([, v]) => v));
+        const totalEl = document.getElementById("stats-total");
+        const labelEl = document.getElementById("stats-total-label");
+        if (totalEl) totalEl.textContent = total.toLocaleString();
+        if (labelEl) labelEl.textContent = `visits over the past year`;
+
+        // Group into weeks (columns) for a GitHub-style calendar
+        const days = [];
+        const now = new Date();
+        for (let i = 364; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+          days.push({ key, count: daily[key] || 0 });
+        }
+        const weeks = [];
+        for (let i = 0; i < days.length; i += 7) weeks.push(days.slice(i, i + 7));
+        const wrap = document.getElementById("heatmap");
+        if (!wrap) return;
+        wrap.innerHTML = `<div style="display:flex;gap:4px;">${weeks.map(w =>
+          `<div style="display:flex;flex-direction:column;gap:4px;">${w.map(d => cell(d.count, max)).join("")}</div>`
+        ).join("")}</div>`;
+      } catch (e) {
+        const labelEl = document.getElementById("stats-total-label");
+        if (labelEl) labelEl.textContent = "Stats not available yet — analytics start once GoatCounter is configured.";
+        const totalEl = document.getElementById("stats-total");
+        if (totalEl) totalEl.textContent = "&ndash;";
+      }
+    })();
+  </script>
+</Layout>

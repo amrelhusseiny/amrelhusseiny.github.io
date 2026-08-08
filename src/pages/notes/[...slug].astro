@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const notes = await getCollection("notes");
+  return notes.map((n) => ({ params: { slug: n.id }, props: { note: n } }));
+}
+
+const { note } = Astro.props;
+const anchor = note.id.split("/")[0];
+---
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Note // Amro's Blog</title>
+    <meta http-equiv="refresh" content={`0; url=/notes/#note-${anchor}`} />
+  </head>
+  <body>
+    <p>This note is part of the <a href={`/notes/#note-${anchor}`}>Notes stream</a>.</p>
+    <script is:inline>window.location.replace(`/notes/#note-${anchor}`);</script>
+  </body>
+</html>
