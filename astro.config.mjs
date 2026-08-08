@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { fileURLToPath } from 'node:url';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
@@ -13,8 +14,13 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   markdown: {
+    remarkPlugins: [fileURLToPath(new URL('./src/lib/remark-optimize-images.mjs', import.meta.url))],
     shikiConfig: {
-      theme: 'github-light',
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
+      },
+      defaultColor: false,
     },
   },
 });

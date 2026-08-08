@@ -28,6 +28,12 @@
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-full: 9999px;
+  --type-display: 2.25rem;
+  --type-headline: 1.5rem;
+  --type-title: 1.125rem;
+  --type-body: 1rem;
+  --type-label: 0.8125rem;
+  --touch-target: 48px;
 }
 
 /* ── Dark theme (grayscale) ── */
@@ -98,6 +104,16 @@ a { color: inherit; text-decoration: none; }
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Code blocks: follow site theme toggle (Shiki dual themes) ── */
+.astro-code {
+  background-color: var(--color-paper-raise) !important;
+}
+.astro-code, .astro-code .line, .astro-code span { color: var(--shiki-light) !important; }
+html[data-theme="dark"] .astro-code {
+  background-color: var(--color-paper-raise) !important;
+}
+html[data-theme="dark"] .astro-code, html[data-theme="dark"] .astro-code .line, html[data-theme="dark"] .astro-code span { color: var(--shiki-dark) !important; }
 
 /* ── Ripple ── */
 .ripple {
@@ -174,14 +190,14 @@ a { color: inherit; text-decoration: none; }
 .skip-link:focus { top: 16px; }
 .back-to-top {
   position: fixed; bottom: 24px; right: 24px; z-index: 150;
-  width: 44px; height: 44px; border-radius: var(--radius-full);
-  background: var(--color-paper-high); color: var(--color-ink);
-  border: none; cursor: pointer; font-size: 1.1rem;
-  opacity: 0; pointer-events: none;
-  transform: translateY(12px);
-  transition: opacity var(--duration-s2) var(--ease-m3), transform var(--duration-s2) var(--ease-m3), background var(--duration-s2) var(--ease-m3);
+  width: 56px; height: 56px; border-radius: var(--radius-full);
+  background: var(--color-primary-container); color: var(--color-on-primary-container);
+  border: none; cursor: pointer; font-size: 1.3rem; font-weight: 500;
+  opacity: 0; pointer-events: none; overflow: hidden;
+  transform: translateY(16px) scale(0.9);
+  transition: opacity var(--duration-s2) var(--ease-m3), transform var(--duration-m1) var(--ease-emphasized, var(--ease-m3)), background var(--duration-s2) var(--ease-m3);
 }
-.back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.back-to-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 .back-to-top:hover { background: var(--color-paper-highest); }
 
 /* Post cards */
@@ -190,6 +206,8 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   display: block;
   background: var(--color-paper-soft);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 160px;
   border-radius: var(--radius-md);
   padding: 20px 24px;
   color: var(--color-ink);
@@ -203,10 +221,31 @@ a { color: inherit; text-decoration: none; }
 .post-card-summary { color: var(--color-ink-soft); font-size: 0.9375rem; line-height: 1.6; margin-bottom: 10px; }
 .post-card-meta { color: var(--color-ink-mute); font-size: 0.8125rem; display: flex; align-items: center; gap: 6px; }
 .post-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.post-card-tag { font-size: 0.75rem; color: var(--color-ink-soft); background: var(--color-paper-high); padding: 2px 10px; border-radius: var(--radius-full); }
+.post-card-tag {
+  position: relative; display: inline-flex; align-items: center;
+  font-size: 0.75rem; font-weight: 500; color: var(--color-ink-soft);
+  background: var(--color-paper-high); padding: 8px 12px;
+  height: 32px; border-radius: var(--radius-sm);
+  box-sizing: content-box; background-clip: padding-box;
+  overflow: hidden; transition: background var(--duration-s2) var(--ease-m3), color var(--duration-s2) var(--ease-m3);
+}
+a.post-card-tag { text-decoration: none; }
+a.post-card-tag:hover { background: var(--color-primary-container); color: var(--color-on-primary-container); }
+
+/* Snackbar (M3) */
+.snackbar {
+  position: fixed; left: 50%; bottom: 96px; z-index: 400;
+  transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+  background: var(--color-ink); color: var(--color-paper);
+  padding: 12px 20px; border-radius: var(--radius-xs);
+  font-size: var(--type-label); font-weight: 500; max-width: 90vw;
+  transition: opacity var(--duration-m1) var(--ease-m3), transform var(--duration-m1) var(--ease-decel);
+}
+.snackbar.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 599px) { .snackbar { bottom: 80px; } }
 
 /* Reveal animation */
-[data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity 450ms var(--ease-decel), transform 450ms var(--ease-decel); }
+[data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity 300ms var(--ease-m3), transform 300ms var(--ease-decel); }
 [data-reveal].revealed { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; } }
 
@@ -272,7 +311,7 @@ a { color: inherit; text-decoration: none; }
 .post-footer { margin-top: 48px; padding-top: 24px; border-top: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .share-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  height: 40px; padding: 0 16px; border-radius: var(--radius-full);
+  height: 48px; padding: 0 18px; border-radius: var(--radius-full);
   border: none; background: var(--color-paper-raise); color: var(--color-ink);
   font-family: inherit; font-size: 0.875rem; cursor: pointer;
   transition: background var(--duration-s2) var(--ease-m3);
@@ -358,25 +397,26 @@ a { color: inherit; text-decoration: none; }
 .note-card {
   background: var(--color-paper-soft);
   border-radius: var(--radius-md);
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 0.75rem;
+  padding: 20px 24px;
+  margin-bottom: 12px;
   position: relative;
   overflow: hidden;
-  transition: background var(--duration-s2) var(--ease-m3);
+  transition: background var(--duration-s2) var(--ease-m3), transform var(--duration-s2) var(--ease-m3);
 }
-.note-card:hover { background: var(--color-paper-raise); }
+.note-card:hover { background: var(--color-paper-raise); transform: translateY(-2px); }
 .note-card-title {
   display: block;
   font-family: "Source Serif 4", serif;
   font-size: 1.125rem; font-weight: 700;
   color: var(--color-ink);
-  margin-bottom: 0.5rem;
+  margin-bottom: 6px;
   position: relative;
   transition: color var(--duration-s2) var(--ease-m3);
 }
 .note-card-title:hover { color: var(--color-ink-soft); }
 .note-card-date {
   color: var(--color-ink-mute); font-size: 0.8125rem; margin-bottom: 0.5rem;
+  display: flex; align-items: center; gap: 6px;
 }
 .note-card-dot { margin: 0 0.25rem; }
 .note-card-time { font-weight: 500; }
@@ -388,7 +428,7 @@ a { color: inherit; text-decoration: none; }
 /* Note share button */
 .note-share-btn {
   display: inline-flex; align-items: center; gap: 0.25rem;
-  height: 32px; padding: 0 0.75rem;
+  min-height: 40px; height: 40px; padding: 0 0.75rem;
   border-radius: var(--radius-full);
   border: none; background: transparent;
   color: var(--color-ink-soft);

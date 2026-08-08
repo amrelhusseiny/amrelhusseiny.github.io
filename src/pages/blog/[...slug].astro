@@ -67,6 +67,7 @@ const minutes = Math.max(1, Math.round(words / 220));
     const lbl = document.getElementById("post-share-label");
     btn?.addEventListener("click", () => {
       navigator.clipboard.writeText(window.location.href).then(() => {
+        if ((window as any).showSnackbar) (window as any).showSnackbar("Link copied");
         lbl.textContent = "Copied!";
         btn.classList.add("copied");
         setTimeout(() => { lbl.textContent = "Copy link"; btn.classList.remove("copied"); }, 1800);

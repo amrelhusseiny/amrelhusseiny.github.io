@@ -21,3 +21,8 @@ __pycache__/
 *~
 *.swp
 *.bkp
+
+# Generated image optimization
+public/.imgmap.json
+public/blog/**/*.webp
+public/notes/**/*.webp

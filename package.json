@@ -5,9 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/optimize-images.mjs && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "optimize": "node scripts/optimize-images.mjs",
+    "prebuild": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",

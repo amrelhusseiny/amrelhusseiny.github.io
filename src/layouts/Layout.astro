@@ -38,7 +38,23 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      media="print" onload="this.media='all'"
     />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+    </noscript>
+
+    <!-- Speculation Rules: prerender likely-next navigations -->
+    <script type="speculationrules">
+      {
+        "prerender": [
+          { "where": { "href_matches": ["/blog/*", "/notes/*", "/about/"] }, "eagerness": "moderate" }
+        ]
+      }
+    </script>
+
+    <!-- C2PA Content Credentials -->
+    <link rel="contentcredentials" href="/.well-known/c2pa/contentcredentials.json" />
 
     <!-- GoatCounter analytics -->
     <script is:inline data-goatcounter="https://amro.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

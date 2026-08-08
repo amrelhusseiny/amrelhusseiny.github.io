@@ -1,5 +1,23 @@
 /* Client behaviour: theme, lightbox, progress, reveal, back-to-top */
 
+/* M3 Snackbar */
+let snackTimer: number | undefined;
+function showSnackbar(msg: string) {
+  let el = document.querySelector('.snackbar') as HTMLElement | null;
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'snackbar';
+    el.setAttribute('role', 'status');
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  requestAnimationFrame(() => el!.classList.add('show'));
+  if (snackTimer) window.clearTimeout(snackTimer);
+  snackTimer = window.setTimeout(() => { el?.classList.remove('show'); }, 2200);
+}
+(window as any).showSnackbar = showSnackbar;
+
+
 /* Theme toggle */
 function themeInit() {
   const html = document.documentElement;
