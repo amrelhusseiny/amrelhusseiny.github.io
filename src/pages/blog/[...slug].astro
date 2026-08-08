@@ -38,12 +38,15 @@ const minutes = Math.max(1, Math.round(words / 220));
     </header>
 
     {headings.length > 1 && (
-      <details class="toc-wrap" open data-reveal>
-        <summary style="cursor:pointer;font-weight:600;padding:12px 0;color:var(--color-ink);">Table of Contents</summary>
-        <ol style="padding-left:20px;color:var(--color-ink-soft);">
+      <details class="toc-wrap" data-reveal>
+        <summary class="toc-summary">
+          <span>Table of Contents</span>
+          <span class="toc-chevron" aria-hidden="true"></span>
+        </summary>
+        <ol class="toc-list">
           {headings.filter((h) => h.depth >= 2 && h.depth <= 4).map((h) => (
-            <li style={h.depth > 2 ? "margin-left:20px;" : ""}>
-              <a href={`#${h.slug}`} style="text-decoration:none;color:inherit;">{h.text}</a>
+            <li class={h.depth > 2 ? "toc-item toc-item-nested" : "toc-item"}>
+              <a href={`#${h.slug}`}>{h.text}</a>
             </li>
           ))}
         </ol>
