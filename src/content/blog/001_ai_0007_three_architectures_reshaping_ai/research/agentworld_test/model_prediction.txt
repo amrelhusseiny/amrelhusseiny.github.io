@@ -1,0 +1,23 @@
+- title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" [url=https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/]
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+- main:
+  - article:
+    - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+    - paragraph: "Intro From non Blender user, to 3d Printer..."
+- contentinfo:
+    - text: "© 2026 Amro El Husseini. All rights reserved."
+    - paragraph:
+      - link "Blog" [ref=e14]
+      - link "Notes" [ref=e15]
+      - link "About" [ref=e16]
+      - link "CV" [ref=e17]

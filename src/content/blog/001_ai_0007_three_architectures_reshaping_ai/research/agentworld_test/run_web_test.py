@@ -50,6 +50,9 @@ parser.add_argument("--before", required=True, help="Path to the real 'current p
 parser.add_argument("--action", required=True, help="Path to a text file containing the single action, e.g. click(bid='e42')")
 parser.add_argument("--after", help="Path to the real 'resulting page state' snapshot (text), for diffing")
 parser.add_argument("--max-tokens", type=int, default=4000)
+parser.add_argument("--budget-minutes", type=float, default=30.0,
+                     help="Keep retrying on 503 for up to this many minutes (the model's warm window is brief/contended)")
+parser.add_argument("--retry-interval", type=float, default=10.0)
 args = parser.parse_args()
 
 API_KEY = os.environ.get("FEATHERLESS_API_KEY")
@@ -77,33 +80,52 @@ headers = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/js
 print(f"Model: {MODEL}")
 print(f"Action: {action}")
 print(f"Current page state length: {len(before_state)} chars")
-print("Sending request...")
 
-start = time.perf_counter()
-resp = client.post(
-    f"{BASE_URL}/chat/completions",
-    headers=headers,
-    json={
-        "model": MODEL,
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message},
-        ],
-        "max_tokens": args.max_tokens,
-        "temperature": 0.0,
-    },
-)
-elapsed = round(time.perf_counter() - start, 2)
+payload = {
+    "model": MODEL,
+    "messages": [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_message},
+    ],
+    "max_tokens": args.max_tokens,
+    "temperature": 0.0,
+}
 
-if resp.status_code != 200:
-    print(f"ERROR: HTTP {resp.status_code}\n{resp.text[:1000]}", file=sys.stderr)
-    sys.exit(1)
+budget_s = args.budget_minutes * 60
+overall_start = time.perf_counter()
+attempt = 0
+resp = None
+
+while True:
+    attempt += 1
+    elapsed_total = round(time.perf_counter() - overall_start, 1)
+    if elapsed_total > budget_s:
+        print(f"ERROR: budget exhausted after {elapsed_total}s ({attempt - 1} attempts)", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"--- Attempt {attempt} (elapsed {elapsed_total}s) --- sending request...")
+    start = time.perf_counter()
+    try:
+        resp = client.post(f"{BASE_URL}/chat/completions", headers=headers, json=payload)
+    except Exception as exc:
+        elapsed = round(time.perf_counter() - start, 2)
+        print(f"EXCEPTION after {elapsed}s: {exc}")
+        time.sleep(args.retry_interval)
+        continue
+    elapsed = round(time.perf_counter() - start, 2)
+
+    if resp.status_code == 200:
+        print(f"SUCCESS in {elapsed}s")
+        break
+    else:
+        print(f"HTTP {resp.status_code} in {elapsed}s -> {resp.text[:300]}")
+        time.sleep(args.retry_interval)
 
 data = resp.json()
 raw_output = data["choices"][0]["message"]["content"]
 usage = data.get("usage", {})
 
-print(f"Response received in {elapsed}s")
+print(f"Response received in {elapsed}s (after {attempt} attempt(s), {round(time.perf_counter() - overall_start, 1)}s total)")
 print(f"Usage: {usage}")
 
 # Extract the <predicted_observation> block
@@ -123,7 +145,9 @@ result = {
     "timestamp": datetime.now().isoformat(),
     "model": MODEL,
     "action": action,
-    "elapsed_seconds": elapsed,
+    "request_attempts": attempt,
+    "total_wait_seconds": round(time.perf_counter() - overall_start, 1),
+    "final_request_elapsed_seconds": elapsed,
     "usage": usage,
     "format_compliant": format_compliant,
     "predicted_observation_length_chars": len(predicted_observation),

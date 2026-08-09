@@ -1,0 +1,342 @@
+The user wants me to simulate the next page state after clicking on the link with bid 'e12'.
+The current page is "Blog // Amro's Blog" at url=https://amroelhusseini.vercel.app/blog/
+The link with bid 'e12' is: "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Let's look at the link text:
+link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+
+This is a blog post link. Clicking on it should navigate to the specific blog post page.
+The blog post title seems to be "Creating my Coffee Dripper, with Antigravity, Blender and MCP" or similar.
+Let's infer the URL for this blog post. Typically, blog posts on a Vercel site like this have URLs like https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/ or similar slug.
+
+Let's look at the blog post titles:
+- "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" -> likely slug: "creating-my-coffee-dripper-with-antigravity-blender-and-mcp" or "creating-my-coffee-dripper-with-antigravity-blender-and-mcp-intro-from-non-blender-user-to-3d-pri"
+Wait, the text is: "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+Wait, let's look at the exact text:
+link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+
+Wait, the text is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, let's see the other link:
+link "Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine" [ref=e13]
+
+So the blog posts are listed with titles and maybe a short description or excerpt.
+For e12: "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" -> This looks like the title is "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and the excerpt or next part is "Intro From non Blender user, to 3d Pri..."
+
+Wait, the link text is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, let's parse the link text:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, is the title "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and the excerpt "Intro From non Blender user, to 3d Pri..."?
+Actually, the link text is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, looking at the previous state:
+link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+link "Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine" [ref=e13]
+
+So the blog post URL is likely:
+https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Or maybe the slug is derived from the title: "creating-my-coffee-dripper-with-antigravity-blender-and-mcp"
+
+Let's assume the blog post page has a title like "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" or similar.
+
+Wait, I should predict the next page state after clicking on the blog post link. The blog post page would be a blog post detail page.
+
+What are the typical elements of a blog post page on Amro's Blog?
+It would have:
+- A heading with the blog post title.
+- The content of the blog post.
+- Navigation (Blog, Notes, About, CV)
+- Search bar? Maybe not on the blog post page, or maybe it's still there but the main content is the blog post.
+
+Wait, let's look at the structure of a typical blog post page on a Next.js/MDX blog like this (Amro's Blog is likely a Next.js blog with MDX).
+The blog post page would have:
+- Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" or similar.
+- URL: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's try to infer the exact slug or title.
+The link text: "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+Wait, maybe the title is "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and the excerpt is "Intro From non Blender user, to 3d Pri..." but it's all in the link text because the link wraps both the title and the excerpt?
+
+In many blog listings, the link is around the title, and the excerpt is separate text or a paragraph. But here the link text is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, let's look at the current page state:
+  - link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+  - link "Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine" [ref=e13]
+
+Wait, both e12 and e13 are links. The text of e12 is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+The text of e13 is:
+"Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine"
+
+So it seems the link text includes both the title and the beginning of the excerpt or description. For e12:
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP"
+Excerpt start: "Intro From non Blender user, to 3d Pri..."
+
+For e13:
+Title: "Context7 - Up to date LLM answers"
+Excerpt start: "Introduction To understand basic LLM stuff, the models gets traine..."
+
+So the blog post page for e12 would have:
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP" or "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog"
+URL: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's simulate the blog post page structure. Typically, an MDX blog post page has:
+- A heading with the post title.
+- Metadata (date, tags, etc.)
+- The content of the post.
+
+Let's check the rest of the blog post page elements:
+- Navigation: "Amro's Blog", "Main" with links "Blog", "Notes", "About", "CV", button "Light mode", link "GitHub", link "LinkedIn".
+- Main content:
+  - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1] or [level=2]? Usually the blog post title is h1 or h2.
+  - text content of the blog post: "Intro From non Blender user, to 3d Pri..." or the full content.
+
+Wait, I need to generate the exact next page state. Let's think about the typical structure of a blog post page on a Next.js blog using `next-themes`, `shadcn`, or similar.
+
+The blog post page would have:
+- title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" or "Creating my Coffee Dripper, with Antigravity, Blender and MCP | Amro's Blog"
+- url: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's look at the blog post title format. The link text is:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, maybe the title is exactly "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and the excerpt is "Intro From non Blender user, to 3d Pri...". But in the listing, it's a single link element? Or is the link wrapping the title and the excerpt is inside the link?
+
+In the current state:
+  - link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+  - link "Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine" [ref=e13]
+
+These are `link` elements, meaning the entire text is inside the `<a>` tag. So the `<a>` tag has text: "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+Wait, but usually the title is a heading and the excerpt is a paragraph. But here the listing shows:
+  - link "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri" [ref=e12]
+  - link "Context7 - Up to date LLM answers Introduction To understand basic LLM stuff, the models gets traine" [ref=e13]
+
+So each blog post entry is a link that includes both the title and the start of the excerpt.
+
+When clicking on e12, the browser navigates to the blog post page. The blog post page will have:
+- The blog post title as the main heading.
+- The blog post content.
+
+Let's predict the blog post page state:
+
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" or "Creating my Coffee Dripper, with Antigravity, Blender and MCP | Amro's Blog"
+
+URL: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's ensure the slug is correct. "Creating my Coffee Dripper, with Antigravity, Blender and MCP" -> slug: "creating-my-coffee-dripper-with-antigravity-blender-and-mcp"
+
+Or maybe "creating-my-coffee-dripper-with-antigravity-blender-and-mcp-intro-from-non-blender-user-to-3d-pri"? No, the title is likely "Creating my Coffee Dripper, with Antigravity, Blender and MCP". The "Intro From non Blender user, to 3d Pri..." is the excerpt.
+
+Let's look at the excerpt text: "Intro From non Blender user, to 3d Pri" -> "Intro From non Blender user, to 3d Printer?" or "3D Print..."
+
+So the blog post page would have:
+- heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+- content: "Intro From non Blender user, to 3d Pri..." or the full article content.
+
+Let's construct the blog post page state:
+
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" or similar.
+
+Let's check the title format for blog posts in this blog. The current blog list page title is "Blog // Amro's Blog". So a blog post page title would likely be "[Post Title] // Amro's Blog" or "[Post Title] | Amro's Blog".
+
+Let's assume the title is: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog"
+
+The navigation would be the same:
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+
+Main content:
+- heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+- text: "Intro From non Blender user, to 3d Pri..." or the actual content of the blog post.
+
+Wait, I should generate the blog post content structure. Typically, an MDX blog post page has:
+- A heading (title)
+- Possibly a date or metadata
+- The article content
+
+Let's look at the typical structure of a blog post page on a Next.js blog with MDX:
+
+```
+- title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" [url=https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/]
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+- main:
+  - article:
+    - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+    - content: (blog post content)
+```
+
+Wait, I need to make sure the blog post content is accurately represented or at least the structure is correct. The blog post content would include the text "Intro From non Blender user, to 3d Pri..." or more likely the full article text starting with that intro.
+
+But since I don't have the full article text, I should represent the blog post page with the heading and some placeholder or inferred content, or the typical MDX blog post structure.
+
+Wait, let's look at the link text again:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri"
+
+This suggests the title is "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and the excerpt is "Intro From non Blender user, to 3d Pri...".
+
+On the blog post page, the heading would be:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP"
+
+Let's ensure the URL is:
+https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's format the predicted state:
+
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog"
+URL: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's verify the navigation elements:
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+
+Main content:
+- article:
+  - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+  - text: "Intro From non Blender user, to 3d Pri..." or the actual content.
+
+Wait, is the blog post page's main heading h1 or h2? In many MDX blog templates, the post title is an h1 or h2. Let's assume h1.
+
+Also, the blog post page might have metadata like date, tags, etc. But I don't have that info. I'll include a typical structure.
+
+Let's ensure the blog post URL slug is correctly formatted.
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP"
+Slug: "creating-my-coffee-dripper-with-antigravity-blender-and-mcp"
+
+Let's double check the slug generation:
+"Creating my Coffee Dripper, with Antigravity, Blender and MCP"
+-> creating-my-coffee-dripper-with-antigravity-blender-and-mcp
+
+Yes, that seems correct.
+
+Let's prepare the predicted state:
+
+Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" [url=https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/]
+
+Link "Skip to main content" [ref=e1]
+banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+main:
+  - article:
+    - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+    - content: (blog post content starting with "Intro From non Blender user, to 3d...")
+
+Wait, I should include the contentinfo as well? On a blog post page, the footer might be the same:
+contentinfo:
+    - text: "© 2026 Amro El Husseini. All rights reserved."
+    - paragraph:
+      - link "Blog" [ref=e14]
+      - link "Notes" [ref=e15]
+      - link "About" [ref=e16]
+      - link "CV" [ref=e17]
+
+Let's ensure the blog post page has the footer. Yes, most blog templates have a consistent footer.
+
+Let's format the predicted state properly:
+
+- title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" [url=https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/]
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+- main:
+  - article:
+    - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+    - paragraph: "Intro From non Blender user, to 3d Pri..."
+- contentinfo:
+    - text: "© 2026 AmroThe user wants me to simulate the next page state after clicking on the blog post link with bid 'e12', which is "Creating my Coffee Dripper, with Antigravity, Blender and MCP Intro From non Blender user, to 3d Pri".
+
+This is a page-changing action, as it navigates to the specific blog post page.
+
+The blog post title is "Creating my Coffee Dripper, with Antigravity, Blender and MCP".
+The URL would be something like: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+
+Let's construct the new page state:
+- Title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog"
+- URL: https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/
+- Navigation and footer should remain the same.
+- Main content should be the blog post article with the heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" and some content starting with "Intro From non Blender user, to 3d...".
+
+Let's ensure the structure matches the blog post page format:
+- link "Skip to main content" [ref=e1]
+- banner with Amro's Blog, Main nav (Blog, Notes, About, CV), Light mode button, GitHub, LinkedIn.
+- main article with heading and content.
+- contentinfo with copyright and links.
+
+Let's format the predicted state properly.
+</think>
+
+<predicted_observation>- title: "Creating my Coffee Dripper, with Antigravity, Blender and MCP // Amro's Blog" [url=https://amroelhusseini.vercel.app/blog/creating-my-coffee-dripper-with-antigravity-blender-and-mcp/]
+- link "Skip to main content" [ref=e1]
+- banner:
+  - link "Amro's Blog" [ref=e2]
+  - navigation "Main" [ref=e3]:
+    - link "Blog" [ref=e4]
+    - link "Notes" [ref=e5]
+    - link "About" [ref=e6]
+    - link "CV" [ref=e7]
+  - button "Light mode" [ref=e8]
+  - link "GitHub" [ref=e9]
+  - link "LinkedIn" [ref=e10]
+- main:
+  - article:
+    - heading "Creating my Coffee Dripper, with Antigravity, Blender and MCP" [level=1]
+    - paragraph: "Intro From non Blender user, to 3d Printer..."
+- contentinfo:
+    - text: "© 2026 Amro El Husseini. All rights reserved."
+    - paragraph:
+      - link "Blog" [ref=e14]
+      - link "Notes" [ref=e15]
+      - link "About" [ref=e16]
+      - link "CV" [ref=e17]</predicted_observation>
