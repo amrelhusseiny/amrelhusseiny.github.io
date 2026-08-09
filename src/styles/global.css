@@ -721,9 +721,6 @@ body.home-page .page-main { max-width: none; padding: 0; }
   width: auto;
   max-width: 100%;
   object-fit: contain;
-  /* Fade the drawing's edges into the surrounding page color */
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, #000 60%, transparent 98%);
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, #000 60%, transparent 98%);
   opacity: 0;
   transform: translateY(14px);
   animation: homeArt 1.1s var(--ease-decel) 500ms forwards;
@@ -731,8 +728,11 @@ body.home-page .page-main { max-width: none; padding: 0; }
 @keyframes homeArt {
   to { opacity: 1; transform: translateY(0); }
 }
-/* Invert the drawing so it blends into the dark paper in dark mode */
-:root[data-theme="dark"] .home-hero-art { filter: invert(1); }
+/* The edge fade is baked into the images (white for light, dark paper for
+   dark). Swap which one shows based on the active theme. */
+.home-hero-art--dark { display: none; }
+:root[data-theme="dark"] .home-hero-art--light { display: none; }
+:root[data-theme="dark"] .home-hero-art--dark { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   .home-hero-content, .home-hero-art { animation: none; opacity: 1; transform: none; }
