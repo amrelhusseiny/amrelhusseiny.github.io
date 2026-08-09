@@ -1,0 +1,114 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { drawings } from "../lib/drawings";
+
+const total = drawings.length;
+const startIndex = total > 0 ? 1 : 0;
+---
+<Layout title="Drawings" description="A gallery of drawings and sketches." bodyClass="gallery-page">
+  <div class="gallery" data-reveal>
+    <header class="gallery-head">
+      <h1 class="gallery-title">Drawings</h1>
+      <p class="gallery-sub">A quiet place for sketches &mdash; click the arrows or use your keyboard.</p>
+    </header>
+
+    {total === 0 ? (
+      <p class="gallery-empty">No drawings yet. Check back soon.</p>
+    ) : (
+      <>
+        <div class="gallery-stage" id="gallery-stage" role="region" aria-label="Drawing viewer">
+          <div class="gallery-frame">
+            <img
+              class="gallery-img"
+              id="gallery-img"
+              src={drawings[0].image}
+              alt={drawings[0].title || `Drawing ${startIndex} of ${total}`}
+            />
+          </div>
+
+          <button class="gallery-arrow gallery-prev" id="gallery-prev" aria-label="Previous drawing">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="gallery-arrow gallery-next" id="gallery-next" aria-label="Next drawing">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <figcaption class="gallery-caption" id="gallery-caption">
+          <div class="gallery-counter" id="gallery-counter">{startIndex} / {total}</div>
+          <div class="gallery-note-wrap">
+            <div class="gallery-note-title" id="gallery-note-title">{drawings[0].title || ""}</div>
+            <div class="gallery-note" id="gallery-note">{drawings[0].note || ""}</div>
+          </div>
+        </figcaption>
+
+        <div class="gallery-filmstrip" id="gallery-filmstrip" role="tablist" aria-label="All drawings">
+          {drawings.map((d, i) => (
+            <button
+              type="button"
+              class:list={["gallery-thumb", i === 0 && "active"]}
+              data-thumb={i}
+              aria-label={d.title || `Drawing ${i + 1}`}
+              aria-selected={i === 0}
+            >
+              <img src={d.image} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+
+  <script>
+    const thumbs = Array.from(document.querySelectorAll<HTMLButtonElement>(".gallery-thumb"));
+    {drawings.forEach((d, i) => {
+      const el = document.querySelector(`[data-thumb="${i}"]`);
+      if (el) { el.setAttribute("data-title", d.title || ""); el.setAttribute("data-note", d.note || ""); }
+    })}
+
+    const imgEl = document.getElementById("gallery-img") as HTMLImageElement | null;
+    const titleEl = document.getElementById("gallery-note-title");
+    const noteEl = document.getElementById("gallery-note");
+    const counterEl = document.getElementById("gallery-counter");
+    const prevBtn = document.getElementById("gallery-prev");
+    const nextBtn = document.getElementById("gallery-next");
+
+    if (imgEl && prevBtn && nextBtn && counterEl) {
+      let current = 0;
+      const total = thumbs.length;
+
+      const show = (i: number, push = true) => {
+        current = (i + total) % total;
+        const th = thumbs[current];
+        imgEl.src = th.querySelector("img")?.src || imgEl.src;
+        imgEl.alt = th.getAttribute("aria-label") || `Drawing ${current + 1} of ${total}`;
+        if (titleEl) titleEl.textContent = th.getAttribute("data-title") || "";
+        if (noteEl) noteEl.textContent = th.getAttribute("data-note") || "";
+        counterEl.textContent = `${current + 1} / ${total}`;
+        thumbs.forEach((t, ti) => {
+          const on = ti === current;
+          t.classList.toggle("active", on);
+          t.setAttribute("aria-selected", String(on));
+        });
+        if (push) history.replaceState(null, "", `#drawing-${current + 1}`);
+      };
+
+      prevBtn.addEventListener("click", () => show(current - 1));
+      nextBtn.addEventListener("click", () => show(current + 1));
+      thumbs.forEach((t) => t.addEventListener("click", () => show(Number(t.dataset.thumb || 0))));
+
+      window.addEventListener("keydown", (e) => {
+        const t = (e.target as HTMLElement).tagName;
+        if (t === "INPUT" || t === "TEXTAREA") return;
+        if (e.key === "ArrowLeft") { e.preventDefault(); show(current - 1); }
+        if (e.key === "ArrowRight") { e.preventDefault(); show(current + 1); }
+      });
+
+      const m = window.location.hash.match(/^#drawing-(\d+)$/);
+      if (m) {
+        const idx = Number(m[1]) - 1;
+        if (idx >= 0 && idx < total) show(idx, false);
+      }
+    }
+  </script>
+</Layout>

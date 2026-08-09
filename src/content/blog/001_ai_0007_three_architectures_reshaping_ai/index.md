@@ -1,31 +1,32 @@
 ---
 title: "Three Architectures Reshaping AI"
-date: 2026-07-12T00:00:00Z
+date: 2026-08-09T00:00:00Z
 draft: true
 toc: true
+tags:
+    - ai
 ---
 
-## 0.HOOK
-"What if AI 'thinking' has multiple paths?"
+## Hook
 
-## 1. CEREBRAS: The Hardware Beast
-- Core: Wafer-scale = instant inference
-- Twist: Brute force vs. GPU clusters
+![Cerebras vs Mercury vs DeepInfra — real-time race](/blog/001_ai_0007_three_architectures_reshaping_ai/race_comparison_v2.gif)
 
-## 2. MERCURY 2: The Diffusion Rebel
-- Core: Text as diffusion, not next-token
-- Twist: Challenges entire GPT paradigm
+## Cerebras — The Hardware Beast
 
-## 3. QWEN WORLD: The Simulator
-- Core: Predicts consequences before acting
-- Twist: Path to truly agentic AI
+![Cerebras LPU real run](/blog/001_ai_0007_three_architectures_reshaping_ai/demo_cerebras.gif)
 
-## SYNTHESIS
-- Open Router = one API, radically different brains
+## Mercury 2 — The Diffusion Rebel
 
-## CLOSE
-- No single winner—different tools for different jobs
+![Mercury diffusion real run](/blog/001_ai_0007_three_architectures_reshaping_ai/demo_mercury.gif)
 
----
+## DeepInfra — The Control Group
 
-**Target Summary:** Three divergent AI architectures (hardware acceleration, diffusion generation, world modeling) converge on Open Router's unified API, giving developers unprecedented choice in how intelligence is computed.
+![DeepInfra GPU baseline real run](/blog/001_ai_0007_three_architectures_reshaping_ai/demo_deepinfra.gif)
+
+## Qwen World — The Simulator
+
+## Synthesis
+
+## Close
+
+## References
