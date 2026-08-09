@@ -5,7 +5,7 @@ import { drawings } from "../lib/drawings";
 const total = drawings.length;
 const startIndex = total > 0 ? 1 : 0;
 ---
-<Layout title="Drawings" description="A gallery of drawings and sketches." bodyClass="gallery-page">
+<Layout title="Drawings" description="A gallery of drawings and sketches.">
   <div class="gallery" data-reveal>
     <header class="gallery-head">
       <h1 class="gallery-title">Drawings</h1>
@@ -48,12 +48,13 @@ const startIndex = total > 0 ? 1 : 0;
               type="button"
               class:list={["gallery-thumb", i === 0 && "active"]}
               data-thumb={i}
+              data-full={d.image}
               data-title={d.title || ""}
               data-note={d.note || ""}
               aria-label={d.title || `Drawing ${i + 1}`}
               aria-selected={i === 0}
             >
-              <img src={d.image} alt="" loading="lazy" />
+              <img src={d.thumb} alt="" loading="lazy" decoding="async" />
             </button>
           ))}
         </div>
@@ -78,7 +79,8 @@ const startIndex = total > 0 ? 1 : 0;
       const show = (i: number, push = true) => {
         current = (i + total) % total;
         const th = thumbs[current];
-        imgEl.src = th.querySelector("img")?.src || imgEl.src;
+        const full = th.querySelector("img")?.getAttribute("data-full") || imgEl.src;
+        imgEl.src = full;
         imgEl.alt = th.getAttribute("aria-label") || `Drawing ${current + 1} of ${total}`;
         if (titleEl) titleEl.textContent = th.getAttribute("data-title") || "";
         if (noteEl) noteEl.textContent = th.getAttribute("data-note") || "";

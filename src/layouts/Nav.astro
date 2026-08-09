@@ -13,10 +13,10 @@ const items = [
 const isActive = (href) => path !== "/" && (path === href || path.startsWith(href));
 ---
 <header class="mobile-brand-bar" aria-label="Site header">
-  <a href="/blog/" class="mobile-brand">Amro's Blog</a>
+  <a href="/" class="mobile-brand">Amro's Blog</a>
 </header>
 <header class="nav-drawer" data-nav>
-  <a href="/blog/" class="nav-brand">Amro's Blog</a>
+  <a href="/" class="nav-brand">Amro's Blog</a>
   <nav class="nav-list" aria-label="Main">
     {items.map((it) => (
       <a href={it.href} class:list={["nav-item", { active: isActive(it.href) }]}>

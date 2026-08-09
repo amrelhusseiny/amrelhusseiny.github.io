@@ -1,38 +1,33 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import BlogList from "../components/BlogList.astro";
-import { getCollection } from "astro:content";
-
-const posts = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Layout title="Blog" description="Technical blog on networks, Linux, AI, and automation.">
-  <section data-reveal>
-    <h1 style="font-size:2rem;margin-bottom:8px;">Blog</h1>
-    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Networks, Linux, AI, and automation.</p>
+<Layout
+  title="Amro's Blog"
+  description="Amro El Husseini — network engineer and automation advocate. Writing about networks, Linux, AI, and automation."
+  bodyClass="home-page"
+>
+  <section class="home-hero" aria-label="Welcome">
+    <div class="home-hero-bg" aria-hidden="true"></div>
+    <div class="home-hero-overlay" aria-hidden="true"></div>
+
+    <div class="home-hero-content">
+      <p class="home-eyebrow">Amro El Husseini</p>
+      <h1 class="home-title">Amro's Blog</h1>
+      <p class="home-tagline">Networks, Linux, AI &amp; automation &mdash; and the occasional sketch.</p>
+
+      <nav class="home-links" aria-label="Site sections">
+        <a class="home-link" href="/blog/">Blog</a>
+        <a class="home-link" href="/notes/">Notes</a>
+        <a class="home-link" href="/drawings/">Drawings</a>
+        <a class="home-link" href="/about/">About</a>
+        <a class="home-link" href="/cv/">CV</a>
+      </nav>
+    </div>
+
+    <a class="home-scroll" href="#main-end" aria-label="Scroll down">
+      <span class="home-scroll-dot" aria-hidden="true"></span>
+    </a>
   </section>
 
-  <div class="search-wrap" data-reveal>
-    <input id="blog-search" class="search-input" type="search" placeholder="Search articles…" autocomplete="off" />
-  </div>
-
-  <BlogList posts={posts} />
-
-  <p id="search-empty" class="search-empty" style="display:none">No articles match your search.</p>
-
-  <script>
-    const input = document.getElementById("blog-search");
-    const cards = document.querySelectorAll("#blog-cards .post-card");
-    const empty = document.getElementById("search-empty");
-    input?.addEventListener("input", () => {
-      const term = input.value.trim().toLowerCase();
-      let visible = 0;
-      cards.forEach((c) => {
-        const match = !term || c.textContent.toLowerCase().includes(term);
-        c.style.display = match ? "" : "none";
-        if (match) visible++;
-      });
-      if (empty) empty.style.display = visible === 0 && term ? "" : "none";
-    });
-  </script>
+  <span id="main-end"></span>
 </Layout>
