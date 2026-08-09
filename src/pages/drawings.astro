@@ -48,6 +48,8 @@ const startIndex = total > 0 ? 1 : 0;
               type="button"
               class:list={["gallery-thumb", i === 0 && "active"]}
               data-thumb={i}
+              data-title={d.title || ""}
+              data-note={d.note || ""}
               aria-label={d.title || `Drawing ${i + 1}`}
               aria-selected={i === 0}
             >
@@ -61,10 +63,6 @@ const startIndex = total > 0 ? 1 : 0;
 
   <script>
     const thumbs = Array.from(document.querySelectorAll<HTMLButtonElement>(".gallery-thumb"));
-    {drawings.forEach((d, i) => {
-      const el = document.querySelector(`[data-thumb="${i}"]`);
-      if (el) { el.setAttribute("data-title", d.title || ""); el.setAttribute("data-note", d.note || ""); }
-    })}
 
     const imgEl = document.getElementById("gallery-img") as HTMLImageElement | null;
     const titleEl = document.getElementById("gallery-note-title");
