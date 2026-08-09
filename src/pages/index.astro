@@ -7,9 +7,6 @@ import Layout from "../layouts/Layout.astro";
   bodyClass="home-page"
 >
   <section class="home-hero" aria-label="Welcome">
-    <div class="home-hero-bg" aria-hidden="true"></div>
-    <div class="home-hero-overlay" aria-hidden="true"></div>
-
     <div class="home-hero-content">
       <p class="home-eyebrow">Amro El Husseini</p>
       <h1 class="home-title">Amro's Blog</h1>
@@ -24,10 +21,13 @@ import Layout from "../layouts/Layout.astro";
       </nav>
     </div>
 
-    <a class="home-scroll" href="#main-end" aria-label="Scroll down">
-      <span class="home-scroll-dot" aria-hidden="true"></span>
-    </a>
+    <img
+      class="home-hero-art"
+      src="/home-bg.webp"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+    />
   </section>
-
-  <span id="main-end"></span>
 </Layout>
