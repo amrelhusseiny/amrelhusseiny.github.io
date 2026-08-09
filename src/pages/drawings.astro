@@ -79,8 +79,7 @@ const startIndex = total > 0 ? 1 : 0;
       const show = (i: number, push = true) => {
         current = (i + total) % total;
         const th = thumbs[current];
-        const full = th.querySelector("img")?.getAttribute("data-full") || imgEl.src;
-        imgEl.src = full;
+        imgEl.src = th.getAttribute("data-full") || imgEl.src;
         imgEl.alt = th.getAttribute("aria-label") || `Drawing ${current + 1} of ${total}`;
         if (titleEl) titleEl.textContent = th.getAttribute("data-title") || "";
         if (noteEl) noteEl.textContent = th.getAttribute("data-note") || "";
