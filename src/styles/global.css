@@ -164,6 +164,8 @@ html[data-theme="dark"] .astro-code, html[data-theme="dark"] .astro-code .line, 
 .nav-item:hover { background: var(--color-paper-raise); color: var(--color-ink); }
 .nav-item.active { background: var(--color-primary-container); color: var(--color-on-primary-container); }
 .nav-item[data-theme-toggle] { border: none; background: none; cursor: pointer; font-family: inherit; }
+/* Mobile-only theme toggle (6th bottom-nav item); hidden on desktop */
+.nav-item--theme { display: none; }
 .nav-footer { display: flex; align-items: center; gap: 8px; }
 .nav-social { display: flex; gap: 4px; }
 .nav-social-btn {
@@ -420,6 +422,8 @@ a.post-card-tag:hover { background: var(--color-primary-container); color: var(-
   .nav-list { flex-direction: row; justify-content: space-around; flex: 1; }
   .nav-item { flex-direction: column; gap: 2px; height: 56px; padding: 0 8px; font-size: 0.6875rem; flex: 1; justify-content: center; }
   .nav-item svg { width: 22px; height: 22px; }
+  .nav-item--theme { display: flex; }
+  .nav-item--theme span[data-theme-label] { display: none; }
   .nav-footer { display: none; }
   .page-main { margin-left: 0; padding: 24px 20px 96px; }
   .back-to-top { bottom: 84px; }

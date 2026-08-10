@@ -23,6 +23,13 @@ const isActive = (href) => path !== "/" && (path === href || path.startsWith(hre
         <span>{it.label}</span>
       </a>
     ))}
+    <button type="button" class="nav-item nav-item--theme" data-theme-toggle aria-label="Toggle light/dark mode">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+        <path data-theme-icon-sun d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 16a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"/>
+        <path data-theme-icon-moon d="M12 3a9 9 0 1 0 0 18V3z" style="display:none"/>
+      </svg>
+      <span data-theme-label>Light mode</span>
+    </button>
   </nav>
   <div class="nav-footer">
     <button type="button" class="nav-item" data-theme-toggle>

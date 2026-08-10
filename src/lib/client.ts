@@ -21,24 +21,28 @@ function showSnackbar(msg: string) {
 /* Theme toggle */
 function themeInit() {
   const html = document.documentElement;
-  const btn = document.querySelector('[data-theme-toggle]');
-  const label = document.querySelector('[data-theme-label]');
-  const sun = document.querySelector('[data-theme-icon-sun]');
-  const moon = document.querySelector('[data-theme-icon-moon]');
+  const btns = Array.from(document.querySelectorAll('[data-theme-toggle]'));
   const sync = () => {
     const dark = html.getAttribute('data-theme') === 'dark';
-    if (label) label.textContent = dark ? 'Dark mode' : 'Light mode';
-    if (sun) sun.style.display = dark ? 'none' : 'block';
-    if (moon) moon.style.display = dark ? 'block' : 'none';
+    btns.forEach((btn) => {
+      const label = btn.querySelector('[data-theme-label]');
+      const sun = btn.querySelector('[data-theme-icon-sun]');
+      const moon = btn.querySelector('[data-theme-icon-moon]');
+      if (label) label.textContent = dark ? 'Dark mode' : 'Light mode';
+      if (sun) sun.style.display = dark ? 'none' : 'block';
+      if (moon) moon.style.display = dark ? 'block' : 'none';
+    });
     const tc = document.querySelector('meta[name="theme-color"]');
     if (tc) tc.setAttribute('content', dark ? '#101010' : '#ffffff');
   };
   sync();
-  btn?.addEventListener('click', () => {
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('amro_blog_theme', next);
-    sync();
+  btns.forEach((btn) => {
+    btn?.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('amro_blog_theme', next);
+      sync();
+    });
   });
 }
 
