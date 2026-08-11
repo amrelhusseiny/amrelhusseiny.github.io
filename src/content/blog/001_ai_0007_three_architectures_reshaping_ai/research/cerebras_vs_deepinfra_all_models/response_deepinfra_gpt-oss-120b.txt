@@ -1,0 +1,522 @@
+# Configuring a Mid‑Size Enterprise Network – A Practical, Vendor‑Agnostic Guide  
+*Target audience: senior network engineers, infrastructure architects, and IT managers*  
+
+**Scope** – This guide walks through the end‑to‑end design of a campus‑class network for a 500‑person enterprise. It covers VLAN design, IP addressing, firewall architecture, VPN/remote access, observability, high‑availability, and security hardening. All recommendations are vendor‑neutral; wherever a specific protocol or feature is mentioned, you can map it to the equivalent offering from Cisco, Juniper, Arista, Fortinet, Palo Alto, Huawei, etc.
+
+---
+
+## Table of Contents
+1. [VLAN Design and Segmentation](#vlan)  
+2. [IP Addressing and Subnetting](#ip)  
+3. [Firewall Architecture and Rules](#fw)  
+4. [VPN and Remote Access](#vpn)  
+5. [Network Monitoring and Observability](#monitor)  
+6. [High Availability and Failover](#ha)  
+7. [Security Hardening and Best Practices](#sec)  
+8. [Appendix – Reference Tables & Sample Configs](#appendix)  
+
+---
+
+<a name="vlan"></a>
+## 1. VLAN Design and Segmentation  
+
+### 1.1 Why Segmentation Matters  
+* **Security** – Isolates sensitive assets (e.g., finance, R&D) from the general corporate LAN, limiting lateral movement of malware.  
+* **Performance** – Reduces broadcast storms and unnecessary ARP traffic, keeping each broadcast domain to a manageable size.  
+* **Policy Enforcement** – Enables granular ACLs, QoS, and monitoring per business function.  
+
+### 1.2 Business‑Driven Grouping  
+
+| Business Function | Typical Devices | Security Posture | Reason for Separate VLAN |
+|--------------------|----------------|------------------|--------------------------|
+| Corporate Users (Office) | Desktops, laptops, VoIP phones | Standard | Baseline access to internal services |
+| Guest Wi‑Fi | BYOD, visitor devices | Strictly Internet‑only | Prevents guest devices from reaching internal resources |
+| Finance & Accounting | Workstations, printers, accounting servers | High | Protects PII & financial data |
+| R&D / Engineering | Workstations, lab equipment, test servers | High | Intellectual property protection |
+| Server Farm / Data Center | Application, DB, storage servers | Very High | Segregates server tiers (web, app, DB) |
+| Management & Ops | NOC consoles, monitoring stations | High | Centralized control plane |
+| IoT / Building Systems | Cameras, HVAC, access control | Medium | Limited bandwidth, separate from user traffic |
+| Voice (VoIP) | IP phones, call‑control servers | Medium | QoS isolation, separate signaling |
+| Remote Site Interconnect (WAN) | Edge routers, SD‑WAN appliances | High | Keeps WAN traffic distinct from LAN |
+
+### 1.3 Example VLAN ID Scheme  
+
+| VLAN ID | Name | Scope | Reasoning |
+|--------|------|-------|-----------|
+| 10 | VLAN‑10‑CORP | Corporate LAN | Low number for core business |
+| 20 | VLAN‑20‑GUEST | Guest Wi‑Fi | Easy to remember for captive portal |
+| 30 | VLAN‑30‑FIN | Finance | Reserved for high‑value assets |
+| 40 | VLAN‑40‑RND | R&D | Separate from finance |
+| 50 | VLAN‑50‑SRV‑WEB | Server – Web tier | Server‑farm segmentation |
+| 60 | VLAN‑60‑SRV‑APP | Server – Application tier | |
+| 70 | VLAN‑70‑SRV‑DB | Server – Database tier | |
+| 80 | VLAN‑80‑MGMT | Management & Ops | |
+| 90 | VLAN‑90‑VOICE | VoIP | |
+| 100 | VLAN‑100‑IOT | IoT & Building | |
+| 110 | VLAN‑110‑WAN | WAN / SD‑WAN uplinks | Keeps WAN traffic off the LAN |
+
+*Guideline*: Keep VLAN IDs under 4094, use multiples of 10 for future expansion, and document the purpose in a central repository (e.g., a Confluence page or network‑CMDB).
+
+### 1.4 Broadcast Domain Sizing  
+
+A rule of thumb for a 500‑person office: **≤ 200 hosts per VLAN**. Larger broadcast domains increase ARP traffic and risk of broadcast storms. If a VLAN exceeds this, consider splitting it (e.g., separate VLANs per floor or department).  
+
+### 1.5 Implementation Checklist  
+
+| Item | Description | Owner |
+|------|-------------|-------|
+| VLAN definition in core switches | Create VLANs, assign names, set MTU (≥ 1500, consider jumbo for storage) | Network Engineer |
+| Trunk configuration | Allow only required VLANs on each trunk (prune unused) | Network Engineer |
+| Access port assignment | Map ports to VLANs based on physical location / device type | Facilities / Ops |
+| Documentation | Update VLAN matrix, port‑to‑VLAN mapping, and change log | Documentation Lead |
+| Validation | Verify with `show vlan brief` / `show spanning‑tree vlan <id>` | QA Engineer |
+
+---
+
+<a name="ip"></a>
+## 2. IP Addressing and Subnetting  
+
+### 2.1 Choosing the Address Space  
+
+* **IPv4** – Private address blocks (RFC 1918) are recommended. For a 500‑user campus, a /22 (1024 addresses) provides ample headroom for growth, static devices, and future VLANs.  
+* **IPv6** – Deploy a Unique Local Address (ULA) prefix (fd00::/48) for internal services; map IPv4 subnets to IPv6 /64s for future‑proofing.  
+
+**Selected IPv4 block:** `10.10.0.0/22` (10.10.0.0 – 10.10.3.255)  
+
+### 2.2 Subnet Allocation  
+
+| VLAN | Subnet (IPv4) | CIDR | Usable Hosts | Subnet Mask | Purpose |
+|------|---------------|------|--------------|-------------|---------|
+| 10 – Corp | 10.10.0.0 | /23 | 510 | 255.255.254.0 | Office workstations, printers |
+| 20 – Guest | 10.10.2.0 | /24 | 254 | 255.255.255.0 | Guest Wi‑Fi (DHCP) |
+| 30 – Finance | 10.10.3.0 | /26 | 62 | 255.255.255.192 | Finance workstations, servers |
+| 40 – R&D | 10.10.3.64 | /26 | 62 | 255.255.255.192 | R&D labs |
+| 50 – Server‑Web | 10.10.3.128 | /27 | 30 | 255.255.255.224 | Web tier |
+| 60 – Server‑App | 10.10.3.160 | /27 | 30 | 255.255.255.224 | Application tier |
+| 70 – Server‑DB | 10.10.3.192 | /27 | 30 | 255.255.255.224 | Database tier |
+| 80 – Management | 10.10.3.224 | /28 | 14 | 255.255.255.240 | NOC consoles, monitoring |
+| 90 – Voice | 10.10.3.240 | /28 | 14 | 255.255.255.240 | IP phones, call‑control |
+| 100 – IoT | 10.10.4.0 | /24 (outside /22) – **Optional** | 254 | 255.255.255.0 | If IoT needs separate block |
+| 110 – WAN | 10.10.5.0 | /24 (outside /22) – **Optional** | 254 | 255.255.255.0 | Edge router interfaces |
+
+*Note*: The `/22` block can be extended to `/21` (2048 addresses) if you anticipate a large IoT deployment or future sites.  
+
+### 2.3 DHCP Scope Design  
+
+* **Corporate VLAN (10)** – DHCP pool: `10.10.0.10 – 10.10.1.250`. Reserve the first 10 addresses for static infrastructure (core switches, routers, NTP servers).  
+* **Guest VLAN (20)** – DHCP pool: `10.10.2.10 – 10.10.2.200`. Enforce a **short lease** (1‑2 hours) and apply a captive‑portal ACL.  
+* **Voice VLAN (90)** – DHCP pool: `10.10.3.241 – 10.10.3.250`. Include `option 150` (TFTP server) and `option 66` (SIP server) as needed.  
+
+### 2.4 Static IP Allocation  
+
+| Device | VLAN | IP | Comment |
+|--------|------|----|---------|
+| Core Switch 1 | 10 | 10.10.0.1 | Primary L3 gateway |
+| Core Switch 2 | 10 | 10.10.0.2 | Redundant L3 gateway |
+| Edge Router (WAN) | 110 | 10.10.5.1 | ISP uplink |
+| NTP Server | 80 | 10.10.3.225 | Time source |
+| Syslog Server | 80 | 10.10.3.226 | Central logging |
+| RADIUS Server | 80 | 10.10.3.227 | 802.1X auth |
+| Management Workstation | 80 | 10.10.3.228 | Admin console |
+
+### 2.5 IPv6 Mapping (Optional)  
+
+| VLAN | IPv6 Prefix (ULA) | /64 |
+|------|-------------------|-----|
+| 10 – Corp | fd00:10:10:10::/64 | fd00:10:10:10::/64 |
+| 20 – Guest | fd00:10:10:20::/64 | fd00:10:10:20::/64 |
+| … | … | … |
+
+### 2.6 Addressing Checklist  
+
+| Item | Action | Owner |
+|------|--------|-------|
+| Reserve first /24 for infrastructure | Document in IPAM | IPAM Admin |
+| Configure DHCP scopes with appropriate options | DHCP Server | Network Engineer |
+| Implement IP Source Guard / DHCP Snooping on access ports | Switches | Security Engineer |
+| Verify no overlapping subnets across sites | IPAM / Design Review | Architect |
+| Update DNS zones with static entries | DNS Admin | Ops |
+
+---
+
+<a name="fw"></a>
+## 3. Firewall Architecture and Rules  
+
+### 3.1 Placement Overview  
+
+```
+[Internet] ──[Perimeter FW]──[Core Switches]──[Internal FW]──[Server VLANs]
+```
+
+* **Perimeter Firewall** – Sits at the edge, terminates inbound Internet traffic, performs NAT, and enforces a **default‑deny** inbound policy.  
+* **Internal (East‑West) Firewall** – Deployed either as a dedicated appliance or as a firewall‑enabled VLAN (e.g., a “firewall‑in‑the‑middle” design) to filter traffic between high‑value VLANs (Finance, R&D, Server tiers).  
+
+### 3.2 Default‑Deny Posture  
+
+| Direction | Default Action | Rationale |
+|-----------|----------------|-----------|
+| Inbound (Internet → LAN) | **Deny** | Only explicitly allowed services (e.g., HTTPS, VPN) are permitted. |
+| Outbound (LAN → Internet) | **Allow** (or **Deny** if you want strict egress) | Typically allow HTTP/HTTPS, DNS, NTP; block all else. |
+| East‑West (VLAN ↔ VLAN) | **Deny** | Enforce “need‑to‑communicate” between segments. |
+
+### 3.3 Rule‑Set Design Principles  
+
+1. **Least Privilege** – Each rule permits the minimum protocol/port needed.  
+2. **Rule Ordering** – Place the most specific rules at the top; generic “allow all” at the bottom (if used).  
+3. **Stateful Inspection** – Enable stateful tracking so return traffic is automatically allowed.  
+4. **Logging** – Log **deny** events and any **allow** rule that is high‑risk (e.g., admin access).  
+
+### 3.4 Example Perimeter Firewall Rules  
+
+| # | Source | Destination | Service | Action | Log? | Comment |
+|---|--------|-------------|---------|--------|------|---------|
+| 1 | Any (Internet) | Public‑Web‑VIP (10.10.3.130) | TCP 443 (HTTPS) | Allow | Yes | Public website |
+| 2 | Any (Internet) | VPN‑GW (10.10.5.1) | UDP 500 / UDP 4500 (IPsec) | Allow | Yes | Site‑to‑site & remote VPN |
+| 3 | Any (Internet) | VPN‑GW (10.10.5.1) | TCP 443 (SSL‑VPN) | Allow | Yes | Remote‑user SSL VPN |
+| 4 | Any (Internet) | Any | Any | Deny | Yes | Default‑deny |
+| 5 | LAN (10.10.0.0/23) | Internet | TCP 80,443,53,123 | Allow | No | Outbound web/DNS/NTP |
+| 6 | LAN (10.10.0.0/23) | Any | Any | Deny | Yes | Block rogue outbound |
+
+### 3.5 Example Internal (East‑West) Firewall Rules  
+
+| # | Source VLAN | Destination VLAN | Service | Action | Log? | Comment |
+|---|-------------|------------------|---------|--------|------|---------|
+| 1 | VLAN‑30‑FIN | VLAN‑70‑SRV‑DB | TCP 1433 (MSSQL) | Allow | Yes | Finance apps to DB |
+| 2 | VLAN‑40‑RND | VLAN‑60‑SRV‑APP | TCP 8080 (REST API) | Allow | Yes | R&D services |
+| 3 | VLAN‑10‑CORP | VLAN‑90‑VOICE | UDP 5060 (SIP) | Allow | No | Softphone traffic |
+| 4 | VLAN‑100‑IOT | VLAN‑10‑CORP | Any | Deny | Yes | Prevent IoT → user LAN |
+| 5 | VLAN‑50‑SRV‑WEB | VLAN‑70‑SRV‑DB | TCP 3306 (MySQL) | Allow | Yes | Web tier to DB |
+| 6 | Any | Any | Any | Deny | Yes | Default‑deny |
+
+### 3.6 Additional Controls  
+
+| Feature | Description | Why it matters |
+|---------|-------------|----------------|
+| **Zone‑Based Policy** | Group VLANs into security zones (e.g., *User*, *Server*, *DMZ*) and apply inter‑zone ACLs. | Simplifies rule management and audit. |
+| **Application‑Layer Inspection** | Enable HTTP inspection, SSL decryption (where policy permits). | Detects malicious payloads hidden in web traffic. |
+| **IPS/IDS** | Inline intrusion‑prevention signatures. | Blocks known exploits before they reach servers. |
+| **URL Filtering** | Block access to malicious or non‑business categories. | Reduces risk from web‑borne threats. |
+| **High‑Availability Pair** | Active/Passive or Active/Active failover with state sync. | No single point of failure at the edge. |
+
+### 3.7 Firewall Checklist  
+
+| Item | Action | Owner |
+|------|--------|-------|
+| Define security zones and map VLANs | Documentation | Architect |
+| Build rule base in a test environment | Verify with traffic generators | QA Engineer |
+| Enable logging to a central syslog/SIEM | Configure log forwarding | Security Ops |
+| Perform a rule‑base review (e.g., 30‑day) | Remove stale rules | Security Lead |
+| Test HA failover (stateful sync) | Simulate link failure | Network Engineer |
+| Conduct a penetration test | Validate effectiveness | Red Team / External Vendor |
+
+---
+
+<a name="vpn"></a>
+## 4. VPN and Remote Access  
+
+### 4.1 Overview of Requirements  
+
+| Requirement | Detail |
+|-------------|--------|
+| **Site‑to‑Site** | Connect three branch offices (≈ 100 users each) to the headquarters LAN. |
+| **Remote‑User** | Support 150 telecommuters (laptops, mobile devices) with split‑tunnel for corporate resources only. |
+| **High Security** | Use strong cryptography, MFA for users, and device posture checks. |
+| **Scalability** | Ability to add new sites without re‑architecting the core. |
+
+### 4.2 Protocol Choices  
+
+| Use‑case | Recommended Protocol | Reason |
+|----------|----------------------|--------|
+| Site‑to‑Site | **IPsec (IKEv2)** with ESP, AES‑256, SHA‑2 | Mature, hardware‑accelerated, interoperable. |
+| Remote‑User | **SSL‑VPN (TLS 1.3)** or **IPsec (IKEv2)** with client certificates | SSL‑VPN works through most NAT/Proxy; IKEv2 offers better performance on modern clients. |
+| Mobile Devices | **SSL‑VPN** (client‑less via web portal) or **WireGuard** (if supported) | Simpler client, low overhead. |
+
+### 4.3 Cryptography Recommendations  
+
+| Component | Minimum Algorithm | Key Length |
+|-----------|-------------------|------------|
+| IKE Phase 1 | AES‑256‑CBC or AES‑256‑GCM | 256‑bit |
+| IKE Phase 2 (IPsec ESP) | AES‑256‑GCM (preferred) | 256‑bit |
+| Hash | SHA‑256 (or SHA‑384) | N/A |
+| DH Group | **Group 14 (2048‑bit)** or **Group 19 (256‑bit ECC)** | N/A |
+| SSL‑VPN TLS | TLS 1.3 with AES‑256‑GCM, SHA‑256 | N/A |
+| Certificate Authority | RSA 4096 or ECDSA P‑384 | N/A |
+| MFA | TOTP (RFC 6238) + push notification | N/A |
+
+### 4.4 Sample Site‑to‑Site IPsec Configuration (Vendor‑Agnostic)  
+
+Below is a **generic** configuration snippet that can be translated to Cisco ASA, Palo Alto, FortiGate, or Juniper SRX. The syntax uses a pseudo‑CLI that mirrors common concepts.
+
+```text
+# ---- IKE (Phase 1) ----
+crypto ike proposal IKE-PROPOSAL-1
+   encryption aes256
+   integrity sha256
+   dh-group 14
+   lifetime 86400   # 24h
+
+crypto ike policy IKE-POLICY-1
+   proposal IKE-PROPOSAL-1
+   pre-shared-key local  "HQ-PSK-001"
+   pre-shared-key remote "BR1-PSK-001"
+
+# ---- IPsec (Phase 2) ----
+crypto ipsec proposal IPSEC-PROPOSAL-1
+   encryption aes256-gcm
+   integrity sha256
+   dh-group 14
+   lifetime 3600    # 1h
+
+crypto ipsec policy IPSEC-POLICY-1
+   proposal IPSEC-PROPOSAL-1
+
+# ---- Tunnel Interface ----
+interface Tunnel0
+   ip address 10.255.0.1/30   # Tunnel endpoint address
+   tunnel source 10.10.5.1   # Edge router public IP
+   tunnel destination 203.0.113.10   # Branch router public IP
+   ike policy IKE-POLICY-1
+   ipsec policy IPSEC-POLICY-1
+   set security-zone untrust
+   set security-zone trust
+   description "HQ ↔ Branch‑1 IPsec tunnel"
+```
+
+**Key points**  
+
+* **Separate IKE and IPsec policies** – Allows independent tuning of lifetimes.  
+* **Use a dedicated tunnel interface** – Simplifies routing and monitoring.  
+* **Apply zone‑based firewall policies** on both ends of the tunnel.  
+
+### 4.5 Remote‑User SSL‑VPN Example (Pseudo‑CLI)  
+
+```text
+# SSL VPN Virtual Server
+vpn ssl virtual‑server SSL‑VPN‑HQ
+   bind ip-address 10.10.5.1 port 443
+   authentication local-users
+   authentication radius server RADIUS‑HQ
+   client‑profile PROFILE‑HQ
+   split‑tunnel enable
+   split‑tunnel-network 10.10.0.0/23   # Corporate LAN
+   split‑tunnel-network 10.10.3.0/24   # Server VLANs
+   dns-server 10.10.3.225               # Internal DNS
+   enable-mfa yes
+   post‑login-script /etc/vpn/post-login.sh
+```
+
+*The `post-login-script` can enforce endpoint compliance (e.g., check for OS patch level, AV).*
+
+### 4.6 VPN Monitoring & Health  
+
+| Metric | Tool | Threshold |
+|--------|------|-----------|
+| Tunnel up/down | SNMP/Netconf, Syslog | Alert if down > 1 min |
+| IKE SA re‑key failures | Syslog, SIEM | > 5 per hour |
+| Remote‑user concurrent sessions | VPN portal | > 120% of licensed capacity |
+| Latency (RTT) across tunnel | Ping/NetFlow | > 150 ms (alert) |
+| Data‑plane throughput | NetFlow, sFlow | > 80 % of link capacity (warn) |
+
+### 4.7 VPN Checklist  
+
+| Item | Action | Owner |
+|------|--------|-------|
+| Generate CA and server certificates (RSA‑4096/ECDSA‑P‑384) | PKI team | Security |
+| Distribute client certificates (or configure MFA) | PKI / Helpdesk | Ops |
+| Configure IKE/IPsec policies on all sites | Network Engineer | |
+| Test connectivity with `ping` and `traceroute` across tunnel | QA | |
+| Document tunnel endpoints, PSKs, and certificate expiry dates | Documentation | |
+| Enable logging to central SIEM (tunnel up/down, auth failures) | Security Ops | |
+| Review VPN usage quarterly (session counts, bandwidth) | Capacity Planner | |
+
+---
+
+<a name="monitor"></a>
+## 5. Network Monitoring and Observability  
+
+### 5.1 Core Observability Pillars  
+
+| Pillar | What it Provides | Typical Protocols/Tools |
+|--------|------------------|------------------------|
+| **Device Health** | CPU, memory, interface counters, temperature | SNMP v2c/v3, NETCONF, RESTCONF |
+| **Traffic Flow** | Who talks to whom, volume, application identification | NetFlow, sFlow, IPFIX |
+| **Log Aggregation** | Event correlation, security alerts | Syslog, CEF, JSON over TLS |
+| **Performance Metrics** | Latency, jitter, packet loss | ICMP, BFD, TWAMP, In‑band telemetry |
+| **Configuration Management** | Change tracking, drift detection | Git‑backed config repo, Ansible, NCM |
+
+### 5.2 SNMP Design  
+
+* **Version** – Use **SNMPv3** with authentication (SHA‑256) and encryption (AES‑256).  
+* **Community Strings** – Not applicable; use user‑based security model (USM).  
+* **MIBs** – Enable standard MIB‑II, IF‑MIB, IP‑MIB, and vendor‑specific MIBs for firewall and VPN stats.  
+
+**Sample SNMPv3 user definition (generic CLI):**
+
+```text
+snmp-server group MONITORING v3 priv read-only
+snmp-server user monitor1 MONITORING auth sha myStrongAuthPass priv aes-256 myStrongPrivPass
+snmp-server host 10.10.3.226 version 3 monitor1
+```
+
+### 5.3 Flow Telemetry  
+
+| Feature | Recommendation |
+|---------|-----------------|
+| **Exporter** | Enable **NetFlow v9** or **IPFIX** on all core and distribution switches. |
+| **Collector** | Deploy a scalable collector (e.g., nfdump, pmacct, or commercial solution). |
+| **Sampling Rate** | 1:1000 for high‑speed links; 1:100 for critical links (e.g., to data center). |
+| **Enrichment** | Use DPI (Deep Packet Inspection) or external DB (e.g., MaxMind) for application and geo‑lookup. |
+| **Retention** | Keep raw flow records for 30 days; aggregated summaries for 12 months. |
+
+### 5.4 Logging & Alerting  
+
+| Log Source | Destination | Format | Retention |
+|------------|-------------|--------|-----------|
+| Firewalls | Central Syslog (10.10.3.226) | CEF / RFC 5424 | 90 days (raw), 1 year (archived) |
+| VPN Gateways | SIEM (Splunk/ELK) | JSON over TLS | 180 days |
+| Switches/Routers | Syslog + SNMP traps | RFC 5424 | 30 days |
+| IDS/IPS | SIEM | CEF | 180 days |
+| Authentication (RADIUS/LDAP) | Syslog | RFC 5424 | 180 days |
+
+**Sample Alert Thresholds (implemented in the SIEM or monitoring platform):**
+
+| Metric | Warning | Critical |
+|--------|---------|-----------|
+| CPU utilization on core switch | > 70 % for 5 min | > 85 % for 2 min |
+| Interface error rate (CRC) | > 100 errors/min | > 500 errors/min |
+| VPN concurrent sessions | > 80 % of license | > 100 % (over‑commit) |
+| Firewall deny count (per VLAN) | > 500 denies/5 min | > 2000 denies/5 min |
+| NetFlow top talkers (unexpected) | New IP > 10 GB in 10 min | Same IP > 50 GB in 10 min |
+
+### 5.5 Dashboard Recommendations  
+
+| Dashboard | Key Widgets |
+|-----------|------------|
+| **Network Health** | CPU/Memory per device, Interface up/down, BGP/OSPF adjacency status |
+| **Security Overview** | Top deny sources, VPN auth failures, IDS alerts |
+| **Capacity Planning** | Bandwidth utilization per link, Top talkers, Growth trends |
+| **Service Availability** | Ping/HTTP checks for critical services (DNS, NTP, AD) |
+| **Change Management** | Recent config pushes, pending approvals, drift detection |
+
+### 5.6 Monitoring Checklist  
+
+| Item | Action | Owner |
+|------|--------|-------|
+| Deploy SNMPv3 users on all devices | Verify encryption & auth | Network Engineer |
+| Enable NetFlow/IPFIX on all uplinks | Set sampling rates | Network Engineer |
+| Configure syslog forwarding to central server | Use TLS for transport | Security Ops |
+| Integrate logs into SIEM (parse CEF) | Build parsers | SIEM Engineer |
+| Create baseline alerts (CPU, errors) | Document thresholds | Ops Lead |
+| Schedule weekly health review meeting | Review dashboards | NOC Manager |
+| Perform quarterly capacity review | Adjust sampling/retention | Capacity Planner |
+
+---
+
+<a name="ha"></a>
+## 6. High Availability and Failover  
+
+### 6.1 Redundant Physical Links  
+
+* **Core‑Distribution** – Dual 10 GbE (or 40 GbE) uplinks using **LACP** (IEEE 802.3ad) for link aggregation.  
+* **Access‑Distribution** – Dual uplinks from each access switch to two separate distribution switches (dual‑homed).  
+
+### 6.2 Spanning Tree Protocol (STP)  
+
+| Feature | Recommended Setting |
+|---------|---------------------|
+| Protocol | **Rapid STP (RSTP, IEEE 802.1w)** – faster convergence (sub‑second). |
+| VLAN‑aware | **MSTP (Multiple STP)** – map VLAN groups to MST instances for optimal topology. |
+| Edge Port | Set `portfast` on all access ports (no BPDUs). |
+| BPDU Guard | Enable on all edge ports to protect against rogue switches. |
+| Root Bridge | Manually set the **core switch** as the root for the primary MST instance. |
+
+### 6.3 LACP Port‑Channels  
+
+* **Configuration** – Use **LACP active** mode on both ends.  
+* **Load‑Balancing** – Choose a hash algorithm that includes **source/destination IP** and **port** to evenly distribute traffic across the member links.  
+
+**Sample LACP config (generic):**
+
+```text
+interface Port-channel10
+   description "Core‑Dist Link Aggregation"
+   mode active
+   load‑balance src-dst-ip-port
+   spanning‑tree mst 0 priority 4096
+
+interface TenGigabitEthernet1/0/1
+   channel‑group 10 mode active
+   spanning‑tree mst 0 port-priority 128
+
+interface TenGigabitEthernet1/0/2
+   channel‑group 10 mode active
+   spanning‑tree mst 0 port-priority 128
+```
+
+### 6.4 First‑Hop Redundancy (FHR)  
+
+| Protocol | Typical Use | Pros | Cons |
+|----------|--------------|------|------|
+| **VRRP** (Virtual Router Redundancy Protocol) | Default gateway redundancy for a VLAN | Simple, widely supported | Only one active router |
+| **HSRP** (Hot Standby Router Protocol) | Cisco‑centric environments | Similar to VRRP | Vendor lock‑in |
+| **GLBP** (Gateway Load Balancing Protocol) | Load‑balances across multiple routers | Balances traffic | More complex, Cisco‑only |
+
+**Recommendation:** Deploy **VRRP** on each VLAN’s L3 interface. Use a **virtual IP** (e.g., 10.10.0.254 for VLAN‑10) that hosts use as their default gateway. Set the primary router priority higher (e.g., 150) and the secondary lower (e.g., 100).  
+
+### 6.5 Device Redundancy  
+
+| Layer | Redundancy Technique |
+|-------|----------------------|
+| **Physical** | Dual power supplies, UPS, and separate power circuits. |
+| **Control Plane** | Active/Passive firewall pair with state sync; active/active load‑balancing for VPN gateways (e.g., using a virtual IP). |
+| **Management** | Out‑of‑band (OOB) management network with a dedicated console server. |
+| **Configuration** | Store configs in a Git repository; use automated push with rollback capability. |
+
+### 6.6 HA Validation Checklist  
+
+| Test | Expected Result | Owner |
+|------|-----------------|-------|
+| Link failure on one member of LACP | Traffic continues on remaining links, no STP reconvergence | Network Engineer |
+| Core switch power loss | Distribution switches take over VRRP, traffic remains unchanged | Ops |
+| Firewall failover (state sync) | Existing sessions survive failover (or graceful teardown) | Security Engineer |
+| BGP session loss on one router | BGP reconverges within 30 s, no route flaps | Network Engineer |
+| STP topology change (link down) | RSTP reconverges < 5 s, no loops | QA |
+| OOB console access after primary console server failure | Secondary console server provides access | Sysadmin |
+
+---
+
+<a name="sec"></a>
+## 7. Security Hardening and Best Practices  
+
+### 7.1 Segmentation Enforcement  
+
+* **Zero‑Trust Zones** – Treat each VLAN as a security zone; enforce “need‑to‑communicate” with firewall ACLs.  
+* **Micro‑Segmentation** – Within the server farm, use host‑based firewalls or virtual switches (e.g., VMware NSX, Cisco ACI) to further isolate workloads.  
+
+### 7.2 Access Control  
+
+| Control | Implementation |
+|---------|----------------|
+| **802.1X Port‑Based Authentication** | Deploy a RADIUS server; enforce certificate‑based supplicant authentication for corporate devices. |
+| **Network Access Control (NAC)** | Integrate with endpoint posture (antivirus, OS patch level) before granting VLAN access. |
+| **Privileged Access Management (PAM)** | Use a bastion host or jump server for admin SSH; enforce MFA and session recording. |
+| **Role‑Based ACLs** | Map admin roles to specific firewall rule‑sets (e.g., “Finance‑Admin” can access DB VLAN). |
+
+### 7.3 Change Management  
+
+1. **Ticket‑Driven Process** – Every configuration change must have an approved change request (CR).  
+2. **Peer Review** – At least one senior engineer reviews the change before implementation.  
+3. **Staging Environment** – Test changes in a lab or sandbox that mirrors production.  
+4. **Rollback Plan** – Document exact steps to revert if the change causes an outage.  
+
+**Sample Change Log Entry:**
+
+```
+CR#2024‑0456 – Add VLAN‑90 (Voice) to Core Switches
+- Created VLAN 90, assigned IP 10.10.3.240/28
+- Updated L3 interface, VRRP priority 150
+- Added ACL 101 (allow SIP/UDP 5060 from VLAN‑10)
+- Tested VoIP call flow, no impact on other VLANs
+- Rollback: remove VLAN 90, delete ACL 101, revert config backup
+Approved by: Network Lead (John D.)
+Implemented by: Engineer (

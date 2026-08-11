@@ -1,0 +1,283 @@
+# Comprehensive Network Infrastructure Configuration Guide
+**Target Environment:** Mid-Size Enterprise (500 Employees)
+**Audience:** Senior Network Engineers & Architects
+
+## Executive Summary
+
+Designing a network infrastructure for a mid-size enterprise (approx. 500 users) requires a delicate balance between scalability, security, performance, and operational complexity. At this scale, flat networks are no longer viable; the broadcast domains must be segmented, and traffic flows must be controlled rigorously. This guide provides a technical blueprint for building a resilient, secure, and observable campus network. We assume a three-tier architecture (Core, Distribution, Access) or a collapsed Core/Distribution model depending on the physical layout, utilizing vendor-agnostic standards (IEEE 802.1x, spanning-tree variants, BGP/OSPF, etc.).
+
+---
+
+## 1. VLAN Design and Segmentation
+
+The foundation of a secure enterprise network is logical segmentation. Virtual LANs (VLANs) are used to break up a large Layer 2 broadcast domain into smaller, manageable segments.
+
+### Rationale for Segmentation
+1.  **Security:** Isolates sensitive data (e.g., Finance, HR) from the general user population. If an endpoint in the Sales VLAN is compromised, the attacker is confined to that broadcast domain and cannot simply sniff traffic on the HR VLAN without crossing a Layer 3 boundary (firewall/router).
+2.  **Broadcast Containment:** Without VLANs, a broadcast storm or a loop would affect every device. Limiting the size of a broadcast domain to roughly /24 (254 hosts) ensures stable performance.
+3.  **Quality of Service (QoS):** Different traffic types require different treatment. Voice and Video are delay-sensitive; Bulk data transfers are not. Grouping these into VLANs allows for efficient Class of Service (CoS) marking at the edge.
+
+### VLAN Grouping Strategy
+For a 500-user organization, we recommend a Role-Based Access Control (RBAC) approach to VLANs.
+
+*   **Data VLANs:** Standard corporate devices.
+*   **Voice VLANs:** Dedicated for IP phones to ensure dSCP markings are trusted and QoS is applied.
+*   **IoT/Printers:** Devices with weak authentication should be isolated.
+*   **Guest:** Strictly internet-only access, completely isolated from internal assets.
+*   **Management:** Out-of-band (OOB) or in-band management traffic for network infrastructure.
+
+### Example VLAN ID Scheme
+While VLAN IDs can be arbitrary, standardizing ranges aids in troubleshooting.
+
+| Function | VLAN ID | Name | Description | Subnet (Example) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Management** | 10 | `MGMT_VLAN` | Switch/Router/AP Management | 10.0.0.0/24 |
+| **Data - Corp** | 100 | `CORP_DATA` | General Employee Workstations | 10.10.0.0/23 |
+| **Data - Voice** | 101 | `CORP_VOICE` | VoIP Traffic (Cisco/Avaya etc.) | 10.10.2.0/24 |
+| **Data - Print** | 102 | `CORP_PRINT` | Network Printers/MFDs | 10.10.3.0/24 |
+| **Server Farm** | 110 | `SRV_FARM` | Internal Application Servers | 10.10.10.0/24 |
+| **Restricted** | 120 | `RESTRICTED` | HR/Finance/Executives | 10.10.20.0/24 |
+| **IoT** | 130 | `IOT_NET` | Cameras, Badging, HVAC | 10.10.30.0/24 |
+| **Guest** | 200 | `GUEST_WIFI` | Contractors/Visitors | 192.168.200.0/24 |
+
+**Note on Private VLAN Edge (Protected Ports):**
+For the Guest VLAN, enable "Protected Ports" (or Private VLAN Edge) on access switches. This prevents Guest users from communicating with each other, isolating potential infected devices from other guests.
+
+---
+
+## 2. IP Addressing and Subnetting
+
+A structured IP Address Management (IPAM) plan is critical for route summarization and efficient troubleshooting. We will utilize private RFC1918 addressing.
+
+### Addressing Strategy
+*   **Scheme:** Classless Inter-Domain Routing (CIDR).
+*   **Core Routing Protocol:** OSPF or EIGRP for interior, BGP for Internet edge.
+*   **Summarization:** Design subnets so they can be summarized at distribution points to reduce routing table sizes on core routers.
+
+### Subnet Allocation
+For 500 users, a `/23` subnet (510 hosts) is appropriate for the general data VLAN to allow for growth. Point-to-point links between switches (Layer 3 links) should use `/30` or `/31` masks.
+
+### VLAN to Subnet Mapping Table
+
+| VLAN Name | VLAN ID | Subnet CIDR | Usable IPs | Gateway IP | Description |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `MGMT_VLAN` | 10 | 10.0.0.0/24 | 254 | 10.0.0.1 | Infrastructure Mgmt |
+| `CORP_DATA` | 100 | 10.10.0.0/23 | 510 | 10.10.0.1 | General Users ( DHCP Scope: .10 - .500 ) |
+| `CORP_VOICE` | 101 | 10.10.2.0/24 | 254 | 10.10.2.1 | IP Phones ( Static or Option 150 ) |
+| `CORP_PRINT` | 102 | 10.10.3.0/24 | 254 | 10.10.3.1 | Printers ( Static assignments ) |
+| `SRV_FARM` | 110 | 10.10.10.0/24 | 254 | 10.10.10.1 | Data Center / VM Farm |
+| `RESTRICTED` | 120 | 10.10.20.0/24 | 254 | 10.10.20.1 | Sensitive Dept |
+| `IOT_NET` | 130 | 10.10.30.0/24 | 254 | 10.10.30.1 | IoT Devices |
+| `GUEST_WIFI` | 200 | 192.168.200.0/24 | 254 | 192.168.200.1 | NATed at Firewall |
+
+### DHCP Scope Considerations
+*   **Exclusions:** Reserve the first 10 IPs (.1 through .10) for network devices (gateways, switches, HSRP VIPs).
+*   **Lease Times:** 
+    *   Wired Data: 8 days (stable environment).
+    *   Guest/Wireless: 2 hours (high churn).
+*   **Option 43:** Essential for Wireless Access Points to discover the Wireless LAN Controller (WLC).
+
+---
+
+## 3. Firewall Architecture and Rules
+
+The firewall is the linchpin of security. For 500 users, a Next-Generation Firewall (NGFW) capable of deep packet inspection (DPI), IDS/IPS, and application awareness is required.
+
+### Architecture Placement: The "Sandwich" or One-Arm
+We recommend a **Layer 3 routed architecture**.
+1.  **Edge Firewall:** Connects directly to the ISP. Handles Internet bound traffic, VPN termination, and NAT.
+2.  **Internal Firewall (Optional but Recommended):** Sits between the Corporate Data VLAN and the Server Farm. This creates an East-West inspection barrier. If a workstation is compromised, the internal firewall restricts lateral movement to the database servers.
+
+### Security Posture: Default Deny
+All rules must follow an **Implicit Deny** philosophy. If traffic is not explicitly permitted, it is dropped. Logging must be enabled on the "Deny" rules at the bottom of the ACL to detect reconnaissance attempts.
+
+### East-West Filtering
+Segmentation is useless without internal filtering.
+*   *Scenario:* `CORP_DATA` needs to access `SRV_FARM`.
+*   *Rule:* Allow TCP 443 (HTTPS) and specific App-IDs (e.g., `sql-net`). Deny all else.
+*   *Scenario:* `CORP_DATA` to `RESTRICTED`.
+*   *Rule:* Deny all. Only specific jump-hosts in `RESTRICTED` should initiate connections out.
+
+### Example Firewall Rule Set
+
+| Rule ID | Source Zone | Dest Zone | Source IP | Dest IP | Service/App | Action | Log |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | LAN | WAN | 10.0.0.0/8 | Any | DNS, HTTP, HTTPS, FTP | Allow | No |
+| 2 | WAN | DMZ | Any | Public_IP | HTTP, HTTPS | Allow | Yes |
+| 3 | VPN | LAN | VPN_Pool | 10.10.0.0/23 | RDP, SSH, App_X | Allow | Yes |
+| 4 | LAN | LAN | 10.10.0.0/23 | 10.10.10.0/24 | App:Web-Server, SQL | Allow | Yes |
+| 5 | LAN | LAN | 10.10.0.0/23 | 10.10.20.0/24 | Any | Deny | Yes |
+| 6 | Guest | WAN | 192.168.200.0/24 | Any | DNS, HTTP, HTTPS | Allow | No |
+| 7 | Guest | LAN | 192.168.200.0/24 | 10.0.0.0/8 | Any | Deny | Yes |
+| 99 | Any | Any | Any | Any | Any | Deny | Yes |
+
+**NAT Strategy:**
+*   **Dynamic PAT (Port Address Translation):** Used for all internal users accessing the Internet. Hide the 10.x.x.x space behind the firewall's public WAN IP.
+*   **Static NAT (1:1):** Used for public-facing servers in the DMZ (e.g., Web Server, Mail Relay).
+
+---
+
+## 4. VPN and Remote Access
+
+With a hybrid workforce, remote access security is paramount. We differentiate between **Site-to-Site (S2S)** VPN and **Remote Access (RA) VPN**.
+
+### Protocols and Cryptography
+*   **IKEv2 (Internet Key Exchange v2):** The standard for key exchange. It offers mobility (MOBIKE) and stability during network changes.
+*   **IPsec:** The tunneling protocol for S2S.
+*   **Cryptographic Suites:**
+    *   **Encryption:** AES-256-GCM (Galois/Counter Mode). Provides both encryption and integrity checking.
+    *   **Hashing:** SHA-384 or SHA-256 (HMAC).
+    *   **Diffie-Hellman (DH) Group:** Group 14 (2048-bit) or Group 19/20 (ECC). Avoid Group 1 or 2 (deprecated).
+
+### Remote Access VPN (SSL vs. IPsec)
+*   **IPsec (IKEv2):** Native support on many devices, highly secure. Best for corporate-owned laptops.
+*   **SSL VPN:** Clientless or thin-client. Best for contractors and BYOD as it traverses restrictive proxy firewalls more easily. We recommend an SSL VPN solution for this enterprise scale for ease of deployment.
+
+### Sample Configuration Snippet (Vendor Agnostic Pseudocode)
+This snippet configures an IKEv2 Proposal and IPsec Profile.
+
+```text
+! Define Encryption Proposal
+crypto ikev2 proposal PROPOSAL_SECURE
+  encryption aes-cbc 256
+  integrity sha256
+  group 14
+exit
+
+! Define the Policy
+crypto ikev2 policy POLICY_SECURE
+  match address LOCAL_WAN_ADDR
+  proposal PROPOSAL_SECURE
+exit
+
+! Define IPsec Transform Set
+crypto ipsec transform-set TRANSFORM_SECURE esp-aes 256 esp-sha-hmac
+  mode tunnel
+exit
+
+! Define ACL for Interesting Traffic (VPN Pool to Internal Subnets)
+access-list ACL_VPN_TRAFFIC permit ip 10.20.30.0 0.0.0.255 10.10.0.0 0.0.1.255
+
+! Apply to Crypto Map
+crypto map MAP_CRYPT 10 ipsec-isakmp
+ set peer REMOTE_PEER_IP
+ set transform-set TRANSFORM_SECURE
+ match address ACL_VPN_TRAFFIC
+exit
+
+! Bind to Interface
+interface WAN_Gig0/1
+ crypto map MAP_CRYPT
+```
+
+### Split Tunneling
+**Do not** use full tunneling for all traffic if it can be avoided.
+*   **Split Tunnel:** Send only corporate traffic (10.0.0.0/8) through the VPN tunnel. Send Internet traffic directly out the user's local gateway.
+*   *Benefit:* Reduces load on the enterprise internet pipe and improves user experience (lower latency for streaming/Zoom).
+
+---
+
+## 5. Network Monitoring and Observability
+
+" You can't manage what you can't measure." For 500 users, manual troubleshooting is inefficient. Automated observability is required.
+
+### SNMP (Simple Network Management Protocol)
+*   **Version:** SNMPv3 only. v1 and v2c send credentials in cleartext.
+*   **Configuration:**
+    *   Use `authPriv` (Authentication + Privacy/Encryption).
+    *   Define Views to restrict what the NMS (Network Management System) can see (e.g., restrict access to system configuration but allow interface stats).
+*   **Polling Frequency:**
+    *   Critical Interfaces (Core/Uplinks): 60 seconds.
+    *   Standard Access Ports: 5 minutes.
+
+### Flow Telemetry (NetFlow / sFlow)
+While SNMP tells you *if* an interface is congested, NetFlow tells you *why*.
+*   **Technology:** NetFlow v9 or IPFIX (Internet Protocol Flow Information Export).
+*   **Sampling:** For a 500-user enterprise, use 1:1000 random sampling on Layer 3 interfaces to minimize CPU impact on routers/switches.
+*   **Use Cases:**
+    *   Identifying bandwidth hogs (e.g., a user streaming 4K video).
+    *   Detecting data exfiltration (large outbound transfers to unknown IPs).
+    *   Capacity planning.
+
+### Logging and Syslog
+Centralize logs to a dedicated Syslog server or SIEM (Security Information and Event Management).
+*   **Severity Levels:**
+    *   Log `Emergencies`, `Alerts`, `Critical`, and `Errors` to the SIEM immediately.
+    *   Log `Notifications` and `Informational` for audit trails (e.g., configuration changes, login attempts).
+*   **NTP (Network Time Protocol):** Essential. Ensure all network devices use NTP to synchronize logs; otherwise, correlating events across devices is impossible.
+
+### Alerting Thresholds
+Define clear baselines and alert only on anomalies to prevent alert fatigue.
+*   **Interface Utilization:** Alert if > 80% sustained for 5 minutes.
+*   **CPU/Memory:** Alert if > 90% for 5 minutes.
+*   **BGP/OSPF State Change:** Immediate Critical Alert.
+*   **Login Failures:** Alert if 5 failed attempts occur within 1 minute (possible brute force).
+
+---
+
+## 6. High Availability and Failover
+
+Downtime is costly. The network must survive a single component failure without human intervention.
+
+### Physical Redundancy (Layer 1)
+*   **Cabling:** No single point of failure.
+*   **Power:** Dual power supplies in all Core/Distribution switches, fed by separate PDUs (Power Distribution Units) connected to different breaker panels/circuits.
+
+### Link Redundancy (Layer 2)
+*   **LACP (Link Aggregation Control Protocol):** Use 802.3ad LACP port-channels (EtherChannels) between Access and Distribution layers. Aggregate multiple 1Gbps or 10Gbps links into one logical pipe. This provides load balancing and failover.
+*   **Spanning Tree Protocol (STP):**
+    *   **Standard:** Use **Rapid PVST+** (Cisco) or **RSTP** (IEEE 802.1w) for fast convergence (<1 second).
+    *   **Optimization:** Adjust `Hello Time`, `Max Age`, and `Forward Delay` to aggressively prune loops.
+    *   **Root Guard/BPDU Guard:** Enable on edge ports (user facing) to prevent a user from plugging in a switch and becoming the root bridge.
+
+### First-Hop Redundancy (Layer 3)
+If the default gateway router fails, hosts cannot send traffic off-subnet.
+*   **Protocol:** Use **VRRP** (Virtual Router Redundancy Protocol) or **HSRP** (Hot Standby Router Protocol).
+*   **Configuration:**
+    *   Create a "Virtual IP" (VIP) on the subnet (e.g., 10.10.0.1).
+    *   Assign Router A as Priority 110 (Master).
+    *   Assign Router B as Priority 100 (Backup).
+    *   Use `Preempt` so that Router A resumes Master role if it recovers.
+*   **GLBP (Gateway Load Balancing Protocol):** An alternative that load balances traffic across both active routers, increasing bandwidth utilization.
+
+### Firewall Failover
+*   **Stateful Failover:** Deploy firewalls in an Active/Passive or Active/Active cluster.
+*   **Session Sync:** Ensure connection tables are synchronized between nodes. If the primary firewall fails, the secondary takes over without dropping established TCP sessions (like user VPN connections).
+
+---
+
+## 7. Security Hardening and Best Practices
+
+The final layer of defense is the device itself. Default configurations are insecure.
+
+### Access Control and AAA
+*   **AAA (Authentication, Authorization, Accounting):** Offload user authentication to a centralized Identity Provider (Microsoft AD/LDAP or RADIUS/_TACACS+ server).
+*   **TACACS+:** Preferred for network device administration. It separates Authentication (who are you) from Authorization (what can you do).
+*   **Privilege Levels:** Enforce role-based access. Read-only users should not be able to run `write memory` or `conf t`.
+
+### Management Plane Hardening
+1.  **SSH vs Telnet:** Disable Telnet. Force SSH version 2.
+2.  **HTTPS vs HTTP:** Disable HTTP web management. Force HTTPS.
+3.  **Console Access:** Set timeouts (e.g., `exec-timeout 5 0`). Password protect the console line even in physical data centers.
+4.  **Banner:** Configure a MOTD (Message of the Day) warning that "Unauthorized access is prohibited." This is a legal requirement for prosecuting intruders.
+
+### Control Plane Policing (CoPP)
+Protect the CPU of the router/switch.
+*   Implement CoPP to rate-limit traffic destined to the device's IP address.
+*   Example: Drop ICMP floods or malformed packets sent to the router management IP. If the router CPU hits 100%, it stops routing packets for the users.
+
+### Change Management and Auditing
+*   **Configuration Archives:** Automate daily backups of configs (e.g., using RANCID or SolarWinds).
+*   **Golden Config:** Maintain a standard configuration template. Compare running configs against the Golden Config via automated scripts to detect "drift" or unauthorized changes.
+*   **Audit Trails:** Log every command entered in privileged mode (`logging history informational`).
+
+### Physical Security
+*   Ensure all switch ports in public areas (e.g., lobby, conference rooms, wall jacks) are administratively shut down (`shutdown` command) until explicitly requested. This prevents rogue access via "tailgating" or unauthorized drops.
+
+---
+
+## Conclusion
+
+Configuring a network for a mid-size enterprise requires moving beyond "plug-and-play." It requires a deliberate design encompassing logical segmentation (VLANs), rigorous policy enforcement (Firewalls/ACLs), resilient architecture (HA/Redundancy), and comprehensive visibility (Monitoring/NetFlow).
+
+By adhering to the principles outlined in this guide—specifically the **default-deny** posture, **high-availability** link aggregation, and **centralized AAA**—network engineers can build an infrastructure that not only supports the operational needs of 500 employees but secures the organization's digital assets against modern threats. Remember that a network is never "finished"; regular audits, firmware updates, and rule reviews are essential to maintaining security posture.

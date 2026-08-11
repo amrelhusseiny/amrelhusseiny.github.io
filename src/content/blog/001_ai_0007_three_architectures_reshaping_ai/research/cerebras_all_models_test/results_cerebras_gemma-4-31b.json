@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-11T09:08:58.484090",
+  "architecture": "LPU (wafer-scale)",
+  "provider": "cerebras",
+  "model": "google/gemma-4-31b-it",
+  "label": "gemma-4-31b",
+  "ttft_ms": 705.76,
+  "tps": 1040.43,
+  "total_tokens": 2934,
+  "total_time_s": 3.53,
+  "chunks_received": 569
+}

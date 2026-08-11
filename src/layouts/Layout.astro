@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Nav from "./Nav.astro";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
   title?: string;
@@ -100,5 +101,7 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <script>
       import "../lib/client";
     </script>
+
+    <Analytics />
   </body>
 </html>

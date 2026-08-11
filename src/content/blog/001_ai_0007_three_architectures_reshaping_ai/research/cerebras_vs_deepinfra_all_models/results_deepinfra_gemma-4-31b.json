@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-11T09:44:02.948742",
+  "architecture": "GPU (standard cluster)",
+  "provider": "DeepInfra",
+  "model": "google/gemma-4-31b-it",
+  "label": "gemma-4-31b",
+  "ttft_ms": 966.27,
+  "tps": 63.74,
+  "total_tokens": 3414,
+  "total_time_s": 54.53,
+  "chunks_received": 3291
+}
