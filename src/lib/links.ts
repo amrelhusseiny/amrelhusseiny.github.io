@@ -6,6 +6,26 @@ export const links = [
         "title": "Modal-GPUGLossary",
         "url": "https://modal.com/gpu-glossary",
         "description": "An online glossary for GPU-related terms."
+      },
+      {
+        "title": "Simon Willison",
+        "url": "https://simonwillison.net/",
+        "description": "One of the most followed independent voices on LLMs and practical AI engineering."
+      },
+      {
+        "title": "Exploring Language Models",
+        "url": "https://newsletter.maartengrootendorst.com/",
+        "description": "Maarten Grootendorst's illustrated newsletter on LLMs and ML concepts."
+      },
+      {
+        "title": "Latent Space",
+        "url": "https://www.latent.space/",
+        "description": "AI engineering newsletter and podcast covering the frontier of applied AI."
+      },
+      {
+        "title": "Loop Engineering Explained in 8 Min",
+        "url": "https://www.youtube.com/watch?v=4biXYSNkn9Y",
+        "description": "A short breakdown of the agent-loop pattern behind modern coding agents."
       }
     ]
   },
@@ -16,6 +36,11 @@ export const links = [
         "title": "Hackers News",
         "url": "https://news.ycombinator.com/news",
         "description": "Community-curated news for developers and tech enthusiasts."
+      },
+      {
+        "title": "{forkable} (Paul)",
+        "url": "https://www.forkable.io/",
+        "description": "Substack covering tech, open source, and cybersecurity news in bite-sized posts."
       }
     ]
   },
@@ -271,6 +296,11 @@ export const links = [
         "title": "A universal apporach to Data center network design",
         "url": "https://pages.cs.wisc.edu/~akella/papers/univ-dcn.pdf",
         "description": "A research paper on data center network design."
+      },
+      {
+        "title": "Brendan O'Donoghue \u2014 Publications",
+        "url": "https://bodono.github.io/#publications",
+        "description": "Publications page of the researcher behind the SCS convex-optimization solver."
       }
     ]
   },
@@ -306,6 +336,31 @@ export const links = [
         "title": "Sebastian Raschka \u2014 Ahead of AI",
         "url": "https://magazine.sebastianraschka.com/",
         "description": "Deep dives into machine learning research, LLMs, and AI engineering."
+      },
+      {
+        "title": "Armin Ronacher",
+        "url": "https://lucumr.pocoo.org/",
+        "description": "Creator of Flask and Jinja2 writing on programming, Rust, and AI agents."
+      },
+      {
+        "title": "Mario Zechner",
+        "url": "https://mariozechner.at/",
+        "description": "Developer, coach, and speaker's musings on building coding agents and software craft."
+      },
+      {
+        "title": "Mitchell Hashimoto",
+        "url": "https://mitchellh.com/writing",
+        "description": "HashiCorp and Ghostty founder's personal writing on systems and engineering."
+      },
+      {
+        "title": "GitHub Next",
+        "url": "https://githubnext.com/posts/",
+        "description": "GitHub's R&D team exploring the future of software development."
+      },
+      {
+        "title": "tty4.dev (Dennis)",
+        "url": "https://tty4.dev/",
+        "description": "A software engineer's blog on AI/ML, Wasm, and Java."
       }
     ]
   },
@@ -316,6 +371,16 @@ export const links = [
         "title": "Best AI Coding Plans (Hermes Guide)",
         "url": "https://hermesguide.xyz/coding-plans/",
         "description": "Up-to-date comparison of the best AI coding subscription plans."
+      },
+      {
+        "title": "Armin's Agent Stuff",
+        "url": "https://github.com/mitsuhiko/agent-stuff",
+        "description": "Armin Ronacher's cheat sheet of commands and prompts he uses with coding agents."
+      },
+      {
+        "title": "Fun with Docling",
+        "url": "https://major.io/p/fun-with-docling/",
+        "description": "Major Hayden's hands-on walkthrough of Docling, an AI document-parsing tool."
       }
     ]
   },
@@ -326,6 +391,16 @@ export const links = [
         "title": "The Jira Guy \u2014 Confluence Formatting Tips",
         "url": "https://thejiraguy.com/2022/02/09/confluence-formatting-tips/",
         "description": "Practical tips for formatting Confluence pages effectively."
+      },
+      {
+        "title": "Stripe Dev",
+        "url": "https://stripe.dev/",
+        "description": "Stripe's developer hub with blog posts, docs, and community content for API integrators."
+      },
+      {
+        "title": "NeetCode \u2014 Object-Oriented Design Patterns",
+        "url": "https://neetcode.io/courses/design-patterns/0",
+        "description": "A structured course walking through classic object-oriented design patterns."
       }
     ]
   }
