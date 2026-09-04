@@ -2,6 +2,7 @@
 date: 2026-08-23T00:00:00Z
 title: "HBF vs HBM: A New Memory Tier Between HBM and SSDs"
 description: "Notes on High Bandwidth Flash (HBF), SK hynix's NAND-based memory layer positioned between HBM and SSDs, how it compares to HBM, and where the AIN family (P/D/B) fits."
+draft: true
 ---
 
 ## HBM, quickly
