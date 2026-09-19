@@ -1,32 +1,6 @@
 ---
-// Standalone CV — Graphite monochrome design, bilingual (EN/DE), dark mode, A4 printable.
+// Standalone CV — Graphite monochrome design, dark mode, A4 printable.
 import { cv } from "../lib/cv";
-
-// Bilingual labels
-const labels = {
-  en: {
-    about: "About Me",
-    skills: "Technical Expertise",
-    experience: "Work Experience",
-    skills: "Language Skills",
-    education: "Education and Training",
-    driving: "Driving Licence",
-    projects: "Projects",
-    role: "Senior Private Cloud Engineer (Networks)",
-    footer: "Amro ElHusseini — Curriculum Vitae"
-  },
-  de: {
-    about: "Über mich",
-    skills: "Technische Expertise",
-    experience: "Berufserfahrung",
-    skills: "Sprachkenntnisse",
-    education: "Ausbildung",
-    driving: "Führerschein",
-    projects: "Projekte",
-    role: "Senior Private Cloud Engineer (Netzwerke)",
-    footer: "Amro ElHusseini — Lebenslauf"
-  }
-};
 ---
 <!doctype html>
 <html lang="en">
@@ -35,12 +9,11 @@ const labels = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amro ElHusseini — CV</title>
     <meta name="description" content="Curriculum Vitae — Amro ElHusseini, Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany." />
-    <meta name="author" content="Amro ElHusseini" />
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       :root {
         --font-mono: "Segoe UI", monospace;
-        --text-xs: 12px; --text-base: 16px; --text-md: 21px; --text-lg: 28px; --text-xl: 38px;
+        --text-xs: 12px; --text-base: 16px; --text-md: 21px;
         --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
         --color-bg: #fff; --color-surface: #f5f5f5; --color-border: #c6c6c6;
         --color-text-primary: #232323; --color-text-secondary: #545454; --color-text-muted: #8A8A8A;
@@ -77,14 +50,14 @@ const labels = {
         display: flex; flex-direction: column; gap: var(--space-5);
         padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-7);
       }
-      .identity-name { font-size: var(--text-xl); font-weight: bold; letter-spacing: -0.01em; line-height: 1.15; }
-      .identity-role { font-size: var(--text-md); color: var(--color-text-secondary); margin-top: var(--space-1); }
+      .identity-name { font-size: var(--text-md); font-weight: bold; }
+      .identity-role { font-size: var(--text-base); color: var(--color-text-secondary); margin-top: var(--space-2); }
       .spec-table { width: 100%; border-collapse: collapse; }
       .spec-table td.k::before { content: attr(data-label); }
       .spec-table td { padding: var(--space-2) var(--space-3) var(--space-2) 0; font-size: var(--text-base); vertical-align: top; }
       .spec-table td.k {
         width: 140px; color: var(--color-text-muted); font-size: var(--text-xs);
-        letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; padding-top: var(--space-3);
+        letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
       }
       .section { margin-bottom: var(--space-8); }
       .section-head {
@@ -99,13 +72,11 @@ const labels = {
       p.body { font-size: var(--text-base); line-height: 1.5; color: var(--color-text-primary); }
       .entry { display: grid; grid-template-columns: 160px 1fr; gap: var(--space-5); padding: var(--space-5) 0; border-bottom: 1px solid var(--color-border); }
       .entry:last-child { border-bottom: none; }
-      .entry-date { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; padding-top: var(--space-1); }
-      .entry-title { font-size: var(--text-md); font-weight: bold; line-height: 1.15; }
+      .entry-date { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
+      .entry-title { font-size: var(--text-md); font-weight: bold; }
       .entry-org { margin-top: var(--space-1); font-size: var(--text-base); font-weight: bold; color: var(--color-text-secondary); }
       .entry-loc { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
       .entry-body { margin-top: var(--space-3); }
-      .entry-body p.body { margin-top: var(--space-3); }
-      .entry-body p.body:first-child { margin-top: 0; }
       ul.bullets { margin-top: var(--space-2); display: flex; flex-direction: column; gap: var(--space-2); }
       ul.bullets li { font-size: var(--text-base); line-height: 1.5; padding-left: var(--space-4); position: relative; }
       ul.bullets li::before { content: "—"; position: absolute; left: 0; color: var(--color-text-muted); }
@@ -118,9 +89,8 @@ const labels = {
       }
       @media screen and (max-width: 640px) {
         .entry { grid-template-columns: 1fr; gap: var(--space-2); }
-        .entry-date { border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-2); margin-bottom: var(--space-2); }
         .spec-table td.k { width: 96px; }
-        .identity-name { font-size: var(--text-lg); }
+        .page { padding: var(--space-4); }
       }
       @media print {
         @page { size: A4; margin: 12mm; }
@@ -139,8 +109,6 @@ const labels = {
   </head>
   <body>
     <div class="utility-bar">
-      <button class="btn lang-btn active" data-lang="en" type="button">English</button>
-      <button class="btn lang-btn" data-lang="de" type="button">Deutsch</button>
       <button class="btn" id="theme-toggle" type="button">Dark mode</button>
       <button class="btn invert" id="print-btn" type="button">Print / Save PDF</button>
     </div>
@@ -148,7 +116,7 @@ const labels = {
     <main class="page">
       <header class="identity">
         <h1 class="identity-name">Amro ElHusseini</h1>
-        <p class="identity-role">{cv.role}</p>
+        <p class="identity-role">Senior Private Cloud Engineer (Networks)</p>
 
         <table class="spec-table">
           <tr>
@@ -176,8 +144,8 @@ const labels = {
             <td>Residence: Niederlassungserlaubnis — YZ7M3MK5V &nbsp;·&nbsp; Work permit: German</td>
           </tr>
           <tr>
-            <td class="k" data-label="Personal"></td>
-            <td>Born <time datetime="1991-12-01">01/12/1991</time> &nbsp;·&nbsp; Nationality: Egyptian</td>
+            <td class="k" data-label="Nationality"></td>
+            <td>Egyptian</td>
           </tr>
         </table>
       </header>
@@ -189,11 +157,11 @@ const labels = {
 
         <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-4); margin: var(--space-4) 0;">
           <li style="display: flex; gap: var(--space-4); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-6); height: var(--space-6); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
+            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
             <div style="font-size: var(--text-base); line-height: 1.5;">Even though my company is still moving through legacy workflow, I have already adapted Agentic Workflows, implemented LangChain and N8N deployments, and run agents to manage our ticketing system and RAG over my Confluence and email knowledge for semantic search.</div>
           </li>
           <li style="display: flex; gap: var(--space-4); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-6); height: var(--space-6); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
+            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
             <div style="font-size: var(--text-base); line-height: 1.5;">My experience spans a wide range of network specialties — from IP backbone hosting converged IMS/mobile backhaul (Egypt Telecom), enterprise service provider VPN/MPLS routing and tunneling for global sites (Orange Business Services), cloud backend on OpenStack-based public cloud in Europe (Flexible Engine / Huawei CloudStack), to my previous role in customer-end enterprise networks managing Wifi, firewalls and VPNs across datacenter and office sites (Hyundai Autoever Europe GmbH). I have now moved to the OpenStack deployment, managing the data center and virtual OpenStack layers.</div>
           </li>
         </ol>
@@ -203,28 +171,26 @@ const labels = {
 
       <section class="section">
         <div class="section-head"><h2 class="label">Technical Expertise</h2><span class="rule"></span></div>
-        <h3 style="font-size: var(--text-md); font-weight: bold; margin-bottom: var(--space-4);">Hands-on skills acquired across my career</h3>
+        <h3 style="font-size: var(--text-base); font-weight: bold; margin-bottom: var(--space-4);">Hands-on skills acquired across my career</h3>
 
         <ul style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3);">
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">LangChain, N8N, Pi, MCP — agentic code workflows</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Docker, Grafana, Telegraf, InfluxDB <span style="color: var(--color-text-secondary);">(self-taught)</span></li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Terraform <span style="color: var(--color-text-secondary);">(Orange Flexible Engine)</span></li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Python <span style="color: var(--color-text-secondary);">(automation of network + OpenStack)</span></li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Python Flask + HTML / CSS / Bootstrap <span style="color: var(--color-text-secondary);">(self-taught)</span></li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">OpenStack Neutron <span style="color: var(--color-text-secondary);">(Orange Flexible Engine, Huawei Cloud Stack)</span></li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Linux Administration</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Cisco ISE 2.6 & 3.1</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Cisco WLC (9800 & 5500)</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Cisco Catalyst / Nexus 9k</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Palo Alto 10.x & 11.x Firewalls / GlobalProtect VPN</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Cisco ASA Firewalls & SSL VPN</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Juniper MX, PTX Backbone Routers</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Juniper SRX Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">NOKIA Routers — ADSL Termination</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Huawei Cloud Stack — Networks / Neutron</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">SolarWinds NPM, NTA Administration</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base); line-height: 1.4;">Cisco ASR 9k Backbone Routers — full OSPF converged Egypt backbone</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">LangChain, N8N, Pi, MCP — agentic code workflows</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Docker, Grafana, Telegraf, InfluxDB</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Terraform</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python Flask</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">OpenStack Neutron</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Linux Administration</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ISE 2.6 & 3.1</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco WLC (9800 & 5500)</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco Catalyst / Nexus 9k</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Palo Alto 10.x & 11.x Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ASA Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper MX, PTX Backbone Routers</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper SRX Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Huawei Cloud Stack</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">SolarWinds NPM</li>
         </ul>
       </section>
 
@@ -238,53 +204,25 @@ const labels = {
             <p class="entry-org">Hyundai Autoever Europe GmbH</p>
             <div class="entry-loc">Frankfurt am Main, Germany</div>
             <div class="entry-body">
-              <p class="body">I work with an Arista data center hosting an OpenStack vanilla deployment, managing the network between the data center, underlay/overlay on Arista switches, and the OpenStack Neutron layer. It's an operational role in which I develop scripts, automation, and AI-driven automations for optimizing day-to-day operations.</p>
-              <p class="body">Vendors: Arista, OpenStack.</p>
+              <p class="body">Managing the network layer of an Arista-based datacenter hosting a vanilla OpenStack deployment. Responsible for underlay/overlay design and operations on Arista switches and the OpenStack Neutron layer. Developing automation scripts and AI-driven tools to optimize day-to-day operations.</p>
             </div>
           </div>
         </div>
 
         <div class="entry">
-          <div class="entry-date"><time datetime="2023-07">07/2023</time> — Current</div>
+          <div class="entry-date"><time datetime="2023-07">07/2023</time> — <time datetime="2026-05">05/2026</time></div>
           <div>
             <h3 class="entry-title">Network Systems Engineer</h3>
             <p class="entry-org">Hyundai Autoever GmbH</p>
             <div class="entry-loc">Offenbach, Germany</div>
             <div class="entry-body">
-              <p class="body">Implementation and management of datacenter and enterprise infrastructure, including:</p>
+              <p class="body">Implementation and management of datacenter and enterprise network infrastructure across multiple customers, acting as project manager for new implementations.</p>
               <ul class="bullets">
-                <li>Cisco ISE (2.x & 3.x)</li>
-                <li>Cisco Nexus (legacy & 9K)</li>
-                <li>Cisco WLC (9800 & 5500)</li>
-                <li>Cisco IOS-based devices (legacy and Catalyst 9k)</li>
-                <li>Cisco ASA & Palo Alto firewalls (filtering, SSL & IPSec)</li>
-                <li>Cisco DNA Center</li>
+                <li>Cisco ISE 2.x & 3.x (NAC)</li>
+                <li>Cisco WLC 9800 & 5500 (Wi-Fi)</li>
+                <li>Cisco Nexus / Catalyst 9K</li>
+                <li>Cisco ASA & Palo Alto firewalls</li>
               </ul>
-              <p class="body">Managing multiple customers with multiple infrastructure needs, also acting as project manager for new implementations.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2023-03">03/2023</time> — <time datetime="2023-06">06/2023</time></div>
-          <div>
-            <h3 class="entry-title">Cloud Systems Engineer</h3>
-            <p class="entry-org">G42 Cloud</p>
-            <div class="entry-loc">Abu Dhabi, United Arab Emirates</div>
-            <div class="entry-body">
-              <p class="body">Maintained Huawei Cloud Stack (OpenStack-based) cloud, mainly managing the Neutron infrastructure — continuing the same track from Ericsson and Orange Business Services.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2022-11">11/2022</time></div>
-          <div>
-            <h3 class="entry-title">Cloud Operations and Automation Engineer — Network Domain</h3>
-            <p class="entry-org">Ericsson</p>
-            <div class="entry-loc">Cairo, Egypt</div>
-            <div class="entry-body">
-              <p class="body">Joined Ericsson as an operations engineer, with main responsibility for automating tedious bug checks that customers may face and automating fix application with minimal customer intervention, using mainly Python and Bash scripting.</p>
             </div>
           </div>
         </div>
@@ -296,29 +234,13 @@ const labels = {
             <p class="entry-org">Orange Business Services</p>
             <div class="entry-loc">Cairo, Egypt</div>
             <div class="entry-body">
-              <p class="body">Worked on both the physical and virtual parts of the cloud DC infrastructure, as follows:</p>
-
-              <h4 style="font-size: var(--text-base); font-weight: bold; margin-top: var(--space-4); margin-bottom: var(--space-2);">Physical Networks</h4>
+              <p class="body">Worked on both physical and virtual network layers of cloud datacenter infrastructure. Managed capacity, peering with Orange backbone, and virtual network appliances.</p>
               <ul class="bullets">
-                <li>Working on the physical DCs hosting all cloud services, adhering to current CLOS design standards and using APIs to configure and control network nodes (routers, switches, firewalls).</li>
-                <li>Management and optimization of network capacity and peering with the Orange backbone for both MPLS and internet traffic.</li>
-                <li>Exposure to multiple security appliances such as VPN gateways, Anti-DDoS and WAF — essential to any internet-facing solution, especially for hosting compliant and critical tenants.</li>
+                <li>Physical DC network (CLOS design)</li>
+                <li>Virtual networks: OpenStack, VLAN, VXLAN</li>
+                <li>Security appliances: VPN gateways, Anti-DDoS, WAF</li>
+                <li>Terraform (first use)</li>
               </ul>
-
-              <h4 style="font-size: var(--text-base); font-weight: bold; margin-top: var(--space-4); margin-bottom: var(--space-2);">Virtual Network</h4>
-              <ul class="bullets">
-                <li>For the first time in my career, I worked on the most upcoming technologies — OpenStack virtual networks and highly efficient virtual network appliances for security and load balancing.</li>
-                <li>Worked with both legacy VLANs and new VXLAN virtual private networks, with multiple interworked encapsulation criteria.</li>
-              </ul>
-
-              <h4 style="font-size: var(--text-base); font-weight: bold; margin-top: var(--space-4); margin-bottom: var(--space-2);">Troubleshooting Experience</h4>
-              <p class="body">From managing both physical and virtual networks, I worked on DC routing/switching alongside troubleshooting virtual networks, as traffic passes through security appliances and physical/virtual switches — so network operations extended even through the Linux machines.</p>
-
-              <h4 style="font-size: var(--text-base); font-weight: bold; margin-top: var(--space-4); margin-bottom: var(--space-2);">Automation</h4>
-              <ul class="bullets">
-                <li>New to Terraform, but very experienced using Python for API interactions; also completed multiple large self-initiated projects (see the Projects section).</li>
-              </ul>
-              <p class="body">New DC technologies gave me the opportunity to migrate from SSH-based scripting to NetConf / REST API-based calls that are much more reliable and efficient.</p>
             </div>
           </div>
         </div>
@@ -330,13 +252,11 @@ const labels = {
             <p class="entry-org">TE Data (Telecom Egypt) / WE</p>
             <div class="entry-loc">Cairo, Egypt</div>
             <div class="entry-body">
+              <p class="body">Responsible for backbone planning, migration, and automation across a converged national backbone network supporting Fixed, Mobile, and Broadband services.</p>
               <ul class="bullets">
-                <li>Responsible for utilizing Python scripting for reporting on the whole backbone network and performing automated pre- and post-checks across an area while migrating critical devices.</li>
-                <li>Implementation of backbone-hosted services and backhaul services for fixed, mobile, and broadband services using L3/L2 VPNs.</li>
-                <li>Migration and implementation of backbone devices (P-PE-RR-BNG) from multiple vendors (Cisco, Juniper, Nokia, etc.).</li>
-                <li>Software upgrades across multiple vendor devices.</li>
-                <li>Deep understanding of BGP, MPLS & OSPF as the underlay for all hosted services.</li>
-                <li>Due to the converged nature of the network, worked with mobile, fixed, and broadband backbones such as IMS, EPC, BNGs, and a suite of devices — also establishing connectivity toward multiple security devices (Palo Alto, Cisco ASA, Juniper SRX).</li>
+                <li>BGP, MPLS & OSPF — deep operational expertise</li>
+                <li>Migration of P/PE/RR/BNG devices (Cisco, Juniper, Nokia)</li>
+                <li>Multi-vendor software upgrades</li>
               </ul>
             </div>
           </div>
@@ -345,17 +265,11 @@ const labels = {
         <div class="entry">
           <div class="entry-date"><time datetime="2018-06">06/2018</time> — <time datetime="2019-06">06/2019</time></div>
           <div>
-            <h3 class="entry-title">VPN Implementation Engineer Level 3</h3>
+            <h3 class="entry-title">VPN Implementation Engineer — Level 3</h3>
             <p class="entry-org">Orange Business Services</p>
             <div class="entry-loc">Cairo, Egypt</div>
             <div class="entry-body">
-              <ul class="bullets">
-                <li>Worked on an international, vast network — gaining knowledge of how to manage enormous-scale networks.</li>
-                <li>Supported customers across huge geographical areas and multiple languages; every enterprise worked with was global, enabling management of networks across multiple Autonomous Systems.</li>
-                <li>Due to Orange Business Services' global reach, worked with multiple physical technologies, some phasing out — such as ATM and Frame Relay.</li>
-                <li>Management of customer HUB sites with multiple unique network setups.</li>
-                <li>Midway through the role, shifted to optimization technologies and devices such as Riverbed and Ipanema, gaining deep knowledge of TCP/IP operation.</li>
-              </ul>
+              <p class="body">Supporting global enterprise customers across multiple continents on a vast international MPLS/VPN network. Managing HUB sites and working with optimization technologies.</p>
             </div>
           </div>
         </div>
@@ -363,14 +277,11 @@ const labels = {
         <div class="entry">
           <div class="entry-date"><time datetime="2016-10">10/2016</time> — <time datetime="2018-06">06/2018</time></div>
           <div>
-            <h3 class="entry-title">Incident Management Specialist (1st Line Engineer)</h3>
+            <h3 class="entry-title">Incident Management Specialist — 1st Line Engineer</h3>
             <p class="entry-org">Orange Business Services</p>
             <div class="entry-loc">Cairo, Egypt</div>
             <div class="entry-body">
-              <ul class="bullets">
-                <li>Developed skills in managing customers from across the world and handling customer frustration during service instability.</li>
-                <li>Basic troubleshooting skills on PE-CE, LAN, and wireless technologies.</li>
-              </ul>
+              <p class="body">First-line incident management for global enterprise customers, providing troubleshooting and customer support during service instability.</p>
             </div>
           </div>
         </div>
@@ -378,7 +289,6 @@ const labels = {
 
       <section class="section">
         <div class="section-head"><h2 class="label">Language Skills</h2><span class="rule"></span></div>
-
         <ul class="bullets">
           <li>English — C2 (proficient user)</li>
           <li>German — A1 (basic user)</li>
@@ -387,16 +297,14 @@ const labels = {
 
       <section class="section">
         <div class="section-head"><h2 class="label">Education and Training</h2><span class="rule"></span></div>
-
         <div class="entry">
           <div class="entry-date"><time datetime="2008-06">06/2008</time> — <time datetime="2013-11">11/2013</time></div>
           <div>
             <h3 class="entry-title">Bachelor's Degree, Computer Engineering</h3>
             <p class="entry-org">Arab Academy for Science and Technology and Maritime (AASTMT)</p>
-            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); line-height: 1.4;">
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
               <a href="https://www.aast.edu/" target="_blank" rel="noopener">https://www.aast.edu/</a><br>
-              P.O. Box 2033, Elhorria, El Moshir Ismail St. (behind Sheraton Bldg.), 2033, Cairo, Egypt<br>
-              Field of study: Engineering, manufacturing and construction &nbsp;·&nbsp; Final grade: 2.56
+              Cairo, Egypt — Grade: 2.56
             </div>
           </div>
         </div>
@@ -404,11 +312,8 @@ const labels = {
 
       <section class="section">
         <div class="section-head"><h2 class="label">Driving Licence</h2><span class="rule"></span></div>
-        <div style="display: grid; grid-template-columns: 140px 1fr; row-gap: 0; font-size: var(--text-base);">
-          <div style="color: var(--color-text-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; padding: var(--space-2) 0;">Category</div>
-          <div style="padding: var(--space-2) 0;">B</div>
-          <div style="color: var(--color-text-muted); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; padding: var(--space-2) 0;">Issued</div>
-          <div style="padding: var(--space-2) 0;"><time datetime="2025-02-18">18/02/2025</time></div>
+        <div style="font-size: var(--text-base);">
+          Category: B (since <time datetime="2025-02-18">18/02/2025</time>)
         </div>
       </section>
 
@@ -417,28 +322,18 @@ const labels = {
 
         <div class="project">
           <h3 class="project-title">MCP Servers</h3>
-          <p class="body">During my current role I have developed a number of automation tools using AI, including several private and publicly hosted MCP servers on GitHub for managing systems such as Palo Alto, Cisco, Outlook, and ServiceNow — mostly private but applicable to public deployments too. I built these MCP server skills to run automations, especially through N8N.</p>
+          <p class="body">Developed private and public MCP servers for AI-driven automation of network operations, covering Palo Alto, Cisco, Outlook, and ServiceNow. Deployed using N8N for workflow automation.</p>
         </div>
 
         <div class="project">
-          <h3 class="project-title">Physical Network Auditing</h3>
-          <p class="body">At both TE Data and Orange, I wrote a multithreaded Python script to audit network configuration against standard templates. It was the first time I used the Python multiprocessing library to log into hundreds of devices in parallel — shortening a 4-hour audit to just 2 minutes.</p>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Web Application for Network Inventory</h3>
-          <p class="body">Using Flask, Redis and SQLite, I built a web application to store chassis inventories across the TE Data backbone, queryable for Excel and web reports. This saved significant time for hardware planning decisions. To solve slow queries under concurrent use, I introduced Redis to cache commonly produced reports.</p>
+          <h3 class="project-title">Physical Network Auditing Tool</h3>
+          <p class="body">Multithreaded Python script to audit network device configurations across hundreds of devices in parallel. Reduced a 4-hour manual audit to under 2 minutes.</p>
         </div>
 
         <div class="project">
           <h3 class="project-title">Network Topology Plotter</h3>
-          <p class="body">Combining JavaScript/Jinja2 with Python scripting, I created automated, up-to-date network topologies by parsing and generating JavaScript (GoJS) and SVG high-level diagrams, plus automated XLS low-level diagrams — used at both Orange and TE Data.</p>
-          <div style="margin-top: var(--space-2); font-size: var(--text-xs);"><a class="invert" style="background: var(--color-invert-bg); color: var(--color-invert-text); padding: 0 var(--space-2); text-decoration: none; overflow-wrap: anywhere;" href="https://github.com/amrelhusseiny/drawio_network_plot" target="_blank" rel="noopener">github.com/amrelhusseiny/drawio_network_plot</a></div>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Backbone Internet Traffic Path</h3>
-          <p class="body">As part of my backbone work at TE Data, I built a script to plot the internet traffic path for each region, generated automatically by parsing backbone routing tables and factoring in BGP and OSPF data to determine and trace the path.</p>
+          <p class="body">Automated network topology generation by parsing device configurations. Used at both Orange Business Services and TE Data.</p>
+          <div style="margin-top: var(--space-2); font-size: var(--text-xs);"><a class="invert" style="background: var(--color-invert-bg); color: var(--color-invert-text); padding: 0 var(--space-2); text-decoration: none;" href="https://github.com/amrelhusseiny/drawio_network_plot" target="_blank" rel="noopener">github.com/amrelhusseiny/drawio_network_plot</a></div>
         </div>
       </section>
 
