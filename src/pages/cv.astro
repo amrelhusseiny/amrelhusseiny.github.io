@@ -1,6 +1,116 @@
 ---
-// Standalone CV — Graphite monochrome design, dark mode, A4 printable.
+// Standalone CV — Graphite monochrome design, bilingual (EN/DE), dark mode, A4 printable.
 import { cv } from "../lib/cv";
+
+// Labels for bilingual content
+const labels = {
+  en: {
+    about: "About Me",
+    skills: "Technical Expertise",
+    experience: "Work Experience",
+    languages: "Language Skills",
+    education: "Education and Training",
+    driving: "Driving Licence",
+    projects: "Projects",
+    footer: "Amro ElHusseini — Curriculum Vitae"
+  },
+  de: {
+    about: "Über mich",
+    skills: "Technische Expertise",
+    experience: "Berufserfahrung",
+    languages: "Sprachkenntnisse",
+    education: "Ausbildung",
+    driving: "Führerschein",
+    projects: "Projekte",
+    footer: "Amro ElHusseini — Lebenslauf"
+  }
+};
+
+// Bilingual job titles
+const jobTitles = {
+  en: {
+    current: "Senior Private Cloud Engineer (Networks)",
+    prev1: "Network Systems Engineer",
+    prev2: "Public Cloud Operations Engineer — Network Domain",
+    prev3: "IP Core Planning Senior Engineer",
+    prev4: "VPN Implementation Engineer — Level 3",
+    prev5: "Incident Management Specialist — 1st Line Engineer"
+  },
+  de: {
+    current: "Senior Private Cloud Engineer (Netzwerke)",
+    prev1: "Netzwerk-Systemingenieur",
+    prev2: "Public-Cloud-Betriebsingenieur — Netzwerkbereich",
+    prev3: "Senior-Ingenieur für IP-Core-Planung",
+    prev4: "VPN-Implementierungsingenieur (Level 3)",
+    prev5: "Incident-Management-Spezialist (1st-Line-Engineer)"
+  }
+};
+
+// Bilingual company names
+const companyNames = {
+  en: {
+    current: "Hyundai Autoever Europe GmbH",
+    prev1: "Hyundai Autoever GmbH",
+    prev2: "Orange Business Services",
+    prev3: "TE Data (Telecom Egypt) / WE",
+    prev4: "Orange Business Services",
+    prev5: "Orange Business Services"
+  },
+  de: {
+    current: "Hyundai Autoever Europe GmbH",
+    prev1: "Hyundai Autoever GmbH",
+    prev2: "Orange Business Services",
+    prev3: "TE Data (Telecom Egypt) / WE",
+    prev4: "Orange Business Services",
+    prev5: "Orange Business Services"
+  }
+};
+
+// Bilingual locations
+const locations = {
+  en: {
+    current: "Frankfurt am Main, Germany",
+    prev1: "Offenbach, Germany",
+    prev2: "Cairo, Egypt",
+    prev3: "Cairo, Egypt",
+    prev4: "Cairo, Egypt",
+    prev5: "Cairo, Egypt"
+  },
+  de: {
+    current: "Frankfurt am Main, Deutschland",
+    prev1: "Offenbach, Deutschland",
+    prev2: "Kairo, Ägypten",
+    prev3: "Kairo, Ägypten",
+    prev4: "Kairo, Ägypten",
+    prev5: "Kairo, Ägypten"
+  }
+};
+
+// Bilingual project names
+const projectNames = {
+  en: {
+    project1: "MCP Servers",
+    project2: "Physical Network Auditing Tool",
+    project3: "Network Topology Plotter"
+  },
+  de: {
+    project1: "MCP-Server",
+    project2: "Auditing physischer Netzwerke",
+    project3: "Netzwerk-Topologie-Plotter"
+  }
+};
+
+// Bilingual education
+const education = {
+  en: {
+    degree: "Bachelor's Degree, Computer Engineering",
+    institution: "Arab Academy for Science and Technology and Maritime (AASTMT)"
+  },
+  de: {
+    degree: "Bachelorabschluss, Computer Engineering",
+    institution: "Arab Academy for Science and Technology and Maritime (AASTMT)"
+  }
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -11,30 +121,51 @@ import { cv } from "../lib/cv";
     <meta name="description" content="Curriculum Vitae — Amro ElHusseini, Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany." />
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
+      
       :root {
-        --font-mono: "Segoe UI", monospace;
-        --text-xs: 12px; --text-base: 16px; --text-md: 21px;
+        --font-mono: "Consolas", "Monaco", "Liberation Mono", "Courier New", monospace;
+        --text-xs: 11px; --text-base: 14px; --text-md: 18px; --text-lg: 24px;
         --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
         --color-bg: #fff; --color-surface: #f5f5f5; --color-border: #c6c6c6;
         --color-text-primary: #232323; --color-text-secondary: #545454; --color-text-muted: #8A8A8A;
         --color-invert-bg: #232323; --color-invert-text: #fff;
       }
+      
       [data-theme="dark"] {
         --color-bg: #000; --color-surface: #232323; --color-border: #232323;
         --color-text-primary: #f5f5f5; --color-text-secondary: #ececec; --color-text-muted: #8A8A8A;
         --color-invert-bg: #ececec; --color-invert-text: #000;
       }
+      
       html, body {
         width: 100%; background: var(--color-bg); color: var(--color-text-primary);
         font-family: var(--font-mono); -webkit-font-smoothing: antialiased;
       }
+      
       a { color: inherit; text-decoration: underline; text-decoration-color: var(--color-text-muted); }
       a:hover { text-decoration-color: var(--color-text-primary); }
       ul, ol { list-style: none; }
-      .page { max-width: 720px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-9); }
+      
+      /* Page wrapper — A4-like dimensions */
+      .page {
+        max-width: 720px; /* Approx. A4 width minus margins */
+        margin: 0 auto;
+        padding: var(--space-6) var(--space-5);
+      }
+      
+      /* Navigation bar (screen only) */
+      .nav-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);
+        border-bottom: 1px solid var(--color-border);
+      }
+      .nav-bar a {
+        font-size: var(--text-base); text-decoration: none;
+      }
+      .nav-bar a:hover { text-decoration: underline; }
+      
       .utility-bar {
         display: flex; justify-content: flex-end; gap: var(--space-3);
-        padding: var(--space-4) var(--space-6) 0; max-width: 720px; margin: 0 auto;
       }
       .btn {
         font-family: var(--font-mono); font-size: var(--text-xs);
@@ -46,74 +177,113 @@ import { cv } from "../lib/cv";
       }
       .btn:hover { background: var(--color-surface); }
       .btn.invert { background: var(--color-invert-bg); color: var(--color-invert-text); border-color: var(--color-invert-bg); }
+      
+      /* Identity section */
       .identity {
-        display: flex; flex-direction: column; gap: var(--space-5);
+        display: flex; flex-direction: column; gap: var(--space-4);
         padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-7);
       }
-      .identity-name { font-size: var(--text-md); font-weight: bold; }
-      .identity-role { font-size: var(--text-base); color: var(--color-text-secondary); margin-top: var(--space-2); }
+      .identity-name { font-size: var(--text-lg); font-weight: bold; }
+      .identity-role { font-size: var(--text-base); color: var(--color-text-secondary); margin-top: var(--space-1); }
+      
       .spec-table { width: 100%; border-collapse: collapse; }
       .spec-table td.k::before { content: attr(data-label); }
       .spec-table td { padding: var(--space-2) var(--space-3) var(--space-2) 0; font-size: var(--text-base); vertical-align: top; }
       .spec-table td.k {
-        width: 140px; color: var(--color-text-muted); font-size: var(--text-xs);
+        width: 130px; color: var(--color-text-muted); font-size: var(--text-xs);
         letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
       }
-      .section { margin-bottom: var(--space-8); }
+      
+      /* Section headers */
+      .section { margin-bottom: var(--space-7); }
       .section-head {
         display: flex; align-items: baseline; gap: var(--space-4);
-        margin-bottom: var(--space-5);
+        margin-bottom: var(--space-4);
       }
       .section-head .label {
         font-size: var(--text-base); font-weight: bold; letter-spacing: 0.1em;
         text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
       }
       .section-head .rule { flex: 1; height: 0; border-top: 1px solid var(--color-border); transform: translateY(-4px); }
+      
       p.body { font-size: var(--text-base); line-height: 1.5; color: var(--color-text-primary); }
-      .entry { display: grid; grid-template-columns: 160px 1fr; gap: var(--space-5); padding: var(--space-5) 0; border-bottom: 1px solid var(--color-border); }
+      
+      /* Work experience entries */
+      .entry { display: grid; grid-template-columns: 140px 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); }
       .entry:last-child { border-bottom: none; }
       .entry-date { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
-      .entry-title { font-size: var(--text-md); font-weight: bold; }
+      .entry-title { font-size: var(--text-md); font-weight: bold; line-height: 1.3; }
       .entry-org { margin-top: var(--space-1); font-size: var(--text-base); font-weight: bold; color: var(--color-text-secondary); }
       .entry-loc { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
-      .entry-body { margin-top: var(--space-3); }
+      .entry-body { margin-top: var(--space-2); }
       ul.bullets { margin-top: var(--space-2); display: flex; flex-direction: column; gap: var(--space-2); }
       ul.bullets li { font-size: var(--text-base); line-height: 1.5; padding-left: var(--space-4); position: relative; }
       ul.bullets li::before { content: "—"; position: absolute; left: 0; color: var(--color-text-muted); }
+      
+      /* Projects */
       .project { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); }
       .project:last-child { border-bottom: none; }
       .project-title { font-size: var(--text-md); font-weight: bold; margin-bottom: var(--space-2); }
+      
+      /* Footer */
       .doc-footer {
-        margin-top: var(--space-9); padding-top: var(--space-4); border-top: 1px solid var(--color-border);
+        margin-top: var(--space-7); padding-top: var(--space-4); border-top: 1px solid var(--color-border);
         font-size: var(--text-xs); color: var(--color-text-muted); display: flex; justify-content: space-between;
       }
+      
+      /* Responsive */
       @media screen and (max-width: 640px) {
         .entry { grid-template-columns: 1fr; gap: var(--space-2); }
-        .spec-table td.k { width: 96px; }
+        .spec-table td.k { width: 90px; }
         .page { padding: var(--space-4); }
       }
+      
+      /* Print — A4 optimized */
       @media print {
         @page { size: A4; margin: 12mm; }
+        
+        /* Force light theme for print */
         html, body, [data-theme="dark"] {
           --color-bg: #fff; --color-surface: #f5f5f5; --color-border: #c6c6c6;
           --color-text-primary: #232323; --color-text-secondary: #545454; --color-text-muted: #8A8A8A;
         }
-        .utility-bar { display: none; }
+        
+        .nav-bar, .utility-bar { display: none; }
         .page { padding: 0; max-width: none; }
+        
+        /* Prevent awkward breaks */
         .entry { break-inside: avoid; }
         .entry-title, .entry-org, .entry-loc { break-after: avoid; }
+        .section { break-inside: avoid; }
+        
         p.body, li { orphans: 3; widows: 3; }
+        
         -webkit-print-color-adjust: exact; print-color-adjust: exact;
       }
+      
+      /* Language toggle styling */
+      .lang-btn.active { border-color: var(--color-invert-bg); background: var(--color-invert-bg); color: var(--color-invert-text); }
+      
+      /* Language visibility */
+      .lang-de { display: none; }
+      html[data-lang="de"] .lang-en { display: none; }
+      html[data-lang="de"] .lang-de { display: block; }
     </style>
   </head>
   <body>
-    <div class="utility-bar">
-      <button class="btn" id="theme-toggle" type="button">Dark mode</button>
-      <button class="btn invert" id="print-btn" type="button">Print / Save PDF</button>
+    <div class="nav-bar">
+      <a href="/blog/">&larr; Back to blog</a>
+      <div class="utility-bar">
+        <button class="btn lang-btn active" data-lang="en" type="button">English</button>
+        <button class="btn lang-btn" data-lang="de" type="button">Deutsch</button>
+        <button class="btn" id="theme-toggle" type="button">Dark mode</button>
+        <button class="btn invert" id="print-btn" type="button">Print / Save PDF</button>
+      </div>
     </div>
 
     <main class="page">
+      
+      <div class="lang lang-en">
       <header class="identity">
         <h1 class="identity-name">Amro ElHusseini</h1>
         <p class="identity-role">Senior Private Cloud Engineer (Networks)</p>
@@ -121,15 +291,15 @@ import { cv } from "../lib/cv";
         <table class="spec-table">
           <tr>
             <td class="k" data-label="Home"></td>
-            <td>{cv.location}</td>
+            <td>Konstanzer Str. 40, 60386 Frankfurt am Main, Germany</td>
           </tr>
           <tr>
             <td class="k" data-label="Email"></td>
-            <td><a href="mailto:{cv.email}">{cv.email}</a></td>
+            <td><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a></td>
           </tr>
           <tr>
             <td class="k" data-label="Phone"></td>
-            <td><a href="tel:{cv.phone}">{cv.phone}</a> &nbsp;·&nbsp; WhatsApp: {cv.whatsapp}</td>
+            <td><a href="tel:+4915225176681">(+49) 152 2517 6681</a> &nbsp;·&nbsp; WhatsApp: +49 152 2517 6681</td>
           </tr>
           <tr>
             <td class="k" data-label="Website"></td>
@@ -155,12 +325,12 @@ import { cv } from "../lib/cv";
 
         <p class="body">What I can offer,</p>
 
-        <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-4); margin: var(--space-4) 0;">
-          <li style="display: flex; gap: var(--space-4); counter-increment: num;">
+        <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-3); margin: var(--space-4) 0;">
+          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
             <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
             <div style="font-size: var(--text-base); line-height: 1.5;">Even though my company is still moving through legacy workflow, I have already adapted Agentic Workflows, implemented LangChain and N8N deployments, and run agents to manage our ticketing system and RAG over my Confluence and email knowledge for semantic search.</div>
           </li>
-          <li style="display: flex; gap: var(--space-4); counter-increment: num;">
+          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
             <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
             <div style="font-size: var(--text-base); line-height: 1.5;">My experience spans a wide range of network specialties — from IP backbone hosting converged IMS/mobile backhaul (Egypt Telecom), enterprise service provider VPN/MPLS routing and tunneling for global sites (Orange Business Services), cloud backend on OpenStack-based public cloud in Europe (Flexible Engine / Huawei CloudStack), to my previous role in customer-end enterprise networks managing Wifi, firewalls and VPNs across datacenter and office sites (Hyundai Autoever Europe GmbH). I have now moved to the OpenStack deployment, managing the data center and virtual OpenStack layers.</div>
           </li>
@@ -341,17 +511,281 @@ import { cv } from "../lib/cv";
         <span>Amro ElHusseini — Curriculum Vitae</span>
         <span id="footer-date"></span>
       </footer>
+      </div>
+
+      <div class="lang lang-de">
+      <header class="identity">
+        <h1 class="identity-name">Amro ElHusseini</h1>
+        <p class="identity-role">Senior Private Cloud Engineer (Netzwerke)</p>
+
+        <table class="spec-table">
+          <tr>
+            <td class="k" data-label="Adresse"></td>
+            <td>Konstanzer Str. 40, 60386 Frankfurt am Main, Deutschland</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="E-Mail"></td>
+            <td><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a></td>
+          </tr>
+          <tr>
+            <td class="k" data-label="Telefon"></td>
+            <td><a href="tel:+4915225176681">(+49) 152 2517 6681</a> &nbsp;·&nbsp; WhatsApp: +49 152 2517 6681</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="Webseite"></td>
+            <td><a href="https://amroelhusseini.vercel.app/" target="_blank" rel="noopener">amroelhusseini.vercel.app</a></td>
+          </tr>
+          <tr>
+            <td class="k" data-label="LinkedIn"></td>
+            <td><a href="https://www.linkedin.com/in/A.Elhusseini" target="_blank" rel="noopener">A.Elhusseini</a></td>
+          </tr>
+          <tr>
+            <td class="k" data-label="Aufenthalt"></td>
+            <td>Niederlassungserlaubnis — YZ7M3MK5V &nbsp;·&nbsp; Arbeitserlaubnis: Deutschland</td>
+          </tr>
+          <tr>
+            <td class="k" data-label="Staatsangehörigkeit"></td>
+            <td>Ägypten</td>
+          </tr>
+        </table>
+      </header>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Über mich</h2><span class="rule"></span></div>
+
+        <p class="body">Was ich bieten kann:</p>
+
+        <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-3); margin: var(--space-4) 0;">
+          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
+            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
+            <div style="font-size: var(--text-base); line-height: 1.5;">Auch wenn mein Unternehmen noch traditionelle Workflows verwendet, habe ich bereits Agentic Workflows adaptiert, LangChain- und N8N-Deployments implementiert und Agenten betrieben, die unser Ticketingsystem verwalten und RAG über mein Confluence- und E-Mail-Wissen für semantische Suche ausführen.</div>
+          </li>
+          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
+            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
+            <div style="font-size: var(--text-base); line-height: 1.5;">Meine Erfahrung umfasst ein breites Spektrum an Netzwerk-Spezialgebieten — vom IP-Backbone mit konvergiertem IMS-/Mobile-Backhaul (Egypt Telecom), über Enterprise-Service-Provider-VPN-/MPLS-Routing und -Tunneling für globale Standorte (Orange Business Services) und Cloud-Backend auf OpenStack-basierter Public Cloud in Europa (Flexible Engine / Huawei CloudStack), bis hin zu meiner vorherigen Rolle in unternehmensseitigen Enterprise-Netzwerken mit Verwaltung von WLAN, Firewalls und VPNs über Rechenzentren und Bürostandorte hinweg (Hyundai Autoever Europe GmbH). Nun bin ich zum OpenStack-Deployment gewechselt und verwalte die Datacenter- und virtuellen OpenStack-Ebenen.</div>
+          </li>
+        </ol>
+
+        <p class="body">Darüber hinaus hat mir die Arbeit in einem sehr prozessorientierten Umfeld bei Orange Business Services gezeigt, wie man Prozesse etabliert und Best Practices anwendet — vom Change-Management über die Projektimplementierung bis zur Dokumentation der täglichen Arbeit.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Technische Expertise</h2><span class="rule"></span></div>
+        <h3 style="font-size: var(--text-base); font-weight: bold; margin-bottom: var(--space-4);">Praktische Fähigkeiten, erworben im Laufe meiner Karriere</h3>
+
+        <ul style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3);">
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">LangChain, N8N, Pi, MCP — agentic code workflows</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Docker, Grafana, Telegraf, InfluxDB</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Terraform</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python Flask</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">OpenStack Neutron</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Linux-Administration</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ISE 2.6 & 3.1</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco WLC (9800 & 5500)</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco Catalyst / Nexus 9k</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Palo Alto 10.x & 11.x Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ASA Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper MX, PTX Backbone Routers</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper SRX Firewalls</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Huawei Cloud Stack</li>
+          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">SolarWinds NPM</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Berufserfahrung</h2><span class="rule"></span></div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2026-06-01">01.06.2026</time> — heute</div>
+          <div>
+            <h3 class="entry-title">Senior Private Cloud Engineer (Netzwerke)</h3>
+            <p class="entry-org">Hyundai Autoever Europe GmbH</p>
+            <div class="entry-loc">Frankfurt am Main, Deutschland</div>
+            <div class="entry-body">
+              <p class="body">Verwaltung der Netzwerkschicht eines Arista-basierten Rechenzentrums mit einem OpenStack-Vanilla-Deployment. Verantwortlich für Underlay/Overlay-Design und -Operationen auf Arista-Switches und der OpenStack-Neutron-Schicht. Entwicklung von Automatisierungsskripten und KI-gestützten Tools zur Optimierung des Tagesgeschäfts.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2023-07">07/2023</time> — <time datetime="2026-05">05/2026</time></div>
+          <div>
+            <h3 class="entry-title">Netzwerk-Systemingenieur</h3>
+            <p class="entry-org">Hyundai Autoever GmbH</p>
+            <div class="entry-loc">Offenbach, Deutschland</div>
+            <div class="entry-body">
+              <p class="body">Implementierung und Verwaltung von Rechenzentrum- und Enterprise-Netzwerk-Infrastruktur für mehrere Kunden, tätig als Projektmanager für neue Implementierungen.</p>
+              <ul class="bullets">
+                <li>Cisco ISE 2.x & 3.x (NAC)</li>
+                <li>Cisco WLC 9800 & 5500 (Wi-Fi)</li>
+                <li>Cisco Nexus / Catalyst 9K</li>
+                <li>Cisco ASA & Palo Alto Firewalls</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2021-08">08/2021</time> — <time datetime="2022-10">10/2022</time></div>
+          <div>
+            <h3 class="entry-title">Public-Cloud-Betriebsingenieur — Netzwerkbereich</h3>
+            <p class="entry-org">Orange Business Services</p>
+            <div class="entry-loc">Kairo, Ägypten</div>
+            <div class="entry-body">
+              <p class="body">Arbeit an physischen und virtuellen Netzwerkschichten von Rechenzentrums-Infrastruktur. Verwaltung der Kapazität, Peering mit Orange Backbone und virtueller Netzwerkappliances.</p>
+              <ul class="bullets">
+                <li>Physisches Rechenzentrum (CLOS Design)</li>
+                <li>Virtuelle Netzwerke: OpenStack, VLAN, VXLAN</li>
+                <li>Security-Appliances: VPN-Gateways, Anti-DDoS, WAF</li>
+                <li>Terraform (erste Anwendung)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2019-06">06/2019</time> — <time datetime="2021-07">07/2021</time></div>
+          <div>
+            <h3 class="entry-title">Senior-Ingenieur für IP-Core-Planung</h3>
+            <p class="entry-org">TE Data (Telecom Egypt) / WE</p>
+            <div class="entry-loc">Kairo, Ägypten</div>
+            <div class="entry-body">
+              <p class="body">Verantwortlich für Backbone-Planung, Migration und Automatisierung über ein konvergiertes nationales Backbone-Netzwerk, das Festnetz, Mobilfunk und Breitbanddienste unterstützt.</p>
+              <ul class="bullets">
+                <li>BGP, MPLS & OSPF — tiefgreifende operative Expertise</li>
+                <li>Migration von P/PE/RR/BNG-Geräten (Cisco, Juniper, Nokia)</li>
+                <li>Multi-Hersteller-Software-Upgrades</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2018-06">06/2018</time> — <time datetime="2019-06">06/2019</time></div>
+          <div>
+            <h3 class="entry-title">VPN-Implementierungsingenieur (Level 3)</h3>
+            <p class="entry-org">Orange Business Services</p>
+            <div class="entry-loc">Kairo, Ägypten</div>
+            <div class="entry-body">
+              <p class="body">Unterstützung globaler Enterprise-Kunden auf mehreren Kontinenten in einem riesigen internationalen MPLS/VPN-Netzwerk. Verwaltung von HUB-Standorten und Arbeit mit Optimierungstechnologien.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-date"><time datetime="2016-10">10/2016</time> — <time datetime="2018-06">06/2018</time></div>
+          <div>
+            <h3 class="entry-title">Incident-Management-Spezialist (1st-Line-Engineer)</h3>
+            <p class="entry-org">Orange Business Services</p>
+            <div class="entry-loc">Kairo, Ägypten</div>
+            <div class="entry-body">
+              <p class="body">First-Line-Incident-Management für globale Enterprise-Kunden, Bereitstellung von Troubleshooting und Kundensupport während Dienstinstabilität.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Sprachkenntnisse</h2><span class="rule"></span></div>
+        <ul class="bullets">
+          <li>Englisch — C2 (kompetente Sprachverwendung)</li>
+          <li>Deutsch — A1 (grundlegende Sprachverwendung)</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Ausbildung</h2><span class="rule"></span></div>
+        <div class="entry">
+          <div class="entry-date"><time datetime="2008-06">06/2008</time> — <time datetime="2013-11">11/2013</time></div>
+          <div>
+            <h3 class="entry-title">Bachelorabschluss, Computer Engineering</h3>
+            <p class="entry-org">Arab Academy for Science and Technology and Maritime (AASTMT)</p>
+            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
+              <a href="https://www.aast.edu/" target="_blank" rel="noopener">https://www.aast.edu/</a><br>
+              Kairo, Ägypten — Note: 2,56
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Führerschein</h2><span class="rule"></span></div>
+        <div style="font-size: var(--text-base);">
+          Kategorie: B (seit <time datetime="2025-02-18">18.02.2025</time>)
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2 class="label">Projekte</h2><span class="rule"></span></div>
+
+        <div class="project">
+          <h3 class="project-title">MCP-Server</h3>
+          <p class="body">Entwicklung privater und öffentlicher MCP-Server für KI-gestützte Automatisierung von Netzwerkbetrieb, abdeckend Palo Alto, Cisco, Outlook und ServiceNow. Deployt mit N8N für Workflow-Automatisierung.</p>
+        </div>
+
+        <div class="project">
+          <h3 class="project-title">Auditing physischer Netzwerke</h3>
+          <p class="body">Multithreaded Python-Skript zur Prüfung von Netzwerkkonfigurationen gegen Standard-Templates über hunderte Geräte in Parallel. Reduzierte ein 4-Stunden-Audit auf unter 2 Minuten.</p>
+        </div>
+
+        <div class="project">
+          <h3 class="project-title">Netzwerk-Topologie-Plotter</h3>
+          <p class="body">Automatisierte Netzwerk-Topologie-Generierung durch Parsen von Gerätekonfigurationen. Verwendet bei Orange Business Services und TE Data.</p>
+          <div style="margin-top: var(--space-2); font-size: var(--text-xs);"><a class="invert" style="background: var(--color-invert-bg); color: var(--color-invert-text); padding: 0 var(--space-2); text-decoration: none;" href="https://github.com/amrelhusseiny/drawio_network_plot" target="_blank" rel="noopener">github.com/amrelhusseiny/drawio_network_plot</a></div>
+        </div>
+      </section>
+
+      <footer class="doc-footer">
+        <span>Amro ElHusseini — Lebenslauf</span>
+        <span id="footer-date-de"></span>
+      </footer>
+      </div>
     </main>
 
     <script>
       (function () {
         var root = document.documentElement;
+        var langBtns = document.querySelectorAll('.lang-btn');
+        
+        // Load saved language preference
+        var savedLang = null;
+        try { savedLang = localStorage.getItem('cv-lang'); } catch (e) {}
+        var currentLang = savedLang || 'en';
+        
+        // Set initial language
+        function setLang(lang) {
+          root.setAttribute('data-lang', lang);
+          root.setAttribute('lang', lang);
+          langBtns.forEach(function(btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+          });
+          try { localStorage.setItem('cv-lang', lang); } catch (e) {}
+        }
+        
+        // Initial setup
+        setLang(currentLang);
+        
+        // Footer dates
         document.getElementById('footer-date').textContent = new Date().toISOString().slice(0, 10);
-        document.getElementById('theme-toggle').addEventListener('click', function () {
+        document.getElementById('footer-date-de').textContent = new Date().toISOString().slice(0, 10);
+        
+        // Language button listeners
+        langBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            setLang(btn.getAttribute('data-lang'));
+          });
+        });
+        
+        // Theme toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
           var isDark = root.getAttribute('data-theme') === 'dark';
           if (isDark) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'dark');
         });
-        document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
+        
+        // Print button
+        document.getElementById('print-btn').addEventListener('click', function() { window.print(); });
       })();
     </script>
   </body>
