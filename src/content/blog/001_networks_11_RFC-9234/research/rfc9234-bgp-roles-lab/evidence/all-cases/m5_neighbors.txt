@@ -1,0 +1,50 @@
+BGP neighbor is 10.0.9.2, remote AS 64503, local AS 64705, external link
+  Local Role: undefined
+  Remote Role: undefined
+Hostname: provider1.AUTOEVER.EUCORP.LOCAL
+  BGP version 4, remote router ID 100.64.3.3, local router ID 100.64.75.5
+  BGP state = Idle
+  Last read 00:23:40, Last write 00:01:33
+  Hold time is 180 seconds, keepalive interval is 60 seconds
+  Configured hold time is 180 seconds, keepalive interval is 60 seconds
+  Configured conditional advertisements interval is 60 seconds
+  Graceful restart information:
+    Local GR Mode: Helper*
+    Remote GR Mode: NotApplicable
+    R bit: False
+    N bit: False
+    Timers:
+      Configured Restart Time(sec): 120
+      Received Restart Time(sec): 120
+  Message statistics:
+    Inq depth is 0
+    Outq depth is 0
+                         Sent       Rcvd
+    Opens:                 17         16
+    Notifications:          0         32
+    Updates:                0          0
+    Keepalives:            16          0
+    Route Refresh:          0          0
+    Capability:             0          0
+    Total:                 33         48
+  Minimum time between advertisement runs is 0 seconds
+
+ For address family: IPv4 Unicast
+  Not part of any update group
+  Community attribute sent to this neighbor(all)
+  0 accepted prefixes
+
+  Connections established 0; dropped 0
+  Last reset 00:23:40,  Notification received (OPEN Message Error/Role Mismatch)
+  External BGP neighbor may be up to 1 hops away.
+Local host: 10.0.9.3, Local port: 58736
+Foreign host: 10.0.9.2, Foreign port: 179
+Nexthop: 10.0.9.3
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: shared network
+BGP Connect Retry Timer in Seconds: 120
+Next start timer due in 27 seconds
+Read thread: off  Write thread: off  FD used: -1
+
+

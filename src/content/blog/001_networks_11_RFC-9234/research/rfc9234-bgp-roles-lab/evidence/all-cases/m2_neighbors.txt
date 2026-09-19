@@ -1,0 +1,59 @@
+BGP neighbor is 10.0.6.2, remote AS 64502, local AS 64702, external link
+  Local Role: provider
+  Remote Role: undefined
+Hostname: peer1.AUTOEVER.EUCORP.LOCAL
+  BGP version 4, remote router ID 100.64.2.2, local router ID 100.64.72.2
+  BGP state = Idle
+  Last read 00:23:39, Last write 00:01:32
+  Hold time is 180 seconds, keepalive interval is 60 seconds
+  Configured hold time is 180 seconds, keepalive interval is 60 seconds
+  Configured conditional advertisements interval is 60 seconds
+  Graceful restart information:
+    Local GR Mode: Helper*
+    Remote GR Mode: NotApplicable
+    R bit: False
+    N bit: False
+    Timers:
+      Configured Restart Time(sec): 120
+      Received Restart Time(sec): 120
+  Message statistics:
+    Inq depth is 0
+    Outq depth is 0
+                         Sent       Rcvd
+    Opens:                 17         16
+    Notifications:         16          0
+    Updates:                0          0
+    Keepalives:             0          0
+    Route Refresh:          0          0
+    Capability:             0          0
+    Total:                 33         16
+  Minimum time between advertisement runs is 0 seconds
+
+ For address family: IPv4 Unicast
+  Not part of any update group
+  Community attribute sent to this neighbor(all)
+  0 accepted prefixes
+
+  Connections established 0; dropped 0
+  Last reset 00:23:39,  Notification sent (OPEN Message Error/Role Mismatch)
+  Message received that caused BGP to send a NOTIFICATION:
+    FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
+    007B0104 FBF600B4 64400202 5E020601
+    04000100 01020280 00020202 00020246
+    00020641 040000FB F6020206 00020309
+    01040206 45040001 0101021E 491C0570
+    65657231 15415554 4F455645 522E4555
+    434F5250 2E4C4F43 414C0204 40024078
+    02094707 00010180 000000
+  External BGP neighbor may be up to 1 hops away.
+Local host: 10.0.6.3, Local port: 52248
+Foreign host: 10.0.6.2, Foreign port: 179
+Nexthop: 10.0.6.3
+Nexthop global: ::
+Nexthop local: ::
+BGP connection: shared network
+BGP Connect Retry Timer in Seconds: 120
+Next start timer due in 28 seconds
+Read thread: off  Write thread: off  FD used: -1
+
+
