@@ -1,5 +1,5 @@
 ---
-title: "Networks - RFC 9234 : BGP Roles and Route Leak Prevention"
+title: "RFC 9234 : BGP Roles and Route Leak Prevention"
 description: "BGP Roles & OTC explained — Cloudflare RFC 9234 adoption research + lab plan"
 date: 2026-08-31T10:00:00+02:00
 tags:
@@ -9,7 +9,6 @@ draft: false
 ---
 
 
-# RFC 9234 : BGP Roles and Route Leak Prevention
 
 In 2022 , RFC 9234 was released to adopt a new Attribute for BGP that would make Internet's backbone route leak prevention a lot simpler, by strictly defining the relationship between BGP Peers, this was no customer can cause a blackholing in the internet backbone mistakenly, however it does not address AS hijacking to be clear, specially advertising something that it has not business doing, and make it Autonomous (Safe from human mistakes).
 

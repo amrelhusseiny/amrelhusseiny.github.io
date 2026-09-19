@@ -748,3 +748,14 @@ body.home-page .page-main { max-width: none; padding: 0; }
   .home-link { height: 40px; padding: 0 18px; font-size: 0.875rem; }
   .home-hero-art { max-height: 46vh; }
 }
+
+/* Rendered mermaid figures (client.ts replaces pre[data-language=mermaid]) */
+.mermaid-figure {
+  margin: 1.5rem auto;
+  text-align: center;
+}
+.mermaid-figure svg {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
