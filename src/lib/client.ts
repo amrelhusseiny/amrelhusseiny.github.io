@@ -191,3 +191,47 @@ function navHideInit() {
 document.addEventListener('DOMContentLoaded', () => {
   navHideInit();
 });
+
+/* Mermaid: render code blocks emitted by Astro (pre[data-language="mermaid"]) */
+async function mermaidInit() {
+  const blocks = document.querySelectorAll('pre[data-language="mermaid"]');
+  if (!blocks.length) return;
+  try {
+    const { default: mermaid } = await import("mermaid");
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "base",
+      securityLevel: "strict",
+      themeVariables: {
+        primaryColor: "#f3f4f6",
+        primaryTextColor: "#111827",
+        primaryBorderColor: "#6b7280",
+        lineColor: "#4b5563",
+        fontSize: "14px",
+      },
+    });
+    for (const pre of blocks) {
+      const code = pre.querySelector("code");
+      if (!code) continue;
+      let src = code.textContent || "";
+      // strip embedded YAML frontmatter that Astro kept as literal text
+      src = src.replace(/^\s*---[\s\S]*?---\s*/, "").trim();
+      const id = "m" + Math.random().toString(36).slice(2, 10);
+      try {
+        const { svg } = await mermaid.render(id, src);
+        const div = document.createElement("div");
+        div.className = "mermaid-figure";
+        div.innerHTML = svg;
+        pre.replaceWith(div);
+      } catch (e) {
+        console.warn("mermaid render failed", e);
+      }
+    }
+  } catch (e) {
+    console.warn("mermaid load failed", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  mermaidInit();
+});
