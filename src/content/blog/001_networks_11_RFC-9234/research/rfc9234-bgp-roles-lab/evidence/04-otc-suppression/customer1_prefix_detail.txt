@@ -1,7 +1,0 @@
-BGP routing table entry for 198.51.100.0/24, version 1
-Paths: (1 available, best #1, table default)
-  Not advertised to any peer
-  64503 64502
-    10.0.2.2 from 10.0.2.2 (100.64.3.3)
-      Origin IGP, valid, external, otc 64502, best (First path received)
-      Last update: Thu Sep  3 12:35:17 2026
