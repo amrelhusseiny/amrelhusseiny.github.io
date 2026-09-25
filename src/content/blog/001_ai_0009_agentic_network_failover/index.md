@@ -36,7 +36,7 @@ Some show commands, so you can understand the current things running :
 
 Identical failure (R1 pod deleted) injected into both labs. The animation runs on the real wall-clock timestamps recorded in each run log, with the node highlighted at the moment its log line appears.
 
-<iframe src="/blog/ospf-failover-replay.html" width="100%" height="820" loading="lazy" style="border:1px solid #C6C6C6" title="OSPF vs agent failover replay"></iframe>
+<iframe src="/blog/ospf-failover-replay.html" width="100%" height="475" loading="lazy" scrolling="no" style="border:0;display:block" title="OSPF vs agent failover replay"></iframe>
 
 # Refernces
 - https://www.langchain.com/blog/building-a-harness-with-jev
