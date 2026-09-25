@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSPF vs Agent Failover Replay</title>
+<style>
+  @font-face {
+    font-family: "Source Code Pro";
+    src: url("fonts/SourceCodePro-var.woff2") format("woff2");
+    font-weight: 400 700;
+    font-display: swap;
+  }
+  
+  /* GRAPHITE Rule 2: Zero border-radius, strictly sharp corners everywhere */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 !important;
+  }
+
+  /* GRAPHITE Rule 1b: Canvas/page background strictly #FFFFFF in light mode */
+  body {
+    background: #FFFFFF;
+    color: #232323;
+    font-family: "Source Code Pro", monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* GRAPHITE Rule 4: Flat single box, 1px hairline border, no shadow or blur */
+  .canvas-wrapper {
+    position: relative;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #C6C6C6;
+    overflow: hidden;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1280 / 720;
+  }
+
+  .controls-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    border: 1px solid #C6C6C6;
+  }
+
+  .btn {
+    font-family: "Source Code Pro", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 16px;
+    background: #FFFFFF;
+    color: #232323;
+    border: 1px solid #C6C6C6;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+
+  .btn:hover {
+    background: #F5F5F5;
+  }
+
+  .btn.active {
+    background: #232323;
+    color: #FFFFFF;
+    border-color: #232323;
+  }
+
+  .speed-group {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    align-items: center;
+  }
+
+  .speed-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8A8A8A;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="canvas-wrapper">
+    <canvas id="c" width="1280" height="720"></canvas>
+  </div>
+  <div class="controls-bar">
+    <button id="play-btn" class="btn active">PAUSE</button>
+    <button id="restart-btn" class="btn">RESTART</button>
+    <div class="speed-group">
+      <span class="speed-label">SPEED:</span>
+      <button class="btn speed-btn" data-speed="1">1X</button>
+      <button class="btn speed-btn active" data-speed="2">2X</button>
+      <button class="btn speed-btn" data-speed="4">4X</button>
+      <button class="btn speed-btn" data-speed="8">8X</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// Timeline Definitions with explicit node references
+var OSPF = {
+  name: "OSPF Failover",
+  base: 19 * 3600 + 56 * 60 + 32.513,
+  fix: 62.2,
+  ev: [
+    [0.00,  "T0  scale r1 --replicas=0",               ["R1"],       ""],
+    [30.40, "R1 dead - packet loss on primary path",   ["R1"],       "x"],
+    [62.18, "OSPF converges to path 0 - ping green",   ["R3", "R4"], "p0"]
+  ]
+};
+
+var AGT = {
+  name: "Agent Failover",
+  base: 20 * 3600 + 13 * 60 + 28.000,
+  fix: 49.7,
+  ev: [
+    [0.00,  "T0  scale r1 --replicas=0",               ["R1"],                 ""],
+    [30.40, "R1 dead - packet loss starts",            ["R1"],                 "x"],
+    [33.80, "JEV incident detected - R1 offline",      ["R1"],                 "x"],
+    [34.80, "Classify root cause - 1.0s",              ["R1"],                 "x"],
+    [37.80, "MERCURY renders plan - 12.0s",            ["RC1","R3","R4","RC2"],"x"],
+    [45.80, "Apply 11 cmds across 4 nodes - 1.7s",     ["RC1","R3","R4","RC2"],"x"],
+    [49.70, "VERIFY ping green - REPAIRED",           [],                     "p0"]
+  ]
+};
+
+// GRAPHITE Pure Neutral Grayscale Palette (R=G=B)
+var C_G0   = "#FFFFFF"; // Light Canvas BG
+var C_G50  = "#F5F5F5"; // Panel Surface
+var C_G100 = "#ECECEC"; // Light Hairline Fill
+var C_G200 = "#C6C6C6"; // Default Hairline Border
+var C_G400 = "#8A8A8A"; // Subtle Labels
+var C_G600 = "#545454"; // Secondary Text
+var C_G800 = "#232323"; // Primary Text / Active Fill
+var C_G900 = "#121212"; // Deep Accent / Packets
+
+
+// Topology Geometry (Symmetrical Diamond Layout inside 564px container)
+var TY = 88, BY = 192;
+var J1 = 150, J2 = 414;
+
+// Nodes: VM hosts vs Router devices (Un-squashed layout with individual R1, R2, R3, R4)
+var NB = {
+  VM1:  { x: 45,  y: TY, label: "VM1",  type: "vm" },
+  RC1:  { x: 110, y: TY, label: "RC1",  type: "router" },
+  R1:   { x: 220, y: TY, label: "R1",   type: "router" },
+  R2:   { x: 340, y: TY, label: "R2",   type: "router" },
+  R3:   { x: 220, y: BY, label: "R3",   type: "router" },
+  R4:   { x: 340, y: BY, label: "R4",   type: "router" },
+  RC2:  { x: 450, y: TY, label: "RC2",  type: "router" },
+  VM2:  { x: 515, y: TY, label: "VM2",  type: "vm" }
+};
+
+// Primary Path 1 (Top)
+var SEG1 = [
+  [45, TY], [110, TY], [J1, TY], [220, TY], [340, TY], [J2, TY], [450, TY], [515, TY]
+];
+
+// Failover Path 0 (Bottom)
+var SEG0 = [
+  [45, TY], [110, TY], [J1, TY], [J1, BY], [220, BY], [340, BY], [J2, BY], [J2, TY], [450, TY], [515, TY]
+];
+
+// Cut point at R1 during outage
+var CUT = [220, TY];
+
+
+function F_(s, w) { return (w || 400) + " " + s + "px \"Source Code Pro\", monospace"; }
+
+function T(g, s, x, y, z, c, w, a) {
+  g.font = F_(z, w);
+  g.fillStyle = c;
+  g.textAlign = a || "left";
+  g.fillText(s, x, y);
+}
+
+// Flat single box drawing (GRAPHITE Rule 4: Zero radius, 1px solid hairline)
+function BX(g, x, y, w, h, st, fi) {
+  g.beginPath();
+  g.rect(Math.floor(x) + 0.5, Math.floor(y) + 0.5, Math.floor(w), Math.floor(h));
+  if (fi) {
+    g.fillStyle = fi;
+    g.fill();
+  }
+  if (st) {
+    g.strokeStyle = st;
+    g.lineWidth = 1;
+    g.stroke();
+  }
+}
+
+function LN(g, x1, y1, x2, y2, c, w) {
+  g.strokeStyle = c;
+  g.lineWidth = w || 1;
+  g.beginPath();
+  g.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
+  g.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
+  g.stroke();
+}
+
+function p2(n) { return (n < 10 ? "0" : "") + n; }
+
+function CK(s) {
+  s = s < 0 ? 0 : s;
+  var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  return p2(h) + ":" + p2(m) + ":" + (x < 10 ? "0" : "") + x.toFixed(3);
+}
+
+function state(s, t) {
+  var cur = null, cut = false, on0 = t >= s.fix, i;
+  for (i = 0; i < s.ev.length; i++) {
+    if (s.ev[i][0] <= t) cur = s.ev[i];
+  }
+  if (cur && cur[3] === "x") cut = true;
+  return { cur: cur, cut: cut, on0: on0 };
+}
+
+
+// Render VM host node (sharp rectangular box with HOST tag)
+function drawVMNode(g, x, y, label, isHighlighted) {
+  var w = 54, h = 38;
+  var nx = x - w / 2, ny = y - h / 2;
+
+  // Outer Box
+  BX(g, nx, ny, w, h, isHighlighted ? C_G800 : C_G200, isHighlighted ? C_G800 : C_G0);
+
+  // Top Tag Header
+  BX(g, nx, ny, w, 12, null, isHighlighted ? C_G900 : C_G800);
+  T(g, "HOST", x, ny + 9, 8, C_G0, 700, "center");
+
+  // Identifier Label
+  T(g, label, x, ny + 27, 11, isHighlighted ? C_G0 : C_G800, 700, "center");
+}
+
+// Render Router device node (sharp square box with router cross arrows)
+function drawRouterNode(g, x, y, label, isHighlighted, isDead) {
+  var w = 34, h = 34;
+  var nx = x - w / 2, ny = y - h / 2;
+
+  if (isDead) {
+    // Inverted fill with strike cross for dead node
+    BX(g, nx, ny, w, h, C_G800, C_G800);
+
+    // Cross X
+    LN(g, nx + 6, ny + 6, nx + w - 6, ny + h - 6, C_G0, 2);
+    LN(g, nx + w - 6, ny + 6, nx + 6, ny + h - 6, C_G0, 2);
+
+    // "DEAD" badge
+    BX(g, x - 18, y + h / 2 + 4, 36, 14, C_G800, C_G800);
+    T(g, "DEAD", x, y + h / 2 + 14, 8, C_G0, 700, "center");
+  } else if (isHighlighted) {
+    // Active Inverted router
+    BX(g, nx, ny, w, h, C_G800, C_G800);
+
+    // Router cross symbol inside
+    LN(g, nx + 6, y, nx + w - 6, y, C_G0, 1.5);
+    LN(g, x, ny + 6, x, ny + h - 6, C_G0, 1.5);
+    BX(g, x - 10, y - 10, 20, 20, C_G0, null);
+
+    T(g, label, x, y > 140 ? ny - 6 : ny + h + 14, 11, C_G800, 700, "center");
+  } else {
+    // Standard Hairline router box
+    BX(g, nx, ny, w, h, C_G200, C_G0);
+
+    // Inner cross arrow glyph
+    LN(g, nx + 6, y, nx + w - 6, y, C_G600, 1);
+    LN(g, x, ny + 6, x, ny + h - 6, C_G600, 1);
+    BX(g, x - 10, y - 10, 20, 20, C_G200, null);
+
+    T(g, label, x, y > 140 ? ny - 6 : ny + h + 14, 11, C_G800, 700, "center");
+  }
+}
+
+function drawNode(g, ox, oy, key, isHighlighted, isDead) {
+  var n = NB[key];
+  if (!n) return;
+  var x = ox + n.x, y = oy + n.y;
+
+  if (n.type === "vm") {
+    drawVMNode(g, x, y, n.label, isHighlighted);
+  } else {
+    drawRouterNode(g, x, y, n.label, isHighlighted, isDead);
+  }
+}
+
+
+function drawSeg(g, ox, oy, pts, on, cut) {
+  for (var i = 1; i < pts.length; i++) {
+    var a = pts[i - 1], b = pts[i];
+    var isCutSegment = cut && b[0] !== a[0] && b[1] === a[1] && a[0] < CUT[0] && b[0] >= CUT[0];
+    var c = isCutSegment ? C_G200 : (on ? C_G800 : C_G200);
+    var w = on ? 2 : 1;
+    LN(g, ox + a[0], oy + a[1], ox + b[0], oy + b[1], c, w);
+  }
+}
+
+function dot(g, x, y) {
+  g.fillStyle = C_G900;
+  g.fillRect(Math.floor(x) - 3, Math.floor(y) - 3, 6, 6);
+}
+
+function walk(g, ox, oy, route, p) {
+  var pts = [], i, L = [], tot = 0;
+  for (i = 0; i < route.length; i++) pts.push([ox + route[i][0], oy + route[i][1]]);
+  for (i = 1; i < pts.length; i++) {
+    var dx = pts[i][0] - pts[i - 1][0], dy = pts[i][1] - pts[i - 1][1];
+    var d = Math.sqrt(dx * dx + dy * dy);
+    L.push(d);
+    tot += d;
+  }
+  var w = p * tot, a = 0;
+  for (i = 0; i < L.length; i++) {
+    if (a + L[i] >= w) {
+      var r = (w - a) / L[i];
+      return [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * r, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * r];
+    }
+    a += L[i];
+  }
+  return pts[pts.length - 1];
+}
+
+
+function panel(g, s, t, px, py, pw, ph) {
+  // Panel Frame (Flat single box)
+  BX(g, px, py, pw, ph, C_G200, C_G0);
+  
+  // Header Title
+  T(g, s.name.toUpperCase(), px + pw / 2, py + 26, 14, C_G800, 700, "center");
+  
+  var S = state(s, t);
+
+  LN(g, px, py + 38, px + pw, py + 38, C_G200, 1);
+
+  // Topology Container
+  var bx = px + 16, by = py + 48, bw = pw - 32, bh = 270, ox = bx, oy = by;
+  BX(g, bx, by, bw, bh, C_G200, C_G50);
+
+  var hl = S.cur ? S.cur[2] : [];
+  function H(k) { return hl.indexOf(k) >= 0; }
+
+  // 1. Routes
+  drawSeg(g, ox, oy, SEG0, S.on0, false);
+  drawSeg(g, ox, oy, SEG1, !S.on0, S.cut && !S.on0);
+
+  // Junction Vertical Lines
+  var vc = S.on0 ? C_G800 : C_G200, vw = S.on0 ? 2 : 1;
+  LN(g, ox + J1, oy + TY, ox + J1, oy + BY, vc, vw);
+  LN(g, ox + J2, oy + BY, ox + J2, oy + TY, vc, vw);
+
+  // 2. Traffic Flow Animation
+  if (S.cut && !S.on0) {
+    var cx = ox + CUT[0], cy = oy + CUT[1];
+    dot(g, cx - 30, cy);
+    dot(g, cx - 15, cy);
+  } else {
+    var rt = S.on0 ? SEG0 : SEG1;
+    for (var i = 0; i < 4; i++) {
+      var p = ((t * 0.18 + i / 4) % 1 + 1) % 1;
+      var q = walk(g, ox, oy, rt, p);
+      dot(g, q[0], q[1]);
+    }
+  }
+
+  // 3. Render Topology Nodes
+  drawNode(g, ox, oy, "VM1", H("VM1"), false);
+  drawNode(g, ox, oy, "RC1", H("RC1"), false);
+  drawNode(g, ox, oy, "R1",  H("R1"),  S.cut && !S.on0);
+  drawNode(g, ox, oy, "R2",  H("R2"),  false);
+  drawNode(g, ox, oy, "R3",  H("R3"),  false);
+  drawNode(g, ox, oy, "R4",  H("R4"),  false);
+  drawNode(g, ox, oy, "RC2", H("RC2"), false);
+  drawNode(g, ox, oy, "VM2", H("VM2"), false);
+
+  // Topology Labels inside box
+  T(g, "PRIMARY (PATH 1)", ox + 10, oy + TY - 20, 9, S.on0 ? C_G400 : C_G800, 700);
+  T(g, "FAILOVER (PATH 0)", ox + 10, oy + BY + 28, 9, S.on0 ? C_G800 : C_G400, 700);
+
+  // Legend Bar at bottom of topology container
+  BX(g, bx + 12, by + bh - 24, bw - 24, 18, C_G200, C_G0);
+  
+  BX(g, bx + 20, by + bh - 19, 12, 8, C_G800, C_G0);
+  T(g, "Host VM", bx + 36, by + bh - 11, 8, C_G600, 700);
+
+  BX(g, bx + 110, by + bh - 19, 10, 10, C_G200, C_G0);
+  T(g, "Router Node", bx + 126, by + bh - 11, 8, C_G600, 700);
+
+  dot(g, bx + 220, by + bh - 14);
+  T(g, "Traffic Packet", bx + 228, by + bh - 11, 8, C_G600, 700);
+
+  // Log / Action Container
+  var lx = px + 16, ly = by + bh + 12, lh = ph - (ly - py) - 16;
+  BX(g, lx, ly, bw, lh, C_G200, C_G0);
+  
+  // Log Header Bar
+  BX(g, lx, ly, bw, 24, C_G200, C_G100);
+  T(g, "LOG / ACTION TIMELINE", lx + 12, ly + 16, 10, C_G600, 700);
+  
+  var n = 0, i2;
+  for (i2 = 0; i2 < s.ev.length; i2++) {
+    if (s.ev[i2][0] <= t) {
+      var y = ly + 44 + n * 20;
+      var isLast = (S.cur && i2 === s.ev.indexOf(S.cur));
+      
+      if (isLast) {
+        BX(g, lx + 4, y - 13, bw - 8, 18, null, C_G100);
+      }
+
+      T(g, CK(s.base + s.ev[i2][0]), lx + 12, y, 11, isLast ? C_G800 : C_G400, 400);
+      T(g, "+" + s.ev[i2][0].toFixed(1) + "s", lx + 110, y, 11, isLast ? C_G800 : C_G400, 700);
+      T(g, s.ev[i2][1], lx + 170, y, 11, isLast ? C_G800 : C_G600, isLast ? 700 : 400);
+      n++;
+    }
+  }
+}
+
+
+var cv = document.getElementById("c"), g = cv.getContext("2d");
+var t = 0, run = true, spd = 2, last = 0;
+
+function draw(x) {
+  // Clear Canvas (Pure White in GRAPHITE Light Mode)
+  g.fillStyle = C_G0;
+  g.fillRect(0, 0, 1280, 720);
+
+  // Main Outer Frame
+  BX(g, 16, 16, 1248, 688, C_G200, C_G0);
+  
+  // Dual Comparison Panels (Expanded to fill removed header space)
+  panel(g, OSPF, x, 32, 32, 596, 656);
+  panel(g, AGT,  x, 652, 32, 596, 656);
+}
+
+function loop(ts) {
+  if (!last) last = ts;
+  var dt = (ts - last) / 1000;
+  last = ts;
+
+  if (run) {
+    t += dt * spd;
+    if (t > 66) t = 66;
+  }
+
+  draw(t);
+  requestAnimationFrame(loop);
+}
+
+// URL Query parameter check
+var mq = location.search.match(/t=([0-9.]+)/);
+if (mq) {
+  t = parseFloat(mq[1]);
+  run = false;
+  last = 0;
+}
+
+// Interactive Control Listeners
+var playBtn = document.getElementById("play-btn");
+var restartBtn = document.getElementById("restart-btn");
+var speedBtns = document.querySelectorAll(".speed-btn");
+
+if (playBtn) {
+  playBtn.addEventListener("click", function() {
+    run = !run;
+    playBtn.textContent = run ? "PAUSE" : "PLAY";
+    if (run) playBtn.classList.add("active");
+    else playBtn.classList.remove("active");
+  });
+}
+
+if (restartBtn) {
+  restartBtn.addEventListener("click", function() {
+    t = 0;
+    last = 0;
+    if (!run) {
+      run = true;
+      if (playBtn) {
+        playBtn.textContent = "PAUSE";
+        playBtn.classList.add("active");
+      }
+    }
+  });
+}
+
+speedBtns.forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    spd = parseFloat(btn.getAttribute("data-speed"));
+    speedBtns.forEach(function(b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+  });
+});
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

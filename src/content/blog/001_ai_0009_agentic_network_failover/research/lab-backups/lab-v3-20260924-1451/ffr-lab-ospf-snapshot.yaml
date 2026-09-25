@@ -1,0 +1,3498 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 8348a7ec1d7b37d1e120ef914ddc54cdd74c5bb2d9e74b4c53c1309b86d680ff
+      cni.projectcalico.org/podIP: 172.16.3.72/32
+      cni.projectcalico.org/podIPs: 172.16.3.72/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: r1-67bd79d5cb-
+    generation: 1
+    labels:
+      app: router
+      name: r1
+      pod-template-hash: 67bd79d5cb
+    name: r1-67bd79d5cb-mq6f8
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: r1-67bd79d5cb
+      uid: 0e231947-c212-4835-b6b5-623759f4e025
+    resourceVersion: "9271846"
+    uid: 5e96052f-0bfd-4124-88a7-fc002afe704a
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: r1
+      - name: TUN
+        value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: r1
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dsqwt
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node4
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: r1-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-dsqwt
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:50Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b63a5eb90ba595e0c58b759447f7ef256c2b288d68957839c0b3e55df6064ee2
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: r1
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:51Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-dsqwt
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.7
+    hostIPs:
+    - ip: 192.168.10.7
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.3.72
+    podIPs:
+    - ip: 172.16.3.72
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: a90ff456535a48d26d842f8b3f88526d132809e97106ecd6f9db7aaf53e2e9d8
+      cni.projectcalico.org/podIP: 172.16.3.74/32
+      cni.projectcalico.org/podIPs: 172.16.3.74/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: r2-86785b6556-
+    generation: 1
+    labels:
+      app: router
+      name: r2
+      pod-template-hash: 86785b6556
+    name: r2-86785b6556-47kl4
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: r2-86785b6556
+      uid: b5b1a0e9-dd8b-46ec-a53f-ba2bce4c6f3b
+    resourceVersion: "9271850"
+    uid: 7e0da1a6-703e-4655-98f5-b44ad12b840d
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: r2
+      - name: TUN
+        value: gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: r2
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-9bm8z
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node4
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: r2-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-9bm8z
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:50Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://b744cdcb16ee523f6f7ed0774444ff02997d3759ee4757b648a1ccc027ea52b0
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: r2
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:51Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-9bm8z
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.7
+    hostIPs:
+    - ip: 192.168.10.7
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.3.74
+    podIPs:
+    - ip: 172.16.3.74
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 0c03171ff69e310fdca84116dfd8b16bbbd730679171b8f9cbf27651f2349ed2
+      cni.projectcalico.org/podIP: 172.16.3.75/32
+      cni.projectcalico.org/podIPs: 172.16.3.75/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: r3-55d547f564-
+    generation: 1
+    labels:
+      app: router
+      name: r3
+      pod-template-hash: 55d547f564
+    name: r3-55d547f564-btpqp
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: r3-55d547f564
+      uid: a37fb147-20d0-480e-9f36-702f4dc46cac
+    resourceVersion: "9271840"
+    uid: 6e09043c-b170-4ba6-a08a-aaac68d1ab9a
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: r3
+      - name: TUN
+        value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: r3
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6d7bg
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node4
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: r3-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-6d7bg
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:50Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://0eddd720dfc485fd287963c414e1bb737783d052df891cc7e3bebf3ec82ffcde
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: r3
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:51Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-6d7bg
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.7
+    hostIPs:
+    - ip: 192.168.10.7
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.3.75
+    podIPs:
+    - ip: 172.16.3.75
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 855a4a7a98551e1dbf515e8b1defab849648b1fafff54f6e08b905ac1ed11d19
+      cni.projectcalico.org/podIP: 172.16.139.14/32
+      cni.projectcalico.org/podIPs: 172.16.139.14/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: r4-7fb5b4dbdd-
+    generation: 1
+    labels:
+      app: router
+      name: r4
+      pod-template-hash: 7fb5b4dbdd
+    name: r4-7fb5b4dbdd-q9btq
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: r4-7fb5b4dbdd
+      uid: f3f66382-94a7-4f13-be65-5b65c18767f0
+    resourceVersion: "9271859"
+    uid: f49f2615-3572-42ff-9f4d-f967f1ce5af3
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: r4
+      - name: TUN
+        value: gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: r4
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-876m5
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node6
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: r4-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-876m5
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:47Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://102924cd57e35245f20ea9826a82b143d5d0cb30abc98739fdbdc865299d8e7b
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: r4
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:48Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-876m5
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.9
+    hostIPs:
+    - ip: 192.168.10.9
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.139.14
+    podIPs:
+    - ip: 172.16.139.14
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:47Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 9bb8df56679772c2962afc3774f912a8352fb899c0d6bde56e65ab533bd6e734
+      cni.projectcalico.org/podIP: 172.16.3.73/32
+      cni.projectcalico.org/podIPs: 172.16.3.73/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: rc1-7dc767f79b-
+    generation: 1
+    labels:
+      app: router
+      name: rc1
+      pod-template-hash: 7dc767f79b
+    name: rc1-7dc767f79b-jtml8
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: rc1-7dc767f79b
+      uid: dde62171-3ae9-4562-b4e0-01afb67623e9
+    resourceVersion: "9271834"
+    uid: 4caf6947-ed70-4cd7-8d14-64a99e428d2a
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: rc1
+      - name: TUN
+        value: gre-vm1:vm1-svc.ffr-lab-ospf.svc.cluster.local gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local
+          gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: rc1
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lcvtj
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node4
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: rc1-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-lcvtj
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:50Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://4ca9a6054339942c5ce92e3803db8a69aece06e4cbdfbf74f6adc1a945a9e4a5
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: rc1
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:51Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lcvtj
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.7
+    hostIPs:
+    - ip: 192.168.10.7
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.3.73
+    podIPs:
+    - ip: 172.16.3.73
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:50Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 1ba3458358bb163eafcc3ac5cc4d3687afaf3ee3f73367d38ef16c06f935ae0e
+      cni.projectcalico.org/podIP: 172.16.33.146/32
+      cni.projectcalico.org/podIPs: 172.16.33.146/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: rc2-6789546586-
+    generation: 1
+    labels:
+      app: router
+      name: rc2
+      pod-template-hash: "6789546586"
+    name: rc2-6789546586-r8gdg
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: rc2-6789546586
+      uid: a17b63e4-60da-497b-952c-13626ca5cfd4
+    resourceVersion: "9271819"
+    uid: 1cc41804-68cb-40ec-8c7d-f57f5c295697
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: rc2
+      - name: TUN
+        value: gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local gre-vm2:vm2-svc.ffr-lab-ospf.svc.cluster.local
+          gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: frrouting/frr:latest
+      imagePullPolicy: IfNotPresent
+      name: rc2
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-j5hkv
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node5
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: rc2-frr
+      name: frr-config
+    - configMap:
+        defaultMode: 493
+        name: router-start
+      name: start-script
+    - name: kube-api-access-j5hkv
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:48Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://845a52d4fc2be3f04304338571b16f8a8d5f4b3c16225175422872273c39e159
+      image: docker.io/frrouting/frr:latest
+      imageID: docker.io/frrouting/frr@sha256:990e83490108b686fd6df3b1cafa6bdbb2714acb00eedb9a89693946f46f45ce
+      lastState: {}
+      name: rc2
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:52Z"
+      volumeMounts:
+      - mountPath: /config
+        name: frr-config
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-j5hkv
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.8
+    hostIPs:
+    - ip: 192.168.10.8
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.33.146
+    podIPs:
+    - ip: 172.16.33.146
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:51Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 684d2cfbee4b64a1a21dd08988083749b736da55846bd3945fbe40450f569dba
+      cni.projectcalico.org/podIP: 172.16.33.147/32
+      cni.projectcalico.org/podIPs: 172.16.33.147/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: vm1-86b69f768f-
+    generation: 1
+    labels:
+      app: ffr-lab
+      name: vm1
+      pod-template-hash: 86b69f768f
+      role: client
+    name: vm1-86b69f768f-5j8gs
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vm1-86b69f768f
+      uid: 5fbf75c6-50f4-416a-bb00-742f5ae1d1a2
+    resourceVersion: "9271865"
+    uid: c887bccf-1157-4996-b920-3b747379ffbe
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: vm1
+      - name: TUN_NAME
+        value: gre-rc1
+      - name: TUN_IP
+        value: 10.1.1.1/24
+      - name: TUN_GW
+        value: 10.1.1.254
+      - name: PEER_SVC
+        value: rc1-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: alpine:3.19
+      imagePullPolicy: IfNotPresent
+      name: vm1
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lgcmn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node5
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 493
+        name: vm-start
+      name: start-script
+    - name: kube-api-access-lgcmn
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:53Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:53Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:53Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://272a2611ea513f7babe7b7e093cc3d66b9509ec54e87a8c7e21e3f6c5f9ba848
+      image: docker.io/library/alpine:3.19
+      imageID: docker.io/library/alpine@sha256:6baf43584bcb78f2e5847d1de515f23499913ac9f12bdf834811a3145eb11ca1
+      lastState: {}
+      name: vm1
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:52Z"
+      volumeMounts:
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-lgcmn
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.8
+    hostIPs:
+    - ip: 192.168.10.8
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.33.147
+    podIPs:
+    - ip: 172.16.33.147
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:51Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cni.projectcalico.org/containerID: 95ce5228a08807a50a2c16225298646fa399d02b85609e97ed10dbe8abfb8010
+      cni.projectcalico.org/podIP: 172.16.3.76/32
+      cni.projectcalico.org/podIPs: 172.16.3.76/32
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generateName: vm2-74d497b464-
+    generation: 1
+    labels:
+      app: ffr-lab
+      name: vm2
+      pod-template-hash: 74d497b464
+      role: client
+    name: vm2-74d497b464-tfhx7
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: vm2-74d497b464
+      uid: 5320cfbe-953a-4612-9d7d-63c18e0715fd
+    resourceVersion: "9271871"
+    uid: 074c45d6-27c3-43a4-ad42-3763728621c3
+  spec:
+    containers:
+    - command:
+      - /bin/sh
+      - -c
+      - sh /scripts/start.sh
+      env:
+      - name: NODE
+        value: vm2
+      - name: TUN_NAME
+        value: gre-rc2
+      - name: TUN_IP
+        value: 10.1.8.1/24
+      - name: TUN_GW
+        value: 10.1.8.254
+      - name: PEER_SVC
+        value: rc2-svc.ffr-lab-ospf.svc.cluster.local
+      - name: POD_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.podIP
+      image: alpine:3.19
+      imagePullPolicy: IfNotPresent
+      name: vm2
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+          - NET_ADMIN
+          - SYS_ADMIN
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-9h8pg
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: node4
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - configMap:
+        defaultMode: 493
+        name: vm-start
+      name: start-script
+    - name: kube-api-access-9h8pg
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:51Z"
+      observedGeneration: 1
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:52Z"
+      observedGeneration: 1
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2026-09-24T19:28:49Z"
+      observedGeneration: 1
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://9103163544e21dd9d12a64f4f88a6480bbeea1d846d76d4ca847ff46621173f6
+      image: docker.io/library/alpine:3.19
+      imageID: docker.io/library/alpine@sha256:6baf43584bcb78f2e5847d1de515f23499913ac9f12bdf834811a3145eb11ca1
+      lastState: {}
+      name: vm2
+      ready: true
+      resources: {}
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2026-09-24T19:28:51Z"
+      volumeMounts:
+      - mountPath: /scripts
+        name: start-script
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-9h8pg
+        readOnly: true
+        recursiveReadOnly: Disabled
+    hostIP: 192.168.10.7
+    hostIPs:
+    - ip: 192.168.10.7
+    observedGeneration: 1
+    phase: Running
+    podIP: 172.16.3.76
+    podIPs:
+    - ip: 172.16.3.76
+    qosClass: BestEffort
+    startTime: "2026-09-24T19:28:51Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"r1-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"r1"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r1-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271651"
+    uid: 13dbf259-e539-4c59-a43c-ede4af80a0e6
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: r1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"r2-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"r2"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r2-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271654"
+    uid: d2e42080-be79-446e-9eed-5a62126973d3
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: r2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"r3-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"r3"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r3-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271660"
+    uid: 89028d86-d993-4a28-bfa6-49ea18135d17
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: r3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"r4-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"r4"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r4-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271663"
+    uid: 5efeea9f-afb0-4e8b-98ba-f4773ba05b6b
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: r4
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"rc1-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"rc1"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: rc1-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271648"
+    uid: 44973cba-f297-4370-ac8d-cdad40d8468b
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: rc1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"rc2-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"vtysh","port":2601}],"selector":{"name":"rc2"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: rc2-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271657"
+    uid: 42beeeb4-73aa-483a-b68b-4adced4513c0
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: vtysh
+      port: 2601
+      protocol: TCP
+      targetPort: 2601
+    selector:
+      name: rc2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"vm1-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"ssh","port":22}],"selector":{"name":"vm1"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: vm1-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271667"
+    uid: b72e8dd6-3d59-4c9e-bf09-3245873ba954
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: ssh
+      port: 22
+      protocol: TCP
+      targetPort: 22
+    selector:
+      name: vm1
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"vm2-svc","namespace":"ffr-lab-ospf"},"spec":{"clusterIP":"None","ports":[{"name":"ssh","port":22}],"selector":{"name":"vm2"}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: vm2-svc
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271670"
+    uid: 0eab7b8f-bf8d-47d2-a80a-e1c33f6577a5
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: ssh
+      port: 22
+      protocol: TCP
+      targetPort: 22
+    selector:
+      name: vm2
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"r1","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"r1"}},"template":{"metadata":{"labels":{"app":"router","name":"r1"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"r1"},{"name":"TUN","value":"gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"r1","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"r1-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: r1
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271851"
+    uid: c80e3711-ef40-4999-b5f2-190e0761e103
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: r1
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r1
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r1
+          - name: TUN
+            value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r1-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "r1-67bd79d5cb" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"r2","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"r2"}},"template":{"metadata":{"labels":{"app":"router","name":"r2"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"r2"},{"name":"TUN","value":"gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"r2","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"r2-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: r2
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271855"
+    uid: 65711236-8461-4566-97e6-6aa1ad035e42
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: r2
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r2
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r2
+          - name: TUN
+            value: gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r2-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "r2-86785b6556" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"r3","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"r3"}},"template":{"metadata":{"labels":{"app":"router","name":"r3"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"r3"},{"name":"TUN","value":"gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"r3","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"r3-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: r3
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271845"
+    uid: 8dca72c6-aaf7-4b80-9692-0d8de9387b7b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: r3
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r3
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r3
+          - name: TUN
+            value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r3
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r3-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "r3-55d547f564" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"r4","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"r4"}},"template":{"metadata":{"labels":{"app":"router","name":"r4"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"r4"},{"name":"TUN","value":"gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"r4","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"r4-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: r4
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271863"
+    uid: 4d7e99b0-bf50-4ae3-b7ed-423f4b3fcff1
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: r4
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r4
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r4
+          - name: TUN
+            value: gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r4
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r4-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "r4-7fb5b4dbdd" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"rc1","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"rc1"}},"template":{"metadata":{"labels":{"app":"router","name":"rc1"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"rc1"},{"name":"TUN","value":"gre-vm1:vm1-svc.ffr-lab-ospf.svc.cluster.local gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"rc1","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"rc1-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: rc1
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271839"
+    uid: e7bd1aaa-ced0-4bf9-acdc-b4ba0fbf3d30
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: rc1
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: rc1
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: rc1
+          - name: TUN
+            value: gre-vm1:vm1-svc.ffr-lab-ospf.svc.cluster.local gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local
+              gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: rc1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rc1-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "rc1-7dc767f79b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"rc2","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"router","name":"rc2"}},"template":{"metadata":{"labels":{"app":"router","name":"rc2"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"rc2"},{"name":"TUN","value":"gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local gre-vm2:vm2-svc.ffr-lab-ospf.svc.cluster.local gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"frrouting/frr:latest","imagePullPolicy":"IfNotPresent","name":"rc2","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]},"privileged":true},"volumeMounts":[{"mountPath":"/config","name":"frr-config"},{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"name":"rc2-frr"},"name":"frr-config"},{"configMap":{"defaultMode":493,"name":"router-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    generation: 1
+    name: rc2
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271824"
+    uid: 9ff2c060-d42d-425a-80ba-e14c9a2c743f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: router
+        name: rc2
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: router
+          name: rc2
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: rc2
+          - name: TUN
+            value: gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local gre-vm2:vm2-svc.ffr-lab-ospf.svc.cluster.local
+              gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: rc2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rc2-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:55Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:55Z"
+      message: ReplicaSet "rc2-6789546586" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"vm1","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ffr-lab","name":"vm1","role":"client"}},"template":{"metadata":{"labels":{"app":"ffr-lab","name":"vm1","role":"client"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"vm1"},{"name":"TUN_NAME","value":"gre-rc1"},{"name":"TUN_IP","value":"10.1.1.1/24"},{"name":"TUN_GW","value":"10.1.1.254"},{"name":"PEER_SVC","value":"rc1-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"alpine:3.19","imagePullPolicy":"IfNotPresent","name":"vm1","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}},"volumeMounts":[{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"defaultMode":493,"name":"vm-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    name: vm1
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271869"
+    uid: 2e76b586-d88e-4376-9840-32a2190ef7c9
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ffr-lab
+        name: vm1
+        role: client
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: ffr-lab
+          name: vm1
+          role: client
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: vm1
+          - name: TUN_NAME
+            value: gre-rc1
+          - name: TUN_IP
+            value: 10.1.1.1/24
+          - name: TUN_GW
+            value: 10.1.1.254
+          - name: PEER_SVC
+            value: rc1-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          name: vm1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 493
+            name: vm-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:56Z"
+      lastUpdateTime: "2026-09-24T19:28:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:56Z"
+      message: ReplicaSet "vm1-86b69f768f" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"vm2","namespace":"ffr-lab-ospf"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"ffr-lab","name":"vm2","role":"client"}},"template":{"metadata":{"labels":{"app":"ffr-lab","name":"vm2","role":"client"}},"spec":{"containers":[{"command":["/bin/sh","-c","sh /scripts/start.sh"],"env":[{"name":"NODE","value":"vm2"},{"name":"TUN_NAME","value":"gre-rc2"},{"name":"TUN_IP","value":"10.1.8.1/24"},{"name":"TUN_GW","value":"10.1.8.254"},{"name":"PEER_SVC","value":"rc2-svc.ffr-lab-ospf.svc.cluster.local"},{"name":"POD_IP","valueFrom":{"fieldRef":{"fieldPath":"status.podIP"}}}],"image":"alpine:3.19","imagePullPolicy":"IfNotPresent","name":"vm2","securityContext":{"capabilities":{"add":["NET_ADMIN","SYS_ADMIN"]}},"volumeMounts":[{"mountPath":"/scripts","name":"start-script"}]}],"volumes":[{"configMap":{"defaultMode":493,"name":"vm-start"},"name":"start-script"}]}}}}
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    name: vm2
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271875"
+    uid: d806d937-b47d-4e87-8ea2-7fe2daea069e
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: ffr-lab
+        name: vm2
+        role: client
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: ffr-lab
+          name: vm2
+          role: client
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: vm2
+          - name: TUN_NAME
+            value: gre-rc2
+          - name: TUN_IP
+            value: 10.1.8.1/24
+          - name: TUN_GW
+            value: 10.1.8.254
+          - name: PEER_SVC
+            value: rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          name: vm2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 493
+            name: vm-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-09-24T19:28:56Z"
+      lastUpdateTime: "2026-09-24T19:28:56Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-09-24T19:28:54Z"
+      lastUpdateTime: "2026-09-24T19:28:56Z"
+      message: ReplicaSet "vm2-74d497b464" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: r1
+      pod-template-hash: 67bd79d5cb
+    name: r1-67bd79d5cb
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: r1
+      uid: c80e3711-ef40-4999-b5f2-190e0761e103
+    resourceVersion: "9271849"
+    uid: 0e231947-c212-4835-b6b5-623759f4e025
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: r1
+        pod-template-hash: 67bd79d5cb
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r1
+          pod-template-hash: 67bd79d5cb
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r1
+          - name: TUN
+            value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r1-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: r2
+      pod-template-hash: 86785b6556
+    name: r2-86785b6556
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: r2
+      uid: 65711236-8461-4566-97e6-6aa1ad035e42
+    resourceVersion: "9271854"
+    uid: b5b1a0e9-dd8b-46ec-a53f-ba2bce4c6f3b
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: r2
+        pod-template-hash: 86785b6556
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r2
+          pod-template-hash: 86785b6556
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r2
+          - name: TUN
+            value: gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r2-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: r3
+      pod-template-hash: 55d547f564
+    name: r3-55d547f564
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: r3
+      uid: 8dca72c6-aaf7-4b80-9692-0d8de9387b7b
+    resourceVersion: "9271842"
+    uid: a37fb147-20d0-480e-9f36-702f4dc46cac
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: r3
+        pod-template-hash: 55d547f564
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r3
+          pod-template-hash: 55d547f564
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r3
+          - name: TUN
+            value: gre-rc1:rc1-svc.ffr-lab-ospf.svc.cluster.local gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r3
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r3-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: r4
+      pod-template-hash: 7fb5b4dbdd
+    name: r4-7fb5b4dbdd
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: r4
+      uid: 4d7e99b0-bf50-4ae3-b7ed-423f4b3fcff1
+    resourceVersion: "9271862"
+    uid: f3f66382-94a7-4f13-be65-5b65c18767f0
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: r4
+        pod-template-hash: 7fb5b4dbdd
+    template:
+      metadata:
+        labels:
+          app: router
+          name: r4
+          pod-template-hash: 7fb5b4dbdd
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: r4
+          - name: TUN
+            value: gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local gre-rc2:rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: r4
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: r4-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: rc1
+      pod-template-hash: 7dc767f79b
+    name: rc1-7dc767f79b
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: rc1
+      uid: e7bd1aaa-ced0-4bf9-acdc-b4ba0fbf3d30
+    resourceVersion: "9271837"
+    uid: dde62171-3ae9-4562-b4e0-01afb67623e9
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: rc1
+        pod-template-hash: 7dc767f79b
+    template:
+      metadata:
+        labels:
+          app: router
+          name: rc1
+          pod-template-hash: 7dc767f79b
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: rc1
+          - name: TUN
+            value: gre-vm1:vm1-svc.ffr-lab-ospf.svc.cluster.local gre-r1:r1-svc.ffr-lab-ospf.svc.cluster.local
+              gre-r3:r3-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: rc1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rc1-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: router
+      name: rc2
+      pod-template-hash: "6789546586"
+    name: rc2-6789546586
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: rc2
+      uid: 9ff2c060-d42d-425a-80ba-e14c9a2c743f
+    resourceVersion: "9271822"
+    uid: a17b63e4-60da-497b-952c-13626ca5cfd4
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: router
+        name: rc2
+        pod-template-hash: "6789546586"
+    template:
+      metadata:
+        labels:
+          app: router
+          name: rc2
+          pod-template-hash: "6789546586"
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: rc2
+          - name: TUN
+            value: gre-r2:r2-svc.ffr-lab-ospf.svc.cluster.local gre-vm2:vm2-svc.ffr-lab-ospf.svc.cluster.local
+              gre-r4:r4-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          name: rc2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: frr-config
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: rc2-frr
+          name: frr-config
+        - configMap:
+            defaultMode: 493
+            name: router-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: ffr-lab
+      name: vm1
+      pod-template-hash: 86b69f768f
+      role: client
+    name: vm1-86b69f768f
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vm1
+      uid: 2e76b586-d88e-4376-9840-32a2190ef7c9
+    resourceVersion: "9271867"
+    uid: 5fbf75c6-50f4-416a-bb00-742f5ae1d1a2
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ffr-lab
+        name: vm1
+        pod-template-hash: 86b69f768f
+        role: client
+    template:
+      metadata:
+        labels:
+          app: ffr-lab
+          name: vm1
+          pod-template-hash: 86b69f768f
+          role: client
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: vm1
+          - name: TUN_NAME
+            value: gre-rc1
+          - name: TUN_IP
+            value: 10.1.1.1/24
+          - name: TUN_GW
+            value: 10.1.1.254
+          - name: PEER_SVC
+            value: rc1-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          name: vm1
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 493
+            name: vm-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-09-24T19:28:54Z"
+    generation: 1
+    labels:
+      app: ffr-lab
+      name: vm2
+      pod-template-hash: 74d497b464
+      role: client
+    name: vm2-74d497b464
+    namespace: ffr-lab-ospf
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: vm2
+      uid: d806d937-b47d-4e87-8ea2-7fe2daea069e
+    resourceVersion: "9271872"
+    uid: 5320cfbe-953a-4612-9d7d-63c18e0715fd
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ffr-lab
+        name: vm2
+        pod-template-hash: 74d497b464
+        role: client
+    template:
+      metadata:
+        labels:
+          app: ffr-lab
+          name: vm2
+          pod-template-hash: 74d497b464
+          role: client
+      spec:
+        containers:
+        - command:
+          - /bin/sh
+          - -c
+          - sh /scripts/start.sh
+          env:
+          - name: NODE
+            value: vm2
+          - name: TUN_NAME
+            value: gre-rc2
+          - name: TUN_IP
+            value: 10.1.8.1/24
+          - name: TUN_GW
+            value: 10.1.8.254
+          - name: PEER_SVC
+            value: rc2-svc.ffr-lab-ospf.svc.cluster.local
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.podIP
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          name: vm2
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - SYS_ADMIN
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /scripts
+            name: start-script
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 493
+            name: vm-start
+          name: start-script
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDBTCCAe2gAwIBAgIIUuzmSImd2QYwDQYJKoZIhvcNAQELBQAwFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczAeFw0yNjAyMjYxODU4NTVaFw0zNjAyMjQxOTAzNTVaMBUx
+      EzARBgNVBAMTCmt1YmVybmV0ZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+      AoIBAQCsEYb4VGxueAZMIp6xmQ5W5LoYNzIHW3eVJ3ToIkNv7nSS8/L+r3KZxe+m
+      i6tuAFdYoFld4rYACWVf9VRaxFoPrre9SmIqPC8rv0/upNMX4kEDTVB/1F+k5soP
+      ECv8K016kfgcjqfyBTRC/W5bcUppIPic8B8NaejM5dlaa20ANXIhZ+W4s1GEZv6q
+      gMs8lN2lJFIqM75P3H4hih+mAKQroEqByaQgeaGObzsGJi/y4nT3OxDY2LoWS6lL
+      dKFVS72Of7F4sohjKL62IE+H/wrLQShz/U4q+dYZhaocQ/Ivbx5hm82e9grumyw7
+      BTi5Z3eKab5obggmvrpsWYiDEWC1AgMBAAGjWTBXMA4GA1UdDwEB/wQEAwICpDAP
+      BgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSi4BSKYnaaM2PfakMkoye4nBn3sTAV
+      BgNVHREEDjAMggprdWJlcm5ldGVzMA0GCSqGSIb3DQEBCwUAA4IBAQAQQv7KZtgg
+      cMp9FkABcDvbhF9RStZAT8c+0nNiMW7JPMyzAVQjI5Zn9ht8xVv+BrwNCzQttExv
+      pdx0QecPIwKrc0AqNFZlqRvh91iVXAj+XJ831KQ+L452yEuLmcjYcjjgeuREObdi
+      s3qtdRqwPj2v1p4yZI57e6SftGZ7zX7ShoAVJV5QUDIr8GV9iaRVe/T6WbK2mCE8
+      kS3CpIt+xNJuF9tNsNCPckhExXh++5kFIAw6mxNLfVSHB4AoQytm8lLKV7vfPhEI
+      BEHE+UrTGcHCseU6SiZPBduKEh3vHDYwE1MA1RC6EPVenSX8IFBbU5WfqTxzL/zq
+      F9zTle9jhuis
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: kube-root-ca.crt
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271646"
+    uid: ecebd247-2a0e-44a8-89fb-8e19a2ce246b
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname r1
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-rc1
+       ip address 10.1.2.2/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-r2
+       ip address 10.1.3.1/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.11
+       network 10.1.2.0/24 area 0.0.0.0
+       network 10.1.3.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname r1\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-rc1\n ip address 10.1.2.2/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-r2\n ip address 10.1.3.1/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.11\n network 10.1.2.0/24 area 0.0.0.0\n network 10.1.3.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"r1-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r1-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271675"
+    uid: e9f80fa8-a148-4bf4-b9b3-cc4497771b21
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname r2
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-r1
+       ip address 10.1.3.2/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-rc2
+       ip address 10.1.4.1/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.12
+       network 10.1.3.0/24 area 0.0.0.0
+       network 10.1.4.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname r2\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-r1\n ip address 10.1.3.2/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-rc2\n ip address 10.1.4.1/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.12\n network 10.1.3.0/24 area 0.0.0.0\n network 10.1.4.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"r2-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r2-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271676"
+    uid: b22730cd-2cb2-4435-8623-73de09add492
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname r3
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-rc1
+       ip address 10.1.5.2/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-r4
+       ip address 10.1.6.1/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.13
+       network 10.1.5.0/24 area 0.0.0.0
+       network 10.1.6.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname r3\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-rc1\n ip address 10.1.5.2/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-r4\n ip address 10.1.6.1/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.13\n network 10.1.5.0/24 area 0.0.0.0\n network 10.1.6.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"r3-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r3-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271678"
+    uid: 52e96e20-7374-40c9-b05e-fcd79f10e276
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname r4
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-r3
+       ip address 10.1.6.2/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-rc2
+       ip address 10.1.7.1/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.14
+       network 10.1.6.0/24 area 0.0.0.0
+       network 10.1.7.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname r4\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-r3\n ip address 10.1.6.2/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-rc2\n ip address 10.1.7.1/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.14\n network 10.1.6.0/24 area 0.0.0.0\n network 10.1.7.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"r4-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: r4-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271679"
+    uid: 5dcff967-7beb-4e03-8183-4c88360d7f96
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname rc1
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-vm1
+       ip address 10.1.1.254/24
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-r1
+       ip address 10.1.2.1/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-r3
+       ip address 10.1.5.1/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.1
+       network 10.1.1.0/24 area 0.0.0.0
+       network 10.1.2.0/24 area 0.0.0.0
+       network 10.1.5.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname rc1\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-vm1\n ip address 10.1.1.254/24\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-r1\n ip address 10.1.2.1/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-r3\n ip address 10.1.5.1/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.1\n network 10.1.1.0/24 area 0.0.0.0\n network 10.1.2.0/24 area 0.0.0.0\n network 10.1.5.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"rc1-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: rc1-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271674"
+    uid: 23aea1e7-2fcd-4870-803e-c806a151aa35
+- apiVersion: v1
+  data:
+    frr.conf: |
+      frr version 10.0
+      frr defaults traditional
+      hostname rc2
+      log syslog informational
+      service integrated-vtysh-config
+      !
+      interface gre-r2
+       ip address 10.1.4.254/24
+       ip ospf cost 10
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-vm2
+       ip address 10.1.8.254/24
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      interface gre-r4
+       ip address 10.1.7.2/24
+       ip ospf cost 100
+       ip ospf area 0.0.0.0
+       ip ospf network point-to-point
+      !
+      router ospf
+       ospf router-id 1.1.1.2
+       network 10.1.4.0/24 area 0.0.0.0
+       network 10.1.8.0/24 area 0.0.0.0
+       network 10.1.7.0/24 area 0.0.0.0
+      !
+      line vty
+      !
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"frr.conf":"frr version 10.0\nfrr defaults traditional\nhostname rc2\nlog syslog informational\nservice integrated-vtysh-config\n!\ninterface gre-r2\n ip address 10.1.4.254/24\n ip ospf cost 10\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-vm2\n ip address 10.1.8.254/24\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\ninterface gre-r4\n ip address 10.1.7.2/24\n ip ospf cost 100\n ip ospf area 0.0.0.0\n ip ospf network point-to-point\n!\nrouter ospf\n ospf router-id 1.1.1.2\n network 10.1.4.0/24 area 0.0.0.0\n network 10.1.8.0/24 area 0.0.0.0\n network 10.1.7.0/24 area 0.0.0.0\n!\nline vty\n!\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"rc2-frr","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: rc2-frr
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271677"
+    uid: ffdc187c-8a52-40a0-9135-f4d08755a463
+- apiVersion: v1
+  data:
+    start.sh: |
+      #!/bin/sh
+      echo "=== $NODE starting (pod IP $POD_IP) ==="
+      apk add --no-cache openssh-server openssh-client iproute2 iputils bind-tools 2>&1 | tail -1 || true
+      ssh-keygen -A >/dev/null 2>&1 || true
+      mkdir -p /run/sshd
+      echo 'root:labpass' | chpasswd 2>/dev/null || true
+      grep -q '^PermitRootLogin' /etc/ssh/sshd_config 2>/dev/null || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+      /usr/sbin/sshd 2>/dev/null || true
+      sysctl -w net.ipv4.ip_forward=1 2>/dev/null || echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null || true
+      resolve() {
+        i=0
+        while [ $i -lt 60 ]; do
+          ip=$(getent hosts "$1" | awk '{print $1}' | head -n1)
+          if [ -n "$ip" ]; then echo "$ip"; return 0; fi
+          sleep 2; i=$((i+1))
+        done
+        echo "FAILED to resolve $1" >&2; return 1
+      }
+      for t in $TUN; do
+        name=${t%%:*}; svc=${t##*:}
+        peer=$(resolve "$svc") || exit 1
+        echo "tunnel $name: local=$POD_IP remote=$peer ($svc)"
+        ip tunnel add "$name" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || \
+          ip tunnel change "$name" mode gre remote "$peer" local "$POD_IP" ttl 255
+        ip link set "$name" mtu 1400 up
+      done
+      # Install FRR config (ConfigMap is mounted at /config; /etc/frr stays writable)
+      cp /config/frr.conf /etc/frr/frr.conf
+      cat > /etc/frr/daemons <<'EOF'
+      zebra=yes
+      bgpd=no
+      ospfd=yes
+      ospf6d=no
+      ripd=no
+      ripngd=no
+      isisd=no
+      pimd=no
+      ldpd=no
+      nhrpd=no
+      eigrpd=no
+      babeld=no
+      sharpd=no
+      pbrd=no
+      bfdd=no
+      fabricd=no
+      vrrpd=no
+      pathd=no
+      pim6d=no
+      staticd=yes
+      mgmtd=no
+      watchfrr_options="--daemon"
+      EOF
+      echo 'service integrated-vtysh-config' > /etc/frr/vtysh.conf
+      mkdir -p /var/run/frr /var/log/frr
+      chown -R frr:frr /etc/frr /var/run/frr /var/log/frr 2>/dev/null || true
+      /usr/lib/frr/frrinit.sh start
+      sleep 5
+      echo "--- gre interfaces ---"
+      ip -4 addr show type gre || true
+      echo "--- FRR static routes ---"
+      vtysh -c 'show ip route static' 2>&1 || true
+      # Self-heal GRE remotes: peer pod IPs change on every rollout/restart,
+      # so refresh tunnel destinations in the background.
+      (
+      while true; do
+        sleep 30
+        for t in $TUN; do
+          name=${t%%:*}; svc=${t##*:}
+          peer=$(getent hosts "$svc" | awk '{print $1}' | head -n1)
+          if [ -n "$peer" ]; then
+            ip tunnel change "$name" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || true
+          fi
+        done
+      done
+      ) &
+      sleep infinity
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"start.sh":"#!/bin/sh\necho \"=== $NODE starting (pod IP $POD_IP) ===\"\napk add --no-cache openssh-server openssh-client iproute2 iputils bind-tools 2\u003e\u00261 | tail -1 || true\nssh-keygen -A \u003e/dev/null 2\u003e\u00261 || true\nmkdir -p /run/sshd\necho 'root:labpass' | chpasswd 2\u003e/dev/null || true\ngrep -q '^PermitRootLogin' /etc/ssh/sshd_config 2\u003e/dev/null || echo 'PermitRootLogin yes' \u003e\u003e /etc/ssh/sshd_config\n/usr/sbin/sshd 2\u003e/dev/null || true\nsysctl -w net.ipv4.ip_forward=1 2\u003e/dev/null || echo 1 \u003e /proc/sys/net/ipv4/ip_forward 2\u003e/dev/null || true\nresolve() {\n  i=0\n  while [ $i -lt 60 ]; do\n    ip=$(getent hosts \"$1\" | awk '{print $1}' | head -n1)\n    if [ -n \"$ip\" ]; then echo \"$ip\"; return 0; fi\n    sleep 2; i=$((i+1))\n  done\n  echo \"FAILED to resolve $1\" \u003e\u00262; return 1\n}\nfor t in $TUN; do\n  name=${t%%:*}; svc=${t##*:}\n  peer=$(resolve \"$svc\") || exit 1\n  echo \"tunnel $name: local=$POD_IP remote=$peer ($svc)\"\n  ip tunnel add \"$name\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255 2\u003e/dev/null || \\\n    ip tunnel change \"$name\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255\n  ip link set \"$name\" mtu 1400 up\ndone\n# Install FRR config (ConfigMap is mounted at /config; /etc/frr stays writable)\ncp /config/frr.conf /etc/frr/frr.conf\ncat \u003e /etc/frr/daemons \u003c\u003c'EOF'\nzebra=yes\nbgpd=no\nospfd=yes\nospf6d=no\nripd=no\nripngd=no\nisisd=no\npimd=no\nldpd=no\nnhrpd=no\neigrpd=no\nbabeld=no\nsharpd=no\npbrd=no\nbfdd=no\nfabricd=no\nvrrpd=no\npathd=no\npim6d=no\nstaticd=yes\nmgmtd=no\nwatchfrr_options=\"--daemon\"\nEOF\necho 'service integrated-vtysh-config' \u003e /etc/frr/vtysh.conf\nmkdir -p /var/run/frr /var/log/frr\nchown -R frr:frr /etc/frr /var/run/frr /var/log/frr 2\u003e/dev/null || true\n/usr/lib/frr/frrinit.sh start\nsleep 5\necho \"--- gre interfaces ---\"\nip -4 addr show type gre || true\necho \"--- FRR static routes ---\"\nvtysh -c 'show ip route static' 2\u003e\u00261 || true\n# Self-heal GRE remotes: peer pod IPs change on every rollout/restart,\n# so refresh tunnel destinations in the background.\n(\nwhile true; do\n  sleep 30\n  for t in $TUN; do\n    name=${t%%:*}; svc=${t##*:}\n    peer=$(getent hosts \"$svc\" | awk '{print $1}' | head -n1)\n    if [ -n \"$peer\" ]; then\n      ip tunnel change \"$name\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255 2\u003e/dev/null || true\n    fi\n  done\ndone\n) \u0026\nsleep infinity\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"router-start","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: router-start
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271673"
+    uid: 5d02e842-ec8b-4a22-a5a4-a7756e28623b
+- apiVersion: v1
+  data:
+    start.sh: |
+      #!/bin/sh
+      echo "=== $NODE starting (pod IP $POD_IP) ==="
+      apk add --no-cache iproute2 openssh iputils curl 2>/dev/null || true
+      i=0
+      while [ $i -lt 60 ]; do
+        peer=$(getent hosts "$PEER_SVC" | awk '{print $1}' | head -n1)
+        if [ -n "$peer" ]; then break; fi
+        sleep 2; i=$((i+1))
+      done
+      if [ -z "$peer" ]; then echo "FAILED to resolve $PEER_SVC" >&2; exit 1; fi
+      echo "tunnel $TUN_NAME: local=$POD_IP remote=$peer ($PEER_SVC)"
+      ip tunnel add "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || \
+        ip tunnel change "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255
+      ip addr add "$TUN_IP" dev "$TUN_NAME" 2>/dev/null || true
+      ip link set "$TUN_NAME" mtu 1400 up
+      sysctl -w net.ipv4.ip_forward=1 2>/dev/null || echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null || true
+      ip route replace 10.1.0.0/16 via "$TUN_GW" dev "$TUN_NAME"
+      ssh-keygen -A >/dev/null 2>&1 || true
+      mkdir -p /run/sshd
+      echo 'root:labpass' | chpasswd
+      grep -q '^PermitRootLogin' /etc/ssh/sshd_config 2>/dev/null || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+      grep -q '^PasswordAuthentication' /etc/ssh/sshd_config 2>/dev/null || echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+      /usr/sbin/sshd
+      echo "--- tunnel ---"
+      ip addr show "$TUN_NAME"
+      ip route show | grep 10.1 || true
+      # Self-heal GRE remote: edge-router pod IP changes on rollout/restart.
+      (
+      while true; do
+        sleep 30
+        peer=$(getent hosts "$PEER_SVC" | awk '{print $1}' | head -n1)
+        if [ -n "$peer" ]; then
+          ip tunnel change "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || true
+        fi
+      done
+      ) &
+      sleep infinity
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"start.sh":"#!/bin/sh\necho \"=== $NODE starting (pod IP $POD_IP) ===\"\napk add --no-cache iproute2 openssh iputils curl 2\u003e/dev/null || true\ni=0\nwhile [ $i -lt 60 ]; do\n  peer=$(getent hosts \"$PEER_SVC\" | awk '{print $1}' | head -n1)\n  if [ -n \"$peer\" ]; then break; fi\n  sleep 2; i=$((i+1))\ndone\nif [ -z \"$peer\" ]; then echo \"FAILED to resolve $PEER_SVC\" \u003e\u00262; exit 1; fi\necho \"tunnel $TUN_NAME: local=$POD_IP remote=$peer ($PEER_SVC)\"\nip tunnel add \"$TUN_NAME\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255 2\u003e/dev/null || \\\n  ip tunnel change \"$TUN_NAME\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255\nip addr add \"$TUN_IP\" dev \"$TUN_NAME\" 2\u003e/dev/null || true\nip link set \"$TUN_NAME\" mtu 1400 up\nsysctl -w net.ipv4.ip_forward=1 2\u003e/dev/null || echo 1 \u003e /proc/sys/net/ipv4/ip_forward 2\u003e/dev/null || true\nip route replace 10.1.0.0/16 via \"$TUN_GW\" dev \"$TUN_NAME\"\nssh-keygen -A \u003e/dev/null 2\u003e\u00261 || true\nmkdir -p /run/sshd\necho 'root:labpass' | chpasswd\ngrep -q '^PermitRootLogin' /etc/ssh/sshd_config 2\u003e/dev/null || echo 'PermitRootLogin yes' \u003e\u003e /etc/ssh/sshd_config\ngrep -q '^PasswordAuthentication' /etc/ssh/sshd_config 2\u003e/dev/null || echo 'PasswordAuthentication yes' \u003e\u003e /etc/ssh/sshd_config\n/usr/sbin/sshd\necho \"--- tunnel ---\"\nip addr show \"$TUN_NAME\"\nip route show | grep 10.1 || true\n# Self-heal GRE remote: edge-router pod IP changes on rollout/restart.\n(\nwhile true; do\n  sleep 30\n  peer=$(getent hosts \"$PEER_SVC\" | awk '{print $1}' | head -n1)\n  if [ -n \"$peer\" ]; then\n    ip tunnel change \"$TUN_NAME\" mode gre remote \"$peer\" local \"$POD_IP\" ttl 255 2\u003e/dev/null || true\n  fi\ndone\n) \u0026\nsleep infinity\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"vm-start","namespace":"ffr-lab-ospf"}}
+    creationTimestamp: "2026-09-24T19:28:53Z"
+    name: vm-start
+    namespace: ffr-lab-ospf
+    resourceVersion: "9271680"
+    uid: d2e11e80-9127-4223-9605-7fc916c653d7
+kind: List
+metadata:
+  resourceVersion: ""

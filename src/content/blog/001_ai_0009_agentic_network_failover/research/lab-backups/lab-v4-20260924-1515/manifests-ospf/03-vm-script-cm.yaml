@@ -1,0 +1,47 @@
+# Shared client startup script (alpine-based vm pods).
+# Env: NODE, TUN_NAME, TUN_IP, TUN_GW, PEER_SVC, POD_IP.
+# Keeps the Calico default route (cluster DNS/API) and adds 10.1.0.0/16 via GRE.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vm-start
+  namespace: ffr-lab-ospf
+data:
+  start.sh: |
+    #!/bin/sh
+    echo "=== $NODE starting (pod IP $POD_IP) ==="
+    apk add --no-cache iproute2 openssh iputils curl 2>/dev/null || true
+    i=0
+    while [ $i -lt 60 ]; do
+      peer=$(getent hosts "$PEER_SVC" | awk '{print $1}' | head -n1)
+      if [ -n "$peer" ]; then break; fi
+      sleep 2; i=$((i+1))
+    done
+    if [ -z "$peer" ]; then echo "FAILED to resolve $PEER_SVC" >&2; exit 1; fi
+    echo "tunnel $TUN_NAME: local=$POD_IP remote=$peer ($PEER_SVC)"
+    ip tunnel add "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || \
+      ip tunnel change "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255
+    ip addr add "$TUN_IP" dev "$TUN_NAME" 2>/dev/null || true
+    ip link set "$TUN_NAME" mtu 1400 up
+    sysctl -w net.ipv4.ip_forward=1 2>/dev/null || echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null || true
+    ip route replace 10.1.0.0/16 via "$TUN_GW" dev "$TUN_NAME"
+    ssh-keygen -A >/dev/null 2>&1 || true
+    mkdir -p /run/sshd
+    echo 'root:labpass' | chpasswd
+    grep -q '^PermitRootLogin' /etc/ssh/sshd_config 2>/dev/null || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+    grep -q '^PasswordAuthentication' /etc/ssh/sshd_config 2>/dev/null || echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+    /usr/sbin/sshd
+    echo "--- tunnel ---"
+    ip addr show "$TUN_NAME"
+    ip route show | grep 10.1 || true
+    # Self-heal GRE remote: edge-router pod IP changes on rollout/restart.
+    (
+    while true; do
+      sleep 30
+      peer=$(getent hosts "$PEER_SVC" | awk '{print $1}' | head -n1)
+      if [ -n "$peer" ]; then
+        ip tunnel change "$TUN_NAME" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || true
+      fi
+    done
+    ) &
+    sleep infinity

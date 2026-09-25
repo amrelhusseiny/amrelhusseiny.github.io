@@ -1,0 +1,9 @@
+=== BEFORE (Path 1 active) ===
+2026-09-24T12:15:26
+--- ping vm1->vm2 ---
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 2.507/2.546/2.614/0.048 ms
+--- rc1 route to vm2 ---
+  Known via "static", distance 1, metric 0, best
+  * 10.1.2.2, via gre-r1, weight 1

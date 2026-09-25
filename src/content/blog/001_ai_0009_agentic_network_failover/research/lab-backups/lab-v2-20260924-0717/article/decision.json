@@ -1,0 +1,8 @@
+{
+ "ts": 1790252137.4384067,
+ "t0": 1790252123.2894633,
+ "detect_latency_s": 14.1,
+ "failed_link": "rc1-gre-r1",
+ "confidence": 0.95,
+ "action": "FAILOVER_TO_PATH0"
+}

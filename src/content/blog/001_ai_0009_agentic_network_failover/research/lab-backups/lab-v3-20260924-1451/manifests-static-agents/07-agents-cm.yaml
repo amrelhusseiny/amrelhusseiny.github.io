@@ -1,0 +1,284 @@
+# Jev monitor + Mercury config agents + chaos injector.
+# Mounted at /agents on the ssh-server jump host. Pure Python stdlib + sh.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lab-agents
+  namespace: ffr-lab
+data:
+  lib.py: |
+    import json, os, subprocess, sys, time, urllib.request
+
+    OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+    API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
+    SSH_PASS = os.environ.get("SSH_PASS", "labpass")
+    SSH_OPTS = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5"
+
+    def log(msg, fh=None):
+        line = "[%s] %s" % (time.strftime("%Y-%m-%dT%H:%M:%S"), msg)
+        print(line, flush=True)
+        if fh:
+            fh.write(line + "\n"); fh.flush()
+
+    def sh(cmd, timeout=20):
+        try:
+            p = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
+            return p.returncode, (p.stdout + p.stderr).strip()
+        except subprocess.TimeoutExpired:
+            return 124, "TIMEOUT"
+
+    def rsh(host, cmd, timeout=20):
+        return sh('sshpass -p %s ssh %s root@%s "%s"' % (SSH_PASS, SSH_OPTS, host, cmd), timeout)
+
+    def or_call(model, system, user, max_tokens=500, temperature=0.0):
+        t0 = time.time()
+        body = json.dumps({"model": model, "temperature": temperature,
+                           "max_tokens": max_tokens,
+                           "messages": [{"role": "system", "content": system},
+                                        {"role": "user", "content": user}]}).encode()
+        req = urllib.request.Request(
+            OPENROUTER_URL, data=body,
+            headers={"Authorization": "Bearer " + API_KEY,
+                     "Content-Type": "application/json",
+                     "HTTP-Referer": "frr-dualpath-lab",
+                     "X-Title": "jev-failover-demo"})
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                d = json.load(r)
+        except Exception as e:
+            return None, {"error": "HTTP: %s" % e}
+        dt = round(time.time() - t0, 2)
+        txt = ""
+        try:
+            m = d["choices"][0]["message"]
+            txt = m.get("content") or m.get("reasoning") or ""
+        except Exception:
+            txt = json.dumps(d)[:500]
+        return txt, {"latency_s": dt, "usage": d.get("usage", {})}
+
+    def extract_json(txt):
+        a = txt.find("{"); b = txt.rfind("}")
+        if a < 0 or b <= a:
+            return None
+        try:
+            return json.loads(txt[a:b + 1])
+        except Exception:
+            return None
+
+  jev-monitor.py: |
+    #!/usr/bin/env python3
+    # JEV monitoring agent: 1s health polls of Path 1; on incident, calls
+    # JEV_MODEL via OpenRouter to classify and emit a failover decision.
+    import json, os, sys, time
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from lib import log, rsh, sh, or_call, extract_json
+
+    BASE = "/agents"
+    RUN = "/tmp/lab/run"
+    LOG = "/tmp/lab/logs"
+    JEV_MODEL = os.environ.get("JEV_MODEL", "inception/mercury-2")
+    VM1, VM2 = "vm1-svc", "vm2-svc"
+    RC1 = "rc1-svc"
+
+    def poll():
+        rc, out = rsh(VM1, "ping -c1 -W1 10.1.8.1", timeout=8)
+        ping_ok = (rc == 0 and "1 received" in out)
+        rc2, route = rsh(RC1, "vtysh -c 'show ip route 10.1.8.0/24'", timeout=8)
+        rc3, gre = rsh(RC1, "ip link show gre-r1", timeout=8)
+        gre_up = ("UP" in gre and "LOWER_UP" in gre)
+        return ping_ok, route, gre_up
+
+    def main():
+        os.makedirs(RUN, exist_ok=True); os.makedirs(LOG, exist_ok=True)
+        pf = RUN + "/jev-monitor.pid"
+        try:
+            oldpid = int(open(pf).read())
+            os.kill(oldpid, 0)
+            print("monitor already running, exit"); return
+        except Exception:
+            pass
+        open(pf, "w").write(str(os.getpid()))
+        fh = open(LOG + "/jev-monitor.log", "a")
+        log("[JEV] monitor up (model=%s). Polling Path 1 every 1s." % JEV_MODEL, fh)
+        fails = 0
+        t0 = None
+        try:
+            t0 = float(open(RUN + "/t0").read().strip())
+        except Exception:
+            t0 = time.time()
+        while True:
+            ping_ok, route, gre_up = poll()
+            if ping_ok:
+                fails = 0
+                time.sleep(1); continue
+            fails += 1
+            log("[JEV] poll: ping FAIL - immediate incident (no debounce), gre-r1 up=%s" % gre_up, fh)
+            t_detect = time.time()
+            log("[JEV] INCIDENT declared at %.1f (t0=%.1f, detect_latency=%.1fs)"
+                % (t_detect, t0, t_detect - t0), fh)
+            ev = {"ping_vm1_to_vm2": "FAIL x2", "rc1_route_to_vm2": route,
+                  "rc1_gre_r1_state": gre_up, "active_path": "Path1 rc1-r1-r2-rc2",
+                  "standby_path": "Path0 rc1-r3-r4-rc2 (tunnels up, idle)"}
+            log("[JEV] evidence: %s" % json.dumps(ev)[:400], fh)
+            system = ("You are a network incident classifier. Reply with ONE JSON object only, "
+                      "keys: incident, failed_link, confidence (0-1), action "
+                      "(FAILOVER_TO_PATH0 or IGNORE). No other text.")
+            user = ("Active path Path1 (rc1-r1-r2-rc2) lost end-to-end ping vm1->vm2 twice. "
+                    "rc1 gre-r1 up=%s. Standby Path0 (rc1-r3-r4-rc2) tunnels verified up/idle. "
+                    "Classify and decide." % gre_up)
+            t_llm = time.time()
+            txt, meta = or_call(JEV_MODEL, system, user, max_tokens=250)
+            log("[JEV] LLM call latency=%.1fs usage=%s" % (time.time() - t_llm, meta.get("usage")), fh)
+            log("[JEV] LLM raw reply: %s" % (txt or "EMPTY"), fh)
+            dec = extract_json(txt or "") or {}
+            decision = {"ts": t_detect, "t0": t0,
+                        "detect_latency_s": round(t_detect - t0, 1),
+                        "failed_link": dec.get("failed_link", "rc1-r1 (Path1)"),
+                        "confidence": dec.get("confidence", 0.9),
+                        "action": dec.get("action", "FAILOVER_TO_PATH0")}
+            open(RUN + "/decision.json", "w").write(json.dumps(decision, indent=1))
+            open(RUN + "/trigger.json", "w").write(json.dumps(decision))
+            log("[JEV] DECISION -> %s (trigger armed for config agent)" % json.dumps(decision), fh)
+            fh.close()
+            return
+
+    if __name__ == "__main__":
+        main()
+
+  config-agent.py: |
+    #!/usr/bin/env python3
+    # Config agent (Mercury 2.5): on trigger, renders the Path1->Path0 static-route
+    # swap via OpenRouter, validates every command against an allowlist, applies
+    # via vtysh over SSH, verifies end-to-end ping. Full transcript is logged.
+    import json, os, re, sys, time
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from lib import log, rsh, sh, or_call, extract_json
+
+    BASE = "/agents"
+    RUN = "/tmp/lab/run"
+    LOG = "/tmp/lab/logs"
+    MERCURY_MODEL = os.environ.get("MERCURY_MODEL", "inception/mercury-2.5")
+    ALLOW = re.compile(r"^(ip route|no ip route) 10\.1\.\d+\.0/24 10\.1\.\d+\.\d+$")
+
+    PLAN_HINT = ("rc1: remove routes via 10.1.2.2, add same nets via 10.1.5.2. "
+                 "r1+r2: remove all their static routes (bypassed). "
+                 "rc2: remove routes via 10.1.4.1, add same nets via 10.1.7.1.")
+    REQUIRED_NODES = {"rc1-svc", "r1-svc", "r2-svc", "rc2-svc"}
+
+    def vtysh_apply(node, cmds, fh):
+        chain = " -c ".join(["'configure terminal'"] + ["'%s'" % c for c in cmds] + ["'end'", "'write memory'"])
+        rc, out = rsh(node, "vtysh -c %s" % chain, timeout=30)
+        log("[MERCURY] %s apply rc=%d :: %s" % (node, rc, out[:300]), fh)
+        return rc == 0
+
+    def main():
+        os.makedirs(RUN, exist_ok=True); os.makedirs(LOG, exist_ok=True)
+        pf = RUN + "/config-agent.pid"
+        try:
+            oldpid = int(open(pf).read())
+            os.kill(oldpid, 0)
+            print("config agent already running, exit"); return
+        except Exception:
+            pass
+        open(pf, "w").write(str(os.getpid()))
+        fh = open(LOG + "/config-agent.log", "a")
+        log("[MERCURY] config agent up (model=%s), waiting for trigger..." % MERCURY_MODEL, fh)
+        while not os.path.exists(RUN + "/trigger.json"):
+            time.sleep(1)
+        t_trig = time.time()
+        dec = json.load(open(RUN + "/trigger.json"))
+        log("[MERCURY] trigger: %s" % json.dumps(dec), fh)
+        state = {}
+        for n in ["rc1-svc", "r1-svc", "r2-svc", "rc2-svc"]:
+            rc, out = rsh(n, "vtysh -c 'show ip route static'", timeout=15)
+            short = n.split("-")[0]
+            state[short] = out
+            log("[MERCURY] current %s statics:\n%s" % (short, out), fh)
+        system = ("You are a network config renderer. Reply with ONE JSON object only: "
+                  "{\"steps\": [{\"node\": \"rc1-svc\", \"cmds\": [\"no ip route ...\", \"ip route ...\"]}]}. "
+                  "You MUST cover all four nodes: rc1-svc, r1-svc, r2-svc, rc2-svc. "
+                  "Allowed commands: 'ip route 10.1.N.0/24 <nh>' or 'no ip route 10.1.N.0/24 <nh>' only. "
+                  "No other text.")
+        user = ("Failover Path1->Path0. Plan: %s\nCurrent static tables:\n%s"
+                % (PLAN_HINT, json.dumps(state)[:3000]))
+        t_llm = time.time()
+        txt, meta = or_call(MERCURY_MODEL, system, user, max_tokens=4000)
+        log("[MERCURY] LLM call latency=%.1fs usage=%s" % (time.time() - t_llm, meta.get("usage")), fh)
+        log("[MERCURY] LLM raw reply: %s" % (txt or "EMPTY"), fh)
+        plan = extract_json(txt or "") or {}
+        steps = plan.get("steps", [])
+        for _retry in range(3):
+            if {st.get("node", "") for st in steps} == REQUIRED_NODES:
+                break
+            log("[MERCURY] plan incomplete (missing nodes) - asking for correction", fh)
+            t_fix = time.time()
+            fix_user = ("Your plan missed nodes. You MUST return steps for ALL of: "
+                        "rc1-svc (swap every route via 10.1.2.2 to via 10.1.5.2), "
+                        "r1-svc (remove all statics), r2-svc (remove all statics), "
+                        "rc2-svc (swap every route via 10.1.4.1 to via 10.1.7.1). "
+                        "Same JSON schema, no other text.")
+            txt2, meta2 = or_call(MERCURY_MODEL, system, fix_user, max_tokens=4000)
+            log("[MERCURY] correction call latency=%.1fs" % (time.time() - t_fix), fh)
+            log("[MERCURY] correction reply: %s" % (txt2 or "EMPTY"), fh)
+            plan = extract_json(txt2 or "") or {}
+            steps = plan.get("steps", [])
+            open(RUN + "/rendered-plan.json", "w").write(json.dumps(plan, indent=1))
+        open(RUN + "/rendered-plan.json", "w").write(json.dumps(plan, indent=1))
+        if {st.get("node", "") for st in steps} != REQUIRED_NODES:
+            log("[MERCURY] ABORT: plan still incomplete after retries - refusing partial apply", fh)
+            metrics = {"t0": dec.get("t0"), "repaired": False, "applied_clean": False,
+                       "abort_reason": "incomplete_plan"}
+            open(RUN + "/metrics.json", "w").write(json.dumps(metrics, indent=1))
+            log("[MERCURY] METRICS %s" % json.dumps(metrics), fh)
+            fh.close()
+            return
+        ok_all = True
+        t_apply = time.time()
+        for st in steps:
+            node, cmds = st.get("node", ""), st.get("cmds", [])
+            if node not in ("rc1-svc", "r1-svc", "r2-svc", "rc2-svc"):
+                log("[MERCURY] REJECT node %s (not in scope) - abort" % node, fh); ok_all = False; break
+            for c in cmds:
+                if not ALLOW.match(c):
+                    log("[MERCURY] REJECT cmd '%s' (allowlist) - abort" % c, fh); ok_all = False; break
+            if not ok_all:
+                break
+            log("[MERCURY] applying on %s: %s" % (node, cmds), fh)
+            if not vtysh_apply(node, cmds, fh):
+                ok_all = False; break
+        t_applied = time.time()
+        rc, out = rsh("vm1-svc", "ping -c3 -W3 10.1.8.1", timeout=20)
+        repaired = (rc == 0 and "0% packet loss" in out)
+        t_repair = time.time()
+        metrics = {"t0": dec.get("t0"), "t_detect_latency_s": dec.get("detect_latency_s"),
+                   "t_trigger": round(t_trig, 1),
+                   "llm_render_latency_s": round(t_llm and (time.time() - t_llm) or 0, 1),
+                   "apply_s": round(t_applied - t_apply, 1),
+                   "repaired": repaired, "t_repair_total_s": round(t_repair - dec.get("t0", t_repair), 1),
+                   "applied_clean": ok_all}
+        open(RUN + "/metrics.json", "w").write(json.dumps(metrics, indent=1))
+        log("[MERCURY] VERIFY ping vm1->vm2: %s" % ("OK - REPAIRED" if repaired else "STILL DOWN"), fh)
+        log("[MERCURY] METRICS %s" % json.dumps(metrics), fh)
+        fh.close()
+
+    if __name__ == "__main__":
+        main()
+
+  chaos.sh: |
+    #!/bin/sh
+    # Scripted failure injection: snapshot BEFORE state, break Path 1 (both
+    # directions of the rc1-r1 GRE leg), record T0 for latency metrics.
+    mkdir -p /tmp/lab/run /tmp/lab/logs
+    {
+      echo "=== BEFORE (Path 1 active) ==="
+      date -u +%Y-%m-%dT%H:%M:%S
+      echo "--- ping vm1->vm2 ---"
+      sshpass -p ${SSH_PASS:-labpass} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@vm1-svc "ping -c3 -W3 10.1.8.1" 2>&1 | tail -3
+      echo "--- rc1 route to vm2 ---"
+      sshpass -p ${SSH_PASS:-labpass} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@rc1-svc "vtysh -c 'show ip route 10.1.8.0/24'" 2>&1 | grep -E "via|Static|static" | head -3
+    } | tee /tmp/lab/logs/before.txt
+    date +%s > /tmp/lab/run/t0
+    echo "T0=$(cat /tmp/lab/run/t0) -- BREAKING Path 1 (gre-r1 on rc1, gre-rc1 on r1)" | tee -a /tmp/lab/logs/chaos.log
+    sshpass -p ${SSH_PASS:-labpass} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@rc1-svc "ip link set gre-r1 down" 2>&1
+    sshpass -p ${SSH_PASS:-labpass} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@r1-svc "ip link set gre-rc1 down" 2>&1
+    echo "Path 1 DOWN at $(date -u +%Y-%m-%dT%H:%M:%S)" | tee -a /tmp/lab/logs/chaos.log

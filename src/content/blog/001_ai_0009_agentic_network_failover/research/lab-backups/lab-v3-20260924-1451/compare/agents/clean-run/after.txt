@@ -1,0 +1,7 @@
+=== AFTER ping ===
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 1.475/1.502/1.543/0.029 ms
+=== AFTER routes ===
+  Known via "static", distance 1, metric 0, best
+  Known via "static", distance 1, metric 0, best

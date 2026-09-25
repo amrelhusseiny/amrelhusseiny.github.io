@@ -1,0 +1,7 @@
+--- ping vm1->vm2 ---
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.452/1.494/1.520/0.029 ms
+--- rc1 route to vm2 ---
+  Known via "static", distance 1, metric 0, best
+  * 10.1.5.2, via gre-r3, weight 1

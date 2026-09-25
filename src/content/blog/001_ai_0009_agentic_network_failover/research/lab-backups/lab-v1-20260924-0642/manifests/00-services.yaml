@@ -1,0 +1,79 @@
+# Headless services so each pod can resolve its peer's *pod IP* via DNS.
+# (GRE tunnels are built pod-IP <-> pod-IP; Service ClusterIPs can't carry GRE.)
+apiVersion: v1
+kind: Service
+metadata:
+  name: rc1-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: rc1
+  ports:
+    - port: 2601
+      name: vtysh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: r1-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: r1
+  ports:
+    - port: 2601
+      name: vtysh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: r2-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: r2
+  ports:
+    - port: 2601
+      name: vtysh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rc2-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: rc2
+  ports:
+    - port: 2601
+      name: vtysh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm1-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: vm1
+  ports:
+    - port: 22
+      name: ssh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm2-svc
+  namespace: ffr-lab
+spec:
+  clusterIP: None
+  selector:
+    name: vm2
+  ports:
+    - port: 22
+      name: ssh

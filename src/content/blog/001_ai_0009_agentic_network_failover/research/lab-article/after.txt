@@ -1,0 +1,10 @@
+=== AFTER ping vm1->vm2 ===
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.405/1.440/1.480/0.030 ms
+=== AFTER rc1 route (must be via 10.1.5.2 Path0) ===
+  Known via "static", distance 1, metric 0, best
+  *   10.1.5.2, via gre-r3, weight 1
+=== AFTER rc2 route (must be via 10.1.7.1 Path0) ===
+  Known via "static", distance 1, metric 0, best
+  * 10.1.7.1, via gre-r4, weight 1

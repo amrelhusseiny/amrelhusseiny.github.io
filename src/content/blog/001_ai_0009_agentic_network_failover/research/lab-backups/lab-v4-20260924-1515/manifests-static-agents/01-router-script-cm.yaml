@@ -1,0 +1,91 @@
+# Shared FRR-router startup script (Debian-based frrouting/frr image).
+# Per-pod config comes from env: NODE, TUN ("greName:peerSvc ..."), POD_IP (downward API).
+# Builds Path-1 GRE tunnels, installs static-only FRR config, starts sshd + FRR.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: router-start
+  namespace: ffr-lab
+data:
+  start.sh: |
+    #!/bin/sh
+    echo "=== $NODE starting (pod IP $POD_IP) ==="
+    apk add --no-cache openssh-server openssh-client iproute2 iputils bind-tools 2>&1 | tail -1 || true
+    ssh-keygen -A >/dev/null 2>&1 || true
+    mkdir -p /run/sshd
+    echo 'root:labpass' | chpasswd 2>/dev/null || true
+    grep -q '^PermitRootLogin' /etc/ssh/sshd_config 2>/dev/null || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+    /usr/sbin/sshd 2>/dev/null || true
+    sysctl -w net.ipv4.ip_forward=1 2>/dev/null || echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null || true
+    # Transit routers must not enforce strict RPF: during failover, traffic
+    # legitimately arrives on a different interface than the reverse route.
+    for _rp in /proc/sys/net/ipv4/conf/gre-*/rp_filter /proc/sys/net/ipv4/conf/all/rp_filter /proc/sys/net/ipv4/conf/default/rp_filter; do
+      echo 0 > "$_rp" 2>/dev/null || true
+    done
+    resolve() {
+      i=0
+      while [ $i -lt 60 ]; do
+        ip=$(getent hosts "$1" | awk '{print $1}' | head -n1)
+        if [ -n "$ip" ]; then echo "$ip"; return 0; fi
+        sleep 2; i=$((i+1))
+      done
+      echo "FAILED to resolve $1" >&2; return 1
+    }
+    for t in $TUN; do
+      name=${t%%:*}; svc=${t##*:}
+      peer=$(resolve "$svc") || exit 1
+      echo "tunnel $name: local=$POD_IP remote=$peer ($svc)"
+      ip tunnel add "$name" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || \
+        ip tunnel change "$name" mode gre remote "$peer" local "$POD_IP" ttl 255
+      ip link set "$name" mtu 1400 up
+    done
+    # Install FRR config (ConfigMap is mounted at /config; /etc/frr stays writable)
+    cp /config/frr.conf /etc/frr/frr.conf
+    cat > /etc/frr/daemons <<'EOF'
+    zebra=yes
+    bgpd=no
+    ospfd=no
+    ospf6d=no
+    ripd=no
+    ripngd=no
+    isisd=no
+    pimd=no
+    ldpd=no
+    nhrpd=no
+    eigrpd=no
+    babeld=no
+    sharpd=no
+    pbrd=no
+    bfdd=no
+    fabricd=no
+    vrrpd=no
+    pathd=no
+    pim6d=no
+    staticd=yes
+    mgmtd=no
+    watchfrr_options="--daemon"
+    EOF
+    echo 'service integrated-vtysh-config' > /etc/frr/vtysh.conf
+    mkdir -p /var/run/frr /var/log/frr
+    chown -R frr:frr /etc/frr /var/run/frr /var/log/frr 2>/dev/null || true
+    /usr/lib/frr/frrinit.sh start
+    sleep 5
+    echo "--- gre interfaces ---"
+    ip -4 addr show type gre || true
+    echo "--- FRR static routes ---"
+    vtysh -c 'show ip route static' 2>&1 || true
+    # Self-heal GRE remotes: peer pod IPs change on every rollout/restart,
+    # so refresh tunnel destinations in the background.
+    (
+    while true; do
+      sleep 30
+      for t in $TUN; do
+        name=${t%%:*}; svc=${t##*:}
+        peer=$(getent hosts "$svc" | awk '{print $1}' | head -n1)
+        if [ -n "$peer" ]; then
+          ip tunnel change "$name" mode gre remote "$peer" local "$POD_IP" ttl 255 2>/dev/null || true
+        fi
+      done
+    done
+    ) &
+    sleep infinity

@@ -1,0 +1,177 @@
+# FRR static configs — PATH 1 ONLY. No OSPF anywhere.
+# Tunnel IPs mirror the containerlab IP plan:
+#   vm1 10.1.1.1 <-> rc1 10.1.1.254 | rc1-r1 10.1.2.0/24 | r1-r2 10.1.3.0/24
+#   r2-rc2 10.1.4.0/24 | rc2 10.1.8.254 <-> vm2 10.1.8.1
+# Path 0 (10.1.5/6/7, r3/r4) is unconfigured; r3/r4 are scaled to 0.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rc1-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname rc1
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    interface gre-vm1
+     ip address 10.1.1.254/24
+    !
+    interface gre-r1
+     ip address 10.1.2.1/24
+    !
+    ! Path 0 standby (idle - no routes point here until failover)
+    interface gre-r3
+     ip address 10.1.5.1/24
+    !
+    ip route 10.1.3.0/24 10.1.2.2
+    ip route 10.1.4.0/24 10.1.2.2
+    ip route 10.1.8.0/24 10.1.2.2
+    !
+    line vty
+    !
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: r1-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname r1
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    interface gre-rc1
+     ip address 10.1.2.2/24
+    !
+    interface gre-r2
+     ip address 10.1.3.1/24
+    !
+    ip route 10.1.1.0/24 10.1.2.1
+    ip route 10.1.4.0/24 10.1.3.2
+    ip route 10.1.8.0/24 10.1.3.2
+    !
+    line vty
+    !
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: r2-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname r2
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    interface gre-r1
+     ip address 10.1.3.2/24
+    !
+    interface gre-rc2
+     ip address 10.1.4.1/24
+    !
+    ip route 10.1.1.0/24 10.1.3.1
+    ip route 10.1.2.0/24 10.1.3.1
+    ip route 10.1.8.0/24 10.1.4.254
+    !
+    line vty
+    !
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rc2-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname rc2
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    interface gre-r2
+     ip address 10.1.4.254/24
+    !
+    ! Path 0 standby (idle - no routes point here until failover)
+    interface gre-r4
+     ip address 10.1.7.2/24
+    !
+    interface gre-vm2
+     ip address 10.1.8.254/24
+    !
+    ip route 10.1.1.0/24 10.1.4.1
+    ip route 10.1.2.0/24 10.1.4.1
+    ip route 10.1.3.0/24 10.1.4.1
+    !
+    line vty
+    !
+---
+# Placeholders so the old r3/r4 Deployments still mount something (scaled to 0 anyway)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: r3-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname r3
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    ! Path 0 STANDBY - tunnels up, full static table pre-installed,
+    ! but no live traffic until failover swaps rc1/rc2 next-hops here.
+    interface gre-rc1
+     ip address 10.1.5.2/24
+    !
+    interface gre-r4
+     ip address 10.1.6.1/24
+    !
+    ip route 10.1.1.0/24 10.1.5.1
+    ip route 10.1.2.0/24 10.1.5.1
+    ip route 10.1.3.0/24 10.1.6.2
+    ip route 10.1.4.0/24 10.1.6.2
+    ip route 10.1.8.0/24 10.1.6.2
+    !
+    line vty
+    !
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: r4-frr
+  namespace: ffr-lab
+data:
+  frr.conf: |
+    frr version 10.0
+    frr defaults traditional
+    hostname r4
+    log syslog informational
+    service integrated-vtysh-config
+    !
+    ! Path 0 STANDBY - tunnels up, full static table pre-installed,
+    ! but no live traffic until failover swaps rc1/rc2 next-hops here.
+    interface gre-r3
+     ip address 10.1.6.2/24
+    !
+    interface gre-rc2
+     ip address 10.1.7.1/24
+    !
+    ip route 10.1.1.0/24 10.1.6.1
+    ip route 10.1.2.0/24 10.1.6.1
+    ip route 10.1.3.0/24 10.1.6.1
+    ip route 10.1.5.0/24 10.1.6.1
+    ip route 10.1.8.0/24 10.1.7.2
+    !
+    line vty
+    !

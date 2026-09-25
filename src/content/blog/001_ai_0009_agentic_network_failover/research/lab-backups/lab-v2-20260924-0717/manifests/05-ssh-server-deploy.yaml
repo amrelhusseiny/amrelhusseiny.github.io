@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-server
+  namespace: ffr-lab
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: ffr-lab
+      name: ssh-server
+      role: server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: '2026-09-24T01:08:35-05:00'
+      labels:
+        app: ffr-lab
+        name: ssh-server
+        role: server
+    spec:
+      containers:
+      - args:
+        - 'sh /etc/ssh/start.sh
+
+          '
+        command:
+        - /bin/sh
+        - -c
+        image: alpine:3.19
+        imagePullPolicy: Always
+        name: ssh-server
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 512Mi
+        securityContext:
+          capabilities:
+            add:
+            - SYS_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/ssh/start.sh
+          name: ssh-config
+          subPath: start.sh
+        - mountPath: /etc/ssh/ssh_host_ed25519_key
+          name: ssh-host-keys
+          subPath: ssh_host_ed25519_key
+        - mountPath: /etc/ssh/ssh_host_rsa_key
+          name: ssh-host-keys
+          subPath: ssh_host_rsa_key
+        - mountPath: /etc/ssh/ssh_host_ecdsa_key
+          name: ssh-host-keys
+          subPath: ssh_host_ecdsa_key
+        - mountPath: /agents
+          name: lab-agents
+        env:
+        - name: OPENROUTER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openrouter-key
+              key: api-key
+        - name: JEV_MODEL
+          value: inception/mercury-2
+        - name: MERCURY_MODEL
+          value: inception/mercury-2.5
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/hostname: node6
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: start.sh
+            path: start.sh
+          name: ssh-server-config
+        name: ssh-config
+      - name: ssh-host-keys
+        secret:
+          defaultMode: 384
+          secretName: ssh-host-keys
+      - name: lab-agents
+        configMap:
+          name: lab-agents
+          defaultMode: 493

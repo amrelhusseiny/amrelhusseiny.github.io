@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OSPF vs Agent Failover</title>
+<style>
+  @font-face{font-family:"Source Code Pro";src:url("fonts/SourceCodePro-var.woff2") format("woff2");font-weight:400 700;font-display:swap;}
+  *{box-sizing:border-box;border-radius:0;margin:0;padding:0;}
+  body{background:#FFFFFF;color:#232323;font-family:"Source Code Pro",monospace;padding:24px;}
+  canvas{display:block;border:1px solid #C6C6C6;}
+  .bar{display:flex;gap:8px;align-items:center;margin-top:12px;}
+  button{font-family:"Source Code Pro",monospace;font-size:12px;padding:8px 12px;background:#FFF;
+         color:#232323;border:1px solid #C6C6C6;border-radius:0;cursor:pointer;}
+  button[data-a="1"]{background:#232323;color:#FFF;border-color:#232323;}
+  .lbl{font-size:12px;color:#8A8A8A;}
+</style>
+</head>
+<body>
+<canvas id="c" width="1280" height="720"></canvas>
+<div class="bar">
+  <button id="play" data-a="1">Pause</button>
+  <button id="rst">Restart</button>
+  <span class="lbl">SPEED</span>
+  <button class="s" data-v="1">1x</button>
+  <button class="s" data-v="2" data-a="1">2x</button>
+  <button class="s" data-v="4">4x</button>
+  <button class="s" data-v="8">8x</button>
+</div>
+<script>
+// [ time, text, highlighted nodes, mode ]
+var OSPF={ name:"OSPF", base:19*3600+56*60+32.513, fix:62.2, ev:[
+ [0.00, "T0  scale r1 --replicas=0",           ["R1R2"],  ""],
+ [30.40,"R1 dead - packet loss starts",        ["R1R2"],  "x"],
+ [62.18,"OSPF flips route to path 0 - ping green",["R3R4"],"p0"]
+]};
+var AGT ={ name:"Agent", base:20*3600+13*60+28.000, fix:49.7, ev:[
+ [0.00, "T0  scale r1 --replicas=0",           ["R1R2"],  ""],
+ [33.80,"JEV incident - detect 33.8s",         ["R1R2"],  ""],
+ [34.80,"classify - 1.0s",                     ["R1R2"],  ""],
+ [37.80,"MERCURY renders plan - 12.0s",        ["RC1","R3R4","RC2"], ""],
+ [45.80,"apply 11 cmds on 3 nodes - 1.7s",     ["RC1","R3R4","RC2"], "p0"],
+ [49.70,"VERIFY ping green - REPAIRED",       [],         "p0"]
+]};
+
+var BR="#C6C6C6", D="#232323", M="#545454", F="#8A8A8A", W="#FFFFFF", K9="#121212", GY="#ECECEC";
+function F_(s,w){return (w||400)+" "+s+"px \"Source Code Pro\", monospace";}
+function T(g,s,x,y,z,c,w,a){g.font=F_(z,w);g.fillStyle=c;g.textAlign=a||"left";g.fillText(s,x,y);}
+function BX(g,x,y,w,h,st,fi){if(fi){g.fillStyle=fi;g.fillRect(x,y,w,h);}
+  if(st){g.strokeStyle=st;g.lineWidth=1;g.strokeRect(x+.5,y+.5,w-1,h-1);}}
+function LN(g,x1,y1,x2,y2,c,w){g.strokeStyle=c;g.lineWidth=w||1;g.beginPath();
+  g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();}
+function p2(n){return (n<10?"0":"")+n;}
+function CK(s){s=s<0?0:s;var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;
+  return p2(h)+":"+p2(m)+":"+(x<10?"0":"")+x.toFixed(3);}
+
+// approved fork-join geometry inside the topology box
+var NW=66, NH=32, TY=120, BY=216, J1=185, J2=330;
+var NB={
+  VM1:[60,TY,"vm1"], RC1:[130,TY,"rc1"], R1R2:[257,TY,"r1 r2"],
+  RC2:[385,TY,"rc2"], VM2:[480,TY,"vm2"], R3R4:[257,BY,"r3 r4"]
+};
+var SEG1=[[60,TY],[130,TY],[J1,TY],[257,TY],[J2,TY],[385,TY],[480,TY]];
+var SEG0=[[60,TY],[130,TY],[J1,TY],[J1,BY],[257,BY],[330,BY],[J2,TY],[385,TY],[480,TY]];
+var CUT=[(J1+257)/2,TY];
+
+function state(s,t){
+  var cur=null,cut=false,on0=t>=s.fix,i;
+  for(i=0;i<s.ev.length;i++){ if(s.ev[i][0]<=t) cur=s.ev[i]; }
+  if(cur && cur[3]==="x") cut=true;
+  return {cur:cur, cut:cut, on0:on0};
+}
+
+function nd(g,ox,oy,key,hl,dead){
+  var n=NB[key],x=ox+n[0]-NW/2,y=oy+n[1]-NH/2;
+  if(hl){BX(g,x,y,NW,NH,D,D);}
+  else BX(g,x,y,NW,NH,BR,dead?GY:null);
+  T(g,n[2],x+NW/2,y+NH/2+4,12,hl?W:(dead?F:D),700,"center");
+}
+
+function drawSeg(g,ox,oy,pts,on,cut){
+  for(var i=1;i<pts.length;i++){
+    var a=pts[i-1],b=pts[i];
+    var isCut = cut && b[0]!==a[0] && b[1]===a[1];   // horizontal leg into the transit box
+    var c = (isCut&&cut) ? BR : (on?D:BR);
+    LN(g,ox+a[0],oy+a[1],ox+b[0],oy+b[1],c,(isCut&&cut)?1:(on?2:1));
+  }
+}
+
+function dot(g,x,y){g.fillStyle=K9;g.fillRect(x-3,y-3,6,6);}
+
+function walk(g,ox,oy,route,p){
+  var pts=[],i,L=[],tot=0;
+  for(i=0;i<route.length;i++)pts.push([ox+route[i][0],oy+route[i][1]]);
+  for(i=1;i<pts.length;i++){
+    var dx=pts[i][0]-pts[i-1][0],dy=pts[i][1]-pts[i-1][1];
+    var d=Math.sqrt(dx*dx+dy*dy);L.push(d);tot+=d;}
+  var w=p*tot,a=0;
+  for(i=0;i<L.length;i++){
+    if(a+L[i]>=w){var r=(w-a)/L[i];
+      return [pts[i][0]+(pts[i+1][0]-pts[i][0])*r,pts[i][1]+(pts[i+1][1]-pts[i][1])*r];}
+    a+=L[i];}
+  return pts[pts.length-1];
+}
+
+function panel(g,s,t,px,py,pw,ph){
+  BX(g,px,py,pw,ph,BR,null);
+  T(g,s.name,px+pw/2,py+28,16,D,700,"center");
+  LN(g,px,py+40,px+pw,py+40,BR,1);
+  var bx=px+16,by=py+52,bw=pw-32,bh=336,ox=bx,oy=by;
+  BX(g,bx,by,bw,bh,BR,null);
+  var S=state(s,t);
+  var hl=S.cur?S.cur[2]:[];
+  function H(k){return hl.indexOf(k)>=0;}
+  // standby route first, active route on top
+  drawSeg(g,ox,oy,SEG0,S.on0,false);
+  drawSeg(g,ox,oy,SEG1,!S.on0,S.cut&&!S.on0);
+  // junction verticals belong to whichever path is live
+  var vc = S.on0?D:BR, vw = S.on0?2:1;
+  LN(g,ox+J1,oy+TY,ox+J1,oy+BY,vc,vw);
+  LN(g,ox+J2,oy+BY,ox+J2,oy+TY,vc,vw);
+  // traffic
+  if(S.cut&&!S.on0){
+    dot(g,ox+CUT[0],oy+CUT[1]);
+    LN(g,ox+CUT[0]-9,oy+CUT[1]-9,ox+CUT[0]+9,oy+CUT[1]+9,K9,2);
+    LN(g,ox+CUT[0]+9,oy+CUT[1]-9,ox+CUT[0]-9,oy+CUT[1]+9,K9,2);
+  } else {
+    var rt=S.on0?SEG0:SEG1;
+    for(var i=0;i<3;i++){
+      var p=((t*0.15+i/3)%1+1)%1;
+      var q=walk(g,ox,oy,rt,p); dot(g,q[0],q[1]);
+    }
+  }
+  nd(g,ox,oy,"VM1",H("VM1"),false);
+  nd(g,ox,oy,"RC1",H("RC1"),false);
+  nd(g,ox,oy,"R1R2",H("R1R2"),S.cut&&!S.on0);
+  nd(g,ox,oy,"R3R4",H("R3R4"),false);
+  nd(g,ox,oy,"RC2",H("RC2"),false);
+  nd(g,ox,oy,"VM2",H("VM2"),false);
+  // log box
+  var lx=px+16,ly=by+bh+12,lh=ph-(ly-py)-16;
+  BX(g,lx,ly,bw,lh,BR,null);
+  T(g,"log/Action",lx+12,ly+22,12,F,700);
+  LN(g,lx,ly+30,lx+bw,ly+30,BR,1);
+  var n=0,i2;
+  for(i2=0;i2<s.ev.length;i2++){
+    if(s.ev[i2][0]<=t){
+      var y=ly+52+n*18;
+      var isLast = (S.cur && i2===s.ev.indexOf(S.cur));
+      T(g,CK(s.base+s.ev[i2][0]),lx+12,y,12,F,400);
+      T(g,s.ev[i2][1],lx+108,y,12,isLast?D:M,isLast?700:400);
+      n++;
+    }
+  }
+}
+
+var cv=document.getElementById("c"), g=cv.getContext("2d");
+var t=0, run=true, spd=2, last=0;
+
+function draw(x){
+  g.fillStyle=W; g.fillRect(0,0,1280,720);
+  BX(g,32,24,1216,672,BR,null);
+  panel(g,OSPF,x,48,48,584,600);
+  panel(g,AGT ,x,648,48,584,600);
+}
+function loop(ts){
+  if(!last)last=ts;
+  var dt=(ts-last)/1000; last=ts;
+  if(run){t+=dt*spd; if(t>66)t=66;}
+  draw(t);
+  requestAnimationFrame(loop);
+}
+var pb=document.getElementById("play");
+pb.onclick=function(){run=!run;pb.textContent=run?"Pause":"Play";pb.setAttribute("data-a",run?"1":"0");};
+document.getElementById("rst").onclick=function(){t=0;last=0;};
+var ss=document.querySelectorAll(".s");
+for(var i=0;i<ss.length;i++){
+  ss[i].onclick=function(e){spd=parseFloat(e.target.getAttribute("data-v"));
+    for(var j=0;j<ss.length;j++)ss[j].setAttribute("data-a","0");
+    e.target.setAttribute("data-a","1");};
+}
+var mq=location.search.match(/t=([0-9.]+)/);
+if(mq){t=parseFloat(mq[1]);run=false;pb.textContent="Play";pb.setAttribute("data-a","0");last=0;}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

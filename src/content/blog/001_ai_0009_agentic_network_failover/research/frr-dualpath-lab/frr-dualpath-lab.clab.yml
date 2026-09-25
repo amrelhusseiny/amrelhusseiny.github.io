@@ -1,0 +1,260 @@
+---
+# Containerlab topology for the FRR dual-path lab.
+#
+# Layers (matches the diagram):
+#   Layer 1 - SSH Linux Server: mgmt-host runs the Jev agent + Mercury 2.5 agent,
+#             and reaches every router over SSH via the containerlab mgmt network
+#             (no explicit link needed for this).
+#   Layer 2 - Network Topology: RC1, R1, R2, R3, R4, RC2 all run FRR with STATIC routes.
+#             Path 1 (green, ONLY active path): RC1 -> R1 -> R2 -> RC2
+#             Path 0 (orange, DISABLED): RC1 -> R3 -> R4 -> RC2 left unconfigured
+#   Layer 3 - Client VMs: linux-vm1 and linux-vm2 ping each other via Path 1 only.
+#
+# IP plan (STATIC, Path 1 only):
+#   vm1:eth1 10.10.10.1/30  <-> rc1:eth1 10.10.10.2/30
+#   rc1:eth2 10.20.11.1/30  <-> r1:eth1  10.20.11.2/30   (Path 1)
+#   r1:eth2  10.20.12.1/30  <-> r2:eth1  10.20.12.2/30   (Path 1)
+#   r2:eth2  10.20.13.1/30  <-> rc2:eth2 10.20.13.2/30   (Path 1)
+#   rc2:eth1 10.10.20.1/30  <-> vm2:eth1 10.10.20.2/30
+#   Path 0 (rc1:eth3, r3, r4, rc2:eth3) = unaddressed / shutdown, no routes.
+#   Loopbacks: rc1 1.1.1.1, r1 .11, r2 .12, r3 .13, r4 .14, rc2 1.1.1.2
+#
+# Adjust `image:` values to whatever FRR / Linux images your registry actually has.
+
+name: frr-dualpath-lab
+mgmt:
+  network: clab-mgmt
+  ipv4-subnet: 172.20.20.0/24
+
+topology:
+  defaults:
+    kind: linux
+
+  nodes:
+    # ---------------- Layer 1: SSH Linux Server ----------------
+    mgmt-host:
+      kind: linux
+      image: ghcr.io/hellt/network-multitool:latest
+      exec:
+        - "sh -c 'apk add --no-cache tmux openssh-client sshpass 2>/dev/null || (apt-get update && apt-get install -y tmux openssh-client sshpass) 2>/dev/null || (yum install -y tmux openssh-clients sshpass) 2>/dev/null'"
+        - |
+          sh -c 'cat > /opt/tmux-init.sh << "EOF"
+          #!/bin/sh
+          # One tmux session ("lab") with two windows:
+          #   1. "routers" - a pane per FRR router: RC1, R1, R2, R3, R4, RC2
+          #   2. "clients" - a pane per Linux VM: linux-vm1, linux-vm2
+          SESSION="lab"
+          SSH_USER="${SSH_USER:-root}"
+          SSH_PASS="${SSH_PASS:-root}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          NODES_ROUTERS="rc1 r1 r2 r3 r4 rc2"
+          NODES_CLIENTS="linux-vm1 linux-vm2"
+
+          tmux has-session -t "$SESSION" 2>/dev/null && exit 0
+
+          ssh_cmd() {
+            # $1 = hostname
+            if command -v sshpass >/dev/null 2>&1; then
+              echo "sshpass -p $SSH_PASS ssh $SSH_OPTS $SSH_USER@$1"
+            else
+              echo "ssh $SSH_OPTS $SSH_USER@$1"
+            fi
+          }
+
+          # ---- window 1: routers ----
+          tmux new-session -d -s "$SESSION" -n routers
+          tmux send-keys -t "$SESSION:routers" "$(ssh_cmd rc1)" C-m
+          tmux split-window -h -t "$SESSION:routers"
+          tmux send-keys -t "$SESSION:routers.1" "$(ssh_cmd r1)" C-m
+          tmux split-window -v -t "$SESSION:routers.0"
+          tmux send-keys -t "$SESSION:routers.2" "$(ssh_cmd r3)" C-m
+          tmux split-window -v -t "$SESSION:routers.1"
+          tmux send-keys -t "$SESSION:routers.3" "$(ssh_cmd r2)" C-m
+          tmux split-window -v -t "$SESSION:routers.2"
+          tmux send-keys -t "$SESSION:routers.4" "$(ssh_cmd r4)" C-m
+          tmux split-window -v -t "$SESSION:routers.3"
+          tmux send-keys -t "$SESSION:routers.5" "$(ssh_cmd rc2)" C-m
+          tmux select-layout -t "$SESSION:routers" tiled
+
+          # ---- window 2: clients ----
+          tmux new-window -t "$SESSION" -n clients
+          tmux send-keys -t "$SESSION:clients" "$(ssh_cmd linux-vm1)" C-m
+          tmux split-window -h -t "$SESSION:clients"
+          tmux send-keys -t "$SESSION:clients.1" "$(ssh_cmd linux-vm2)" C-m
+          tmux select-layout -t "$SESSION:clients" even-horizontal
+
+          tmux select-window -t "$SESSION:routers"
+          EOF
+          chmod +x /opt/tmux-init.sh'
+        - "sh /opt/tmux-init.sh"
+      labels:
+        layer: "1-ssh-server"
+        role: "jev-agent,mercury-agent"
+
+    # ---------------- Layer 2: Network Topology (FRR) ----------------
+    rc1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/rc1/daemons:/etc/frr/daemons
+        - configs/rc1/frr.conf:/etc/frr/frr.conf
+      interfaces:
+        - name: eth1
+          ipv4: 10.10.10.2/30
+        - name: eth2
+          ipv4: 10.20.11.1/30
+      # eth3 (Path 0) intentionally unnumbered - static Path-1-only lab
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart || (vtysh -c \"configure terminal\" 2>/dev/null)'"
+      labels:
+        layer: "2-network"
+        role: "edge-router"
+
+    r1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r1/daemons:/etc/frr/daemons
+        - configs/r1/frr.conf:/etc/frr/frr.conf
+      interfaces:
+        - name: eth1
+          ipv4: 10.20.11.2/30
+        - name: eth2
+          ipv4: 10.20.12.1/30
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart'"
+      labels:
+        layer: "2-network"
+        role: "path-1-router"
+
+    r2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r2/daemons:/etc/frr/daemons
+        - configs/r2/frr.conf:/etc/frr/frr.conf
+      interfaces:
+        - name: eth1
+          ipv4: 10.20.12.2/30
+        - name: eth2
+          ipv4: 10.20.13.1/30
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart'"
+      labels:
+        layer: "2-network"
+        role: "path-1-router"
+
+    r3:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r3/daemons:/etc/frr/daemons
+        - configs/r3/frr.conf:/etc/frr/frr.conf
+      # No data-plane IPs - Path 0 disabled, static Path-1-only lab
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart'"
+      labels:
+        layer: "2-network"
+        role: "path-0-router"
+
+    r4:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r4/daemons:/etc/frr/daemons
+        - configs/r4/frr.conf:/etc/frr/frr.conf
+      # No data-plane IPs - Path 0 disabled, static Path-1-only lab
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart'"
+      labels:
+        layer: "2-network"
+        role: "path-0-router"
+
+    rc2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/rc2/daemons:/etc/frr/daemons
+        - configs/rc2/frr.conf:/etc/frr/frr.conf
+      interfaces:
+        - name: eth1
+          ipv4: 10.10.20.1/30
+        - name: eth2
+          ipv4: 10.20.13.2/30
+      # eth3 (Path 0) intentionally unnumbered - static Path-1-only lab
+      exec:
+        - "sysctl -w net.ipv4.ip_forward=1"
+        - "sh -c 'apt-get update && apt-get install -y openssh-server iproute2 2>/dev/null || apk add --no-cache openssh-server iproute2 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null; /usr/lib/frr/frrinit.sh restart || service frr restart'"
+      labels:
+        layer: "2-network"
+        role: "edge-router"
+
+    # ---------------- Layer 3: Client VMs ----------------
+    linux-vm1:
+      kind: linux
+      image: ghcr.io/hellt/network-multitool:latest
+      interfaces:
+        - name: eth1
+          ipv4: 10.10.10.1/30
+      exec:
+        - "ip route del default 2>/dev/null; ip route add default via 10.10.10.2 dev eth1"
+        - "sh -c 'apk add --no-cache openssh-server 2>/dev/null || (apt-get update && apt-get install -y openssh-server) 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null'"
+      labels:
+        layer: "3-client-vm"
+        role: "ping-source"
+
+    linux-vm2:
+      kind: linux
+      image: ghcr.io/hellt/network-multitool:latest
+      interfaces:
+        - name: eth1
+          ipv4: 10.10.20.2/30
+      exec:
+        - "ip route del default 2>/dev/null; ip route add default via 10.10.20.1 dev eth1"
+        - "sh -c 'apk add --no-cache openssh-server 2>/dev/null || (apt-get update && apt-get install -y openssh-server) 2>/dev/null; mkdir -p /run/sshd; echo root:root | chpasswd; sed -i \"s/#*PermitRootLogin.*/PermitRootLogin yes/\" /etc/ssh/sshd_config; service ssh start 2>/dev/null || /usr/sbin/sshd 2>/dev/null || sshd 2>/dev/null'"
+      labels:
+        layer: "3-client-vm"
+        role: "ping-destination"
+
+  links:
+    # Client VMs to edge routers
+    - endpoints: ["linux-vm1:eth1", "rc1:eth1"]
+    - endpoints: ["rc2:eth1", "linux-vm2:eth1"]
+
+    # Path 1 (green, ACTIVE): RC1 -> R1 -> R2 -> RC2
+    - endpoints: ["rc1:eth2", "r1:eth1"]
+    - endpoints: ["r1:eth2", "r2:eth1"]
+    - endpoints: ["r2:eth2", "rc2:eth2"]
+
+    # Path 0 (orange, DISABLED - cabled but unconfigured, no IPs/routes):
+    - endpoints: ["rc1:eth3", "r3:eth1"]
+    - endpoints: ["r3:eth2", "r4:eth1"]
+    - endpoints: ["r4:eth2", "rc2:eth3"]
+
+# NOTE on SSH (red arrows in the diagram):
+# containerlab already places every node's mgmt interface on one shared
+# mgmt network/bridge (clab-mgmt above), so mgmt-host can `ssh` to
+# rc1, r1, r2, r3, r4, rc2, linux-vm1, linux-vm2 over that mgmt network with
+# no extra data-plane link required. Containerlab sets DNS aliases for node
+# names, and each node installs + starts sshd with root/root here so the
+# tmux panes (`sshpass -p root ssh root@<node>`) work out of the box.
+# Override with SSH_USER / SSH_PASS env on mgmt-host if you change logins.
+#
+# NOTE on tmux (mgmt-host):
+# mgmt-host's `exec` block installs tmux, writes the init script inline, and
+# runs it on first boot - everything lives in this one file, no bind mount
+# needed. It opens one detached tmux session "lab" with two windows:
+#   window "routers" - one pane per FRR router (rc1, r1, r2, r3, r4, rc2)
+#   window "clients" - one pane per Linux VM  (linux-vm1, linux-vm2)
+# Attach from inside the mgmt-host container with: tmux attach -t lab
+#
+# Verify (static, Path 1 only):
+#   containerlab deploy -t frr-dualpath-lab.clab.yml
+#   docker exec -it clab-frr-dualpath-lab-linux-vm1 ping 10.10.20.2
+#   docker exec -it clab-frr-dualpath-lab-rc1 vtysh -c "show ip route static"
+#   docker exec -it clab-frr-dualpath-lab-r1 vtysh -c "show ip route static"

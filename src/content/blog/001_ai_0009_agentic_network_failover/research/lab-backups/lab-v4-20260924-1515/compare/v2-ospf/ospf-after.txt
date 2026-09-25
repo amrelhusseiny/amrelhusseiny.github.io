@@ -1,0 +1,12 @@
+=== AFTER (Path 0 active) ===
+2026-09-24T19:57:34
+--- ping vm1->vm2 ---
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 2.333/2.361/2.402/0.029 ms
+--- rc1 route to vm2 ---
+  Known via "ospf", distance 110, metric 310, best
+  * 10.1.5.2, via gre-r3, weight 1
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+  Known via "ospf", distance 110, metric 40, best
+  * 10.1.2.2, via gre-r1, weight 1

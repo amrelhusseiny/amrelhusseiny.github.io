@@ -1,0 +1,12 @@
+=== BEFORE (Path 1 active) ===
+2026-09-24T20:13:32
+--- ping vm1->vm2 ---
+--- 10.1.8.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 2.196/2.267/2.367/0.072 ms
+--- rc1 route to vm2 ---
+  Known via "static", distance 1, metric 0, best
+  * 10.1.5.2, via gre-r3, weight 1
+--- r1 pod ---
+NAME                  READY   STATUS    RESTARTS   AGE
+r1-86b4697dc9-xqwn7   1/1     Running   0          8m28s

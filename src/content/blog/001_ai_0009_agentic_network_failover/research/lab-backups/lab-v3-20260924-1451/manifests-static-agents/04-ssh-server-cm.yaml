@@ -1,0 +1,57 @@
+# Jump-host startup: tmux auto-login via stable headless-service DNS names
+# (pod IPs change on rollout, DNS doesn't). Path-1 only: rc1,r1,r2,rc2,vm1,vm2.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssh-server-config
+  namespace: ffr-lab
+data:
+  start.sh: |
+    #!/bin/sh
+    echo "=== SSH jump-host starting ==="
+    apk add --no-cache openssh-server openssh-client tmux sshpass iproute2 iputils curl bind-tools python3 2>&1 | tail -1 || true
+    # Persistent host keys come from the ssh-host-keys Secret; generate only if missing
+    ls /etc/ssh/ssh_host_*_key >/dev/null 2>&1 || ssh-keygen -A >/dev/null 2>&1 || true
+    echo 'root:labpass' | chpasswd
+    mkdir -p /run/sshd
+    for opt in 'PermitRootLogin yes' 'PasswordAuthentication yes' 'AllowTcpForwarding yes' 'MaxStartups 50:30:100' 'MaxSessions 20'; do
+      key=${opt%% *}
+      sed -i "s/^[#]*$key.*/$opt/" /etc/ssh/sshd_config 2>/dev/null || true
+      grep -q "^$key" /etc/ssh/sshd_config 2>/dev/null || echo "$opt" >> /etc/ssh/sshd_config
+    done
+    /usr/sbin/sshd
+    echo "=== SSH jump-host ready (root/labpass) ==="
+
+    SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=5"
+    LOGIN="sshpass -p labpass ssh $SSH_OPTS"
+
+    # Wait for DNS of Path-1 nodes (headless svc -> current pod IP, restart-proof)
+    for svc in rc1-svc r1-svc r2-svc rc2-svc vm1-svc vm2-svc; do
+      i=0
+      while [ $i -lt 60 ]; do
+        getent hosts "$svc" >/dev/null 2>&1 && break
+        sleep 2; i=$((i+1))
+      done
+      echo "$svc -> $(getent hosts "$svc" | awk '{print $1}' | head -n1)"
+    done
+
+    tmux kill-session -t lab 2>/dev/null || true
+    # window 1: routers (Path 1 only - r3/r4 are scaled to 0)
+    tmux new-session -d -s lab -n routers
+    tmux split-window -h -t lab:routers
+    tmux split-window -v -t lab:routers.0
+    tmux split-window -v -t lab:routers.1
+    tmux select-layout -t lab:routers tiled
+    tmux send-keys -t lab:routers.0 "$LOGIN root@rc1-svc" Enter
+    tmux send-keys -t lab:routers.1 "$LOGIN root@r1-svc" Enter
+    tmux send-keys -t lab:routers.2 "$LOGIN root@r2-svc" Enter
+    tmux send-keys -t lab:routers.3 "$LOGIN root@rc2-svc" Enter
+    # window 2: clients
+    tmux new-window -t lab -n clients
+    tmux split-window -h -t lab:clients
+    tmux select-layout -t lab:clients even-horizontal
+    tmux send-keys -t lab:clients.0 "$LOGIN root@vm1-svc" Enter
+    tmux send-keys -t lab:clients.1 "$LOGIN root@vm2-svc" Enter
+    tmux select-window -t lab:routers
+    echo "tmux session 'lab' started (routers + clients, auto-login via DNS)"
+    sleep infinity

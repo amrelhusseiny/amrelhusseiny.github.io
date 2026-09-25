@@ -1,0 +1,102 @@
+# Client VMs: GRE-attached to their edge router, 10.1.0.0/16 via tunnel.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vm1
+  namespace: ffr-lab-ospf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffr-lab
+      name: vm1
+      role: client
+  template:
+    metadata:
+      labels:
+        app: ffr-lab
+        name: vm1
+        role: client
+    spec:
+      containers:
+        - name: vm1
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: vm1
+            - name: TUN_NAME
+              value: gre-rc1
+            - name: TUN_IP
+              value: 10.1.1.1/24
+            - name: TUN_GW
+              value: 10.1.1.254
+            - name: PEER_SVC
+              value: rc1-svc.ffr-lab-ospf.svc.cluster.local
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: start-script
+          configMap:
+            name: vm-start
+            defaultMode: 0755
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vm2
+  namespace: ffr-lab-ospf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffr-lab
+      name: vm2
+      role: client
+  template:
+    metadata:
+      labels:
+        app: ffr-lab
+        name: vm2
+        role: client
+    spec:
+      containers:
+        - name: vm2
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: vm2
+            - name: TUN_NAME
+              value: gre-rc2
+            - name: TUN_IP
+              value: 10.1.8.1/24
+            - name: TUN_GW
+              value: 10.1.8.254
+            - name: PEER_SVC
+              value: rc2-svc.ffr-lab-ospf.svc.cluster.local
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: start-script
+          configMap:
+            name: vm-start
+            defaultMode: 0755

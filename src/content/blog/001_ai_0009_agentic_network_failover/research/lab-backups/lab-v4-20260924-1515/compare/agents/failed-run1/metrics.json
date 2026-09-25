@@ -1,0 +1,10 @@
+{
+ "t0": 1790278817.4916546,
+ "t_detect_latency_s": 10.8,
+ "t_trigger": 1790278829.5,
+ "llm_render_latency_s": 12.6,
+ "apply_s": 1.7,
+ "repaired": false,
+ "t_repair_total_s": 26.6,
+ "applied_clean": true
+}

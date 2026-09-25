@@ -1,0 +1,196 @@
+# Path-1 FRR routers: rc1 -> r1 -> r2 -> rc2 (GRE tunnels emulate the p2p links)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rc1
+  namespace: ffr-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: router
+      name: rc1
+  template:
+    metadata:
+      labels:
+        app: router
+        name: rc1
+    spec:
+      containers:
+        - name: rc1
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: rc1
+            - name: TUN
+              value: "gre-vm1:vm1-svc.ffr-lab.svc.cluster.local gre-r1:r1-svc.ffr-lab.svc.cluster.local gre-r3:r3-svc.ffr-lab.svc.cluster.local"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: frr-config
+              mountPath: /config
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: frr-config
+          configMap:
+            name: rc1-frr
+        - name: start-script
+          configMap:
+            name: router-start
+            defaultMode: 0755
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r1
+  namespace: ffr-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: router
+      name: r1
+  template:
+    metadata:
+      labels:
+        app: router
+        name: r1
+    spec:
+      containers:
+        - name: r1
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: r1
+            - name: TUN
+              value: "gre-rc1:rc1-svc.ffr-lab.svc.cluster.local gre-r2:r2-svc.ffr-lab.svc.cluster.local"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: frr-config
+              mountPath: /config
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: frr-config
+          configMap:
+            name: r1-frr
+        - name: start-script
+          configMap:
+            name: router-start
+            defaultMode: 0755
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r2
+  namespace: ffr-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: router
+      name: r2
+  template:
+    metadata:
+      labels:
+        app: router
+        name: r2
+    spec:
+      containers:
+        - name: r2
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: r2
+            - name: TUN
+              value: "gre-r1:r1-svc.ffr-lab.svc.cluster.local gre-rc2:rc2-svc.ffr-lab.svc.cluster.local"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: frr-config
+              mountPath: /config
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: frr-config
+          configMap:
+            name: r2-frr
+        - name: start-script
+          configMap:
+            name: router-start
+            defaultMode: 0755
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rc2
+  namespace: ffr-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: router
+      name: rc2
+  template:
+    metadata:
+      labels:
+        app: router
+        name: rc2
+    spec:
+      containers:
+        - name: rc2
+          image: frrouting/frr:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "sh /scripts/start.sh"]
+          env:
+            - name: NODE
+              value: rc2
+            - name: TUN
+              value: "gre-r2:r2-svc.ffr-lab.svc.cluster.local gre-vm2:vm2-svc.ffr-lab.svc.cluster.local gre-r4:r4-svc.ffr-lab.svc.cluster.local"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]
+          volumeMounts:
+            - name: frr-config
+              mountPath: /config
+            - name: start-script
+              mountPath: /scripts
+      volumes:
+        - name: frr-config
+          configMap:
+            name: rc2-frr
+        - name: start-script
+          configMap:
+            name: router-start
+            defaultMode: 0755
