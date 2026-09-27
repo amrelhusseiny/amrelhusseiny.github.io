@@ -21,6 +21,21 @@ Why are doing this, instead of using a Dynamic routing protocol , i wnated to se
 
 And also for fun,
 
+# Quick primer about Jev
+
+System1 Models / RLCD learning model, or whatever you will hear on the internet about that, is not a new type of model, its been popularized by Jev, 
+
+Instead of traditional models, it does not generate text, no next token prediction, 
+
+<iframe src="/blog/jev_compitable_quesionts.html" width="100%" height="590" loading="lazy" scrolling="no" style="border:0;display:block" title="Jev Options"></iframe>
+
+It reads MUST srtuctured data, which must be one of the following : 
+    1. Choice (Most popular) : Pick one choice out of the list you gave it. (Example, which team should handle this , billing, purchasing , .. ?)
+    2. Score : a score assigned to each cell of the list, you define the range. 
+    3. Noul : Is it true ! questions (yes/no, True/False).
+
+You need to fine rune your question to have very specific answer, dont ask compound questions.
+
 # Lab topology
 so the lab is as follows : 
 

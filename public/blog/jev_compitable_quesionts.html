@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jev Structured Models Diagram</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* GRAPHITE DESIGN SYSTEM - ZERO HUE, STRICT MONOSPACE, ZERO RADIUS */
+    :root {
+      --font-mono: 'Source Code Pro', monospace;
+
+      --gray-0: #FFFFFF;
+      --gray-50: #F5F5F5;
+      --gray-100: #ECECEC;
+      --gray-200: #C6C6C6;
+      --gray-300: #A8A8A8;
+      --gray-400: #8A8A8A;
+      --gray-500: #6F6F6F;
+      --gray-600: #545454;
+      --gray-700: #3B3B3B;
+      --gray-800: #232323;
+      --gray-900: #121212;
+      --black: #000000;
+
+      --color-bg: var(--gray-0);
+      --color-surface: var(--gray-50);
+      --color-border: var(--gray-200);
+      --color-text-primary: var(--gray-800);
+      --color-text-muted: var(--gray-400);
+      --color-invert-bg: var(--gray-800);
+      --color-invert-text: var(--gray-0);
+    }
+
+    [data-theme="dark"] {
+      --color-bg: var(--black);
+      --color-surface: var(--gray-800);
+      --color-border: var(--gray-800);
+      --color-text-primary: var(--gray-50);
+      --color-text-muted: var(--gray-400);
+      --color-invert-bg: var(--gray-100);
+      --color-invert-text: var(--gray-900);
+    }
+
+    * {
+      border-radius: 0 !important;
+      font-family: var(--font-mono) !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text-primary);
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+      font-size: 11px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .g-box {
+      border: 1px solid var(--color-border);
+      background-color: var(--color-bg);
+    }
+
+    .g-surface {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+  </style>
+</head>
+<body class="m-0 p-0 bg-[var(--color-bg)]">
+
+  <button id="themeToggleBtn" onclick="toggleTheme()" class="fixed top-2 right-2 text-[9px] font-bold border border-[var(--color-border)] px-1.5 py-0.5 uppercase bg-[var(--color-bg)] hover:bg-[var(--color-invert-bg)] hover:text-[var(--color-invert-text)] cursor-pointer z-10">
+    <span id="themeLabel">LIGHT</span>
+  </button>
+
+  <main class="w-full grid grid-cols-1 md:grid-cols-3 gap-2 p-0 m-0">
+
+    <!-- ================= BOX 1: CHOICE ================= -->
+    <div class="g-box p-2 space-y-1.5">
+      <div class="border-b border-[var(--color-border)] pb-0.5 text-[10px] font-bold uppercase tracking-wider">
+        CHOICE
+      </div>
+      <div class="h-20 w-full border border-[var(--color-border)] relative">
+        <canvas id="canvasChoice" class="w-full h-full block"></canvas>
+      </div>
+      <div class="g-surface p-1 text-[9px] flex justify-between items-center">
+        <span class="text-[var(--color-text-muted)] font-bold">OUT:</span>
+        <span id="outputChoice" class="font-bold bg-[var(--color-invert-bg)] text-[var(--color-invert-text)] px-1 py-0.5">
+          ["BILLING"]
+        </span>
+      </div>
+    </div>
+
+    <!-- ================= BOX 2: SCORE ================= -->
+    <div class="g-box p-2 space-y-1.5">
+      <div class="border-b border-[var(--color-border)] pb-0.5 text-[10px] font-bold uppercase tracking-wider">
+        SCORE
+      </div>
+      <div class="h-20 w-full border border-[var(--color-border)] relative">
+        <canvas id="canvasScore" class="w-full h-full block"></canvas>
+      </div>
+      <div class="g-surface p-1 text-[9px] flex justify-between items-center">
+        <span class="text-[var(--color-text-muted)] font-bold">OUT:</span>
+        <span id="outputScore" class="font-bold border border-[var(--color-text-primary)] px-1 py-0.5">
+          [0.92, 0.14, 0.78]
+        </span>
+      </div>
+    </div>
+
+    <!-- ================= BOX 3: NOUL ================= -->
+    <div class="g-box p-2 space-y-1.5">
+      <div class="border-b border-[var(--color-border)] pb-0.5 text-[10px] font-bold uppercase tracking-wider">
+        NOUL
+      </div>
+      <div class="h-20 w-full border border-[var(--color-border)] relative">
+        <canvas id="canvasNoul" class="w-full h-full block"></canvas>
+      </div>
+      <div class="g-surface p-1 text-[9px] flex justify-between items-center">
+        <span class="text-[var(--color-text-muted)] font-bold">OUT:</span>
+        <span id="outputNoul" class="font-bold border border-[var(--color-text-primary)] px-1 py-0.5">
+          [TRUE, FALSE, TRUE]
+        </span>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const state = {
+      theme: 'light',
+      animFrameId: null
+    };
+
+    function toggleTheme() {
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', state.theme);
+      document.getElementById('themeLabel').innerText = state.theme.toUpperCase();
+    }
+
+    function getThemeColors() {
+      const isDark = state.theme === 'dark';
+      return {
+        border: isDark ? '#3B3B3B' : '#C6C6C6',
+        textPrimary: isDark ? '#F5F5F5' : '#232323',
+        textMuted: isDark ? '#8A8A8A' : '#8A8A8A',
+        invertBg: isDark ? '#ECECEC' : '#232323',
+        invertText: isDark ? '#121212' : '#FFFFFF'
+      };
+    }
+
+    function setupCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return null;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr, dpr);
+      return { ctx, width: rect.width, height: rect.height };
+    }
+
+    /* 1. CHOICE ANIMATION */
+    const choiceItems = ["BILLING", "PURCHASING", "SUPPORT"];
+    let choiceTargetIdx = 0;
+
+    function renderChoiceCanvas(time) {
+      const setup = setupCanvas('canvasChoice');
+      if (!setup) return;
+      const { ctx, width, height } = setup;
+      const colors = getThemeColors();
+
+      ctx.clearRect(0, 0, width, height);
+
+      choiceTargetIdx = Math.floor(time / 2200) % choiceItems.length;
+      const rowH = height / choiceItems.length;
+
+      choiceItems.forEach((item, idx) => {
+        const y = idx * rowH;
+        const isSelected = idx === choiceTargetIdx;
+
+        if (isSelected) {
+          ctx.fillStyle = colors.invertBg;
+          ctx.fillRect(8, y + 4, width - 16, rowH - 8);
+          ctx.fillStyle = colors.invertText;
+          ctx.font = 'bold 10px "Source Code Pro", monospace';
+          document.getElementById('outputChoice').innerText = `["${item}"]`;
+        } else {
+          ctx.strokeStyle = colors.border;
+          ctx.strokeRect(8, y + 4, width - 16, rowH - 8);
+          ctx.fillStyle = colors.textMuted;
+          ctx.font = '10px "Source Code Pro", monospace';
+        }
+
+        ctx.fillText(item, 18, y + rowH / 2 + 3.5);
+      });
+    }
+
+    /* 2. SCORE ANIMATION */
+    function renderScoreCanvas(time) {
+      const setup = setupCanvas('canvasScore');
+      if (!setup) return;
+      const { ctx, width, height } = setup;
+      const colors = getThemeColors();
+
+      ctx.clearRect(0, 0, width, height);
+
+      const count = 3;
+      const rowH = height / count;
+      const paddingLeft = 15;
+      const meterW = width - 30;
+      const currentScores = [];
+
+      for (let idx = 0; idx < count; idx++) {
+        const y = idx * rowH;
+        const val = Math.abs(Math.sin((time / 1400) + idx * 1.8)).toFixed(2);
+        currentScores.push(val);
+
+        const trackY = y + rowH / 2;
+        ctx.strokeStyle = colors.border;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(paddingLeft, trackY);
+        ctx.lineTo(paddingLeft + meterW, trackY);
+        ctx.stroke();
+
+        const ptrX = paddingLeft + (parseFloat(val) * meterW);
+        ctx.fillStyle = colors.invertBg;
+        ctx.fillRect(ptrX - 12, trackY - 8, 24, 16);
+
+        ctx.fillStyle = colors.invertText;
+        ctx.font = 'bold 9px "Source Code Pro", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(val, ptrX, trackY + 3);
+        ctx.textAlign = 'left';
+      }
+
+      document.getElementById('outputScore').innerText = `[${currentScores.join(', ')}]`;
+    }
+
+    /* 3. NOUL ANIMATION */
+    function renderNoulCanvas(time) {
+      const setup = setupCanvas('canvasNoul');
+      if (!setup) return;
+      const { ctx, width, height } = setup;
+      const colors = getThemeColors();
+
+      ctx.clearRect(0, 0, width, height);
+
+      const count = 3;
+      const rowH = height / count;
+      const states = [];
+
+      for (let idx = 0; idx < count; idx++) {
+        const y = idx * rowH;
+        const phase = Math.floor((time / 1600) + idx * 0.7);
+        const isTrue = phase % 2 === 0;
+        states.push(isTrue ? "TRUE" : "FALSE");
+
+        const boxX = (width / 2) - 35;
+        const boxY = y + (rowH / 2) - 10;
+
+        if (isTrue) {
+          ctx.fillStyle = colors.invertBg;
+          ctx.fillRect(boxX, boxY, 70, 20);
+          ctx.fillStyle = colors.invertText;
+          ctx.font = 'bold 9px "Source Code Pro", monospace';
+          ctx.fillText("[ TRUE ]", boxX + 13, boxY + 13);
+        } else {
+          ctx.strokeStyle = colors.textPrimary;
+          ctx.lineWidth = 1;
+          ctx.strokeRect(boxX, boxY, 70, 20);
+          ctx.fillStyle = colors.textPrimary;
+          ctx.font = 'bold 9px "Source Code Pro", monospace';
+          ctx.fillText("[FALSE]", boxX + 13, boxY + 13);
+        }
+      }
+
+      document.getElementById('outputNoul').innerText = `[${states.join(', ')}]`;
+    }
+
+    function animate(timestamp) {
+      renderChoiceCanvas(timestamp);
+      renderScoreCanvas(timestamp);
+      renderNoulCanvas(timestamp);
+
+      state.animFrameId = requestAnimationFrame(animate);
+    }
+
+    window.onload = function () {
+      state.animFrameId = requestAnimationFrame(animate);
+
+      window.addEventListener('resize', () => {
+        const timestamp = performance.now();
+        renderChoiceCanvas(timestamp);
+        renderScoreCanvas(timestamp);
+        renderNoulCanvas(timestamp);
+      });
+    };
+  </script>
+  <script>
+    (function () {
+      function fit() {
+        var fe = window.frameElement;
+        if (!fe) return;
+        var h = Math.ceil(document.documentElement.getBoundingClientRect().height);
+        if (h > 0) fe.style.height = h + "px";
+      }
+      fit();
+      window.addEventListener("load", fit);
+      window.addEventListener("resize", fit);
+      if (window.ResizeObserver) { new ResizeObserver(fit).observe(document.body); }
+      setTimeout(fit, 150);
+    })();
+  </script>
+</body>
+</html>
