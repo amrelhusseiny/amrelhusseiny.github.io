@@ -1,0 +1,115 @@
+name: agent-lab
+
+services:
+  rc1:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-rc1
+    hostname: rc1
+    privileged: true
+    environment:
+      NODE: rc1
+    volumes:
+      - ./frr/rc1.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.11
+  r1:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r1
+    hostname: r1
+    privileged: true
+    environment:
+      NODE: r1
+    volumes:
+      - ./frr/r1.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.12
+  r2:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r2
+    hostname: r2
+    privileged: true
+    environment:
+      NODE: r2
+    volumes:
+      - ./frr/r2.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.13
+  r3:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r3
+    hostname: r3
+    privileged: true
+    environment:
+      NODE: r3
+    volumes:
+      - ./frr/r3.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.15
+  r4:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r4
+    hostname: r4
+    privileged: true
+    environment:
+      NODE: r4
+    volumes:
+      - ./frr/r4.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.16
+  rc2:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-rc2
+    hostname: rc2
+    privileged: true
+    environment:
+      NODE: rc2
+    volumes:
+      - ./frr/rc2.conf:/config/frr.conf:ro
+    networks:
+      flat:
+        ipv4_address: 10.90.0.14
+
+  agent:
+    build: ./docker/agent
+    image: lab-agent:latest
+    container_name: agt-agent
+    hostname: agent
+    depends_on:
+      - rc1
+      - r1
+      - r2
+      - r3
+      - r4
+      - rc2
+    env_file:
+      - .env
+    environment:
+      OPENCODE_API_KEY: "${OPENCODE_API_KEY}"
+      ZEN_BASE: "https://opencode.ai/zen/v1"
+      LAB_NET: "10.90.0.0/24"
+    volumes:
+      - ./agent:/agent
+      - ./out:/agent/out
+    working_dir: /agent
+    command: ["sleep", "infinity"]
+    networks:
+      flat:
+        ipv4_address: 10.90.0.20
+
+networks:
+  flat:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.0.0/24

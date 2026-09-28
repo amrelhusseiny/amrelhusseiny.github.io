@@ -1,0 +1,76 @@
+2026-09-27T20:12:48.047+00:00 === run 20260927T201248Z ===
+2026-09-27T20:12:48.048+00:00 devices: {"rc1": "10.90.0.11", "r1": "10.90.0.12", "r2": "10.90.0.13", "rc2": "10.90.0.14", "r3": "10.90.0.15", "r4": "10.90.0.16"}
+2026-09-27T20:12:48.048+00:00 resumed log cursors: {'rc1': 3, 'r1': 3, 'r2': 3, 'rc2': 3, 'r3': 3, 'r4': 3}
+2026-09-27T20:12:48.785+00:00    capture rc1  total=3   new=0   withheld=0
+2026-09-27T20:12:59.262+00:00    capture r2   total=3   new=0   withheld=0
+2026-09-27T20:12:59.715+00:00    capture rc2  total=3   new=0   withheld=0
+2026-09-27T20:13:00.169+00:00    capture r3   total=3   new=0   withheld=0
+2026-09-27T20:13:00.636+00:00    capture r4   total=3   new=0   withheld=0
+2026-09-27T20:13:00.636+00:00 capture[before]: 1 item(s) to judge
+2026-09-27T20:13:11.643+00:00    jev r1   failed conf=1     r1 10.90.0.12 did not respond to SSH: ssh: connect t
+2026-09-27T20:13:11.644+00:00 trail: wrote 01-jev-judgements-before.json
+2026-09-27T20:13:11.644+00:00 JEV[before] verdict: faulty=['r1']
+2026-09-27T20:13:11.647+00:00 trail: wrote 02-bunny-request.json
+2026-09-27T20:13:11.647+00:00 handing to Space Bunny: 1 faulty router(s)
+2026-09-27T20:13:23.647+00:00    [ssh]    r1   echo hello; uptime; whoami                 rc=255
+2026-09-27T20:13:23.649+00:00    [vtysh]  r1   show ip route                              rc=255
+2026-09-27T20:13:27.402+00:00    [ssh]    r2   ip -br addr; ip route; vtysh -c "show ip r rc=0
+2026-09-27T20:13:27.404+00:00    [ssh]    rc1  ip -br addr; ip route; vtysh -c "show ip r rc=0
+2026-09-27T20:13:27.413+00:00    [ssh]    r3   ip -br addr; ip route; vtysh -c "show ip r rc=0
+2026-09-27T20:13:27.414+00:00    [ssh]    r4   ip -br addr; ip route; vtysh -c "show ip r rc=0
+2026-09-27T20:13:27.418+00:00    [ssh]    rc2  ip -br addr; ip route; vtysh -c "show ip r rc=0
+2026-09-27T20:13:42.633+00:00    [ssh]    rc2  ping -c 2 -W 2 10.90.0.12; echo "--- r1 lo rc=0
+2026-09-27T20:13:42.638+00:00    [ssh]    r2   ping -c 3 -W 2 10.90.0.12; echo "--- neigh rc=0
+2026-09-27T20:13:42.640+00:00    [ssh]    rc1  ping -c 3 -W 2 10.90.0.12; echo "--- neigh rc=0
+2026-09-27T20:13:59.065+00:00    [ssh]    r3   ip neigh; echo "--- route to 10.90.0.12 -- rc=0
+2026-09-27T20:14:04.076+00:00    [ssh]    r2   which ssh docker ping arping nc socat 2>/d rc=0
+2026-09-27T20:14:15.079+00:00    [ssh]    rc1  tail -n 30 /var/log/frr/frr.log; echo "=== rc=0
+2026-09-27T20:14:38.335+00:00    [ssh]    rc1  for i in $(seq 1 30); do (timeout 1 bash - rc=0
+2026-09-27T20:15:10.686+00:00    [ssh]    r1   hostname; uptime                           rc=255
+2026-09-27T20:15:27.891+00:00    [ssh]    rc1  for i in 1 2 3 4 5; do (timeout 2 bash -c  rc=0
+2026-09-27T20:15:51.981+00:00    [ssh]    rc2  timeout 3 bash -c "echo > /dev/tcp/10.90.1 rc=0
+2026-09-27T20:15:52.706+00:00    [ssh]    rc1  which python3 busybox traceroute socat cur rc=0
+2026-09-27T20:16:11.951+00:00    [vtysh]  rc1  show running-config                        rc=0
+2026-09-27T20:16:11.954+00:00    [vtysh]  r3   show running-config                        rc=0
+2026-09-27T20:16:17.186+00:00    [vtysh]  rc1  no ip route 10.90.8.1/32 10.90.0.12        rc=1
+2026-09-27T20:16:17.189+00:00    [vtysh]  rc1  no ip route 10.90.2.2/32 10.90.0.12        rc=0
+2026-09-27T20:16:17.196+00:00    [vtysh]  rc1  no ip route 10.90.3.2/32 10.90.0.12        rc=0
+2026-09-27T20:16:19.792+00:00    [vtysh]  rc1  no ip route 10.90.8.1/32 10.90.0.12        rc=0
+2026-09-27T20:16:22.998+00:00    [vtysh]  rc1  ip route 10.90.8.1/32 10.90.0.15           rc=0
+2026-09-27T20:16:25.512+00:00    [vtysh]  rc1  ip route 10.90.2.2/32 10.90.0.15           rc=0
+2026-09-27T20:16:27.703+00:00    [vtysh]  rc1  ip route 10.90.3.2/32 10.90.0.15           rc=0
+2026-09-27T20:16:30.597+00:00    [vtysh]  rc1  ip route 10.90.8.1/32 10.90.0.12 200       rc=0
+2026-09-27T20:16:32.762+00:00    [vtysh]  rc1  ip route 10.90.2.2/32 10.90.0.12 200       rc=0
+2026-09-27T20:16:35.074+00:00    [vtysh]  rc1  ip route 10.90.3.2/32 10.90.0.12 200       rc=0
+2026-09-27T20:16:38.061+00:00    [vtysh]  rc1  show ip route                              rc=0
+2026-09-27T20:16:42.048+00:00    [ssh]    rc1  ip route; echo "=== connectivity test rc1  rc=0
+2026-09-27T20:17:09.872+00:00    [ssh]    r2   echo "--- r2 -> its own lo 10.90.2.2:22 -- rc=0
+2026-09-27T20:17:09.883+00:00    [ssh]    r3   echo "--- r3 -> client 10.90.1.1:22 ---";  rc=0
+2026-09-27T20:17:09.896+00:00    [ssh]    r4   echo "--- r4 -> client 10.90.1.1:22 ---";  rc=0
+2026-09-27T20:17:14.410+00:00    [ssh]    rc1  cat /etc/frr/frr.conf 2>/dev/null | sed -n rc=0
+2026-09-27T20:17:22.490+00:00    [ssh]    rc1  python3 - <<'EOF'
+import socket
+for dst in rc=0
+2026-09-27T20:17:31.602+00:00    [ssh]    rc1  cp /etc/frr/frr.conf /etc/frr/frr.conf.bak rc=0
+2026-09-27T20:17:40.709+00:00    [ssh]    rc1  vtysh -c "write memory" 2>&1; echo "=== re rc=0
+2026-09-27T20:17:44.638+00:00    [ssh]    rc1  echo "=== frr.conf (persisted) ==="; grep  rc=0
+2026-09-27T20:17:44.657+00:00    [vtysh]  rc1  show ip route 10.90.8.1/32                 rc=0
+2026-09-27T20:17:49.690+00:00    [ssh]    rc1  python3 - <<'EOF'
+import socket
+def t(dst) rc=0
+2026-09-27T20:17:49.763+00:00    [ssh]    rc2  python3 - <<'EOF'
+import socket
+s=socket.s rc=0
+2026-09-27T20:18:01.963+00:00 trail: wrote 03-bunny-transcript.json
+2026-09-27T20:18:01.963+00:00 Space Bunny finished after 68 message(s)
+2026-09-27T20:18:02.410+00:00    capture rc1  total=4   new=1   withheld=0
+2026-09-27T20:18:05.962+00:00    capture r2   total=3   new=0   withheld=0
+2026-09-27T20:18:06.409+00:00    capture rc2  total=3   new=0   withheld=0
+2026-09-27T20:18:06.864+00:00    capture r3   total=3   new=0   withheld=0
+2026-09-27T20:18:07.323+00:00    capture r4   total=3   new=0   withheld=0
+2026-09-27T20:18:07.323+00:00 capture[after]: 2 item(s) to judge
+2026-09-27T20:18:11.757+00:00    jev rc1  failed conf=1     2026/09/27 20:16:17 MGMTD: [WEJ55-ZGM1W] Locking for
+2026-09-27T20:18:12.439+00:00    jev r1   failed conf=1     r1 10.90.0.12 did not respond to SSH: ssh: connect t
+2026-09-27T20:18:12.440+00:00 trail: wrote 08-jev-judgements-after.json
+2026-09-27T20:18:12.440+00:00 JEV[after] verdict: faulty=['r1', 'rc1']
+2026-09-27T20:18:12.442+00:00 post-fix re-read: still faulty=['r1', 'rc1']

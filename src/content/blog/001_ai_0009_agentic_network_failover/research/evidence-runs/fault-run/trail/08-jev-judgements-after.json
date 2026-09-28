@@ -1,0 +1,23 @@
+{
+  "count": 2,
+  "judgements": [
+    {
+      "node": "rc1",
+      "ip": "10.90.0.11",
+      "source": "frr_log",
+      "line": "2026/09/27 20:16:17 MGMTD: [WEJ55-ZGM1W] Locking for DS 2 failed, Err: 'Lock already taken on DS by another session!' vty 0x61fd6f93e350",
+      "choice": "failed",
+      "confidence": 1,
+      "latency_s": 4.43
+    },
+    {
+      "node": "r1",
+      "ip": "10.90.0.12",
+      "source": "ssh",
+      "line": "r1 10.90.0.12 did not respond to SSH: ssh: connect to host 10.90.0.12 port 22: No route to host",
+      "choice": "failed",
+      "confidence": 1,
+      "latency_s": 0.68
+    }
+  ]
+}

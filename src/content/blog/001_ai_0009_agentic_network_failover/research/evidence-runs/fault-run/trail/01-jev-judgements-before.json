@@ -1,0 +1,14 @@
+{
+  "count": 1,
+  "judgements": [
+    {
+      "node": "r1",
+      "ip": "10.90.0.12",
+      "source": "ssh",
+      "line": "r1 10.90.0.12 did not respond to SSH: ssh: connect to host 10.90.0.12 port 22: Connection timed out",
+      "choice": "failed",
+      "confidence": 1,
+      "latency_s": 11.002
+    }
+  ]
+}
