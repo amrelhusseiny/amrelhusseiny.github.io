@@ -795,3 +795,227 @@ model round trips - roughly 23 sequential calls at a few seconds each - plus
 the agent reading its own output before each next step. The earlier 324s
 figure and its explanation were both artefacts of the broken endpoint.
 
+
+---
+
+## 12. Option C build, 2026-09-29
+
+### 12.1 What changed and why
+
+The 138s run was slow for reasons that had nothing to do with the models. The
+agent spent 23 calls re-deriving a topology that could simply have been told to
+it, and 4 of those calls died on FRR rejecting shell syntax. So:
+
+| change | what it fixes |
+|---|---|
+| Jev makes a **second call** and picks the path, from a closed set of two | removes the entire discovery phase |
+| Bunny gets the topology, the segments and the exact next hops up front | no re-deriving |
+| Bunny decides only **how** to execute (option C) | keeps its judgement where judgement matters |
+| capture reads all six routers in a thread pool | 6 serial SSH round trips -> 1 |
+| command dispatcher inverted: default shell, FRR only on known heads | kills the 4 wasted calls |
+| `ping` claim corrected in the prompt | agent could verify instead of guessing |
+| decision trail archived per rep | all 3 trails survive |
+
+### 12.2 The two Jev calls
+
+First call, unchanged: one line in, normal or failed, categorical, no threshold.
+It correctly named r1 in every run.
+
+Second call, new: given the ASCII diagram of both paths plus the routing state
+read from the devices, choose a **path id**. Closed set, no free text.
+
+~~~
+A failover has just been detected.
+
+Routers the first pass judged FAILED: r1
+
+Routing state read from the devices themselves:
+
+  rc1 to the server network:
+    PATH-A  next hop 10.90.10.12    distance 1    ACTIVE NOW
+    PATH-B  next hop 10.90.20.12    distance 200  installed, standby
+...
+~~~
+
+Measured on the live lab:
+
+| case | result | latency |
+|---|---|---|
+| r1 dead, both paths installed | **PATH-B**, confidence 0.95-0.97 | 0.6-1.5s |
+| r3 also dead, PATH-B has no route | **PATH-A** | 1.2s |
+| both paths dead on both routers | **raises ModelError, no answer invented** | - |
+
+That third row matters. A free-text path answer would produce a route FRR accepts
+with rc=0 and that silently blackholes traffic. An answer outside the set raises.
+
+### 12.3 Bugs found and fixed while building this
+
+Four, all caught by testing against the real devices rather than by inspection:
+
+1. **`path_state()` matched on next hop only.** On rc1 the standby next hop
+   10.90.20.12 also serves 10.90.3.1 at distance 1, so the standby path was
+   reported as the active one. Now filtered by target prefix as well.
+2. **`[200/0]` is distance/metric, not metric/distance.** The regex read group
+   2, the metric, which is always 0 for a static. Every distance came out 999.
+3. **`usable` was computed from either router.** A healthy rc2 keeps a route
+   installed for a path whose forward half is dead, which resurrected an
+   unusable path. Now both directions must have the route.
+4. **`os.environ.get(name, default)` returns the empty string** when a variable
+   is exported by the host but unset there, which silently produced empty next
+   hops. Added an `_env()` helper.
+
+Also: the prompt claimed **there is no ping binary on any device**. That is
+false, ping is installed and works. The invariant was inherited from an earlier
+phase and had never been re-checked. Corrected, and the agent now uses ping to
+verify reachability, which is the cheapest check available.
+
+### 12.4 RESULTS: option C, 3 matched reps, same fault, same T0
+
+| rep | agent_fwd | agent_rev | ospf_fwd | ospf_rev |
+|---|---|---|---|---|
+| 1 | 51.9s | 51.9s | 34.2s | 32.8s |
+| 2 | 52.2s | 52.2s | 34.3s | 32.8s |
+| 3 | 44.5s | 43.0s | 34.2s | no outage |
+
+| | n | mean | median | max |
+|---|---|---|---|---|
+| agent_fwd | 3 | 49.5s | 51.9s | 52.2s |
+| agent_rev | 3 | 49.0s | 51.9s | 52.2s |
+| ospf_fwd | 3 | 34.2s | 34.2s | 34.3s |
+| ospf_rev | 2 | 32.8s | 32.8s | 32.8s |
+
+**Before and after, same fault, same T0, same models:**
+
+| | median agent | median OSPF | gap |
+|---|---|---|---|
+| free-form agent over SSH | 138.8s | 34.2s | 104.6s |
+| option C | **51.9s** | 34.2s | **17.7s** |
+
+The agent got **2.7x faster** and the gap to OSPF closed from 105s to 18s.
+OSPF did not move at all, which is the control.
+
+The variance also collapsed. The old run produced a 370s outlier across three
+reps; option C produced 44.5, 51.9 and 52.2. That spread was not the model being
+slow, it was the model guessing at commands and topology.
+
+### 12.5 What the agent actually does now
+
+Per repetition, from the archived trails:
+
+| rep | Bunny model calls | tool calls | config writes | path chosen | confidence |
+|---|---|---|---|---|---|
+| 1 | 6 | 17 | 2 | PATH-B | 0.95 |
+| 2 | 5 | 18 | 2 | PATH-B | 0.95 |
+| 3 | 4 | - | 2 | - | - |
+
+Down from 23 model calls to 4-6.
+
+**Parallel tool calls work and are being used.** The transcript shows five
+separate turns issuing 4, 5, 2, 4 and 2 tool calls at once, so 17 calls were
+issued in about 7 turns. This was verified in the transcript rather than assumed.
+
+**The two config writes are always the same shape:**
+
+~~~
+rc2   no ip route 10.90.1.1/32 10.90.12.15     rc=0
+rc1   no ip route 10.90.8.1/32 10.90.10.12     rc=0
+~~~
+
+Withdraw the dead primary on both edge routers so the already-configured
+standby becomes the lowest-distance route. The read-only calls around them are
+ip -br addr, show ip route, ip route get, and ping on both next hops.
+
+### 12.6 Where the remaining 18 seconds goes
+
+| | old | option C |
+|---|---|---|
+| model calls | 23 | 4-6 |
+| Jev calls | 1 | 2 |
+| tool calls issued | 23 serial | ~17 in ~7 parallel turns |
+| config writes | 4 | 2 |
+
+It is no longer discovery and it is no longer syntax errors. What is left is
+genuine sequential latency: each model turn waits for the SSH results of the
+previous turn before it can decide what to read next. OSPF does not pay that
+because it never talks to anybody.
+
+### 12.7 CAVEATS, DEVIATIONS AND COMPROMISES
+
+Everything the reader should know before quoting any number above.
+
+**Changed the article premise**
+
+1. `jev-1.13-free` returns 403, so the decision model is the **paid** `jev-1.13`.
+   Jev is no longer a free model in this writeup.
+2. Space Bunny is reached at **`/zen/go/v1/chat/completions`**, not `/zen/v1/`.
+   Any URL or base path already published is wrong.
+3. The path decision moved from Space Bunny to Jev. The original brief was
+   *Jev decides which router failed, Bunny decides how to fix it*. Jev now also
+   chooses which path should carry traffic, and Bunny chooses how to make that
+   happen. That is a deliberate change of the split, and the article has to state
+   it rather than describe the original design.
+
+**Deliberate compromises**
+
+4. **TLS verification is fully disabled** container-wide. `sitecustomize.py`
+   patches `ssl` at four levels so every Python library skips verification.
+   Operator instruction, lab only, but it means the lab cannot detect a
+   man-in-the-middle on its own API traffic and must never be copied anywhere
+   real.
+5. **The corporate proxy is mandatory now.** The transport used to bypass it
+   because direct egress worked. It no longer does: a direct request comes back
+   302 to a Forcepoint block page or 307 to the proxy login portal. The lab is
+   now coupled to corporate proxy policy in a way it was not before.
+6. **`x-opencode-session` is now sent.** The Go gateway hard-requires it and
+   answers 400 without it. It is a documented contract, but it is per-conversation
+   state the agent now carries.
+
+**gNMI was asked for and is not available**
+
+7. This FRR is built `--disable-protobuf`, and `gnmi`/`netconf` are absent from
+   vtysh, so **gNMI cannot be used without rebuilding FRR from source** (order of
+   an hour, through the same flaky proxy). mgmtd listens on 2623 but resets
+   unauthenticated connections. SSH plus vtysh is what the lab uses. SSH is a
+   legitimate northbound interface; it was the *usage* that was sloppy, not the
+   protocol. Rebuilding FRR for gNMI is worth doing as a separate experiment and
+   was not done here.
+
+**Bugs and gaps, disclosed**
+
+8. The environment prompt asserted **there is no ping binary**. That was false
+   and is now corrected. It shows an inherited invariant that was never
+   re-checked against the running image.
+9. Four bugs in the path model were only caught by testing against live routers:
+   next-hop-only matching, distance read from the wrong bracket group, `usable`
+   computed from either router, and empty env vars defeating defaults. All fixed,
+   all documented in 12.3. Any earlier number produced before those fixes should
+   not be quoted.
+10. `ModelError` was missing from the working tree, which is the no-fallback
+    guarantee, and it took out repetition 1 of the first matched set. It had
+    been dropped by an earlier uncommitted rewrite. Restored from git.
+11. `RETRYABLE` still contains 301/302/307/308. That is what turned one
+    permanently-redirecting response into an 85-107s stall. Moot now the proxy is
+    used, but it should be removed and has not been.
+12. Rep 3 `ospf_rev` recorded **no outage** at all. With a 0.2s probe interval
+    that means the return path recovered inside 200ms. Plausible, but
+    unexplained and asymmetric with the 34.2s forward figure.
+
+**Superseded, must not be restated**
+
+13. The old **324s** figure and its explanation are artifacts of the broken
+    `/zen/v1` endpoint. The reasoning-token story behind it was also wrong: real
+    cost is roughly 86 reasoning tokens per call.
+14. The `chat_template_kwargs` suppression claim in `models.py` does not
+    reproduce on the Go endpoint. Comment corrected, but if an earlier draft
+    quotes 1831 -> 674 it should be struck.
+
+**Scope**
+
+15. Only the **container-kill** fault is in the matched set. The 0.62s
+    interface-down figure is from an earlier OSPF-only session, so there is no
+    agent-vs-OSPF comparison on a link failure.
+16. **n=3**, one machine, one fault type, one topology. Directionally clear, not
+    statistically meaningful. The agent figures in particular are a sample from a
+    stochastic process.
+17. Space Bunny is a free promotional model listed as *limited time*. It may
+    disappear, as its endpoint nearly did during this work.

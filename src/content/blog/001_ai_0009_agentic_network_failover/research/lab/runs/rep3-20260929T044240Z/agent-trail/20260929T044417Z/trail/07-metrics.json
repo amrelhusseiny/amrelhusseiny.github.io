@@ -1,0 +1,51 @@
+{
+  "run_id": "20260929T044417Z",
+  "started": "2026-09-29T04:44:17.935+00:00",
+  "devices": {
+    "rc1": "10.90.10.11",
+    "r1": "10.90.10.12",
+    "r2": "10.90.11.14",
+    "rc2": "10.90.12.16",
+    "r3": "10.90.20.12",
+    "r4": "10.90.20.13"
+  },
+  "total_s": 54.57,
+  "conclusion": "still_faulty",
+  "faulty_before": [
+    "r1"
+  ],
+  "faulty_after": [
+    "r1"
+  ],
+  "judged_before": [
+    {
+      "node": "r1",
+      "ip": "10.90.10.12",
+      "source": "ssh",
+      "line": "r1 10.90.10.12 did not respond to SSH: ssh: connect to host 10.90.10.12 port 22: Connection timed out",
+      "choice": "failed",
+      "confidence": 1,
+      "latency_s": 1.113
+    }
+  ],
+  "judged_after": [
+    {
+      "node": "r1",
+      "ip": "10.90.10.12",
+      "source": "ssh",
+      "line": "r1 10.90.10.12 did not respond to SSH: ssh: connect to host 10.90.10.12 port 22: No route to host",
+      "choice": "failed",
+      "confidence": 1,
+      "latency_s": 1.092
+    }
+  ],
+  "bunny_result": "## PATH-B is live and carrying traffic\n\n**Forward** (rc1 \u2192 server 10.90.8.1): active route is now `distance 200, best \u2192 10.90.20.12 via eth0`; `ip route get` confirms the FIB entry, and 3/3 pings return.\n\n**Return** (rc2 \u2192 client 10.90.1.1): active route is now `distance 200, best \u2192 10.90.20.12 via eth1`; `ip route get` confirms it, and 3/3 pings return. Neither direction is stranded \u2014 the return leg switched in the same turn as the forward leg, so there was no window where forward was on B and return on A.\n\nBoth edges are now symmetric on the standby segment, with r3 as the single shared next hop.\n\n## What was actually wrong\n\nJev's judgement was correct on both counts, and the thing worth flagging is *why* the fault was still costing traffic after it was detected: the AD-1 PATH-A routes were still installed on both edges. Static routing has no liveness check \u2014 FRR will happily keep preferring a dead next hop forever, because distance is a preference, not a health signal. rc1 was black-holing forward traffic into an unreachable r1 while a fully working PATH-B sat installed at AD 200, unused. Detecting r1's death doesn't move traffic; only withdrawing the route does.\n\nI withdrew the routes rather than raising the AD-200 routes' preference, because the AD-200 entries were already correct and already verified to answer from both edges. Rewriting them would have been redundant config churn with a brief window of two identical-prefix routes in the table.\n\nTwo details I deliberately did **not** act on:\n\n- **r2 was left alone.** rc2's leg to r1's path runs via 10.90.12.15 on PC, and that next hop answered cleanly. r1 being down does not imply r2 is down. Had I used \"r1 is faulty, therefore withdraw all of PATH-A\" as the logic, I would have been extrapolating past the evidence \u2014 here it happened to be harmless, but the reasoning was wrong. I withdrew rc2's leg strictly because the agreed target is PATH-B and the two edges had to move together.\n- **The other routes in the table were untouched.** rc1's `10.90.2.2/32` still prefers the dead 10.90.10.12, and `10.90.3.x/32` still points at r3/r4. Those weren't part of the stated decision, so I left them for you rather than silently changing traffic you didn't ask about. Flagging it because the 10.90.2.2 entry is currently black-holing into dead r1 and will stay that way until someone decides otherwise \u2014 worth a look if that prefix matters to you.\n\nr1 itself remains unrecoverable from here (SSH returns `No route to host`), so this is a failover, not a repair. If r1 comes back, the PATH-B routes will remain the active ones until you explicitly re-add the AD-1 routes.",
+  "cursors": {
+    "rc1": 3,
+    "r1": 3,
+    "r2": 3,
+    "rc2": 3,
+    "r3": 3,
+    "r4": 3
+  }
+}

@@ -1,137 +1,43 @@
 [
   {
-    "rep": 1,
-    "status": "ok",
-    "dir": "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io/src/content/blog/001_ai_0009_agentic_network_failover/research/lab/runs/rep1-20260928T195933Z",
-    "wall_clock_recovery": {
-      "ospf": 35.9,
-      "agent": 139.27
-    },
-    "downtime": {
-      "agent_fwd": {
-        "outage": true,
-        "first_fail_offset_s": 7.058,
-        "recovery_offset_s": 138.806,
-        "downtime_s": 138.806,
-        "failed_probes": 213,
-        "total_probes_in_window": 214,
-        "recovered": true
-      },
-      "agent_rev": {
-        "outage": true,
-        "first_fail_offset_s": 13.166,
-        "recovery_offset_s": 138.918,
-        "downtime_s": 138.918,
-        "failed_probes": 128,
-        "total_probes_in_window": 129,
-        "recovered": true
-      },
-      "ospf_fwd": {
-        "outage": true,
-        "first_fail_offset_s": 6.802,
-        "recovery_offset_s": 34.446,
-        "downtime_s": 34.446,
-        "failed_probes": 50,
-        "total_probes_in_window": 51,
-        "recovered": true
-      },
-      "ospf_rev": {
-        "outage": true,
-        "first_fail_offset_s": -0.382,
-        "recovery_offset_s": 33.126,
-        "downtime_s": 33.126,
-        "failed_probes": 32,
-        "total_probes_in_window": 33,
-        "recovered": true
-      }
-    }
-  },
-  {
-    "rep": 2,
-    "status": "ok",
-    "dir": "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io/src/content/blog/001_ai_0009_agentic_network_failover/research/lab/runs/rep2-20260928T200341Z",
-    "wall_clock_recovery": {
-      "ospf": 34.77,
-      "agent": 368.97
-    },
-    "downtime": {
-      "agent_fwd": {
-        "outage": true,
-        "first_fail_offset_s": 8.294,
-        "recovery_offset_s": 370.111,
-        "downtime_s": 370.111,
-        "failed_probes": 588,
-        "total_probes_in_window": 589,
-        "recovered": true
-      },
-      "agent_rev": {
-        "outage": true,
-        "first_fail_offset_s": 18.531,
-        "recovery_offset_s": 370.182,
-        "downtime_s": 370.182,
-        "failed_probes": 356,
-        "total_probes_in_window": 357,
-        "recovered": true
-      },
-      "ospf_fwd": {
-        "outage": true,
-        "first_fail_offset_s": 30.786,
-        "recovery_offset_s": 33.859,
-        "downtime_s": 33.859,
-        "failed_probes": 10,
-        "total_probes_in_window": 11,
-        "recovered": true
-      },
-      "ospf_rev": {
-        "outage": true,
-        "first_fail_offset_s": -0.314,
-        "recovery_offset_s": 32.846,
-        "downtime_s": 32.846,
-        "failed_probes": 31,
-        "total_probes_in_window": 32,
-        "recovered": true
-      }
-    }
-  },
-  {
     "rep": 3,
     "status": "ok",
-    "dir": "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io/src/content/blog/001_ai_0009_agentic_network_failover/research/lab/runs/rep3-20260928T201139Z",
+    "dir": "/home/aeuu0328/Github/production/personal/amrelhusseiny.github.io/src/content/blog/001_ai_0009_agentic_network_failover/research/lab/runs/rep3-20260929T044240Z",
     "wall_clock_recovery": {
-      "ospf": 32.54,
-      "agent": 137.11
+      "ospf": 32.37,
+      "agent": 43.57
     },
     "downtime": {
       "agent_fwd": {
         "outage": true,
-        "first_fail_offset_s": 29.587,
-        "recovery_offset_s": 136.363,
-        "downtime_s": 136.363,
-        "failed_probes": 155,
-        "total_probes_in_window": 156,
+        "first_fail_offset_s": 26.042,
+        "recovery_offset_s": 44.474,
+        "downtime_s": 44.474,
+        "failed_probes": 35,
+        "total_probes_in_window": 36,
         "recovered": true
       },
       "agent_rev": {
         "outage": true,
-        "first_fail_offset_s": 23.412,
-        "recovery_offset_s": 136.251,
-        "downtime_s": 136.251,
-        "failed_probes": 110,
-        "total_probes_in_window": 111,
+        "first_fail_offset_s": 24.026,
+        "recovery_offset_s": 43.026,
+        "downtime_s": 43.026,
+        "failed_probes": 21,
+        "total_probes_in_window": 22,
         "recovered": true
       },
       "ospf_fwd": {
-        "outage": false,
-        "note": "no failed probe at or after T0"
+        "outage": true,
+        "first_fail_offset_s": 21.914,
+        "recovery_offset_s": 34.202,
+        "downtime_s": 34.202,
+        "failed_probes": 25,
+        "total_probes_in_window": 26,
+        "recovered": true
       },
       "ospf_rev": {
-        "outage": true,
-        "first_fail_offset_s": -0.344,
-        "recovery_offset_s": 32.335,
-        "downtime_s": 32.335,
-        "failed_probes": 29,
-        "total_probes_in_window": 30,
-        "recovered": true
+        "outage": false,
+        "note": "no failed probe at or after T0"
       }
     }
   }

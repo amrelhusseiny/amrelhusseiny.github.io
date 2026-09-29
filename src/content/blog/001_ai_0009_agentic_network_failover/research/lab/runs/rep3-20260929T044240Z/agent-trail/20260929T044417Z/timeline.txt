@@ -1,0 +1,49 @@
+2026-09-29T04:44:17.934+00:00 === run 20260929T044417Z ===
+2026-09-29T04:44:17.934+00:00 devices: {"rc1": "10.90.10.11", "r1": "10.90.10.12", "r2": "10.90.11.14", "rc2": "10.90.12.16", "r3": "10.90.20.12", "r4": "10.90.20.13"}
+2026-09-29T04:44:17.935+00:00 resumed log cursors: {'rc1': 3, 'r1': 3, 'r2': 3, 'rc2': 3, 'r3': 3, 'r4': 3}
+2026-09-29T04:44:28.277+00:00    probed 6 routers in 10.05s
+2026-09-29T04:44:28.283+00:00    capture rc1  total=3   new=0   withheld=0
+2026-09-29T04:44:28.289+00:00    capture r2   total=3   new=0   withheld=0
+2026-09-29T04:44:28.291+00:00    capture rc2  total=3   new=0   withheld=0
+2026-09-29T04:44:28.293+00:00    capture r3   total=3   new=0   withheld=0
+2026-09-29T04:44:28.295+00:00    capture r4   total=3   new=0   withheld=0
+2026-09-29T04:44:28.296+00:00 capture[before]: 1 item(s) to judge
+2026-09-29T04:44:29.415+00:00    jev r1   failed conf=1     r1 10.90.10.12 did not respond to SSH: ssh: connect 
+2026-09-29T04:44:29.416+00:00 trail: wrote 01-jev-judgements-before.json
+2026-09-29T04:44:29.416+00:00 JEV[before] verdict: faulty=['r1']
+2026-09-29T04:44:30.069+00:00 path state rc1: [('PATH-A', 1, True), ('PATH-B', 200, False)]
+2026-09-29T04:44:30.069+00:00 path state rc2: [('PATH-A', 1, True), ('PATH-B', 200, False)]
+2026-09-29T04:44:30.544+00:00 trail: wrote 03-jev-path-decision.json
+2026-09-29T04:44:30.544+00:00 JEV[path] chose PATH-B (confidence 0.94)
+2026-09-29T04:44:30.546+00:00 trail: wrote 04-bunny-request.json
+2026-09-29T04:44:30.546+00:00 handing 1 faulty line(s) to Space Bunny, path decided: PATH-B
+2026-09-29T04:44:36.638+00:00    [run]    rc1  show ip route                                rc=0
+2026-09-29T04:44:36.652+00:00    [run]    rc2  show ip route                                rc=0
+2026-09-29T04:44:37.633+00:00    [run]    rc1  ping -c2 -W2 10.90.20.12                     rc=0
+2026-09-29T04:44:37.634+00:00    [run]    rc2  ping -c2 -W2 10.90.12.15                     rc=0
+2026-09-29T04:44:37.669+00:00    [run]    rc2  ping -c2 -W2 10.90.20.12                     rc=0
+2026-09-29T04:44:39.589+00:00    [run]    rc1  ping -c2 -W2 10.90.10.12                     rc=1
+2026-09-29T04:44:53.748+00:00    [run]    rc2  no ip route 10.90.1.1/32 10.90.12.15         rc=0
+2026-09-29T04:44:53.751+00:00    [run]    rc1  no ip route 10.90.8.1/32 10.90.10.12         rc=0
+2026-09-29T04:44:56.542+00:00    [run]    r1   ip -br addr                                  rc=255
+2026-09-29T04:44:59.270+00:00    [run]    rc2  ip route get 10.90.1.1                       rc=0
+2026-09-29T04:44:59.287+00:00    [run]    rc1  ip route get 10.90.8.1                       rc=0
+2026-09-29T04:44:59.313+00:00    [run]    rc2  show ip route 10.90.1.1/32                   rc=0
+2026-09-29T04:44:59.343+00:00    [run]    rc1  show ip route 10.90.8.1/32                   rc=0
+2026-09-29T04:45:01.316+00:00    [run]    rc1  ping -c3 -W2 10.90.8.1                       rc=0
+2026-09-29T04:45:01.348+00:00    [run]    rc2  ping -c3 -W2 10.90.1.1                       rc=0
+2026-09-29T04:45:08.268+00:00 trail: wrote 06-bunny-usage.json
+2026-09-29T04:45:08.268+00:00    bunny usage: {'calls': 4, 'completion_tokens': 3413, 'reasoning_tokens': 1556, 'reasoning_suppressed': False}
+2026-09-29T04:45:08.270+00:00 trail: wrote 05-bunny-transcript.json
+2026-09-29T04:45:08.271+00:00 Space Bunny finished after 20 message(s)
+2026-09-29T04:45:11.400+00:00    probed 6 routers in 3.13s
+2026-09-29T04:45:11.402+00:00    capture rc1  total=3   new=0   withheld=0
+2026-09-29T04:45:11.404+00:00    capture r2   total=3   new=0   withheld=0
+2026-09-29T04:45:11.405+00:00    capture rc2  total=3   new=0   withheld=0
+2026-09-29T04:45:11.406+00:00    capture r3   total=3   new=0   withheld=0
+2026-09-29T04:45:11.407+00:00    capture r4   total=3   new=0   withheld=0
+2026-09-29T04:45:11.407+00:00 capture[after]: 1 item(s) to judge
+2026-09-29T04:45:12.503+00:00    jev r1   failed conf=1     r1 10.90.10.12 did not respond to SSH: ssh: connect 
+2026-09-29T04:45:12.504+00:00 trail: wrote 08-jev-judgements-after.json
+2026-09-29T04:45:12.504+00:00 JEV[after] verdict: faulty=['r1']
+2026-09-29T04:45:12.505+00:00 post-fix re-read: still faulty=['r1']

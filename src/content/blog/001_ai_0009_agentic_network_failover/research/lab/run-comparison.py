@@ -6,6 +6,7 @@ Same fault into both labs at the same instant, both measured by the same
 external ICMP observer. Nothing is self-reported.
 '''
 import argparse
+import glob
 import json
 import os
 import subprocess
@@ -105,20 +106,43 @@ def light_telemetry(rec):
 CURRENT_REP_DIR = [None]
 
 
-def _archive_agent_bundle():
-    """Copy /agent/out out of the container into runs/<rep>/agent-trail.
+def _archive_agent_bundle(wait_s=240):
+    """Copy the finished agent bundle into runs/<rep>/agent-trail.
 
-    The agent writes as root inside a bind-mounted directory, so a host-side
-    delete of the contents fails. Copy first, then let reset_labs() wipe it.
-    Without this only the final repetition keeps its decision trail, because
-    reset_labs() runs at the top of every repetition.
+    Three things went wrong here before this worked, all worth recording.
+
+    Timing: the harness records recovery the moment traffic flows again, but
+    the agent keeps working for another ten seconds and writes its transcript
+    and token usage at the very end. Archiving on recovery silently dropped
+    05-bunny-transcript and 06-bunny-usage.
+
+    Waiting on pgrep did not work: the agent image ships no procps, so pgrep
+    exits 127, the shell falls through to the DONE branch, and the wait
+    returns instantly while the agent is still running.
+
+    The sentinel path: trail.finalize() writes 07-metrics.json under trail/,
+    not at the bundle root. Globbing the root made the loop spin for the full
+    timeout and archive nothing.
+
+    Source: /agent/out is a bind mount of ./out on the host, so copy from the
+    host rather than shelling into the container to tar.
     """
     dst = CURRENT_REP_DIR[0]
     if not dst:
         return
+    src = os.path.join(HERE, "out")
+    sentinel = os.path.join(src, "*", "trail", "07-metrics.json")
+    t0 = time.time()
+    while time.time() - t0 < wait_s:
+        if glob.glob(sentinel):
+            break
+        time.sleep(2)
+    else:
+        print("    WARNING: agent did not finalise within %ds" % wait_s)
     dst = os.path.join(dst, "agent-trail")
     os.makedirs(dst, exist_ok=True)
-    sh("docker exec agt-agent sh -c 'cd /agent && tar cf - out' | tar xf - -C %s" % dst, timeout=180)
+    if os.path.isdir(src):
+        sh("cp -a %s/. %s/" % (src, dst), timeout=120)
 
 
 def reset_labs():

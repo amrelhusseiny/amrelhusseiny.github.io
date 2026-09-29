@@ -1,0 +1,15 @@
+{
+  "usage": {
+    "calls": 4,
+    "completion_tokens": 3413,
+    "reasoning_tokens": 1556,
+    "reasoning_suppressed": false
+  },
+  "api_retries": {
+    "jev": {
+      "calls": 2,
+      "retries": 0,
+      "by_status": {}
+    }
+  }
+}

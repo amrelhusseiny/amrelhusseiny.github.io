@@ -1,0 +1,15 @@
+{
+  "path": "PATH-B",
+  "label": "STANDBY, through r3 on the shared standby segment",
+  "confidence": 0.94,
+  "probabilities": {
+    "PATH-A": 0.03,
+    "PATH-B": 0.97
+  },
+  "latency_s": 0.471,
+  "usable": [
+    "PATH-A",
+    "PATH-B"
+  ],
+  "state": "A failover has just been detected.\n\nRouters the first pass judged FAILED: r1\n\nRouting state read from the devices themselves:\n\n  rc1 to the server network:\n    PATH-A  next hop 10.90.10.12    distance 1    ACTIVE NOW\n    PATH-B  next hop 10.90.20.12    distance 200  installed, standby\n\n  rc2 back to the client network:\n    PATH-A  next hop 10.90.12.15    distance 1    ACTIVE NOW\n    PATH-B  next hop 10.90.20.12    distance 200  installed, standby\n\nTopology:\n\n  Two paths join the client edge rc1 to the server edge rc2. They share no\n  intermediate router.\n\n     PATH-A   PRIMARY                     PATH-B   STANDBY\n\n     rc1 \u2500\u2500pa\u2500\u2500\u25ba r1                       rc1 \u2500\u2500st\u2500\u2500\u25ba r3\n           \u2500\u2500pb\u2500\u2500\u25ba r2                            \u2500\u2500st\u2500\u2500\u2510\n                \u2500\u2500pc\u2500\u2500\u25ba rc2  \u25c4\u2500\u2500st\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n     fwd next hop on rc1:  10.90.10.12        fwd next hop on rc1:  10.90.20.12\n     rev next hop on rc2:  10.90.12.15        rev next hop on rc2:  10.90.20.12\n\n\nA path carrying traffic cannot include a router that has failed.\nChoose the one path from the list that should carry traffic now."
+}
