@@ -1,0 +1,6 @@
+{
+  "mode": "kill",
+  "rep": 3,
+  "detail": "container stopped (peer interface goes down with it)",
+  "wall_clock_recovery_s": 39.499
+}

@@ -1,0 +1,21 @@
+{
+  "t0_epoch": 1790579016.7754786,
+  "results": {
+    "agent_fwd": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    },
+    "agent_rev": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    },
+    "ospf_fwd": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    },
+    "ospf_rev": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    }
+  }
+}

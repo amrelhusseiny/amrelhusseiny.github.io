@@ -1,5 +1,10 @@
 zebra=yes
+mgmtd=yes
 staticd=yes
 ospfd=no
 bgpd=no
+ripd=no
+isisd=no
+pimd=no
+ospf6d=no
 watchfrr=yes

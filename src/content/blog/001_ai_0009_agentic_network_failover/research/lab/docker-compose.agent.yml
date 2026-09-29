@@ -9,11 +9,18 @@ services:
     privileged: true
     environment:
       NODE: rc1
+      IF_PA: "10.90.10.11"
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.90.20.11"
     volumes:
-      - ./frr/rc1.conf:/config/frr.conf:ro
+      - ./frr/agent/rc1.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
     networks:
-      flat:
-        ipv4_address: 10.90.0.11
+      pa:
+        ipv4_address: 10.90.10.11
+      st:
+        ipv4_address: 10.90.20.11
   r1:
     build: ./docker/router
     image: lab-router:latest
@@ -22,11 +29,18 @@ services:
     privileged: true
     environment:
       NODE: r1
+      IF_PA: "10.90.10.12"
+      IF_PB: "10.90.11.13"
+      IF_PC: ""
+      IF_ST: ""
     volumes:
-      - ./frr/r1.conf:/config/frr.conf:ro
+      - ./frr/agent/r1.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
     networks:
-      flat:
-        ipv4_address: 10.90.0.12
+      pa:
+        ipv4_address: 10.90.10.12
+      pb:
+        ipv4_address: 10.90.11.13
   r2:
     build: ./docker/router
     image: lab-router:latest
@@ -35,37 +49,18 @@ services:
     privileged: true
     environment:
       NODE: r2
+      IF_PA: ""
+      IF_PB: "10.90.11.14"
+      IF_PC: "10.90.12.15"
+      IF_ST: ""
     volumes:
-      - ./frr/r2.conf:/config/frr.conf:ro
+      - ./frr/agent/r2.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
     networks:
-      flat:
-        ipv4_address: 10.90.0.13
-  r3:
-    build: ./docker/router
-    image: lab-router:latest
-    container_name: agt-r3
-    hostname: r3
-    privileged: true
-    environment:
-      NODE: r3
-    volumes:
-      - ./frr/r3.conf:/config/frr.conf:ro
-    networks:
-      flat:
-        ipv4_address: 10.90.0.15
-  r4:
-    build: ./docker/router
-    image: lab-router:latest
-    container_name: agt-r4
-    hostname: r4
-    privileged: true
-    environment:
-      NODE: r4
-    volumes:
-      - ./frr/r4.conf:/config/frr.conf:ro
-    networks:
-      flat:
-        ipv4_address: 10.90.0.16
+      pb:
+        ipv4_address: 10.90.11.14
+      pc:
+        ipv4_address: 10.90.12.15
   rc2:
     build: ./docker/router
     image: lab-router:latest
@@ -74,42 +69,103 @@ services:
     privileged: true
     environment:
       NODE: rc2
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: "10.90.12.16"
+      IF_ST: "10.90.20.14"
     volumes:
-      - ./frr/rc2.conf:/config/frr.conf:ro
+      - ./frr/agent/rc2.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
     networks:
-      flat:
-        ipv4_address: 10.90.0.14
-
+      pc:
+        ipv4_address: 10.90.12.16
+      st:
+        ipv4_address: 10.90.20.14
+  r3:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r3
+    hostname: r3
+    privileged: true
+    environment:
+      NODE: r3
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.90.20.12"
+    volumes:
+      - ./frr/agent/r3.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
+    networks:
+      st:
+        ipv4_address: 10.90.20.12
+  r4:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: agt-r4
+    hostname: r4
+    privileged: true
+    environment:
+      NODE: r4
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.90.20.13"
+    volumes:
+      - ./frr/agent/r4.conf:/config/frr.conf:ro
+      - ./frr/agent/daemons:/config/daemons:ro
+    networks:
+      st:
+        ipv4_address: 10.90.20.13
   agent:
     build: ./docker/agent
     image: lab-agent:latest
     container_name: agt-agent
     hostname: agent
-    depends_on:
-      - rc1
-      - r1
-      - r2
-      - r3
-      - r4
-      - rc2
     env_file:
       - .env
     environment:
-      OPENCODE_API_KEY: "${OPENCODE_API_KEY}"
       ZEN_BASE: "https://opencode.ai/zen/v1"
-      LAB_NET: "10.90.0.0/24"
+      RC1_IP: 10.90.10.11
+      R1_IP: 10.90.10.12
+      R2_IP: 10.90.11.14
+      RC2_IP: 10.90.12.16
+      R3_IP: 10.90.20.12
+      R4_IP: 10.90.20.13
     volumes:
       - ./agent:/agent
       - ./out:/agent/out
     working_dir: /agent
     command: ["sleep", "infinity"]
     networks:
-      flat:
-        ipv4_address: 10.90.0.20
+      pa:
+        ipv4_address: 10.90.10.30
+      pb:
+        ipv4_address: 10.90.11.30
+      pc:
+        ipv4_address: 10.90.12.30
+      st:
+        ipv4_address: 10.90.20.30
 
 networks:
-  flat:
+  pa:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.90.0.0/24
+        - subnet: 10.90.10.0/24
+  pb:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.11.0/24
+  pc:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.12.0/24
+  st:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.90.20.0/24
+

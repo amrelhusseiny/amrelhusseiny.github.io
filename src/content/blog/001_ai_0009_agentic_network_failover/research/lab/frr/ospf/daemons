@@ -1,0 +1,10 @@
+zebra=yes
+mgmtd=yes
+staticd=yes
+ospfd=yes
+bgpd=no
+ripd=no
+isisd=no
+pimd=no
+ospf6d=no
+watchfrr=yes

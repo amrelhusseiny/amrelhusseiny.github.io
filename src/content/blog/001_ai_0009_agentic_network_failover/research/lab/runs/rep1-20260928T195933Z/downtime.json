@@ -1,0 +1,41 @@
+{
+  "t0_epoch": 1790625663.6607938,
+  "results": {
+    "agent_fwd": {
+      "outage": true,
+      "first_fail_offset_s": 7.058,
+      "recovery_offset_s": 138.806,
+      "downtime_s": 138.806,
+      "failed_probes": 213,
+      "total_probes_in_window": 214,
+      "recovered": true
+    },
+    "agent_rev": {
+      "outage": true,
+      "first_fail_offset_s": 13.166,
+      "recovery_offset_s": 138.918,
+      "downtime_s": 138.918,
+      "failed_probes": 128,
+      "total_probes_in_window": 129,
+      "recovered": true
+    },
+    "ospf_fwd": {
+      "outage": true,
+      "first_fail_offset_s": 6.802,
+      "recovery_offset_s": 34.446,
+      "downtime_s": 34.446,
+      "failed_probes": 50,
+      "total_probes_in_window": 51,
+      "recovered": true
+    },
+    "ospf_rev": {
+      "outage": true,
+      "first_fail_offset_s": -0.382,
+      "recovery_offset_s": 33.126,
+      "downtime_s": 33.126,
+      "failed_probes": 32,
+      "total_probes_in_window": 33,
+      "recovered": true
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "t0_epoch": 1790578652.4791992,
+  "results": {
+    "agent_fwd": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    },
+    "agent_rev": {
+      "outage": false,
+      "note": "no failed probe at or after T0"
+    },
+    "ospf_fwd": {
+      "outage": true,
+      "first_fail_offset_s": 8.06,
+      "recovery_offset_s": 35.713,
+      "downtime_s": 35.713,
+      "failed_probes": 50,
+      "total_probes_in_window": 51,
+      "recovered": true
+    },
+    "ospf_rev": {
+      "outage": true,
+      "first_fail_offset_s": -0.384,
+      "recovery_offset_s": 34.608,
+      "downtime_s": 34.608,
+      "failed_probes": 31,
+      "total_probes_in_window": 32,
+      "recovered": true
+    }
+  }
+}

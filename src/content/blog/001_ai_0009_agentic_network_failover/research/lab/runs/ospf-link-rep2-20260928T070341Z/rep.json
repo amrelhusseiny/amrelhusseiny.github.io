@@ -1,0 +1,6 @@
+{
+  "mode": "link",
+  "rep": 2,
+  "detail": "interfaces eth0,eth1 set down from inside r1 (container alive)",
+  "wall_clock_recovery_s": 0.593
+}

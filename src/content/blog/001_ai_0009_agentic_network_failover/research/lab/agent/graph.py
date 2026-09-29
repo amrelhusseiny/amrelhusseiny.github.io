@@ -21,7 +21,8 @@ from langgraph.prebuilt import create_react_agent
 from typing_extensions import TypedDict
 
 import transport
-from models import build_bunny_model, build_jev
+from models import (UsageCallback, build_bunny_model, build_jev,
+                 retry_stats)
 from tools import TOOLS
 from topology import DEVICES, FRR_LOG, TOPOLOGY_PROMPT, is_noise
 from trail import get_trail
@@ -147,8 +148,9 @@ def make_bunny(agent):
         t.write(2, "bunny-request", {"system": TOPOLOGY_PROMPT, "user": user})
         t.log("handing to Space Bunny: %d faulty router(s)" % len(faulty))
 
+        usage_cb = UsageCallback()
         res = agent.invoke({"messages": [("user", user)]},
-                           {"recursion_limit": 60})
+                           {"recursion_limit": 60, "callbacks": [usage_cb]})
 
         transcript = []
         for m in res["messages"]:
@@ -160,6 +162,9 @@ def make_bunny(agent):
                     {"name": tc.get("name"), "args": tc.get("args")}
                     for tc in m.tool_calls]
             transcript.append(entry)
+        t.write(4, "bunny-usage", {"usage": usage_cb.report(),
+                                   "api_retries": retry_stats()})
+        t.log("   bunny usage: %s" % usage_cb.report())
         t.write(3, "bunny-transcript",
                 {"turns": len(transcript), "messages": transcript})
         final = res["messages"][-1].content

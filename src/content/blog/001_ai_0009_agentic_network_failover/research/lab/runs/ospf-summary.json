@@ -1,0 +1,165 @@
+[
+  {
+    "mode": "kill",
+    "rep": 1,
+    "wall_clock_recovery_s": 36.008,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": true,
+        "first_fail_offset_s": 8.06,
+        "recovery_offset_s": 35.713,
+        "downtime_s": 35.713,
+        "failed_probes": 50,
+        "total_probes_in_window": 51,
+        "recovered": true
+      },
+      "ospf_rev": {
+        "outage": true,
+        "first_fail_offset_s": -0.384,
+        "recovery_offset_s": 34.608,
+        "downtime_s": 34.608,
+        "failed_probes": 31,
+        "total_probes_in_window": 32,
+        "recovered": true
+      }
+    }
+  },
+  {
+    "mode": "kill",
+    "rep": 2,
+    "wall_clock_recovery_s": 35.414,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_rev": {
+        "outage": true,
+        "first_fail_offset_s": 9.244,
+        "recovery_offset_s": 34.812,
+        "downtime_s": 34.812,
+        "failed_probes": 30,
+        "total_probes_in_window": 31,
+        "recovered": true
+      }
+    }
+  },
+  {
+    "mode": "kill",
+    "rep": 3,
+    "wall_clock_recovery_s": 39.499,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": true,
+        "first_fail_offset_s": 27.832,
+        "recovery_offset_s": 40.12,
+        "downtime_s": 40.12,
+        "failed_probes": 25,
+        "total_probes_in_window": 26,
+        "recovered": true
+      },
+      "ospf_rev": {
+        "outage": true,
+        "first_fail_offset_s": 6.329,
+        "recovery_offset_s": 39.236,
+        "downtime_s": 39.236,
+        "failed_probes": 37,
+        "total_probes_in_window": 38,
+        "recovered": true
+      }
+    }
+  },
+  {
+    "mode": "link",
+    "rep": 1,
+    "wall_clock_recovery_s": 0.616,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      }
+    }
+  },
+  {
+    "mode": "link",
+    "rep": 2,
+    "wall_clock_recovery_s": 0.593,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      }
+    }
+  },
+  {
+    "mode": "link",
+    "rep": 3,
+    "wall_clock_recovery_s": 0.664,
+    "downtime": {
+      "agent_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "agent_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_fwd": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      },
+      "ospf_rev": {
+        "outage": false,
+        "note": "no failed probe at or after T0"
+      }
+    }
+  }
+]

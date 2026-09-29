@@ -1,0 +1,142 @@
+name: ospf-lab
+
+services:
+  rc1:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-rc1
+    hostname: rc1
+    privileged: true
+    environment:
+      NODE: rc1
+      IF_PA: "10.91.10.11"
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.91.20.11"
+    volumes:
+      - ./frr/ospf/rc1.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      pa:
+        ipv4_address: 10.91.10.11
+      st:
+        ipv4_address: 10.91.20.11
+  r1:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-r1
+    hostname: r1
+    privileged: true
+    environment:
+      NODE: r1
+      IF_PA: "10.91.10.12"
+      IF_PB: "10.91.11.13"
+      IF_PC: ""
+      IF_ST: ""
+    volumes:
+      - ./frr/ospf/r1.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      pa:
+        ipv4_address: 10.91.10.12
+      pb:
+        ipv4_address: 10.91.11.13
+  r2:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-r2
+    hostname: r2
+    privileged: true
+    environment:
+      NODE: r2
+      IF_PA: ""
+      IF_PB: "10.91.11.14"
+      IF_PC: "10.91.12.15"
+      IF_ST: ""
+    volumes:
+      - ./frr/ospf/r2.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      pb:
+        ipv4_address: 10.91.11.14
+      pc:
+        ipv4_address: 10.91.12.15
+  rc2:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-rc2
+    hostname: rc2
+    privileged: true
+    environment:
+      NODE: rc2
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: "10.91.12.16"
+      IF_ST: "10.91.20.14"
+    volumes:
+      - ./frr/ospf/rc2.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      pc:
+        ipv4_address: 10.91.12.16
+      st:
+        ipv4_address: 10.91.20.14
+  r3:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-r3
+    hostname: r3
+    privileged: true
+    environment:
+      NODE: r3
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.91.20.12"
+    volumes:
+      - ./frr/ospf/r3.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      st:
+        ipv4_address: 10.91.20.12
+  r4:
+    build: ./docker/router
+    image: lab-router:latest
+    container_name: ospf-r4
+    hostname: r4
+    privileged: true
+    environment:
+      NODE: r4
+      IF_PA: ""
+      IF_PB: ""
+      IF_PC: ""
+      IF_ST: "10.91.20.13"
+    volumes:
+      - ./frr/ospf/r4.conf:/config/frr.conf:ro
+      - ./frr/ospf/daemons:/config/daemons:ro
+    networks:
+      st:
+        ipv4_address: 10.91.20.13
+
+networks:
+  pa:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.91.10.0/24
+  pb:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.91.11.0/24
+  pc:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.91.12.0/24
+  st:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.91.20.0/24
+
