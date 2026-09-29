@@ -104,8 +104,9 @@ def run(node: str, command: str) -> str:
 
     ip = DEVICES[node]
     t = trail_mod.get_trail()
-    is_shell = bool(SHELL_FIRST.match(command))
-    is_ro = is_shell
+    mode = classify(command)
+    is_shell = (mode == "shell")
+    is_ro = (mode in ("shell", "readonly"))
 
     if not is_ro:
         for pat in DENY:
@@ -124,7 +125,7 @@ def run(node: str, command: str) -> str:
 
     if t:
         t.append_apply({"tool": "run", "node": node, "ip": ip,
-                        "mode": "readonly" if is_ro else "config",
+                        "mode": mode,
                         "command": command, "rc": rc, "stdout": out,
                         "stderr": err, "elapsed_s": dt})
         t.log("   [run]    %-4s %-44s rc=%s" % (node, command[:44], rc))
@@ -141,12 +142,47 @@ def run(node: str, command: str) -> str:
 
 TOOLS = [run]
 
-# Anything whose first word is a real shell utility runs as a shell command;
-# everything else is treated as an FRR command. Without this the merged tool
-# would wrap "ip -br addr" in config mode and get rc=1.
-SHELL_FIRST = re.compile(
-    r"^\s*(ip\s+route\s+get|ip\s+neigh|ip\s+link|ip\s+-?\w*\s+addr|"
-    r"ip\s+a\b|cat|ps|ls|grep|tail|head|echo|awk|sed|python3|which|env|"
-    r"uptime|hostname|ss|netstat|find|wc|sort|date|docker|sh\b|bash\b|"
-    r"tr\b|cut\b|paste\b|test\b|expr\b|ping\b|traceroute\b)",
+
+# ---- command classification ----------------------------------------------
+#
+# The old dispatcher listed shell commands and treated everything else as FRR.
+# That inverted the right default: FRR commands are a small enumerable set,
+# while shell commands are everything else. Any shell command missing from the
+# list got wrapped in config mode and rejected. Measured cost in one real run:
+#
+#   ip route              -> % Command incomplete
+#   ip -4 route           -> % Unknown command
+#   ip -br link           -> % Unknown command
+#   arping ... | tail -5  -> % Unknown action 'tail'
+#
+# Four of twenty-three model calls spent on syntax that does not exist. So the
+# rule is inverted: default to shell, and route to FRR only when the first word
+# is a command FRR actually owns.
+#
+# "ip" is genuinely ambiguous and is handled separately: iproute2 owns
+# "ip route get", "ip neigh", "ip addr" and anything with a flag, while FRR owns
+# "ip route A.B.C.D/32 <next-hop>" and "ip <prefix>".
+
+_FRR_RO = re.compile(r"^\s*(show|do|terminal)\b", re.I)
+_FRR_CFG = re.compile(
+    r"^\s*(configure|conf\b|confi|end\b|exit\b|interface|router|line|vty|no\s)",
     re.I)
+_IP_SHELL = re.compile(
+    r"^\s*ip\s+(?:-\S+\s+)*(?:route\s+get|neigh|addr|link|maddr|rule|a\b|netns)\b",
+    re.I)
+_IP_SHELL_FLAG = re.compile(r"^\s*ip\s+(?:-|\.)", re.I)
+_IP_FRR = re.compile(r"^\s*ip\s+(?:route|\d)", re.I)
+
+
+def classify(command):
+    """Return "shell", "readonly" or "config" for one command string."""
+    c = command or ""
+    if _FRR_RO.match(c):
+        return "readonly"
+    if _FRR_CFG.match(c):
+        return "config"
+    if _IP_SHELL.match(c) or _IP_SHELL_FLAG.match(c):
+        return "shell"
+    if _IP_FRR.match(c):
+        return "config"
+    return "shell"

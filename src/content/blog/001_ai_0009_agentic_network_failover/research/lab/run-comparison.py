@@ -100,6 +100,27 @@ def light_telemetry(rec):
                         timeout=20))
 
 
+# The repetition currently being measured. reset_labs() runs before each one
+# and needs to know where to archive the previous bundle.
+CURRENT_REP_DIR = [None]
+
+
+def _archive_agent_bundle():
+    """Copy /agent/out out of the container into runs/<rep>/agent-trail.
+
+    The agent writes as root inside a bind-mounted directory, so a host-side
+    delete of the contents fails. Copy first, then let reset_labs() wipe it.
+    Without this only the final repetition keeps its decision trail, because
+    reset_labs() runs at the top of every repetition.
+    """
+    dst = CURRENT_REP_DIR[0]
+    if not dst:
+        return
+    dst = os.path.join(dst, "agent-trail")
+    os.makedirs(dst, exist_ok=True)
+    sh("docker exec agt-agent sh -c 'cd /agent && tar cf - out' | tar xf - -C %s" % dst, timeout=180)
+
+
 def reset_labs():
     """Remove the routers explicitly, then bring both labs up.
 
@@ -180,6 +201,7 @@ class PreconditionFailed(Exception):
 def run_rep(rep):
     stamp = datetime.datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')
     run_dir = os.path.join(HERE, 'runs', 'rep%d-%s' % (rep, stamp))
+    CURRENT_REP_DIR[0] = run_dir
     os.makedirs(run_dir, exist_ok=True)
 
     sys.path.insert(0, HERE)
@@ -248,6 +270,7 @@ def run_rep(rep):
     rec.stop_pings()
     rec.collect_pings()
     analysis = rec.analyze()
+    _archive_agent_bundle()
     json.dump({'rep': rep, 'wall_clock_recovery': results},
               open(os.path.join(run_dir, 'rep.json'), 'w'), indent=2)
     return run_dir, results, analysis

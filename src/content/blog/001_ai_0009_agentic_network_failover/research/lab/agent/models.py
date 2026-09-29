@@ -272,6 +272,92 @@ class JevChatModel(BaseChatModel):
                         "usage": data.get("usage", {})})
 
 
+def _fmt_state(rows):
+    """Render path_state() rows for the prompt. Absent routes are stated
+    explicitly rather than omitted, so Jev can see that a path has no route at
+    all instead of assuming it was simply not mentioned."""
+    out = []
+    for st in rows or []:
+        if not st["installed"]:
+            out.append("    %-7s next hop %-13s  NO ROUTE INSTALLED"
+                       % (st["path"], st["next_hop"]))
+            continue
+        out.append("    %-7s next hop %-13s  distance %-4d %s"
+                   % (st["path"], st["next_hop"], st["distance"],
+                      "ACTIVE NOW" if st["active"] else "installed, standby"))
+    return chr(10).join(out)
+
+
+def judge_path(faulty, rc1_rows, rc2_rows, diagram):
+    """Ask Jev which path should carry traffic now. Returns a path id or raises.
+
+    Deliberately not a fallback: if Jev cannot be reached, or answers with
+    anything that is not one of the known path ids, this raises ModelError and
+    the run aborts. A wrong guess here is worse than no answer at all.
+    """
+    from topology import PATHS
+
+    # A path is only usable if BOTH directions have a route for it.
+    # Using "either router" here is a trap: a healthy rc2 keeps a
+    # route installed for a path whose forward half is dead, and that
+    # resurrects a path that cannot carry traffic. Caught by a test
+    # where rc1 was cut off entirely.
+    def _installed(rows, pid):
+        return any(r["path"] == pid and r["installed"]
+                   for r in (rows or []))
+
+    usable = [pid for pid in PATHS
+              if _installed(rc1_rows, pid)
+              and _installed(rc2_rows, pid)]
+    if not usable:
+        raise ModelError("neither path has a route installed: %s" % faulty)
+
+    criteria = {pid: PATHS[pid]["label"] for pid in usable}
+
+    state = chr(10).join([
+        "A failover has just been detected.",
+        "",
+        "Routers the first pass judged FAILED: %s" % (", ".join(faulty) or "none"),
+        "",
+        "Routing state read from the devices themselves:",
+        "",
+        "  rc1 to the server network:",
+        _fmt_state(rc1_rows),
+        "",
+        "  rc2 back to the client network:",
+        _fmt_state(rc2_rows),
+        "",
+        "Topology:",
+        diagram,
+        "",
+        "A path carrying traffic cannot include a router that has failed.",
+        "Choose the one path from the list that should carry traffic now.",
+    ])
+
+    instructions = ("Which single path should carry the traffic right now? "
+                    "Answer with exactly one path id.")
+
+    model = JevChatModel(criteria=criteria, instructions=instructions)
+    resp = model.invoke(state)
+    v = json.loads(resp.content)
+    choice = v["choice"]
+
+    if choice not in PATHS:
+        raise ModelError("Jev chose unknown path %r, expected one of %s"
+                         % (choice, sorted(PATHS)))
+    if choice not in usable:
+        raise ModelError("Jev chose path %s which has no installed route, "
+                         "usable were %s" % (choice, usable))
+
+    return {"path": choice,
+            "label": PATHS[choice]["label"],
+            "confidence": v["confidence"],
+            "probabilities": v.get("probabilities"),
+            "latency_s": v.get("latency_s"),
+            "usable": usable,
+            "state": state}
+
+
 def build_jev() -> JevChatModel:
     return JevChatModel()
 
@@ -299,28 +385,30 @@ def build_bunny_model() -> ChatOpenAI:
 
 # ---- reasoning suppression ---------------------------------------------
 #
-# space-bunny-free is a reasoning model: every turn spends most of its tokens
-# in reasoning_content and most of its wall clock there too. Three spellings of
-# "do not think" are sent together, because the gateway may honour any of them
-# and an OpenAI-compatible gateway ignores body fields it does not recognise.
-# Set BUNNY_NO_REASONING=0 to send none of them.
+# Measured against the live Go endpoint: BUNNY_EXTRA has NO effect.
 #
-# UNVERIFIED: the proxy is currently refusing API calls (307, and it wants
-# NTLM/Negotiate), so we could not confirm which of these the model honours.
-# UsageCallback below records reasoning_tokens on every call, so the first
-# successful run settles it either way.
+# An earlier comment here claimed a median drop from 1831 reasoning tokens
+# to 674 over 8 samples. Those samples were taken against /zen/v1, where
+# the request never reached the model at all, so they measured a failed
+# call rather than a thinking one. Measured properly on /zen/go/v1:
+#
+#   reasoning_effort: none                        -> HTTP 400, breaks every call
+#   chat_template_kwargs: enable_thinking=false   -> 200, reasoning unchanged
+#
+# 21 versus 26 tokens on the same arithmetic prompt, i.e. noise.
+#
+# It is kept because an OpenAI-compatible gateway ignores body fields it
+# does not recognise, so it is inert rather than harmful. But it is not
+# doing anything and must not be described as if it were.
+#
+# What actually costs wall clock is round trips, not thinking. A real run
+# was 23 calls and 1979 reasoning tokens total, about 86 per call.
+#
 _NO_REASONING = os.environ.get("BUNNY_NO_REASONING", "1") != "0"
 
 BUNNY_EXTRA = ({
-    # MEASURED against the live endpoint. Do not re-add the other two:
-    #   reasoning_effort -> HTTP 400 invalid request. It breaks EVERY call.
-    #   enable_thinking -> accepted but no effect, reasoning tokens unchanged.
-    # Median reasoning_tokens 1831 -> 674 over 8 samples, but it is
-    # stochastic: only 4 of 8 were strongly suppressed. An average win, not a
-    # guarantee, which is why max_tokens stays at 12000.
     "chat_template_kwargs": {"enable_thinking": False},
 } if _NO_REASONING else {})
-
 
 class UsageCallback(BaseCallbackHandler):
     """Records reasoning_tokens per call so we can prove whether the
