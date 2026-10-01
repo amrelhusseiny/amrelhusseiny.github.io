@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
+import { cvMarkdown } from "../lib/cvMarkdown";
 
 export const GET: APIRoute = async () => {
   const posts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -16,6 +17,11 @@ export const GET: APIRoute = async () => {
     "- Site: https://amroelhusseini.vercel.app",
     `- Last-Updated: ${new Date().toISOString().slice(0, 10)}`,
     "",
+    "---",
+    "# CV / RESUME",
+    "---",
+    "",
+    cvMarkdown,
     "---",
     "# BLOG POSTS",
     "---",

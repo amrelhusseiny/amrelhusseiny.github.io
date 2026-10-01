@@ -1,5 +1,6 @@
 ---
 // CV — Letter layout, Noto Sans, bilingual (EN/DE), dark mode, self-hosted fonts.
+import { cvJsonLd } from "../lib/cvMarkdown";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +9,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amro ElHusseini</title>
 <meta name="description" content="Curriculum Vitae — Amro ElHusseini, Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany.">
+<meta name="author" content="Amro ElHusseini">
+<link rel="canonical" href="https://amroelhusseini.vercel.app/cv/">
+<!-- Machine-readable mirror of the visible content (verbatim, no extra claims). -->
+<link rel="alternate" type="text/markdown" href="https://amroelhusseini.vercel.app/cv.md" title="CV (Markdown)">
+<script type="application/ld+json" set:html={JSON.stringify(cvJsonLd)} />
 <script>
   (function () {
     try {
@@ -155,18 +161,26 @@ footer {
 
 /* ---------- QR codes in the header ---------- */
 img.qr {
-  width: 24mm; height: 24mm;
-  margin: 6pt 5pt 2pt;
+  width: 17mm; height: 17mm;
+  margin: 5pt 4pt 2pt;
   image-rendering: -webkit-optimize-contrast;
   vertical-align: top;
 }
 
-/* ---------- Screen chrome: language + theme, never printed ---------- */
+/* ---------- Screen chrome: back link, language + theme. Never printed. ---------- */
 .cv-utility {
   display: flex; justify-content: center; align-items: center;
   gap: 8px; padding: 12px 12px 0;
   font-family: var(--sans);
 }
+.cv-back {
+  font-size: 10pt; line-height: 1.2;
+  text-decoration: none; color: inherit;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  white-space: nowrap;
+}
+.cv-back:hover { opacity: .7; }
 .cv-utility button {
   font-family: var(--sans); font-size: 10pt; line-height: 1.2;
   padding: 5px 13px;
@@ -214,6 +228,8 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
 <body>
 
 <div class="cv-utility">
+  <a class="cv-back" href="/blog/">&larr; Back to blog</a>
+  <span class="spacer"></span>
   <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
   <button class="lang-btn" data-lang="de" type="button" aria-pressed="false">Deutsch</button>
   <span class="spacer"></span>
@@ -260,7 +276,7 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
   </div>
 
   <div class="entry">
-    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Germany</span></span><span class="dates">07/2023 — Current</span></div>
+    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Germany</span></span><span class="dates">07/2023 — 06/2026</span></div>
     <div class="job-title">Network Systems Engineer</div>
     <p>Implementation and management of datacenter and enterprise infrastructure, including managing multiple customers with multiple infrastructure needs, also acting as project manager for new implementations.</p>
     <p>Technologies involved: Cisco ISE (2.x &amp; 3.x), Cisco Nexus (legacy &amp; 9K), Cisco WLC (9800 &amp; 5500), Cisco IOS-based devices (legacy and Catalyst 9k), Cisco ASA &amp; Palo Alto firewalls (filtering, SSL &amp; IPSec), Cisco DNA Center.</p>
@@ -325,19 +341,13 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
 <!-- ===================== LANGUAGE SKILLS ===================== -->
 <section>
   <h2>Language Skills</h2>
-  <div class="in">
-  <ul>
-    <li>English — C2 </li>
-    <li>German — A2 - Improving</li>
-  </ul>
-  </div>
+  <p>English — C2     ||      German — A2 - Improving </p>
 </section>
 
 <!-- ===================== SKILLS ===================== -->
 <section>
   <h2>Skills</h2>
   <div class="in">
-  <p class="subtitle">Hands-on skills acquired across my career</p>
   <p><b>Networking:</b> IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching; Cisco ISE 2.6 &amp; 3.1; Cisco WLC (9800 &amp; 5500); Cisco Catalyst / Nexus 9k; Palo Alto 10.x &amp; 11.x Firewalls / GlobalProtect VPN; Cisco ASA Firewalls &amp; SSL VPN; Juniper MX, PTX Backbone Routers; Juniper SRX Firewalls; NOKIA Routers — ADSL Termination; Cisco ASR 9k Backbone Routers — full OSPF converged Egypt backbone.</p>
   <p><b>Cloud &amp; Virtualization:</b> OpenStack Neutron (Orange Flexible Engine, Huawei Cloud Stack); Huawei Cloud Stack — Networks / Neutron; Linux Administration.</p>
   <p><b>Automation &amp; AI:</b> LangChain, N8N, Pi, MCP — agentic code workflows; Terraform (Orange Flexible Engine); Python (automation of network + OpenStack); Python Flask + HTML / CSS / Bootstrap (self-taught).</p>
@@ -350,11 +360,14 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
   <h2>Education and Training</h2>
   <div class="in">
   <div class="entry">
-    <div class="entry-head"><span><span class="org">Arab Academy for Science and Technology and Maritime (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
+    <div class="entry-head"><span><span class="org">Arabische Akademie für Wissenschaften, Technologie und Seeverkehr (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
     <div class="job-title">Bachelor's Degree, Computer Engineering</div>
-    <p>https://www.aast.edu/</p>
+<br>
+    <p><strong>Anabin Institutionstyp :</strong> Universität privat staatlich anerkannt</p>
+    <p><strong>Anabin Status :</strong> H+</p>
+    <p>http://www.aast.edu/en/index.php/</p>
     <p>P.O. Box 2033, Elhorria, El Moshir Ismail St. (behind Sheraton Bldg.), 2033, Cairo, Egypt</p>
-    <p>Field of study: Engineering, manufacturing and construction · Final grade: 2.56</p>
+    <p><strong>Field of study:</strong> Engineering, manufacturing and construction · Final grade: 3.56 / A </p>
   </div>
   </div>
 </section>
@@ -431,7 +444,7 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
   </div>
 
   <div class="entry">
-    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Deutschland</span></span><span class="dates">07/2023 — heute</span></div>
+    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Deutschland</span></span><span class="dates">07/2023 — 06/2026</span></div>
     <div class="job-title">Netzwerk-Systemingenieur</div>
     <p>Implementierung und Verwaltung von Datacenter- und Enterprise-Infrastruktur, einschließlich der Betreuung mehrerer Kunden mit unterschiedlichen Infrastrukturanforderungen sowie Tätigkeit als Projektmanager für neue Implementierungen.</p>
     <p>Eingesetzte Technologien: Cisco ISE (2.x &amp; 3.x), Cisco Nexus (Legacy &amp; 9K), Cisco WLC (9800 &amp; 5500), Cisco IOS-basierte Geräte (Legacy und Catalyst 9k), Cisco ASA- &amp; Palo-Alto-Firewalls (Filterung, SSL &amp; IPSec), Cisco DNA Center.</p>
@@ -496,19 +509,13 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
 <!-- ===================== SPRACHKENNTNISSE ===================== -->
 <section>
   <h2>Sprachkenntnisse</h2>
-  <div class="in">
-  <ul>
-    <li>Englisch — C2 </li>
-    <li>Deutsch — A2 — in Verbesserung</li>
-  </ul>
-  </div>
+  <p>Englisch — C2     ||      Deutsch — A2 - in Verbesserung </p>
 </section>
 
 <!-- ===================== FÄHIGKEITEN ===================== -->
 <section>
   <h2>Fähigkeiten</h2>
   <div class="in">
-  <p class="subtitle">Praktische Fähigkeiten, erworben im Laufe meiner Karriere</p>
   <p><b>Networking:</b> IP-Routing (BGP, MP-BGP, MPLS, OSPF), Switching; Cisco ISE 2.6 &amp; 3.1; Cisco WLC (9800 &amp; 5500); Cisco Catalyst / Nexus 9k; Palo Alto 10.x- &amp; 11.x-Firewalls / GlobalProtect-VPN; Cisco ASA Firewalls &amp; SSL-VPN; Juniper MX-, PTX-Backbone-Router; Juniper SRX Firewalls; NOKIA Router — ADSL-Terminierung; Cisco ASR 9k Backbone-Router — voll konvergierter OSPF-Backbone Ägyptens.</p>
   <p><b>Cloud &amp; Virtualisierung:</b> OpenStack Neutron (Orange Flexible Engine, Huawei Cloud Stack); Huawei Cloud Stack — Netzwerke / Neutron; Linux-Administration.</p>
   <p><b>Automatisierung &amp; KI:</b> LangChain, N8N, Pi, MCP — agentische Code-Workflows; Terraform (Orange Flexible Engine); Python (Automatisierung von Netzwerk + OpenStack); Python Flask + HTML / CSS / Bootstrap (autodidaktisch).</p>
@@ -521,11 +528,14 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
   <h2>Ausbildung und Weiterbildung</h2>
   <div class="in">
   <div class="entry">
-    <div class="entry-head"><span><span class="org">Arab Academy for Science and Technology and Maritime (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
+    <div class="entry-head"><span><span class="org">Arabische Akademie für Wissenschaften, Technologie und Seeverkehr (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
     <div class="job-title">Bachelorabschluss, Computer Engineering</div>
-    <p>https://www.aast.edu/</p>
+<br>
+    <p><strong>Anabin Institutionstyp :</strong> Universität privat staatlich anerkannt</p>
+    <p><strong>Anabin Status :</strong> H+</p>
+    <p>http://www.aast.edu/en/index.php/</p>
     <p>P.O. Box 2033, Elhorria, El Moshir Ismail St. (hinter Sheraton Building), 2033, Kairo, Ägypten</p>
-    <p>Studienfach: Ingenieurwesen, Fertigung und Bau · Abschlussnote: 2,56</p>
+    <p><strong>Studienfach:</strong> Ingenieurwesen, Fertigung und Bau · Abschlussnote: 3,56 / A </p>
   </div>
   </div>
 </section>

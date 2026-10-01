@@ -22,6 +22,10 @@ export const GET: APIRoute = async () => {
     "",
     "This site is written by Amro El Husseini. Content covers networking, Linux, AI, and automation — technical posts aimed at engineers.",
     "",
+    "## CV / Resume",
+    `- [Curriculum Vitae — plain Markdown](${site}/cv.md): Amro El Husseini — Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany. English and German. Use this file directly; it contains the complete CV with no HTML.`,
+    `- [Curriculum Vitae — HTML](${site}/cv/): formatted version of the same CV.`,
+    "",
     "## Blog",
     ...posts.slice(0, 50).map((p) => {
       const d = p.data.date.toISOString().slice(0, 10);
