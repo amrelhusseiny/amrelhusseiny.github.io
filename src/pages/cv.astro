@@ -1,796 +1,612 @@
 ---
-// Standalone CV — IBM Plex Mono font, bilingual (EN/DE), dark mode, A4 printable.
-import { cv } from "../lib/cv";
-
-// Labels for bilingual content
-const labels = {
-  en: {
-    about: "About Me",
-    skills: "Technical Expertise",
-    experience: "Work Experience",
-    languages: "Language Skills",
-    education: "Education and Training",
-    driving: "Driving Licence",
-    projects: "Projects",
-    footer: "Amro ElHusseini — Curriculum Vitae"
-  },
-  de: {
-    about: "Über mich",
-    skills: "Technische Expertise",
-    experience: "Berufserfahrung",
-    languages: "Sprachkenntnisse",
-    education: "Ausbildung",
-    driving: "Führerschein",
-    projects: "Projekte",
-    footer: "Amro ElHusseini — Lebenslauf"
-  }
-};
-
-// Bilingual job titles
-const jobTitles = {
-  en: {
-    current: "Senior Private Cloud Engineer (Networks)",
-    prev1: "Network Systems Engineer",
-    prev2: "Public Cloud Operations Engineer — Network Domain",
-    prev3: "IP Core Planning Senior Engineer",
-    prev4: "VPN Implementation Engineer — Level 3",
-    prev5: "Incident Management Specialist — 1st Line Engineer"
-  },
-  de: {
-    current: "Senior Private Cloud Engineer (Netzwerke)",
-    prev1: "Netzwerk-Systemingenieur",
-    prev2: "Public-Cloud-Betriebsingenieur — Netzwerkbereich",
-    prev3: "Senior-Ingenieur für IP-Core-Planung",
-    prev4: "VPN-Implementierungsingenieur (Level 3)",
-    prev5: "Incident-Management-Spezialist (1st-Line-Engineer)"
-  }
-};
-
-// Bilingual company names
-const companyNames = {
-  en: {
-    current: "Hyundai Autoever Europe GmbH",
-    prev1: "Hyundai Autoever GmbH",
-    prev2: "Orange Business Services",
-    prev3: "TE Data (Telecom Egypt) / WE",
-    prev4: "Orange Business Services",
-    prev5: "Orange Business Services"
-  },
-  de: {
-    current: "Hyundai Autoever Europe GmbH",
-    prev1: "Hyundai Autoever GmbH",
-    prev2: "Orange Business Services",
-    prev3: "TE Data (Telecom Egypt) / WE",
-    prev4: "Orange Business Services",
-    prev5: "Orange Business Services"
-  }
-};
-
-// Bilingual locations
-const locations = {
-  en: {
-    current: "Frankfurt am Main, Germany",
-    prev1: "Offenbach, Germany",
-    prev2: "Cairo, Egypt",
-    prev3: "Cairo, Egypt",
-    prev4: "Cairo, Egypt",
-    prev5: "Cairo, Egypt"
-  },
-  de: {
-    current: "Frankfurt am Main, Deutschland",
-    prev1: "Offenbach, Deutschland",
-    prev2: "Kairo, Ägypten",
-    prev3: "Kairo, Ägypten",
-    prev4: "Kairo, Ägypten",
-    prev5: "Kairo, Ägypten"
-  }
-};
-
-// Bilingual project names
-const projectNames = {
-  en: {
-    project1: "MCP Servers",
-    project2: "Physical Network Auditing Tool",
-    project3: "Network Topology Plotter"
-  },
-  de: {
-    project1: "MCP-Server",
-    project2: "Auditing physischer Netzwerke",
-    project3: "Netzwerk-Topologie-Plotter"
-  }
-};
-
-// Bilingual education
-const education = {
-  en: {
-    degree: "Bachelor's Degree, Computer Engineering",
-    institution: "Arab Academy for Science and Technology and Maritime (AASTMT)"
-  },
-  de: {
-    degree: "Bachelorabschluss, Computer Engineering",
-    institution: "Arab Academy for Science and Technology and Maritime (AASTMT)"
-  }
-};
+// CV — Letter layout, Noto Sans, bilingual (EN/DE), dark mode, self-hosted fonts.
 ---
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Amro ElHusseini — CV</title>
-    <meta name="description" content="Curriculum Vitae — Amro ElHusseini, Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany." />
-    <!-- IBM Plex Mono via Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      
-      :root {
-        --font-mono: "IBM Plex Mono", monospace;
-        --text-xs: 11px; --text-base: 14px; --text-md: 18px; --text-lg: 24px;
-        --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px;
-        --color-bg: #fff; --color-surface: #f5f5f5; --color-border: #c6c6c6;
-        --color-text-primary: #232323; --color-text-secondary: #545454; --color-text-muted: #8A8A8A;
-        --color-invert-bg: #232323; --color-invert-text: #fff;
-      }
-      
-      [data-theme="dark"] {
-        --color-bg: #000; --color-surface: #232323; --color-border: #232323;
-        --color-text-primary: #f5f5f5; --color-text-secondary: #ececec; --color-text-muted: #8A8A8A;
-        --color-invert-bg: #ececec; --color-invert-text: #000;
-      }
-      
-      html, body {
-        width: 100%; background: var(--color-bg); color: var(--color-text-primary);
-        font-family: var(--font-mono); -webkit-font-smoothing: antialiased;
-      }
-      
-      a { color: inherit; text-decoration: underline; text-decoration-color: var(--color-text-muted); }
-      a:hover { text-decoration-color: var(--color-text-primary); }
-      ul, ol { list-style: none; }
-      
-      /* Page wrapper — A4-like dimensions */
-      .page {
-        max-width: 720px; /* Approx. A4 width minus margins */
-        margin: 0 auto;
-        padding: var(--space-6) var(--space-5);
-      }
-      
-      /* Navigation bar (screen only) */
-      .nav-bar {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);
-        border-bottom: 1px solid var(--color-border);
-      }
-      .nav-bar a {
-        font-size: var(--text-base); text-decoration: none;
-      }
-      .nav-bar a:hover { text-decoration: underline; }
-      
-      .utility-bar {
-        display: flex; justify-content: flex-end; gap: var(--space-3);
-      }
-      .btn {
-        font-family: var(--font-mono); font-size: var(--text-xs);
-        letter-spacing: 0.08em; text-transform: uppercase;
-        padding: var(--space-2) var(--space-4);
-        border: 1px solid var(--color-border);
-        background: var(--color-bg); color: var(--color-text-primary);
-        border-radius: 0; cursor: pointer;
-      }
-      .btn:hover { background: var(--color-surface); }
-      .btn.invert { background: var(--color-invert-bg); color: var(--color-invert-text); border-color: var(--color-invert-bg); }
-      
-      /* Identity section */
-      .identity {
-        display: flex; flex-direction: column; gap: var(--space-4);
-        padding-bottom: var(--space-6); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-7);
-      }
-      .identity-name { font-size: var(--text-lg); font-weight: bold; }
-      .identity-role { font-size: var(--text-base); color: var(--color-text-secondary); margin-top: var(--space-1); }
-      
-      .spec-table { width: 100%; border-collapse: collapse; }
-      .spec-table td.k::before { content: attr(data-label); }
-      .spec-table td { padding: var(--space-2) var(--space-3) var(--space-2) 0; font-size: var(--text-base); vertical-align: top; }
-      .spec-table td.k {
-        width: 130px; color: var(--color-text-muted); font-size: var(--text-xs);
-        letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
-      }
-      
-      /* Section headers */
-      .section { margin-bottom: var(--space-7); }
-      .section-head {
-        display: flex; align-items: baseline; gap: var(--space-4);
-        margin-bottom: var(--space-4);
-      }
-      .section-head .label {
-        font-size: var(--text-base); font-weight: bold; letter-spacing: 0.1em;
-        text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
-      }
-      .section-head .rule { flex: 1; height: 0; border-top: 1px solid var(--color-border); transform: translateY(-4px); }
-      
-      p.body { font-size: var(--text-base); line-height: 1.5; color: var(--color-text-primary); }
-      
-      /* Work experience entries */
-      .entry { display: grid; grid-template-columns: 140px 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); }
-      .entry:last-child { border-bottom: none; }
-      .entry-date { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
-      .entry-title { font-size: var(--text-md); font-weight: bold; line-height: 1.3; }
-      .entry-org { margin-top: var(--space-1); font-size: var(--text-base); font-weight: bold; color: var(--color-text-secondary); }
-      .entry-loc { font-size: var(--text-xs); color: var(--color-text-muted); letter-spacing: 0.04em; }
-      .entry-body { margin-top: var(--space-2); }
-      ul.bullets { margin-top: var(--space-2); display: flex; flex-direction: column; gap: var(--space-2); }
-      ul.bullets li { font-size: var(--text-base); line-height: 1.5; padding-left: var(--space-4); position: relative; }
-      ul.bullets li::before { content: "—"; position: absolute; left: 0; color: var(--color-text-muted); }
-      
-      /* Projects */
-      .project { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border); }
-      .project:last-child { border-bottom: none; }
-      .project-title { font-size: var(--text-md); font-weight: bold; margin-bottom: var(--space-2); }
-      
-      /* Footer */
-      .doc-footer {
-        margin-top: var(--space-7); padding-top: var(--space-4); border-top: 1px solid var(--color-border);
-        font-size: var(--text-xs); color: var(--color-text-muted); display: flex; justify-content: space-between;
-      }
-      
-      /* Responsive */
-      @media screen and (max-width: 640px) {
-        .entry { grid-template-columns: 1fr; gap: var(--space-2); }
-        .spec-table td.k { width: 90px; }
-        .page { padding: var(--space-4); }
-      }
-      
-      /* Print — A4 optimized */
-      @media print {
-        @page { size: A4; margin: 12mm; }
-        
-        /* Force light theme for print */
-        html, body, [data-theme="dark"] {
-          --color-bg: #fff; --color-surface: #f5f5f5; --color-border: #c6c6c6;
-          --color-text-primary: #232323; --color-text-secondary: #545454; --color-text-muted: #8A8A8A;
-        }
-        
-        .nav-bar, .utility-bar { display: none; }
-        .page { padding: 0; max-width: none; }
-        
-        /* Prevent awkward breaks */
-        .entry { break-inside: avoid; }
-        .entry-title, .entry-org, .entry-loc { break-after: avoid; }
-        .section { break-inside: avoid; }
-        
-        p.body, li { orphans: 3; widows: 3; }
-        
-        -webkit-print-color-adjust: exact; print-color-adjust: exact;
-      }
-      
-      /* Language toggle styling */
-      .lang-btn.active { border-color: var(--color-invert-bg); background: var(--color-invert-bg); color: var(--color-invert-text); }
-      
-      /* Language visibility */
-      .lang-de { display: none; }
-      html[data-lang="de"] .lang-en { display: none; }
-      html[data-lang="de"] .lang-de { display: block; }
-    </style>
-  </head>
-  <body>
-    <div class="nav-bar">
-      <a href="/blog/">&larr; Back to blog</a>
-      <div class="utility-bar">
-        <button class="btn lang-btn active" data-lang="en" type="button">English</button>
-        <button class="btn lang-btn" data-lang="de" type="button">Deutsch</button>
-        <button class="btn" id="theme-toggle" type="button">Dark mode</button>
-        <button class="btn invert" id="print-btn" type="button">Print / Save PDF</button>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amro ElHusseini</title>
+<meta name="description" content="Curriculum Vitae — Amro ElHusseini, Senior Private Cloud Engineer (Networks), Frankfurt am Main, Germany.">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('cv-theme');
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      var l = localStorage.getItem('cv-lang');
+      if (l === 'de' || l === 'en') document.documentElement.setAttribute('data-lang', l);
+    } catch (e) {}
+  })();
+</script>
+<style>
+/* ==========================================================
+   CV stylesheet — matched to the reference CV (Letter-style
+   layout: Noto Sans body, grey boxed section headings,
+   bold caps employer + right-aligned dates).
+   Edit the variables below to restyle everything.
+   ========================================================== */
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-VF.ttf") format("truetype");
+  font-weight: 100 900; font-style: normal;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/NotoSans-Italic-VF.ttf") format("truetype");
+  font-weight: 100 900; font-style: italic;
+}
+
+:root {
+  --sans:  "Noto Sans", "Open Sans", Arial, sans-serif;
+  --serif: "Liberation Serif", "Times New Roman", Times, serif;
+  --body-size: 11pt;          /* body text                      */
+  --summary-size: 15pt;       /* large centred lines            */
+  --name-size: 14pt;
+  --heading-size: 10pt;       /* text inside the grey boxes     */
+  --small-size: 8.5pt;        /* small serif lines in header    */
+  --box-bg: #808080;          /* grey section heading box       */
+  --box-border: #000;
+  --link: #0000ee;
+  --margin-x: 0.5in;
+  --margin-top: 0.55in;
+  --margin-bottom: 0.5in;
+}
+
+/* Change A4 -> Letter here if you prefer the reference page size */
+@page { size: Letter; margin: var(--margin-top) var(--margin-x) var(--margin-bottom); }
+
+* { box-sizing: border-box; }
+html { background: #cfcfcf; }
+body {
+  font-family: var(--sans);
+  font-size: var(--body-size);
+  line-height: 1.362;             /* Noto Sans "normal" line height */
+  color: #000;
+  margin: 0;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+
+/* sheet on screen */
+.page {
+  width: 8.5in; min-height: 11in;
+  margin: 10mm auto;
+  padding: var(--margin-top) var(--margin-x) var(--margin-bottom);
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0,0,0,.3);
+}
+@media print {
+  html { background: none; }
+  .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+}
+
+p { margin: 0; }
+p + p { margin-top: 6pt; }
+a { color: var(--link); text-decoration: underline; }
+
+/* ---------- Header (centred) ---------- */
+header { text-align: center; }
+header h1 { font-size: var(--name-size); font-weight: 700; margin: 0; line-height: 1.362; }
+header .role { font-size: 12pt; margin: 0; }
+header .email { font-size: 12pt; margin: 0; }
+header .small {
+  font-family: var(--serif); font-size: var(--small-size);
+  line-height: 1.15; margin: 0;
+}
+header p + p { margin-top: 0; }
+
+/* ---------- Section heading boxes ---------- */
+h2 {
+  font-size: var(--heading-size);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.25;
+  margin: 14pt 0 18pt;
+  padding: 1.5pt 4pt;
+  background: var(--box-bg);
+  border: 1.2px solid var(--box-border);
+  break-after: avoid;
+}
+/* content sits slightly inside the box edges (table-cell padding) */
+.in { padding: 0 5pt; }
+
+.subtitle { font-style: italic; margin: 0 0 6pt; }
+.num { font-weight: 700; margin-top: 6pt; }
+.num + p { margin-top: 0; }
+
+/* centred statement lines (used by About Me heading text if wanted) */
+.centered { text-align: center; font-size: var(--summary-size); line-height: 1.362; }
+
+/* ---------- Entries ---------- */
+.entry { margin-top: 30pt; orphans: 3; widows: 3; }
+h2 + .in > .entry:first-child { margin-top: 0; padding-top: 21pt; }
+.entry-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 12pt; break-after: avoid;
+}
+.org { font-weight: 700; text-transform: uppercase; }
+.loc { font-weight: 400; text-transform: none; }
+.dates { white-space: nowrap; font-weight: 400; }
+.job-title { font-weight: 700; font-style: italic; break-after: avoid; }
+h4 { font-size: var(--body-size); font-weight: 700; margin: 6pt 0 0; break-after: avoid; }
+
+/* ---------- Bullets (square) ---------- */
+ul { list-style: none; margin: 0; padding-left: 18pt; }
+ul > li { position: relative; margin-top: 2pt; }
+ul > li::before { content: "\25AA"; position: absolute; left: -14pt; }
+ul ul { padding-left: 16pt; }
+ul ul > li::before { content: "\2013"; }
+
+/* ---------- Projects ---------- */
+.project { margin-top: 14pt; break-inside: avoid; }
+.project:first-child { margin-top: 0; }
+.project h4 { margin-top: 0; }
+
+footer {
+  margin-top: 20pt; text-align: center; font-style: italic;
+  font-size: 8.5pt; color: #555;
+}
+
+/* ==========================================================
+   ADDITIONS — support pieces for this page only.
+   The document rules above are unchanged from style.css.
+   ========================================================== */
+
+/* ---------- QR codes in the header ---------- */
+img.qr {
+  width: 24mm; height: 24mm;
+  margin: 6pt 5pt 2pt;
+  image-rendering: -webkit-optimize-contrast;
+  vertical-align: top;
+}
+
+/* ---------- Screen chrome: language + theme, never printed ---------- */
+.cv-utility {
+  display: flex; justify-content: center; align-items: center;
+  gap: 8px; padding: 12px 12px 0;
+  font-family: var(--sans);
+}
+.cv-utility button {
+  font-family: var(--sans); font-size: 10pt; line-height: 1.2;
+  padding: 5px 13px;
+  border: 1px solid #6d6d6d;
+  background: transparent; color: inherit;
+  cursor: pointer;
+}
+.cv-utility button:hover { background: rgba(128,128,128,.22); }
+.cv-utility button[aria-pressed="true"] {
+  background: #333; color: #fff; border-color: #333;
+}
+.cv-utility .spacer { width: 10px; }
+
+/* ---------- Bilingual switch: one tree visible at a time ---------- */
+.lang-de { display: none; }
+html[data-lang="de"] .lang-en { display: none; }
+html[data-lang="de"] .lang-de { display: block; }
+
+/* ---------- Dark theme ----------
+   Select the root as html[data-theme=...], never [data-theme=...] html —
+   the latter is a descendant selector and can never match <html>. */
+html[data-theme="dark"] {
+  --box-bg: #343434;
+  --box-border: #d9d9d9;
+  --link: #8ab4ff;
+  background: #0c0c0c;
+}
+html[data-theme="dark"] body { color: #e8e8e8; }
+html[data-theme="dark"] .page { background: #151515; box-shadow: 0 0 6px rgba(0,0,0,.65); }
+html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
+  background: #e2e2e2; color: #111; border-color: #e2e2e2;
+}
+
+/* ---------- Print: always the light document ---------- */
+@media print {
+  .cv-utility { display: none; }
+  html[data-theme="dark"] {
+    --box-bg: #808080; --box-border: #000; --link: #0000ee;
+  }
+  html[data-theme="dark"] body { background: #fff; color: #000; }
+  html[data-theme="dark"] .page { background: #fff; color: #000; }
+}
+</style>
+</head>
+<body>
+
+<div class="cv-utility">
+  <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
+  <button class="lang-btn" data-lang="de" type="button" aria-pressed="false">Deutsch</button>
+  <span class="spacer"></span>
+  <button id="theme-toggle" type="button">Dark mode</button>
+  <button id="print-btn" type="button">Print / Save PDF</button>
+</div>
+
+<!-- ===================== ENGLISH ===================== -->
+<div class="page lang-en" lang="en">
+
+<header>
+  <h1>Amro ElHusseini</h1>
+  <p class="role">Senior Private Cloud Engineer (Networks)</p>
+  <p class="small"><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a> / <a href="https://amroelhusseini.vercel.app">amroelhusseini.vercel.app</a> / <a href="https://www.linkedin.com/in/amro-elhusseini-2a330456/">linkedin.com/in/amro-elhusseini-2a330456/</a></p>
+  <p class="small">Konstanzer Str. 40, 60386 Frankfurt am Main, Germany</p>
+  <p class="small">(+49) 152 2517 6681</p>
+  <img class="qr" src="/blog_qr.png" alt="QR code to Amro ElHusseini blog">
+  <img class="qr" src="/linkedin_qr.png" alt="QR code to LinkedIn profile">
+  <p class="small">Residence: Niederlassungserlaubnis — YZ7M3MK5V · Work permit: German</p>
+  <p class="small">Category B Driving license - German License</p>
+  <p class="small">Born 01/12/1991 · Nationality: Egyptian</p>
+</header>
+
+<!-- ===================== ABOUT ME ===================== -->
+<section>
+  <h2>About Me</h2>
+  <div class="in">
+  <p>Even though my company is still moving through legacy workflow, I have already adapted Agentic Workflows, implemented LangChain and N8N deployments, and run agents to manage our ticketing system and RAG over my Confluence and email knowledge for semantic search.</p>
+  <p>My experience spans a wide range of network specialties — from IP backbone hosting converged IMS/mobile backhaul (Egypt Telecom), enterprise service provider VPN/MPLS routing and tunneling for global sites (Orange Business Services), cloud backend on OpenStack-based public cloud in Europe (Flexible Engine / Huawei CloudStack), to my previous role in customer-end enterprise networks managing Wifi, firewalls and VPNs across datacenter and office sites (Hyundai Autoever Europe GmbH). I have now moved to the OpenStack deployment, managing the data center and virtual OpenStack layers.</p>
+  <p>In addition, working in a very process-oriented environment at Orange Business Services taught me how to establish process and apply best practices — from change management and project implementation to documentation of daily work.</p>
+  </div>
+</section>
+
+<!-- ===================== WORK EXPERIENCE ===================== -->
+<section>
+  <h2>Work Experience</h2>
+  <div class="in">
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Hyundai Autoever Europe GmbH</span> – <span class="loc">Frankfurt am Main, Germany</span></span><span class="dates">01/06/2026 — Current</span></div>
+    <div class="job-title">Senior Private Cloud Engineer (Networks)</div>
+    <p>I work with an Arista data center hosting an OpenStack vanilla deployment, managing the network between the data center, underlay/overlay on Arista switches, and the OpenStack Neutron layer. It's an operational role in which I develop scripts, automation, and AI-driven automations for optimizing day-to-day operations.</p>
+    <p>Vendors: Arista, Palo Alto, OpenStack, Rancher, Grafana, Zabbix</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Germany</span></span><span class="dates">07/2023 — Current</span></div>
+    <div class="job-title">Network Systems Engineer</div>
+    <p>Implementation and management of datacenter and enterprise infrastructure, including managing multiple customers with multiple infrastructure needs, also acting as project manager for new implementations.</p>
+    <p>Technologies involved: Cisco ISE (2.x &amp; 3.x), Cisco Nexus (legacy &amp; 9K), Cisco WLC (9800 &amp; 5500), Cisco IOS-based devices (legacy and Catalyst 9k), Cisco ASA &amp; Palo Alto firewalls (filtering, SSL &amp; IPSec), Cisco DNA Center.</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">G42 Cloud</span> – <span class="loc">Abu Dhabi, United Arab Emirates</span></span><span class="dates">03/2023 — 06/2023</span></div>
+    <div class="job-title">Cloud as Systems Engineer</div>
+    <p>Maintained Huawei Cloud Stack (OpenStack-based) cloud, mainly managing the Neutron infrastructure — continuing the same track from Ericsson and Orange Business Services.</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Ericsson</span> – <span class="loc">Cairo, Egypt</span></span><span class="dates">11/2022</span></div>
+    <div class="job-title">Cloud Operations and Automation Engineer — Network Domain</div>
+    <p>Joined Ericsson as an operations engineer, with main responsibility for automating tedious bug checks that customers may face and automating fix application with minimal customer intervention, using mainly Python and Bash scripting.</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Cairo, Egypt</span></span><span class="dates">08/2021 — 10/2022</span></div>
+    <div class="job-title">Public Cloud Operations Engineer — Network Domain</div>
+    <p>Worked on both the physical and virtual parts of the cloud DC infrastructure, as follows:</p>
+    <p>Working on the physical DCs hosting all cloud services, adhering to current CLOS design standards and using APIs to configure and control network nodes (routers, switches, firewalls).</p>
+    <p>Management and optimization of network capacity and peering with the Orange backbone for both MPLS and internet traffic.</p>
+    <p>Exposure to multiple security appliances such as VPN gateways, Anti-DDoS and WAF — essential to any internet-facing solution, especially for hosting compliant and critical tenants.</p>
+    <p>For the first time in my career, I worked on the most upcoming technologies — OpenStack virtual networks and highly efficient virtual network appliances for security and load balancing.</p>
+    <p>Worked with both legacy VLANs and new VXLAN virtual private networks, with multiple interworked encapsulation criteria.</p>
+    <p>From managing both physical and virtual networks, I worked on DC routing/switching alongside troubleshooting virtual networks, as traffic passes through security appliances and physical/virtual switches — so network operations extended even through the Linux machines.</p>
+    <p>New DC technologies gave me the opportunity to migrate from SSH-based scripting to NetConf / REST API-based calls that are much more reliable and efficient.</p>
+    <p>New to Terraform, but very experienced using Python for API interactions; also completed multiple large self-initiated projects (see the Projects section).</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">TE Data (Telecom Egypt) / WE</span> – <span class="loc">Cairo, Egypt</span></span><span class="dates">06/2019 — 07/2021</span></div>
+    <div class="job-title">IP Core Planning Senior Engineer</div>
+    <p>Responsible for utilizing Python scripting for reporting on the whole backbone network and performing automated pre- and post-checks across an area while migrating critical devices.</p>
+    <p>Implementation of backbone-hosted services and backhaul services for fixed, mobile, and broadband services using L3/L2 VPNs.</p>
+    <p>Migration and implementation of backbone devices (P-PE-RR-BNG) from multiple vendors (Cisco, Juniper, Nokia, etc.).</p>
+    <p>Software upgrades across multiple vendor devices.</p>
+    <p>Deep understanding of BGP, MPLS &amp; OSPF as the underlay for all hosted services.</p>
+    <p>Due to the converged nature of the network, worked with mobile, fixed, and broadband backbones such as IMS, EPC, BNGs, and a suite of devices — also establishing connectivity toward multiple security devices (Palo Alto, Cisco ASA, Juniper SRX).</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Cairo, Egypt</span></span><span class="dates">06/2018 — 06/2019</span></div>
+    <div class="job-title">VPN Implementation Engineer Level 3</div>
+    <p>Worked on an international, vast network — gaining knowledge of how to manage enormous-scale networks.</p>
+    <p>Supported customers across huge geographical areas and multiple languages; every enterprise worked with was global, enabling management of networks across multiple Autonomous Systems.</p>
+    <p>Due to Orange Business Services' global reach, worked with multiple physical technologies, some phasing out — such as ATM and Frame Relay.</p>
+    <p>Management of customer HUB sites with multiple unique network setups.</p>
+  </div>
+
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Cairo, Egypt</span></span><span class="dates">10/2016 — 06/2018</span></div>
+    <div class="job-title">Incident Management Specialist (1st Line Engineer)</div>
+    <p>Midway through the role, shifted to optimization technologies and devices such as Riverbed and Ipanema, gaining deep knowledge of TCP/IP operation.</p>
+    <p>Developed skills in managing customers from across the world and handling customer frustration during service instability.</p>
+    <p>Basic troubleshooting skills on PE-CE, LAN, and wireless technologies.</p>
+  </div>
+  </div>
+</section>
+
+<!-- ===================== LANGUAGE SKILLS ===================== -->
+<section>
+  <h2>Language Skills</h2>
+  <div class="in">
+  <ul>
+    <li>English — C2 </li>
+    <li>German — A2 - Improving</li>
+  </ul>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section>
+  <h2>Skills</h2>
+  <div class="in">
+  <p class="subtitle">Hands-on skills acquired across my career</p>
+  <p><b>Networking:</b> IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching; Cisco ISE 2.6 &amp; 3.1; Cisco WLC (9800 &amp; 5500); Cisco Catalyst / Nexus 9k; Palo Alto 10.x &amp; 11.x Firewalls / GlobalProtect VPN; Cisco ASA Firewalls &amp; SSL VPN; Juniper MX, PTX Backbone Routers; Juniper SRX Firewalls; NOKIA Routers — ADSL Termination; Cisco ASR 9k Backbone Routers — full OSPF converged Egypt backbone.</p>
+  <p><b>Cloud &amp; Virtualization:</b> OpenStack Neutron (Orange Flexible Engine, Huawei Cloud Stack); Huawei Cloud Stack — Networks / Neutron; Linux Administration.</p>
+  <p><b>Automation &amp; AI:</b> LangChain, N8N, Pi, MCP — agentic code workflows; Terraform (Orange Flexible Engine); Python (automation of network + OpenStack); Python Flask + HTML / CSS / Bootstrap (self-taught).</p>
+  <p><b>Monitoring &amp; Tools:</b> Docker, Grafana, Telegraf, InfluxDB (self-taught); SolarWinds NPM, NTA Administration.</p>
+  </div>
+</section>
+
+<!-- ===================== EDUCATION ===================== -->
+<section>
+  <h2>Education and Training</h2>
+  <div class="in">
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Arab Academy for Science and Technology and Maritime (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
+    <div class="job-title">Bachelor's Degree, Computer Engineering</div>
+    <p>https://www.aast.edu/</p>
+    <p>P.O. Box 2033, Elhorria, El Moshir Ismail St. (behind Sheraton Bldg.), 2033, Cairo, Egypt</p>
+    <p>Field of study: Engineering, manufacturing and construction · Final grade: 2.56</p>
+  </div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section>
+  <h2>Projects</h2>
+  <div class="in">
+      <div class="project">
+        <h4>Blog : <a href="https://amroelhusseini.vercel.app">amroelhusseini.vercel.app</a></h4>
       </div>
-    </div>
+  <div class="project">
+    <h4>MCP Servers</h4>
+    <p>During my current role I have developed a number of automation tools using AI, including several private and publicly hosted MCP servers on GitHub for managing systems such as Palo Alto, Cisco, Outlook, and ServiceNow — mostly private but applicable to public deployments too. I built these MCP server skills to run automations, especially through N8N.</p>
+  </div>
+  <div class="project">
+    <h4>Physical Network Auditing</h4>
+    <p>At both TE Data and Orange, I wrote a multithreaded Python script to audit network configuration against standard templates. It was the first time I used the Python multiprocessing library to log into hundreds of devices in parallel — shortening a 4-hour audit to just 2 minutes.</p>
+  </div>
+  <div class="project">
+    <h4>Web Application for Network Inventory</h4>
+    <p>Using Flask, Redis and SQLite, I built a web application to store chassis inventories across the TE Data backbone, queryable for Excel and web reports. This saved significant time for hardware planning decisions. To solve slow queries under concurrent use, I introduced Redis to cache commonly produced reports.</p>
+  </div>
+  <div class="project">
+    <h4>Network Topology Plotter</h4>
+    <p>Combining JavaScript/Jinja2 with Python scripting, I created automated, up-to-date network topologies by parsing and generating JavaScript (GoJS) and SVG high-level diagrams, plus automated XLS low-level diagrams — used at both Orange and TE Data.</p>
+    <p>github.com/amrelhusseiny/drawio_network_plot</p>
+  </div>
+  <div class="project">
+    <h4>Backbone Internet Traffic Path</h4>
+    <p>As part of my backbone work at TE Data, I built a script to plot the internet traffic path for each region, generated automatically by parsing backbone routing tables and factoring in BGP and OSPF data to determine and trace the path.</p>
+  </div>
+  </div>
+</section>
 
-    <main class="page">
-      
-      <div class="lang lang-en">
-      <header class="identity">
-        <h1 class="identity-name">Amro ElHusseini</h1>
-        <p class="identity-role">Senior Private Cloud Engineer (Networks)</p>
+</div>
 
-        <table class="spec-table">
-          <tr>
-            <td class="k" data-label="Home"></td>
-            <td>Konstanzer Str. 40, 60386 Frankfurt am Main, Germany</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Email"></td>
-            <td><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Phone"></td>
-            <td><a href="tel:+4915225176681">(+49) 152 2517 6681</a> &nbsp;·&nbsp; WhatsApp: +49 152 2517 6681</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Website"></td>
-            <td><a href="https://amroelhusseini.vercel.app/" target="_blank" rel="noopener">amroelhusseini.vercel.app</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="LinkedIn"></td>
-            <td><a href="https://www.linkedin.com/in/A.Elhusseini" target="_blank" rel="noopener">A.Elhusseini</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Permits"></td>
-            <td>Residence: Niederlassungserlaubnis — YZ7M3MK5V &nbsp;·&nbsp; Work permit: German</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Nationality"></td>
-            <td>Egyptian</td>
-          </tr>
-        </table>
-      </header>
+<!-- ===================== DEUTSCH ===================== -->
+<div class="page lang-de" lang="de">
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">About Me</h2><span class="rule"></span></div>
+<header>
+  <h1>Amro ElHusseini</h1>
+  <p class="role">Senior Private Cloud Engineer (Netzwerke)</p>
+  <p class="small"><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a> / <a href="https://amroelhusseini.vercel.app">amroelhusseini.vercel.app</a> / <a href="https://www.linkedin.com/in/amro-elhusseini-2a330456/">linkedin.com/in/amro-elhusseini-2a330456/</a></p>
+  <p class="small">Konstanzer Str. 40, 60386 Frankfurt am Main, Deutschland</p>
+  <p class="small">(+49) 152 2517 6681</p>
+  <img class="qr" src="/blog_qr.png" alt="QR-Code zum Blog von Amro ElHusseini">
+  <img class="qr" src="/linkedin_qr.png" alt="QR-Code zum LinkedIn-Profil">
+  <p class="small">Aufenthalt: Niederlassungserlaubnis — YZ7M3MK5V · Arbeitserlaubnis: Deutschland</p>
+  <p class="small">Führerschein Klasse B - deutscher Führerschein</p>
+  <p class="small">Geboren 01.12.1991 · Staatsangehörigkeit: Ägypten</p>
+</header>
 
-        <p class="body">What I can offer,</p>
+<!-- ===================== ÜBER MICH ===================== -->
+<section>
+  <h2>Über mich</h2>
+  <div class="in">
+  <p>Auch wenn mein Unternehmen noch traditionelle Workflows verwendet, habe ich bereits Agentic Workflows adaptiert, LangChain- und N8N-Deployments implementiert und Agenten betrieben, die unser Ticketingsystem verwalten und RAG über mein Confluence- und E-Mail-Wissen für semantische Suche ausführen.</p>
+  <p>Meine Erfahrung umfasst ein breites Spektrum an Netzwerk-Spezialgebieten — vom IP-Backbone mit konvergiertem IMS-/Mobile-Backhaul (Egypt Telecom), über Enterprise-Service-Provider-VPN-/MPLS-Routing und -Tunneling für globale Standorte (Orange Business Services) und Cloud-Backend auf OpenStack-basierter Public Cloud in Europa (Flexible Engine / Huawei CloudStack), bis hin zu meiner vorherigen Rolle in unternehmensseitigen Enterprise-Netzwerken mit Verwaltung von WLAN, Firewalls und VPNs über Rechenzentren und Bürostandorte hinweg (Hyundai Autoever Europe GmbH). Nun bin ich zum OpenStack-Deployment gewechselt und verwalte die Datacenter- und virtuellen OpenStack-Ebenen.</p>
+  <p>Darüber hinaus hat mir die Arbeit in einem sehr prozessorientierten Umfeld bei Orange Business Services gezeigt, wie man Prozesse etabliert und Best Practices anwendet — vom Change-Management über die Projektimplementierung bis zur Dokumentation der täglichen Arbeit.</p>
+  </div>
+</section>
 
-        <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-3); margin: var(--space-4) 0;">
-          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
-            <div style="font-size: var(--text-base); line-height: 1.5;">Even though my company is still moving through legacy workflow, I have already adapted Agentic Workflows, implemented LangChain and N8N deployments, and run agents to manage our ticketing system and RAG over my Confluence and email knowledge for semantic search.</div>
-          </li>
-          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
-            <div style="font-size: var(--text-base); line-height: 1.5;">My experience spans a wide range of network specialties — from IP backbone hosting converged IMS/mobile backhaul (Egypt Telecom), enterprise service provider VPN/MPLS routing and tunneling for global sites (Orange Business Services), cloud backend on OpenStack-based public cloud in Europe (Flexible Engine / Huawei CloudStack), to my previous role in customer-end enterprise networks managing Wifi, firewalls and VPNs across datacenter and office sites (Hyundai Autoever Europe GmbH). I have now moved to the OpenStack deployment, managing the data center and virtual OpenStack layers.</div>
-          </li>
-        </ol>
+<!-- ===================== BERUFSERFAHRUNG ===================== -->
+<section>
+  <h2>Berufserfahrung</h2>
+  <div class="in">
 
-        <p class="body">In addition, working in a very process-oriented environment at Orange Business Services taught me how to establish process and apply best practices — from change management and project implementation to documentation of daily work.</p>
-      </section>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Hyundai Autoever Europe GmbH</span> – <span class="loc">Frankfurt am Main, Deutschland</span></span><span class="dates">01.06.2026 — heute</span></div>
+    <div class="job-title">Senior Private Cloud Engineer (Netzwerke)</div>
+    <p>Ich arbeite mit einem Arista-Datacenter, das ein OpenStack-Vanilla-Deployment hostet, und verwalte das Netzwerk zwischen dem Datacenter, dem Underlay/Overlay auf Arista-Switches und der OpenStack-Neutron-Schicht. Es ist eine operative Rolle, in der ich Skripte, Automatisierungen und KI-gestützte Automatisierungen zur Optimierung des Tagesgeschäfts entwickle.</p>
+    <p>Hersteller: Arista, Palo Alto, OpenStack, Rancher, Grafana, Zabbix</p>
+  </div>
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Technical Expertise</h2><span class="rule"></span></div>
-        <h3 style="font-size: var(--text-base); font-weight: bold; margin-bottom: var(--space-4);">Hands-on skills acquired across my career</h3>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Hyundai Autoever GmbH</span> – <span class="loc">Offenbach, Deutschland</span></span><span class="dates">07/2023 — heute</span></div>
+    <div class="job-title">Netzwerk-Systemingenieur</div>
+    <p>Implementierung und Verwaltung von Datacenter- und Enterprise-Infrastruktur, einschließlich der Betreuung mehrerer Kunden mit unterschiedlichen Infrastrukturanforderungen sowie Tätigkeit als Projektmanager für neue Implementierungen.</p>
+    <p>Eingesetzte Technologien: Cisco ISE (2.x &amp; 3.x), Cisco Nexus (Legacy &amp; 9K), Cisco WLC (9800 &amp; 5500), Cisco IOS-basierte Geräte (Legacy und Catalyst 9k), Cisco ASA- &amp; Palo-Alto-Firewalls (Filterung, SSL &amp; IPSec), Cisco DNA Center.</p>
+  </div>
 
-        <ul style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3);">
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">LangChain, N8N, Pi, MCP — agentic code workflows</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Docker, Grafana, Telegraf, InfluxDB</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Terraform</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python Flask</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">OpenStack Neutron</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Linux Administration</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ISE 2.6 & 3.1</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco WLC (9800 & 5500)</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco Catalyst / Nexus 9k</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Palo Alto 10.x & 11.x Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ASA Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper MX, PTX Backbone Routers</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper SRX Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Huawei Cloud Stack</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">SolarWinds NPM</li>
-        </ul>
-      </section>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">G42 Cloud</span> – <span class="loc">Abu Dhabi, Vereinigte Arabische Emirate</span></span><span class="dates">03/2023 — 06/2023</span></div>
+    <div class="job-title">Cloud als Systems Engineer</div>
+    <p>Betreuung der Huawei Cloud Stack Cloud (OpenStack-basiert), hauptsächlich Verwaltung der Neutron-Infrastruktur — Fortsetzung des gleichen Wegs wie bei Ericsson und Orange Business Services.</p>
+  </div>
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Work Experience</h2><span class="rule"></span></div>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Ericsson</span> – <span class="loc">Kairo, Ägypten</span></span><span class="dates">11/2022</span></div>
+    <div class="job-title">Cloud-Betriebs- und Automatisierungsingenieur — Netzwerkbereich</div>
+    <p>Einstieg bei Ericsson als Operations Engineer mit Hauptverantwortung für die Automatisierung lästiger Bug-Prüfungen, mit denen Kunden konfrontiert sein können, und für die automatisierte Anwendung von Fixes mit minimalem Kundenaufwand — hauptsächlich mit Python- und Bash-Scripting.</p>
+  </div>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2026-06-01">01/06/2026</time> — Current</div>
-          <div>
-            <h3 class="entry-title">Senior Private Cloud Engineer (Networks)</h3>
-            <p class="entry-org">Hyundai Autoever Europe GmbH</p>
-            <div class="entry-loc">Frankfurt am Main, Germany</div>
-            <div class="entry-body">
-              <p class="body">Managing the network layer of an Arista-based datacenter hosting a vanilla OpenStack deployment. Responsible for underlay/overlay design and operations on Arista switches and the OpenStack Neutron layer. Developing automation scripts and AI-driven tools to optimize day-to-day operations.</p>
-            </div>
-          </div>
-        </div>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Kairo, Ägypten</span></span><span class="dates">08/2021 — 10/2022</span></div>
+    <div class="job-title">Public-Cloud-Betriebsingenieur — Netzwerkbereich</div>
+    <p>Arbeit an beiden Teilen der Cloud-DC-Infrastruktur, physisch und virtuell:</p>
+    <p>Arbeit an den physischen DCs, die alle Cloud-Dienste hosten, nach aktuellen CLOS-Design-Standards und unter Einsatz von APIs zur Konfiguration und Steuerung von Netzwerkknoten (Router, Switches, Firewalls).</p>
+    <p>Verwaltung und Optimierung der Netzwerkkapazität und des Peerings mit dem Orange-Backbone für MPLS- und Internet-Traffic.</p>
+    <p>Erfahrung mit verschiedenen Security-Appliances wie VPN-Gateways, Anti-DDoS und WAF — essenziell für jede internetorientierte Lösung, insbesondere für das Hosting regulierungskonformer und kritischer Mandanten.</p>
+    <p>Erstmals in meiner Karriere arbeitete ich mit den modernsten Technologien — OpenStack-virtuelle Netzwerke und hocheffiziente virtuelle Netzwerk-Appliances für Security und Load Balancing.</p>
+    <p>Arbeit mit klassischen VLANs und neuen VXLAN-VPN, mit mehreren aufeinander abgestimmten Kapselungskriterien.</p>
+    <p>Aus der Verwaltung physischer und virtueller Netzwerke heraus arbeitete ich am DC-Routing/-Switching und am Troubleshooting virtueller Netzwerke, da der Verkehr Security-Appliances sowie physische/virtuelle Switches durchläuft — die Netzwerkbetriebs-Perspektive erstreckte sich bis hin zu den Linux-Maschinen.</p>
+    <p>Neue DC-Technologien gaben mir die Möglichkeit, von SSH-basiertem Scripting auf NetConf-/REST-API-basierte Aufrufe zu migrieren, die deutlich zuverlässiger und effizienter sind.</p>
+    <p>Neu mit Terraform, aber sehr erfahren im Einsatz von Python für API-Interaktionen; zudem mehrere große, selbst initiierte Projekte abgeschlossen (siehe Abschnitt Projekte).</p>
+  </div>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2023-07">07/2023</time> — <time datetime="2026-05">05/2026</time></div>
-          <div>
-            <h3 class="entry-title">Network Systems Engineer</h3>
-            <p class="entry-org">Hyundai Autoever GmbH</p>
-            <div class="entry-loc">Offenbach, Germany</div>
-            <div class="entry-body">
-              <p class="body">Implementation and management of datacenter and enterprise network infrastructure across multiple customers, acting as project manager for new implementations.</p>
-              <ul class="bullets">
-                <li>Cisco ISE 2.x & 3.x (NAC)</li>
-                <li>Cisco WLC 9800 & 5500 (Wi-Fi)</li>
-                <li>Cisco Nexus / Catalyst 9K</li>
-                <li>Cisco ASA & Palo Alto firewalls</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">TE Data (Telecom Egypt) / WE</span> – <span class="loc">Kairo, Ägypten</span></span><span class="dates">06/2019 — 07/2021</span></div>
+    <div class="job-title">Senior-Ingenieur für IP-Core-Planung</div>
+    <p>Verantwortlich für den Einsatz von Python-Scripting für das Reporting des gesamten Backbone-Netzwerks und für automatisierte Pre- und Post-Checks über ein Gebiet hinweg bei der Migration kritischer Geräte.</p>
+    <p>Implementierung von Backbone-gehosteten Diensten und Backhaul-Diensten für Festnetz-, Mobilfunk- und Breitbanddienste mittels L3/L2-VPNs.</p>
+    <p>Migration und Implementierung von Backbone-Geräten (P-PE-RR-BNG) mehrerer Hersteller (Cisco, Juniper, Nokia usw.).</p>
+    <p>Software-Upgrades geräteübergreifend bei mehreren Herstellern.</p>
+    <p>Tiefes Verständnis von BGP, MPLS &amp; OSPF als Underlay für alle gehosteten Dienste.</p>
+    <p>Aufgrund der konvergierten Natur des Netzwerks Arbeit mit Mobile-, Festnetz- und Breitband-Backbones wie IMS, EPC und BNGs sowie einer ganzen Reihe von Geräten — inklusive Anbindung verschiedener Security-Geräte (Palo Alto, Cisco ASA, Juniper SRX).</p>
+  </div>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2021-08">08/2021</time> — <time datetime="2022-10">10/2022</time></div>
-          <div>
-            <h3 class="entry-title">Public Cloud Operations Engineer — Network Domain</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Cairo, Egypt</div>
-            <div class="entry-body">
-              <p class="body">Worked on both physical and virtual network layers of cloud datacenter infrastructure. Managed capacity, peering with Orange backbone, and virtual network appliances.</p>
-              <ul class="bullets">
-                <li>Physical DC network (CLOS design)</li>
-                <li>Virtual networks: OpenStack, VLAN, VXLAN</li>
-                <li>Security appliances: VPN gateways, Anti-DDoS, WAF</li>
-                <li>Terraform (first use)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Kairo, Ägypten</span></span><span class="dates">06/2018 — 06/2019</span></div>
+    <div class="job-title">VPN-Implementierungsingenieur Level 3</div>
+    <p>Arbeit an einem internationalen, gewaltigen Netzwerk — Wissen über die Verwaltung von Netzen enormer Größenordnung.</p>
+    <p>Unterstützung von Kunden über riesige geografische Gebiete und mehrere Sprachen hinweg; jedes betreute Unternehmen war global, was die Verwaltung von Netzwerken über mehrere Autonomous Systems ermöglichte.</p>
+    <p>Aufgrund der globalen Reichweite von Orange Business Services Arbeit mit mehreren physischen Technologien, teils in der Ausphasung — etwa ATM und Frame Relay.</p>
+    <p>Verwaltung von Kunden-HUB-Standorten mit mehreren einzigartigen Netzwerk-Setups.</p>
+  </div>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2019-06">06/2019</time> — <time datetime="2021-07">07/2021</time></div>
-          <div>
-            <h3 class="entry-title">IP Core Planning Senior Engineer</h3>
-            <p class="entry-org">TE Data (Telecom Egypt) / WE</p>
-            <div class="entry-loc">Cairo, Egypt</div>
-            <div class="entry-body">
-              <p class="body">Responsible for backbone planning, migration, and automation across a converged national backbone network supporting Fixed, Mobile, and Broadband services.</p>
-              <ul class="bullets">
-                <li>BGP, MPLS & OSPF — deep operational expertise</li>
-                <li>Migration of P/PE/RR/BNG devices (Cisco, Juniper, Nokia)</li>
-                <li>Multi-vendor software upgrades</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Orange Business Services</span> – <span class="loc">Kairo, Ägypten</span></span><span class="dates">10/2016 — 06/2018</span></div>
+    <div class="job-title">Incident-Management-Spezialist (1st-Line-Engineer)</div>
+    <p>Mitte der Tätigkeit Wechsel zu Optimierungstechnologien und -geräten wie Riverbed und Ipanema, mit tiefem Wissen über das Verhalten von TCP/IP.</p>
+    <p>Aufbau von Kompetenzen in der Betreuung von Kunden aus aller Welt und im Umgang mit Kundenfrust bei Dienstinstabilität.</p>
+    <p>Grundlegende Troubleshooting-Kenntnisse zu PE-CE-, LAN- und Wireless-Technologien.</p>
+  </div>
+  </div>
+</section>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2018-06">06/2018</time> — <time datetime="2019-06">06/2019</time></div>
-          <div>
-            <h3 class="entry-title">VPN Implementation Engineer — Level 3</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Cairo, Egypt</div>
-            <div class="entry-body">
-              <p class="body">Supporting global enterprise customers across multiple continents on a vast international MPLS/VPN network. Managing HUB sites and working with optimization technologies.</p>
-            </div>
-          </div>
-        </div>
+<!-- ===================== SPRACHKENNTNISSE ===================== -->
+<section>
+  <h2>Sprachkenntnisse</h2>
+  <div class="in">
+  <ul>
+    <li>Englisch — C2 </li>
+    <li>Deutsch — A2 — in Verbesserung</li>
+  </ul>
+  </div>
+</section>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2016-10">10/2016</time> — <time datetime="2018-06">06/2018</time></div>
-          <div>
-            <h3 class="entry-title">Incident Management Specialist — 1st Line Engineer</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Cairo, Egypt</div>
-            <div class="entry-body">
-              <p class="body">First-line incident management for global enterprise customers, providing troubleshooting and customer support during service instability.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+<!-- ===================== FÄHIGKEITEN ===================== -->
+<section>
+  <h2>Fähigkeiten</h2>
+  <div class="in">
+  <p class="subtitle">Praktische Fähigkeiten, erworben im Laufe meiner Karriere</p>
+  <p><b>Networking:</b> IP-Routing (BGP, MP-BGP, MPLS, OSPF), Switching; Cisco ISE 2.6 &amp; 3.1; Cisco WLC (9800 &amp; 5500); Cisco Catalyst / Nexus 9k; Palo Alto 10.x- &amp; 11.x-Firewalls / GlobalProtect-VPN; Cisco ASA Firewalls &amp; SSL-VPN; Juniper MX-, PTX-Backbone-Router; Juniper SRX Firewalls; NOKIA Router — ADSL-Terminierung; Cisco ASR 9k Backbone-Router — voll konvergierter OSPF-Backbone Ägyptens.</p>
+  <p><b>Cloud &amp; Virtualisierung:</b> OpenStack Neutron (Orange Flexible Engine, Huawei Cloud Stack); Huawei Cloud Stack — Netzwerke / Neutron; Linux-Administration.</p>
+  <p><b>Automatisierung &amp; KI:</b> LangChain, N8N, Pi, MCP — agentische Code-Workflows; Terraform (Orange Flexible Engine); Python (Automatisierung von Netzwerk + OpenStack); Python Flask + HTML / CSS / Bootstrap (autodidaktisch).</p>
+  <p><b>Monitoring &amp; Werkzeuge:</b> Docker, Grafana, Telegraf, InfluxDB (autodidaktisch); SolarWinds NPM-, NTA-Administration.</p>
+  </div>
+</section>
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Language Skills</h2><span class="rule"></span></div>
-        <ul class="bullets">
-          <li>English — C2 (proficient user)</li>
-          <li>German — A1 (basic user)</li>
-        </ul>
-      </section>
+<!-- ===================== AUSBILDUNG ===================== -->
+<section>
+  <h2>Ausbildung und Weiterbildung</h2>
+  <div class="in">
+  <div class="entry">
+    <div class="entry-head"><span><span class="org">Arab Academy for Science and Technology and Maritime (AASTMT)</span></span><span class="dates">06/2008 — 11/2013</span></div>
+    <div class="job-title">Bachelorabschluss, Computer Engineering</div>
+    <p>https://www.aast.edu/</p>
+    <p>P.O. Box 2033, Elhorria, El Moshir Ismail St. (hinter Sheraton Building), 2033, Kairo, Ägypten</p>
+    <p>Studienfach: Ingenieurwesen, Fertigung und Bau · Abschlussnote: 2,56</p>
+  </div>
+  </div>
+</section>
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Education and Training</h2><span class="rule"></span></div>
-        <div class="entry">
-          <div class="entry-date"><time datetime="2008-06">06/2008</time> — <time datetime="2013-11">11/2013</time></div>
-          <div>
-            <h3 class="entry-title">Bachelor's Degree, Computer Engineering</h3>
-            <p class="entry-org">Arab Academy for Science and Technology and Maritime (AASTMT)</p>
-            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
-              <a href="https://www.aast.edu/" target="_blank" rel="noopener">https://www.aast.edu/</a><br>
-              Cairo, Egypt — Grade: 2.56
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Driving Licence</h2><span class="rule"></span></div>
-        <div style="font-size: var(--text-base);">
-          Category: B (since <time datetime="2025-02-18">18/02/2025</time>)
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Projects</h2><span class="rule"></span></div>
-
-        <div class="project">
-          <h3 class="project-title">MCP Servers</h3>
-          <p class="body">Developed private and public MCP servers for AI-driven automation of network operations, covering Palo Alto, Cisco, Outlook, and ServiceNow. Deployed using N8N for workflow automation.</p>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Physical Network Auditing Tool</h3>
-          <p class="body">Multithreaded Python script to audit network device configurations across hundreds of devices in parallel. Reduced a 4-hour manual audit to under 2 minutes.</p>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Network Topology Plotter</h3>
-          <p class="body">Automated network topology generation by parsing device configurations. Used at both Orange Business Services and TE Data.</p>
-          <div style="margin-top: var(--space-2); font-size: var(--text-xs);"><a class="invert" style="background: var(--color-invert-bg); color: var(--color-invert-text); padding: 0 var(--space-2); text-decoration: none;" href="https://github.com/amrelhusseiny/drawio_network_plot" target="_blank" rel="noopener">github.com/amrelhusseiny/drawio_network_plot</a></div>
-        </div>
-      </section>
-
-      <footer class="doc-footer">
-        <span>Amro ElHusseini — Curriculum Vitae</span>
-        <span id="footer-date"></span>
-      </footer>
+<!-- ===================== PROJEKTE ===================== -->
+<section>
+  <h2>Projekte</h2>
+  <div class="in">
+      <div class="project">
+        <h4>Blog : <a href="https://amroelhusseini.vercel.app">amroelhusseini.vercel.app</a></h4>
       </div>
+  <div class="project">
+    <h4>MCP-Server</h4>
+    <p>In meiner aktuellen Rolle habe ich eine Reihe von Automatisierungstools mit KI entwickelt, darunter mehrere private und öffentlich gehostete MCP-Server auf GitHub zur Verwaltung von Systemen wie Palo Alto, Cisco, Outlook und ServiceNow — überwiegend privat, aber auch für öffentliche Deployments geeignet. Ich habe diese MCP-Server-Skills aufgebaut, um Automatisierungen auszuführen, insbesondere über N8N.</p>
+  </div>
+  <div class="project">
+    <h4>Auditing physischer Netzwerke</h4>
+    <p>Bei TE Data und Orange schrieb ich ein multithreaded Python-Skript, um Netzwerkkonfigurationen gegen Standard-Templates zu prüfen. Es war das erste Mal, dass ich die Python-Multiprocessing-Bibliothek nutzte, um mich parallel in Hunderte von Geräten einzuloggen — verkürzte ein 4-Stunden-Audit auf nur 2 Minuten.</p>
+  </div>
+  <div class="project">
+    <h4>Webanwendung für Netzwerkinventar</h4>
+    <p>Mit Flask, Redis und SQLite baute ich eine Webanwendung zur Speicherung von Chassis-Inventaren im TE-Data-Backbone, abfragbar für Excel- und Web-Reports. Das sparte erhebliche Zeit bei Hardware-Planungsentscheidungen. Um langsame Abfragen bei gleichzeitiger Nutzung zu lösen, führte ich Redis ein, um häufig erzeugte Reports zu cachen.</p>
+  </div>
+  <div class="project">
+    <h4>Netzwerk-Topologie-Plotter</h4>
+    <p>Durch die Kombination von JavaScript/Jinja2 mit Python-Scripting erstellte ich automatisierte, aktuelle Netzwerktopologien durch Parsen und Generieren von JavaScript-(GoJS)- und SVG-Übersichtsdiagrammen sowie automatisierten XLS-Detaildiagrammen — eingesetzt bei Orange und TE Data.</p>
+    <p>github.com/amrelhusseiny/drawio_network_plot</p>
+  </div>
+  <div class="project">
+    <h4>Internet-Traffic-Pfade im Backbone</h4>
+    <p>Im Rahmen meiner Backbone-Arbeit bei TE Data baute ich ein Skript, das den Internet-Traffic-Pfad je Region darstellt — automatisch generiert durch Parsen der Backbone-Routing-Tabellen unter Einbeziehung von BGP- und OSPF-Daten zur Bestimmung und Nachverfolgung des Pfades.</p>
+  </div>
+  </div>
+</section>
 
-      <div class="lang lang-de">
-      <header class="identity">
-        <h1 class="identity-name">Amro ElHusseini</h1>
-        <p class="identity-role">Senior Private Cloud Engineer (Netzwerke)</p>
+</div>
 
-        <table class="spec-table">
-          <tr>
-            <td class="k" data-label="Adresse"></td>
-            <td>Konstanzer Str. 40, 60386 Frankfurt am Main, Deutschland</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="E-Mail"></td>
-            <td><a href="mailto:amroashram@hotmail.com">amroashram@hotmail.com</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Telefon"></td>
-            <td><a href="tel:+4915225176681">(+49) 152 2517 6681</a> &nbsp;·&nbsp; WhatsApp: +49 152 2517 6681</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Webseite"></td>
-            <td><a href="https://amroelhusseini.vercel.app/" target="_blank" rel="noopener">amroelhusseini.vercel.app</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="LinkedIn"></td>
-            <td><a href="https://www.linkedin.com/in/A.Elhusseini" target="_blank" rel="noopener">A.Elhusseini</a></td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Aufenthalt"></td>
-            <td>Niederlassungserlaubnis — YZ7M3MK5V &nbsp;·&nbsp; Arbeitserlaubnis: Deutschland</td>
-          </tr>
-          <tr>
-            <td class="k" data-label="Staatsangehörigkeit"></td>
-            <td>Ägypten</td>
-          </tr>
-        </table>
-      </header>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var langBtns = document.querySelectorAll('.lang-btn');
+    var themeBtn = document.getElementById('theme-toggle');
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Über mich</h2><span class="rule"></span></div>
+    function syncThemeLabel() {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      var de = root.getAttribute('data-lang') === 'de';
+      themeBtn.textContent = dark
+        ? (de ? 'Hellmodus' : 'Light mode')
+        : (de ? 'Dunkelmodus' : 'Dark mode');
+    }
 
-        <p class="body">Was ich bieten kann:</p>
+    function setLang(lang) {
+      root.setAttribute('data-lang', lang);
+      root.setAttribute('lang', lang);
+      document.title = lang === 'de' ? 'Amro ElHusseini — Lebenslauf' : 'Amro ElHusseini';
+      langBtns.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
+      });
+      try { localStorage.setItem('cv-lang', lang); } catch (e) {}
+      syncThemeLabel();
+    }
 
-        <ol style="counter-reset: num; display: flex; flex-direction: column; gap: var(--space-3); margin: var(--space-4) 0;">
-          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">1</span>
-            <div style="font-size: var(--text-base); line-height: 1.5;">Auch wenn mein Unternehmen noch traditionelle Workflows verwendet, habe ich bereits Agentic Workflows adaptiert, LangChain- und N8N-Deployments implementiert und Agenten betrieben, die unser Ticketingsystem verwalten und RAG über mein Confluence- und E-Mail-Wissen für semantische Suche ausführen.</div>
-          </li>
-          <li style="display: flex; gap: var(--space-3); counter-increment: num;">
-            <span style="flex-shrink: 0; width: var(--space-5); height: var(--space-5); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: bold;">2</span>
-            <div style="font-size: var(--text-base); line-height: 1.5;">Meine Erfahrung umfasst ein breites Spektrum an Netzwerk-Spezialgebieten — vom IP-Backbone mit konvergiertem IMS-/Mobile-Backhaul (Egypt Telecom), über Enterprise-Service-Provider-VPN-/MPLS-Routing und -Tunneling für globale Standorte (Orange Business Services) und Cloud-Backend auf OpenStack-basierter Public Cloud in Europa (Flexible Engine / Huawei CloudStack), bis hin zu meiner vorherigen Rolle in unternehmensseitigen Enterprise-Netzwerken mit Verwaltung von WLAN, Firewalls und VPNs über Rechenzentren und Bürostandorte hinweg (Hyundai Autoever Europe GmbH). Nun bin ich zum OpenStack-Deployment gewechselt und verwalte die Datacenter- und virtuellen OpenStack-Ebenen.</div>
-          </li>
-        </ol>
+    langBtns.forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
+    });
 
-        <p class="body">Darüber hinaus hat mir die Arbeit in einem sehr prozessorientierten Umfeld bei Orange Business Services gezeigt, wie man Prozesse etabliert und Best Practices anwendet — vom Change-Management über die Projektimplementierung bis zur Dokumentation der täglichen Arbeit.</p>
-      </section>
+    setLang(root.getAttribute('data-lang') === 'de' ? 'de' : 'en');
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Technische Expertise</h2><span class="rule"></span></div>
-        <h3 style="font-size: var(--text-base); font-weight: bold; margin-bottom: var(--space-4);">Praktische Fähigkeiten, erworben im Laufe meiner Karriere</h3>
+    themeBtn.addEventListener('click', function () {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      if (dark) root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', 'dark');
+      try { localStorage.setItem('cv-theme', dark ? 'light' : 'dark'); } catch (e) {}
+      syncThemeLabel();
+    });
 
-        <ul style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3);">
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">LangChain, N8N, Pi, MCP — agentic code workflows</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">IP Routing (BGP, MP-BGP, MPLS, OSPF), Switching</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Docker, Grafana, Telegraf, InfluxDB</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Terraform</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Python Flask</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">OpenStack Neutron</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Linux-Administration</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ISE 2.6 & 3.1</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco WLC (9800 & 5500)</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco Catalyst / Nexus 9k</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Palo Alto 10.x & 11.x Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Cisco ASA Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper MX, PTX Backbone Routers</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Juniper SRX Firewalls</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">Huawei Cloud Stack</li>
-          <li style="border: 1px solid var(--color-border); padding: var(--space-3) var(--space-4); font-size: var(--text-base);">SolarWinds NPM</li>
-        </ul>
-      </section>
+    syncThemeLabel();
 
-      <section class="section">
-        <div class="section-head"><h2 class="label">Berufserfahrung</h2><span class="rule"></span></div>
+    document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
+  })();
+</script>
 
-        <div class="entry">
-          <div class="entry-date"><time datetime="2026-06-01">01.06.2026</time> — heute</div>
-          <div>
-            <h3 class="entry-title">Senior Private Cloud Engineer (Netzwerke)</h3>
-            <p class="entry-org">Hyundai Autoever Europe GmbH</p>
-            <div class="entry-loc">Frankfurt am Main, Deutschland</div>
-            <div class="entry-body">
-              <p class="body">Verwaltung der Netzwerkschicht eines Arista-basierten Rechenzentrums mit einem OpenStack-Vanilla-Deployment. Verantwortlich für Underlay/Overlay-Design und -Operationen auf Arista-Switches und der OpenStack-Neutron-Schicht. Entwicklung von Automatisierungsskripten und KI-gestützten Tools zur Optimierung des Tagesgeschäfts.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2023-07">07/2023</time> — <time datetime="2026-05">05/2026</time></div>
-          <div>
-            <h3 class="entry-title">Netzwerk-Systemingenieur</h3>
-            <p class="entry-org">Hyundai Autoever GmbH</p>
-            <div class="entry-loc">Offenbach, Deutschland</div>
-            <div class="entry-body">
-              <p class="body">Implementierung und Verwaltung von Rechenzentrum- und Enterprise-Netzwerk-Infrastruktur für mehrere Kunden, tätig als Projektmanager für neue Implementierungen.</p>
-              <ul class="bullets">
-                <li>Cisco ISE 2.x & 3.x (NAC)</li>
-                <li>Cisco WLC 9800 & 5500 (Wi-Fi)</li>
-                <li>Cisco Nexus / Catalyst 9K</li>
-                <li>Cisco ASA & Palo Alto Firewalls</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2021-08">08/2021</time> — <time datetime="2022-10">10/2022</time></div>
-          <div>
-            <h3 class="entry-title">Public-Cloud-Betriebsingenieur — Netzwerkbereich</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Kairo, Ägypten</div>
-            <div class="entry-body">
-              <p class="body">Arbeit an physischen und virtuellen Netzwerkschichten von Rechenzentrums-Infrastruktur. Verwaltung der Kapazität, Peering mit Orange Backbone und virtueller Netzwerkappliances.</p>
-              <ul class="bullets">
-                <li>Physisches Rechenzentrum (CLOS Design)</li>
-                <li>Virtuelle Netzwerke: OpenStack, VLAN, VXLAN</li>
-                <li>Security-Appliances: VPN-Gateways, Anti-DDoS, WAF</li>
-                <li>Terraform (erste Anwendung)</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2019-06">06/2019</time> — <time datetime="2021-07">07/2021</time></div>
-          <div>
-            <h3 class="entry-title">Senior-Ingenieur für IP-Core-Planung</h3>
-            <p class="entry-org">TE Data (Telecom Egypt) / WE</p>
-            <div class="entry-loc">Kairo, Ägypten</div>
-            <div class="entry-body">
-              <p class="body">Verantwortlich für Backbone-Planung, Migration und Automatisierung über ein konvergiertes nationales Backbone-Netzwerk, das Festnetz, Mobilfunk und Breitbanddienste unterstützt.</p>
-              <ul class="bullets">
-                <li>BGP, MPLS & OSPF — tiefgreifende operative Expertise</li>
-                <li>Migration von P/PE/RR/BNG-Geräten (Cisco, Juniper, Nokia)</li>
-                <li>Multi-Hersteller-Software-Upgrades</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2018-06">06/2018</time> — <time datetime="2019-06">06/2019</time></div>
-          <div>
-            <h3 class="entry-title">VPN-Implementierungsingenieur (Level 3)</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Kairo, Ägypten</div>
-            <div class="entry-body">
-              <p class="body">Unterstützung globaler Enterprise-Kunden auf mehreren Kontinenten in einem riesigen internationalen MPLS/VPN-Netzwerk. Verwaltung von HUB-Standorten und Arbeit mit Optimierungstechnologien.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-date"><time datetime="2016-10">10/2016</time> — <time datetime="2018-06">06/2018</time></div>
-          <div>
-            <h3 class="entry-title">Incident-Management-Spezialist (1st-Line-Engineer)</h3>
-            <p class="entry-org">Orange Business Services</p>
-            <div class="entry-loc">Kairo, Ägypten</div>
-            <div class="entry-body">
-              <p class="body">First-Line-Incident-Management für globale Enterprise-Kunden, Bereitstellung von Troubleshooting und Kundensupport während Dienstinstabilität.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Sprachkenntnisse</h2><span class="rule"></span></div>
-        <ul class="bullets">
-          <li>Englisch — C2 (kompetente Sprachverwendung)</li>
-          <li>Deutsch — A1 (grundlegende Sprachverwendung)</li>
-        </ul>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Ausbildung</h2><span class="rule"></span></div>
-        <div class="entry">
-          <div class="entry-date"><time datetime="2008-06">06/2008</time> — <time datetime="2013-11">11/2013</time></div>
-          <div>
-            <h3 class="entry-title">Bachelorabschluss, Computer Engineering</h3>
-            <p class="entry-org">Arab Academy for Science and Technology and Maritime (AASTMT)</p>
-            <div style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
-              <a href="https://www.aast.edu/" target="_blank" rel="noopener">https://www.aast.edu/</a><br>
-              Kairo, Ägypten — Note: 2,56
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Führerschein</h2><span class="rule"></span></div>
-        <div style="font-size: var(--text-base);">
-          Kategorie: B (seit <time datetime="2025-02-18">18.02.2025</time>)
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head"><h2 class="label">Projekte</h2><span class="rule"></span></div>
-
-        <div class="project">
-          <h3 class="project-title">MCP-Server</h3>
-          <p class="body">Entwicklung privater und öffentlicher MCP-Server für KI-gestützte Automatisierung von Netzwerkbetrieb, abdeckend Palo Alto, Cisco, Outlook und ServiceNow. Deployt mit N8N für Workflow-Automatisierung.</p>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Auditing physischer Netzwerke</h3>
-          <p class="body">Multithreaded Python-Skript zur Prüfung von Netzwerkkonfigurationen gegen Standard-Templates über hunderte Geräte in Parallel. Reduzierte ein 4-Stunden-Audit auf unter 2 Minuten.</p>
-        </div>
-
-        <div class="project">
-          <h3 class="project-title">Netzwerk-Topologie-Plotter</h3>
-          <p class="body">Automatisierte Netzwerk-Topologie-Generierung durch Parsen von Gerätekonfigurationen. Verwendet bei Orange Business Services und TE Data.</p>
-          <div style="margin-top: var(--space-2); font-size: var(--text-xs);"><a class="invert" style="background: var(--color-invert-bg); color: var(--color-invert-text); padding: 0 var(--space-2); text-decoration: none;" href="https://github.com/amrelhusseiny/drawio_network_plot" target="_blank" rel="noopener">github.com/amrelhusseiny/drawio_network_plot</a></div>
-        </div>
-      </section>
-
-      <footer class="doc-footer">
-        <span>Amro ElHusseini — Lebenslauf</span>
-        <span id="footer-date-de"></span>
-      </footer>
-      </div>
-    </main>
-
-    <script>
-      (function () {
-        var root = document.documentElement;
-        var langBtns = document.querySelectorAll('.lang-btn');
-        
-        // Load saved language preference
-        var savedLang = null;
-        try { savedLang = localStorage.getItem('cv-lang'); } catch (e) {}
-        var currentLang = savedLang || 'en';
-        
-        // Set initial language
-        function setLang(lang) {
-          root.setAttribute('data-lang', lang);
-          root.setAttribute('lang', lang);
-          langBtns.forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-          });
-          try { localStorage.setItem('cv-lang', lang); } catch (e) {}
-        }
-        
-        // Initial setup
-        setLang(currentLang);
-        
-        // Footer dates
-        document.getElementById('footer-date').textContent = new Date().toISOString().slice(0, 10);
-        document.getElementById('footer-date-de').textContent = new Date().toISOString().slice(0, 10);
-        
-        // Language button listeners
-        langBtns.forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            setLang(btn.getAttribute('data-lang'));
-          });
-        });
-        
-        // Theme toggle
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-          var isDark = root.getAttribute('data-theme') === 'dark';
-          if (isDark) root.removeAttribute('data-theme'); else root.setAttribute('data-theme', 'dark');
-        });
-        
-        // Print button
-        document.getElementById('print-btn').addEventListener('click', function() { window.print(); });
-      })();
-    </script>
-  </body>
+</body>
 </html>
