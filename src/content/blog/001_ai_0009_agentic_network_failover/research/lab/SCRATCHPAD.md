@@ -1174,3 +1174,82 @@ grafana     13 panels provisioned, datasources pinned to uid prometheus/loki
 
 Grafana assigns its own datasource UIDs on first boot, so they have to be pinned
 in the provisioning file or every panel renders empty with no error.
+
+### 13.10 The dashboard showed no data. Four separate bugs, none of them visible from the API
+
+Checking that Prometheus and Loki individually held data is not the same as
+checking that panels render. Four bugs, in order of how invisible they were.
+
+**1. Grafana could not reach Prometheus at all.** `mon-prometheus` was attached
+to the eight lab networks but not to the `monitoring` network, so Grafana could
+not resolve the name `prometheus`:
+
+~~~
+dial tcp: lookup prometheus on 127.0.0.11:53: server misbehaving
+~~~
+
+Loki worked, because both it and Promtail were on `monitoring`. That is what
+made it look like a datasource problem rather than a network one: one datasource
+was healthy and one was not, and the Prometheus health endpoint returns HTTP 400
+with the DNS error in the body rather than failing the probe outright.
+
+Fixed by adding `monitoring` to the Prometheus service.
+
+**2. `max()` with no `by()` collapsed each lab into one series.** A node graph
+needs one series per router; `max(device_up_up{lab="agt"})` returned a single
+series with no device label, so six routers became one anonymous node. The
+aggregates were removed and each labelled series left to stand on its own.
+
+**3. The log streams carried no `lab` or `device` label.** The panel queries
+filtered on `lab=`, so they matched zero streams and rendered blank while Loki
+plainly held the lines. A template/regex pipeline was supposed to derive both
+from the filename; it attached the lines but not the labels.
+
+Replaced with fourteen explicit scrape jobs, one per router, carrying static
+`lab` and `device` labels. Verbose and completely predictable, which is the right
+trade for a fixed twelve-device lab.
+
+**4. Two vocabularies for one thing.** Metrics used `lab=agt`, the agent log
+streams used `lab=agent`, and the dashboard mixed both. Panel 10 filtered on a
+value that existed in neither. Now `agt` and `ospf` everywhere.
+
+### 13.11 How the panels are actually verified
+
+Querying the datasources directly proves nothing about whether a panel renders.
+The check that matters pulls the dashboard Grafana is actually serving and
+executes every query through Grafana's own datasource proxy:
+
+~~~
+OK      panel 2   nodeGraph   n=6   device_up_up{lab="agt"}
+OK      panel 2   nodeGraph   n=1   path_state_active{lab="agt"}
+OK      panel 2   nodeGraph   n=1   path_state_reachable{lab="agt"}
+OK      panel 3   nodeGraph   n=6   device_up_up{lab="ospf"}
+OK      panel 3   nodeGraph   n=1   path_state_active{lab="ospf"}
+OK      panel 3   nodeGraph   n=1   path_state_reachable{lab="ospf"}
+OK      panel 4   stat        n=1   path_state_active{lab="agt"}
+OK      panel 5   stat        n=1   path_state_active{lab="ospf"}
+OK      panel 6   stat        n=1   path_state_reachable{lab="agt"}
+OK      panel 7   stat        n=1   path_state_reachable{lab="ospf"}
+OK      panel 8   timeseries  n=12  device_up_up
+OK      panel 10  logs        n=1   {source=~"frr|agent.*", lab="agt"}
+OK      panel 11  logs        n=2   {source="frr", lab="ospf"}
+
+PASS=13  EMPTY=0
+~~~
+
+Panel 12, the agent thinking panel, was verified separately by writing one line
+in the format `monitor.py` produces and confirming it arrives as a stream. It is
+correctly empty right now because the agent has not run since monitoring came
+up, which is the honest state: there is no reasoning to show yet.
+
+### 13.12 A note on what the interface bounces cost
+
+Generating log lines meant bouncing interfaces, and repeated bounces on the
+shared standby segment reshuffle the OSPF DR election. Adjacency counts moved
+from 3 2 2 3 3 3 to 3 2 2 4 2 3 and stayed there: a legitimately converged
+state, but not the baseline that had been verified.
+
+The OSPF lab was recreated afterwards and returned to 3 2 2 3 3 3 with zero loss
+in both directions and the primary path in use. Worth knowing for the real fault
+run: **bounce interfaces to make logs, and check the DR election before trusting
+any OSPF number that follows.**

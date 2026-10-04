@@ -1,15 +1,20 @@
 # Promtail ships logs to Loki.
 #
-# The form that works here, after three wrong ones: the path goes in the
-# __path__ LABEL and targets carries a dummy host. Promtail reads targets as
-# host:port to scrape, so putting a path there makes it log "no path for
-# target" and quietly tail nothing, while still looking healthy.
+# The path goes in the __path__ LABEL and targets carries a dummy host.
+# Promtail reads targets as host:port to scrape, so a path there makes it
+# log "no path for target" and tail nothing while looking healthy.
 #
-# Earlier attempts failed in ways worth remembering:
-#   __path__: true            -> became the target KEY, tailed nothing
-#   __path__ beside targets    -> not a schema field, config would not parse
-#   __path_exglob__(...)       -> not supported by this 3.6 build
-#   path in targets            -> treated as a host, same silent failure
+# Failed attempts worth remembering:
+#   path in targets         -> treated as a host, silent no-op
+#   __path__: true in labels -> became the target KEY, tailed nothing
+#   __path__ beside targets  -> not a schema field, config fails to parse
+#   __path_exglob__(...)     -> unsupported in this 3.6 build
+#
+# Each router gets its own job with static lab and device labels rather
+# than deriving them from the filename in a template/regex pipeline. The
+# pipeline version did attach the lines but never the labels, so every
+# dashboard panel filtered on lab= and matched zero streams. Twelve
+# explicit entries is verbose and completely predictable.
 server:
   http_listen_port: 9080
   grpc_listen_port: 0
@@ -22,46 +27,134 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-
-  # FRR logs, one file per router, both labs. Device and lab are derived
-  # from the filename so every line is filterable.
-  - job_name: frr-logs
+  - job_name: frr-agt-rc1
     static_configs:
       - targets: ['localhost']
         labels:
-          __path__: /var/log/lab/frr/*/frr.log
+          __path__: /var/log/lab/frr/agt-rc1/frr.log
           source: frr
-    pipeline_stages:
-      - template:
-          source: '{{.filename}}'
-      - regex:
-          expression: '^/var/log/lab/frr/(?P<labdir>agt|ospf)-(?P<device>[a-z0-9]+)/frr\\.log$'
-      - labels:
-          device:
-          labdir:
-      - labeldrop:
-          - filename
-          - labdir
+          lab: agt
+          device: rc1
 
-  # The agent live reasoning stream. Bind-mounted from the host so it fills
-  # in while the agent works, not only at the end of a run.
+  - job_name: frr-agt-r1
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/agt-r1/frr.log
+          source: frr
+          lab: agt
+          device: r1
+
+  - job_name: frr-agt-r2
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/agt-r2/frr.log
+          source: frr
+          lab: agt
+          device: r2
+
+  - job_name: frr-agt-rc2
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/agt-rc2/frr.log
+          source: frr
+          lab: agt
+          device: rc2
+
+  - job_name: frr-agt-r3
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/agt-r3/frr.log
+          source: frr
+          lab: agt
+          device: r3
+
+  - job_name: frr-agt-r4
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/agt-r4/frr.log
+          source: frr
+          lab: agt
+          device: r4
+
+  - job_name: frr-ospf-rc1
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-rc1/frr.log
+          source: frr
+          lab: ospf
+          device: rc1
+
+  - job_name: frr-ospf-r1
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-r1/frr.log
+          source: frr
+          lab: ospf
+          device: r1
+
+  - job_name: frr-ospf-r2
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-r2/frr.log
+          source: frr
+          lab: ospf
+          device: r2
+
+  - job_name: frr-ospf-rc2
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-rc2/frr.log
+          source: frr
+          lab: ospf
+          device: rc2
+
+  - job_name: frr-ospf-r3
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-r3/frr.log
+          source: frr
+          lab: ospf
+          device: r3
+
+  - job_name: frr-ospf-r4
+    static_configs:
+      - targets: ['localhost']
+        labels:
+          __path__: /var/log/lab/frr/ospf-r4/frr.log
+          source: frr
+          lab: ospf
+          device: r4
+
+  # The agent live reasoning stream. Bind-mounted from the host so it
+  # fills in while the agent works, not only at the end of a run.
   - job_name: agent-live
     static_configs:
       - targets: ['localhost']
         labels:
           __path__: /var/log/lab/agent/agent-run.log
           source: agent-live
-          lab: agent
+          lab: agt
+          device: agent
 
-  # Every command the agent ran, from the run bundle, formatted as a log line
-  # and labelled by device and by whether it was a configuration write.
+  # Every command the agent ran, from the run bundle, formatted as a log
+  # line and labelled by device and by whether it was a config write.
   - job_name: agent-commands
     static_configs:
       - targets: ['localhost']
         labels:
           __path__: /var/log/lab/agent/out/*/trail/06-apply.ndjson
           source: agent-commands
-          lab: agent
+          lab: agt
     pipeline_stages:
       - json:
           expressions:

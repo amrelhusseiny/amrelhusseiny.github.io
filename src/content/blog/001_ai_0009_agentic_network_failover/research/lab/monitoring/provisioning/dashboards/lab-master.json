@@ -40,19 +40,19 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(device_up_up{lab=\"agt\"})",
+          "expr": "device_up_up{lab=\"agt\"}",
           "legendFormat": "{{device}}",
           "instant": true
         },
         {
           "refId": "B",
-          "expr": "max(path_state_active{lab=\"agt\"})",
+          "expr": "path_state_active{lab=\"agt\"}",
           "legendFormat": "path",
           "instant": true
         },
         {
           "refId": "C",
-          "expr": "max(path_state_reachable{lab=\"agt\"})",
+          "expr": "path_state_reachable{lab=\"agt\"}",
           "legendFormat": "reach",
           "instant": true
         }
@@ -80,19 +80,19 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(device_up_up{lab=\"ospf\"})",
+          "expr": "device_up_up{lab=\"ospf\"}",
           "legendFormat": "{{device}}",
           "instant": true
         },
         {
           "refId": "B",
-          "expr": "max(path_state_active{lab=\"ospf\"})",
+          "expr": "path_state_active{lab=\"ospf\"}",
           "legendFormat": "path",
           "instant": true
         },
         {
           "refId": "C",
-          "expr": "max(path_state_reachable{lab=\"ospf\"})",
+          "expr": "path_state_reachable{lab=\"ospf\"}",
           "legendFormat": "reach",
           "instant": true
         }
@@ -130,7 +130,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(path_state_active{lab=\"agt\"})",
+          "expr": "path_state_active{lab=\"agt\"}",
           "legendFormat": "{{next_hop}}",
           "instant": true
         }
@@ -182,7 +182,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(path_state_active{lab=\"ospf\"})",
+          "expr": "path_state_active{lab=\"ospf\"}",
           "legendFormat": "{{next_hop}}",
           "instant": true
         }
@@ -234,15 +234,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(path_state_active{lab=\"agt\"})",
-          "legendFormat": "{{next_hop}}",
+          "expr": "path_state_reachable{lab=\"agt\"}",
+          "legendFormat": "reachable",
           "instant": true
         }
       ],
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
-        "textMode": "value"
+        "textMode": "auto"
       },
       "fieldConfig": {
         "defaults": {
@@ -251,7 +251,7 @@
               "type": "value",
               "options": {
                 "0": {
-                  "text": "NO ROUTE",
+                  "text": "DEAD",
                   "color": "red"
                 }
               }
@@ -260,7 +260,7 @@
               "type": "value",
               "options": {
                 "1": {
-                  "text": "ROUTING",
+                  "text": "UP",
                   "color": "green"
                 }
               }
@@ -286,15 +286,15 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "max(path_state_active{lab=\"ospf\"})",
-          "legendFormat": "{{next_hop}}",
+          "expr": "path_state_reachable{lab=\"ospf\"}",
+          "legendFormat": "reachable",
           "instant": true
         }
       ],
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
-        "textMode": "value"
+        "textMode": "auto"
       },
       "fieldConfig": {
         "defaults": {
@@ -303,7 +303,7 @@
               "type": "value",
               "options": {
                 "0": {
-                  "text": "NO ROUTE",
+                  "text": "DEAD",
                   "color": "red"
                 }
               }
@@ -312,7 +312,7 @@
               "type": "value",
               "options": {
                 "1": {
-                  "text": "ROUTING",
+                  "text": "UP",
                   "color": "green"
                 }
               }
@@ -395,7 +395,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{source=~\"frr|agent.*\", lab=~\"agt|agent\"}"
+          "expr": "{source=~\"frr|agent.*\", lab=\"agt\"}"
         }
       ],
       "options": {
@@ -426,7 +426,7 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "{source=\"frr\", lab=~\"ospf|agent-lab\"}"
+          "expr": "{source=\"frr\", lab=\"ospf\"}"
         }
       ],
       "options": {
