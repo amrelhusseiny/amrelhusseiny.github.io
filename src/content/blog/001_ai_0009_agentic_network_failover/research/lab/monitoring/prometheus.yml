@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+
+scrape_configs:
+
+  # Prometheus itself, so the TSDB health shows up on the dashboard too.
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # The central telegraf, which exports device_up and path_state by shelling
+  # into the routers. This is what drives the topology panels.
+  - job_name: telegraf
+    static_configs:
+      - targets: ['telegraf:9273']

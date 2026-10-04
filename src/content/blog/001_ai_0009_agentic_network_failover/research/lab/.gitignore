@@ -7,7 +7,11 @@ docker/router/agent_ed25519.pub
 # corporate TLS-inspection CA, copied in from the host
 docker/agent/ca/
 
-# run bundles and evidence (kept under research/evidence-runs/ instead)
+# live monitoring output, not source
+logs/
+agent-run.log
+monitoring/metrics/
+
 out/
 
 __pycache__/

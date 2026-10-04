@@ -15,6 +15,7 @@ services:
       IF_ST: "10.90.20.11"
     volumes:
       - ./frr/agent/rc1.conf:/config/frr.conf:ro
+      - ./logs/agt-rc1:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       pa:
@@ -35,6 +36,7 @@ services:
       IF_ST: ""
     volumes:
       - ./frr/agent/r1.conf:/config/frr.conf:ro
+      - ./logs/agt-r1:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       pa:
@@ -55,6 +57,7 @@ services:
       IF_ST: ""
     volumes:
       - ./frr/agent/r2.conf:/config/frr.conf:ro
+      - ./logs/agt-r2:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       pb:
@@ -75,6 +78,7 @@ services:
       IF_ST: "10.90.20.14"
     volumes:
       - ./frr/agent/rc2.conf:/config/frr.conf:ro
+      - ./logs/agt-rc2:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       pc:
@@ -95,6 +99,7 @@ services:
       IF_ST: "10.90.20.12"
     volumes:
       - ./frr/agent/r3.conf:/config/frr.conf:ro
+      - ./logs/agt-r3:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       st:
@@ -113,6 +118,7 @@ services:
       IF_ST: "10.90.20.13"
     volumes:
       - ./frr/agent/r4.conf:/config/frr.conf:ro
+      - ./logs/agt-r4:/var/log/frr
       - ./frr/agent/daemons:/config/daemons:ro
     networks:
       st:
@@ -135,6 +141,7 @@ services:
     volumes:
       - ./agent:/agent
       - ./out:/agent/out
+      - ./agent-run.log:/agent/run.log
     working_dir: /agent
     command: ["sleep", "infinity"]
     networks:

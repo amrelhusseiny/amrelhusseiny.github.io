@@ -1019,3 +1019,158 @@ Everything the reader should know before quoting any number above.
     stochastic process.
 17. Space Bunny is a free promotional model listed as *limited time*. It may
     disappear, as its endpoint nearly did during this work.
+
+---
+
+## 13. Monitoring stack, 2026-10-04
+
+### 13.1 What is running
+
+One monitoring deployment covering both labs, on all eight lab networks:
+
+~~~
+mon-prometheus   127.0.0.1:9090   metrics
+mon-loki         3100              logs, 2h retention
+mon-promtail                      frr logs + agent trails -> loki
+mon-telegraf     :9273             tails the host-written metric file
+mon-grafana      127.0.0.1:3300   the dashboard
+~~~
+
+Grafana is on host port **3300**, not 3000: port 3000 is already held by the
+opencode container on this machine.
+
+Access over an SSH tunnel:
+
+    ssh -L 3300:127.0.0.1:3300 -L 9090:127.0.0.1:9090 Deployment_Server
+
+Credentials admin / lab.
+
+### 13.2 What made the FRR logs reachable
+
+FRR writes to /var/log/frr inside each router container, which nothing outside
+could see. Every one of the 12 router services now bind-mounts its own host
+directory at /var/log/frr, so the log lands on disk as FRR writes it:
+
+    - ./logs/agt-rc1:/var/log/frr
+
+Verified: 12 files on the host, and a real FRR log line appears in Loki within
+seconds of the event that caused it.
+
+### 13.3 Two things FRR does not log
+
+Static route changes are **not** logged at informational level. Adding and
+removing routes produced no log line at all, at every level tried. OSPF
+adjacency changes *are* logged, which is the interesting one for this lab.
+
+So the dashboards must not rely on the log stream to show the agent's config
+writes. Those come from the agent's own trail, which is complete.
+
+### 13.4 Promtail: four wrong configurations
+
+Promtail tailed nothing while looking completely healthy, and each failure
+mode was different. Worth recording, because the fix is not obvious.
+
+| attempt | what happened |
+|---|---|
+| path in `targets` | read as a host to scrape, logs `no path for target` |
+| `__path__: true` under `labels` | became the target KEY, tailed nothing |
+| `__path__` beside `targets` | not a schema field, config fails to parse |
+| `__path_exglob__(...)` | not supported by this 3.6 build |
+| **`__path__: /path/*/file` in labels, dummy host in `targets`** | **works** |
+
+The working form, because the failure is silent and the log level is the only
+way to see it:
+
+~~~yaml
+- job_name: frr-logs
+  static_configs:
+    - targets: ['localhost']
+      labels:
+        __path__: /var/log/lab/frr/*/frr.log
+        source: frr
+~~~
+
+Also: a `timestamp` pipeline stage was removed. FRR lines carry no year, and a
+line that does not match the timestamp pattern gets dropped by that stage, which
+is a second way to ship nothing. Grafana's own time picker does not need it.
+
+### 13.5 Telegraf cannot run the probes
+
+The telegraf image has no docker CLI and cannot drive vtysh, so the original
+exec-input design was impossible. The probes moved to the host:
+
+~~~
+collect.sh        runs probe-path.sh and probe-device.sh, appends influx lines
+collect-loop.sh   every 5s, rotates at 200k lines, truncates in place
+collector.service.sh   idempotent start, safe to call from anywhere
+
+and telegraf just tails the file. **The file is appended to, never replaced:**
+an earlier version built a temp file and mv'd it into place, which changed the
+inode every 5s and left the tailer reading a file that no longer existed, so
+Prometheus saw nothing at all.
+
+### 13.6 Two measurement bugs the probes found
+
+**Single-vantage-point probing does not work in this topology.** Probing every
+node from rc1 reported r2 and rc2 as down, because rc1 sits only on pa and st
+and has no route to pb or pc at all. Probing from r1 instead reported r3 and r4
+down. Any single vantage point sees most of the lab as failed.
+
+Each node is therefore asked about itself: is its own FRR and sshd alive. That
+is connectivity-independent and matches what the agent's own capture step
+considers a failure.
+
+**FRR prints `[distance/metric]`, and the distance came out as 10 instead of 1.**
+Stripping the brackets with `tr -d '[/'` concatenates the two numbers. It also
+read 11030 for an OSPF route, which is a 110 glued to a 30.
+
+### 13.7 A metric the router itself will not tell you
+
+FRR has no opinion about whether its next hop is reachable. With r1 killed, the
+agent lab still reports:
+
+~~~
+S>* 10.90.8.1/32 [1/0] via 10.90.10.12, eth0     <- marked best, still installed
+~~~
+
+The route table looks perfect while traffic blackholes, because a static route
+has no health check. So `probe-path.sh` also probes the next hop and emits
+`hop_down` and `reachable`:
+
+~~~
+r1 alive:  path_state,lab=agt,... active=1i,reachable=1,hop_down=0,distance=1
+r1 dead :  path_state,lab=agt,... active=1i,reachable=0,hop_down=1,distance=1
+~~~
+
+Verified both ways, and restored after each test. This is the single most
+useful thing on the dashboard: a static route cannot report that it is dead, and
+a live dashboard can.
+
+### 13.8 Metric names have suffixes
+
+Telegraf's influx parser appends the field name to the measurement, so the
+queries are `device_up_up` and `path_state_active`, not `device_up` and
+`path_state`. One measurement with four fields becomes four series:
+
+~~~
+device_up_up            12 series   one per router, both labs
+path_state_active        2 series   one per lab
+path_state_reachable     2 series
+path_state_distance      2 series
+path_state_hop_down      2 series
+~~~
+
+### 13.9 Verified state
+
+~~~
+containers   18   (13 lab + 5 monitoring)
+agent lab   fwd 0% loss   rev 0% loss
+OSPF lab    fwd 0% loss   rev 0% loss
+prometheus  4 metrics live, telegraf target up
+loki        real FRR lines arriving, source=frr
+host        12 frr.log files under logs/
+grafana     13 panels provisioned, datasources pinned to uid prometheus/loki
+~~~
+
+Grafana assigns its own datasource UIDs on first boot, so they have to be pinned
+in the provisioning file or every panel renders empty with no error.
