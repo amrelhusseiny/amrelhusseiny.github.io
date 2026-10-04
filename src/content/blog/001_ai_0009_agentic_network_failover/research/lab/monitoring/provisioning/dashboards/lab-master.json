@@ -16,6 +16,7 @@
     {
       "type": "row",
       "title": "Live topology - both labs",
+      "id": 1000,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -28,8 +29,8 @@
       "id": 2,
       "title": "AGENT LAB (static routes + LangGraph agent)",
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "topology"
       },
       "gridPos": {
         "h": 11,
@@ -40,21 +41,92 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "device_up_up{lab=\"agt\"}",
-          "legendFormat": "{{device}}",
-          "instant": true
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "topology"
+          },
+          "url": "http://172.25.0.1:8888/agt/nodes",
+          "columns": [
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "title",
+              "text": "title",
+              "type": "string"
+            },
+            {
+              "selector": "mainStat",
+              "text": "mainStat",
+              "type": "string"
+            },
+            {
+              "selector": "arc__status",
+              "text": "arc__status",
+              "type": "string"
+            },
+            {
+              "selector": "arc__value",
+              "text": "arc__value",
+              "type": "number"
+            },
+            {
+              "selector": "x",
+              "text": "x",
+              "type": "number"
+            },
+            {
+              "selector": "y",
+              "text": "y",
+              "type": "number"
+            }
+          ],
+          "url_options": {
+            "method": "GET"
+          }
         },
         {
-          "refId": "B",
-          "expr": "path_state_active{lab=\"agt\"}",
-          "legendFormat": "path",
-          "instant": true
-        },
-        {
-          "refId": "C",
-          "expr": "path_state_reachable{lab=\"agt\"}",
-          "legendFormat": "reach",
-          "instant": true
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "topology"
+          },
+          "url": "http://172.25.0.1:8888/agt/edges",
+          "columns": [
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "source",
+              "text": "source",
+              "type": "string"
+            },
+            {
+              "selector": "target",
+              "text": "target",
+              "type": "string"
+            },
+            {
+              "selector": "mainStat",
+              "text": "mainStat",
+              "type": "string"
+            }
+          ],
+          "url_options": {
+            "method": "GET"
+          }
         }
       ],
       "options": {},
@@ -68,8 +140,8 @@
       "id": 3,
       "title": "OSPF LAB (control)",
       "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "topology"
       },
       "gridPos": {
         "h": 11,
@@ -80,21 +152,92 @@
       "targets": [
         {
           "refId": "A",
-          "expr": "device_up_up{lab=\"ospf\"}",
-          "legendFormat": "{{device}}",
-          "instant": true
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "topology"
+          },
+          "url": "http://172.25.0.1:8888/ospf/nodes",
+          "columns": [
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "title",
+              "text": "title",
+              "type": "string"
+            },
+            {
+              "selector": "mainStat",
+              "text": "mainStat",
+              "type": "string"
+            },
+            {
+              "selector": "arc__status",
+              "text": "arc__status",
+              "type": "string"
+            },
+            {
+              "selector": "arc__value",
+              "text": "arc__value",
+              "type": "number"
+            },
+            {
+              "selector": "x",
+              "text": "x",
+              "type": "number"
+            },
+            {
+              "selector": "y",
+              "text": "y",
+              "type": "number"
+            }
+          ],
+          "url_options": {
+            "method": "GET"
+          }
         },
         {
-          "refId": "B",
-          "expr": "path_state_active{lab=\"ospf\"}",
-          "legendFormat": "path",
-          "instant": true
-        },
-        {
-          "refId": "C",
-          "expr": "path_state_reachable{lab=\"ospf\"}",
-          "legendFormat": "reach",
-          "instant": true
+          "refId": "A",
+          "type": "json",
+          "source": "url",
+          "parser": "backend",
+          "format": "table",
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "topology"
+          },
+          "url": "http://172.25.0.1:8888/ospf/edges",
+          "columns": [
+            {
+              "selector": "id",
+              "text": "id",
+              "type": "string"
+            },
+            {
+              "selector": "source",
+              "text": "source",
+              "type": "string"
+            },
+            {
+              "selector": "target",
+              "text": "target",
+              "type": "string"
+            },
+            {
+              "selector": "mainStat",
+              "text": "mainStat",
+              "type": "string"
+            }
+          ],
+          "url_options": {
+            "method": "GET"
+          }
         }
       ],
       "options": {},
@@ -106,6 +249,7 @@
     {
       "type": "row",
       "title": "Path state",
+      "id": 1012,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -136,9 +280,8 @@
         }
       ],
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
+        "colorMode": "background",
+        "graphMode": "none"
       },
       "fieldConfig": {
         "defaults": {
@@ -149,12 +292,7 @@
                 "0": {
                   "text": "NO ROUTE",
                   "color": "red"
-                }
-              }
-            },
-            {
-              "type": "value",
-              "options": {
+                },
                 "1": {
                   "text": "ROUTING",
                   "color": "green"
@@ -162,7 +300,8 @@
               }
             }
           ]
-        }
+        },
+        "overrides": []
       }
     },
     {
@@ -188,9 +327,8 @@
         }
       ],
       "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "textMode": "value"
+        "colorMode": "background",
+        "graphMode": "none"
       },
       "fieldConfig": {
         "defaults": {
@@ -201,12 +339,7 @@
                 "0": {
                   "text": "NO ROUTE",
                   "color": "red"
-                }
-              }
-            },
-            {
-              "type": "value",
-              "options": {
+                },
                 "1": {
                   "text": "ROUTING",
                   "color": "green"
@@ -214,7 +347,8 @@
               }
             }
           ]
-        }
+        },
+        "overrides": []
       }
     },
     {
@@ -241,8 +375,7 @@
       ],
       "options": {
         "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "auto"
+        "graphMode": "none"
       },
       "fieldConfig": {
         "defaults": {
@@ -253,12 +386,7 @@
                 "0": {
                   "text": "DEAD",
                   "color": "red"
-                }
-              }
-            },
-            {
-              "type": "value",
-              "options": {
+                },
                 "1": {
                   "text": "UP",
                   "color": "green"
@@ -266,7 +394,8 @@
               }
             }
           ]
-        }
+        },
+        "overrides": []
       }
     },
     {
@@ -293,8 +422,7 @@
       ],
       "options": {
         "colorMode": "background",
-        "graphMode": "none",
-        "textMode": "auto"
+        "graphMode": "none"
       },
       "fieldConfig": {
         "defaults": {
@@ -305,12 +433,7 @@
                 "0": {
                   "text": "DEAD",
                   "color": "red"
-                }
-              }
-            },
-            {
-              "type": "value",
-              "options": {
+                },
                 "1": {
                   "text": "UP",
                   "color": "green"
@@ -318,7 +441,8 @@
               }
             }
           ]
-        }
+        },
+        "overrides": []
       }
     },
     {
@@ -371,6 +495,7 @@
     {
       "type": "row",
       "title": "Logs",
+      "id": 1025,
       "gridPos": {
         "h": 1,
         "w": 24,

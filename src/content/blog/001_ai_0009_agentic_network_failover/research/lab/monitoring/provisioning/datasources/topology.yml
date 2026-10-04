@@ -1,0 +1,18 @@
+apiVersion: 1
+datasources:
+    # UID pinned, because Grafana assigns its own on first boot if you do not,
+    # and then every dashboard panel referencing this one renders empty.
+    - name: Topology
+      uid: topology
+      type: yesoreyeram-infinity-datasource
+      access: proxy
+      # The topology JSON server runs on the host and is published on the
+      # monitoring bridge only, not 0.0.0.0, so it is not reachable from the
+      # corporate LAN.
+      url: http://172.25.0.1:8888
+      jsonData:
+        # Infinity parses these as root objects. The node graph panel needs a
+        # nodes frame carrying id and an edges frame carrying source and target,
+        # which is why this exists instead of querying Prometheus directly.
+        allowedHosts:
+          - http://172.25.0.1:8888

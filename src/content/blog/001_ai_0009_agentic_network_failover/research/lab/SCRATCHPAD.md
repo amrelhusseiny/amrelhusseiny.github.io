@@ -1253,3 +1253,99 @@ The OSPF lab was recreated afterwards and returned to 3 2 2 3 3 3 with zero loss
 in both directions and the primary path in use. Worth knowing for the real fault
 run: **bounce interfaces to make logs, and check the DR election before trusting
 any OSPF number that follows.**
+
+### 13.13 The node graph could not be built from Prometheus, and what it took instead
+
+Two rounds of fixes on this, and the second one is worth recording because the
+symptom was identical both times: panels present, nothing rendered.
+
+**A Prometheus time series cannot drive a node graph.** The panel needs a nodes
+frame carrying an `id` field and an edges frame carrying `source` and `target`.
+`device_up_up{device="r1"}` has neither:
+
+~~~
+series labels : {'__name__': 'device_up_up', 'device': 'r1', 'lab': 'agt', ...}
+id field?      False
+source field?  False
+target field?  False
+~~~
+
+So querying Prometheus proved the metric existed and told you nothing about
+whether the panel drew anything. Which is exactly the mistake from 13.10:
+verifying the query instead of the panel.
+
+**Fix: generate the frame shape on the host and read it through Infinity.**
+`monitoring/topology-json.py` polls both labs every 4s using the same probe
+scripts the metrics come from, and emits `id` / `source` / `target` alongside the
+live values. The Infinity plugin reads it. Four things had to be true:
+
+1. **Poll in the background, do not build per request.** Each build SSHes into
+   six routers. Two panels refreshing every 5s serialised behind each other on a
+   single-threaded server and both timed out. `ThreadingHTTPServer` plus a
+   poller that caches serialised bytes makes a request cost about 1ms.
+2. **Construct every listener before serving any of them.** `serve_forever()`
+   blocks, so calling it inside the bind loop meant the bridge listener never
+   came up and Grafana only ever saw loopback.
+3. **Serve nodes and edges as bare arrays at their own paths.** Pointing
+   `root_selector` at an array nested inside an object returned zero rows under
+   every `json_options` combination tried.
+4. **The Infinity query url must be absolute.** Given a relative path the
+   plugin fetched nothing and returned an empty frame with **no error at all**,
+   which reads exactly like a parsing problem and cost most of the debugging
+   time. `http://172.25.0.1:8888/agt/nodes` works; `/agt/nodes` does not.
+
+Also learned from the plugin's own logs rather than guessed: `columns` must be
+objects, not strings. The log said it outright:
+
+~~~
+error un-marshaling the query
+  error="error while parsing the query json. json: cannot unmarshal string
+  into Query.columns.0 of type models.InfinityColumn"
+~~~
+
+**Verified by frame shape, not by HTTP status:**
+
+~~~
+refId=N rows=6 fields=['arc__status', 'arc__value', 'id', 'mainStat', 'title', 'x', 'y']
+         required fields present: True
+refId=E rows=6 fields=['id', 'mainStat', 'source', 'target']
+         required fields present: True
+~~~
+
+### 13.14 Checking the topology without injecting a fault
+
+Failover is the whole point of the lab and the user approves it explicitly, so
+the DOWN rendering was not verified by killing a router. `build()` was called
+with synthetic probe output instead, which tests the same code path:
+
+~~~
+A: healthy, PATH-A
+   nodes  : rc1=UP r1=UP r2=UP rc2=UP r3=UP r4=UP
+   carrying: rc1>r1 r1>r2 r2>rc2
+
+B: r1 dead, switched to PATH-B
+   nodes  : rc1=UP r1=DOWN r2=UP rc2=UP r3=UP r4=UP
+   carrying: rc1>r3 r3>r4 r4>rc2
+
+C: r1 dead, hop still marked best (the FRR trap)
+   next_hop=10.90.10.12 reachable=0
+   nodes  : rc1=UP r1=DOWN r2=UP rc2=UP r3=UP r4=UP
+   carrying: (nothing - path is down)
+~~~
+
+Scenario C is the important one. FRR keeps a static route marked `best` when its
+next hop is dead, so the graph shows no carrying edges rather than quietly
+drawing a path that does not work.
+
+### 13.15 The lesson worth keeping
+
+Three separate times in this lab, a check passed and the thing was still broken:
+
+- Prometheus held the metric, Grafana could not reach Prometheus (13.10)
+- the query returned six series, the panel had no fields to draw with (13.13)
+- the server answered HTTP 200, the body was a `warming_up` placeholder
+
+Every one of them was invisible from the API. **Verify the frame the panel
+actually receives, not the query that feeds it.** A check that can pass while
+the user sees an empty dashboard is worse than no check, because it is
+reported as done.
