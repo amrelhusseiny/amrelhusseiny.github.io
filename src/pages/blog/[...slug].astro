@@ -25,7 +25,8 @@ const minutes = Math.max(1, Math.round(words / 220));
   })} />
 
   <article>
-    <header class="post-header" data-reveal>
+    <header class="post-header">
+      <p class="kicker">Technical article</p>
       <h1 class="post-title">{post.data.title}</h1>
       <div class="post-meta">
         <span>{date}</span>
@@ -38,7 +39,7 @@ const minutes = Math.max(1, Math.round(words / 220));
     </header>
 
     {headings.length > 1 && (
-      <details class="toc-wrap" data-reveal>
+      <details class="toc-wrap">
         <summary class="toc-summary">
           <span>Table of Contents</span>
           <span class="toc-chevron" aria-hidden="true"></span>
@@ -53,7 +54,7 @@ const minutes = Math.max(1, Math.round(words / 220));
       </details>
     )}
 
-    <div class="post-content" data-reveal>
+    <div class="post-content">
       <Content />
     </div>
 

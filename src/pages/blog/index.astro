@@ -7,13 +7,14 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Layout title="Blog" description="Technical blog on networks, Linux, AI, and automation.">
-  <section data-reveal>
-    <h1 style="font-size:2rem;margin-bottom:8px;">Blog</h1>
-    <p style="color:var(--color-ink-soft);margin-bottom:28px;">Networks, Linux, AI, and automation.</p>
+  <section class="section-head">
+    <h1>Blog</h1>
+    <span class="more-link">{String(posts.length).padStart(2, "0")} entries</span>
   </section>
 
-  <div class="search-wrap" data-reveal>
-    <input id="blog-search" class="search-input" type="search" placeholder="Search articles…" autocomplete="off" />
+  <div class="search-wrap">
+    <label class="kicker" for="blog-search">Search the archive</label>
+    <input id="blog-search" class="search-input" type="search" placeholder="Type to filter&hellip;" autocomplete="off" />
   </div>
 
   <BlogList posts={posts} />
