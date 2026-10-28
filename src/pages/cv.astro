@@ -7,7 +7,7 @@ import "@fontsource/geist-mono/700.css";
 import { cvJsonLd } from "../lib/cvMarkdown";
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +21,8 @@ import { cvJsonLd } from "../lib/cvMarkdown";
 <script>
   (function () {
     try {
+      var t = localStorage.getItem('amro_blog_theme');
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
       var l = localStorage.getItem('cv-lang');
       if (l === 'de' || l === 'en') document.documentElement.setAttribute('data-lang', l);
     } catch (e) {}
@@ -48,6 +50,19 @@ import { cvJsonLd } from "../lib/cvMarkdown";
   --margin-top: 0.55in;
   --margin-bottom: 0.5in;
   color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f2f2f2;
+  --muted: #b0b0b0;
+  --desk: #0c0c0c;
+  --paper: #1a1a1a;
+  --shade: #000000;
+  --box-bg: #242424;
+  --box-border: #d0d0d0;
+  --link: #8ab4ff;
+  background: var(--desk);
 }
 
 /* Change A4 -> Letter here if you prefer the reference page size */
@@ -195,7 +210,7 @@ img.qr {
   box-shadow: none;
 }
 .cv-utility button[aria-pressed="true"] {
-  background: #fff3a8; color: var(--ink); border-color: var(--ink);
+  background: #fff3a8; color: #000000; border-color: var(--ink);
 }
 .cv-utility .spacer { width: 10px; }
 
@@ -223,6 +238,17 @@ html[data-lang="de"] .lang-de { display: block; }
 
 /* ---------- Print ---------- */
 @media print {
+  html[data-theme="dark"] {
+    --ink: #000000;
+    --muted: #4d4d4d;
+    --desk: #ffffff;
+    --paper: #ffffff;
+    --shade: #a3a3a3;
+    --box-bg: #f3f3f3;
+    --box-border: #000000;
+    --link: #0047ab;
+  }
+  html, body { background: #ffffff; color: #000000; }
   .cv-utility { display: none; }
   .page { background: #fff; color: #000; }
 }
@@ -236,6 +262,7 @@ html[data-lang="de"] .lang-de { display: block; }
   <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
   <button class="lang-btn" data-lang="de" type="button" aria-pressed="false">Deutsch</button>
   <span class="spacer"></span>
+  <button id="theme-toggle" type="button">Dark mode</button>
   <button id="print-btn" type="button">Print / Save PDF</button>
 </div>
 
@@ -595,6 +622,21 @@ html[data-lang="de"] .lang-de { display: block; }
     });
 
     setLang(root.getAttribute('data-lang') === 'de' ? 'de' : 'en');
+
+    var themeBtn = document.getElementById('theme-toggle');
+    function syncTheme() {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      themeBtn.setAttribute('aria-pressed', String(dark));
+    }
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('amro_blog_theme', next); } catch (e) {}
+      syncTheme();
+    });
+    syncTheme();
 
     document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
   })();

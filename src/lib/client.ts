@@ -17,6 +17,32 @@ function showSnackbar(msg: string) {
 }
 (window as any).showSnackbar = showSnackbar;
 
+/* Theme toggle */
+function themeInit() {
+  const root = document.documentElement;
+  const btn = document.querySelector('[data-theme-toggle]') as HTMLElement | null;
+  const label = btn?.querySelector('[data-theme-label]');
+  const meta = document.querySelector('meta[name="theme-color"]');
+
+  const sync = () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    if (label) label.textContent = dark ? 'Light' : 'Dark';
+    if (btn) {
+      btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      btn.setAttribute('aria-pressed', String(dark));
+    }
+    if (meta) meta.setAttribute('content', dark ? '#0c0c0c' : '#ececec');
+  };
+
+  sync();
+  btn?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('amro_blog_theme', next); } catch (e) {}
+    sync();
+  });
+}
+
 /* Back to top */
 function backTopInit() {
   const btn = document.querySelector('[data-back-to-top]');
@@ -56,6 +82,7 @@ function lightboxInit() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  themeInit();
   backTopInit();
   lightboxInit();
 });

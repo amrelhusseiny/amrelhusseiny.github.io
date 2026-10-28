@@ -20,14 +20,28 @@
   --color-link: #0047ab;
   --color-signal: #e4202b;
   --color-chip: #fff3a8;
+  --color-chip-ink: #000000;
+
+  /* Brand mark */
+  --brand-1: #c8c8c8;
+  --brand-2: #a3a3a3;
+  --brand-3: #4d4d4d;
+  --brand-4: #000000;
+
+  /* Heatmap */
+  --heat-0: #ececec;
+  --heat-1: #c8c8c8;
+  --heat-2: #a3a3a3;
+  --heat-3: #4d4d4d;
+  --heat-4: #000000;
 
   /* Typography */
   --font-sans: "Geist Mono", monospace;
   --font-mono: "Geist Mono", monospace;
 
   /* Elevation */
-  --shadow-hard: 2px 2px 0 #a3a3a3;
-  --shadow-sheet: 4px 4px 0 #a3a3a3;
+  --shadow-hard: 2px 2px 0 var(--color-shade);
+  --shadow-sheet: 4px 4px 0 var(--color-shade);
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -60,6 +74,36 @@
   --type-title: 1.125rem;
   --type-body: 0.9375rem;
   --type-label: 0.75rem;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-ink: #f2f2f2;
+  --color-paper: #1a1a1a;
+  --color-desk: #0c0c0c;
+  --color-tint: #242424;
+  --color-faint: #3d3d3d;
+  --color-shade: #000000;
+  --color-muted: #b0b0b0;
+  --color-rule: #d0d0d0;
+  --color-code: #f2f2f2;
+  --color-accent: #58d6a8;
+  --color-link: #8ab4ff;
+  --color-signal: #ff7b7b;
+  --color-chip: #fff3a8;
+  --color-chip-ink: #000000;
+
+  --heat-0: #242424;
+  --heat-1: #4d4d4d;
+  --heat-2: #8a8a8a;
+  --heat-3: #c8c8c8;
+  --heat-4: #f2f2f2;
+
+  --brand-1: #f2f2f2;
+  --brand-2: #c8c8c8;
+  --brand-3: #a3a3a3;
+  --brand-4: #6f6f6f;
 }
 
 /* ── Reset ── */
@@ -122,7 +166,7 @@ kbd {
   line-height: 1.2;
 }
 
-::selection { background: var(--color-chip); color: var(--color-ink); }
+::selection { background: var(--color-chip); color: var(--color-chip-ink); }
 
 :focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
 :focus:not(:focus-visible) { outline: none; }
@@ -180,7 +224,7 @@ hr {
   transform: translate(2px, 2px);
   box-shadow: none;
 }
-.share-btn.copied { background: var(--color-chip); }
+.share-btn.copied { background: var(--color-chip); color: var(--color-chip-ink); }
 
 /* ── Skip link / progress ── */
 .skip-link {
@@ -252,7 +296,7 @@ hr {
 .site-nav-link.active {
   background: var(--color-chip);
   border-color: var(--color-rule);
-  color: var(--color-ink);
+  color: var(--color-chip-ink);
 }
 
 .site-social {
@@ -277,6 +321,28 @@ hr {
   color: var(--color-ink);
   text-decoration: none;
 }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  margin-left: 0.25rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--color-rule);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-hard);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--color-tint); }
+.theme-toggle:active { transform: translate(2px, 2px); box-shadow: none; }
 
 /* ── Page sheet ── */
 .page-main {
@@ -436,7 +502,7 @@ hr {
 }
 a.post-card-tag:hover {
   background: var(--color-chip);
-  color: var(--color-ink);
+  color: var(--color-chip-ink);
   text-decoration: none;
 }
 
@@ -672,7 +738,7 @@ a.post-card-tag:hover {
 .notes-tl-link.tl-active {
   background: var(--color-chip);
   border-color: var(--color-rule);
-  color: var(--color-ink);
+  color: var(--color-chip-ink);
 }
 
 .notes-stream {
@@ -738,7 +804,7 @@ a.post-card-tag:hover {
   background: var(--color-tint);
   color: var(--color-ink);
 }
-.note-share-btn.share-btn-copied { background: var(--color-chip); color: var(--color-ink); }
+.note-share-btn.share-btn-copied { background: var(--color-chip); color: var(--color-chip-ink); }
 
 .note-month-divider {
   display: flex;
@@ -1011,6 +1077,11 @@ a.post-card-tag:hover {
   text-transform: uppercase;
 }
 .stats-heatmap { padding: 0.75rem; overflow-x: auto; border: 1px solid var(--color-rule); box-shadow: var(--shadow-hard); background: var(--color-paper); }
+.stats-cell { width: 14px; height: 14px; flex-shrink: 0; background: var(--heat-0); }
+.stats-cell[data-level="1"] { background: var(--heat-1); }
+.stats-cell[data-level="2"] { background: var(--heat-2); }
+.stats-cell[data-level="3"] { background: var(--heat-3); }
+.stats-cell[data-level="4"] { background: var(--heat-4); }
 
 .page-section { margin-bottom: var(--space-xl); }
 .page-section:last-child { margin-bottom: 0; }
@@ -1153,7 +1224,7 @@ a:hover .book-cover { outline: 2px solid var(--color-ink); outline-offset: -3px;
   max-width: 92vw;
   max-height: 92vh;
   padding: 0;
-  border: 1px solid var(--color-paper);
+  border: 1px solid var(--color-rule);
   background: var(--color-paper);
   box-shadow: var(--shadow-sheet);
 }
@@ -1171,14 +1242,14 @@ a:hover .book-cover { outline: 2px solid var(--color-ink); outline-offset: -3px;
   right: 0;
   width: 34px;
   height: 34px;
-  border: 1px solid var(--color-paper);
+  border: 1px solid var(--color-rule);
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-mono);
   font-size: 1rem;
   cursor: pointer;
 }
-.lightbox-close:hover { background: var(--color-chip); }
+.lightbox-close:hover { background: var(--color-chip); color: var(--color-chip-ink); }
 
 /* ── Mermaid ── */
 .mermaid-figure { margin: var(--space-lg) auto; text-align: center; }
@@ -1232,7 +1303,7 @@ a:hover .book-cover { outline: 2px solid var(--color-ink); outline-offset: -3px;
     text-transform: uppercase;
     white-space: nowrap;
   }
-  .notes-tl-mobile-chip:hover { background: var(--color-chip); color: var(--color-ink); text-decoration: none; }
+  .notes-tl-mobile-chip:hover { background: var(--color-chip); color: var(--color-chip-ink); text-decoration: none; }
 }
 
 @media (max-width: 720px) {
@@ -1243,6 +1314,8 @@ a:hover .book-cover { outline: 2px solid var(--color-ink); outline-offset: -3px;
     flex-wrap: wrap;
     gap: var(--space-sm);
   }
+  .site-brand { font-size: 1.125rem; }
+  .brand-mark { width: 54px; height: auto; }
   .site-nav {
     order: 3;
     width: 100%;
@@ -1250,7 +1323,8 @@ a:hover .book-cover { outline: 2px solid var(--color-ink); outline-offset: -3px;
     padding-top: var(--space-sm);
     border-top: 1px dotted var(--color-rule);
   }
-  .site-social { margin-left: auto; padding-left: 0; border-left: 0; }
+  .site-social { margin-left: 0; padding-left: 0; border-left: 0; }
+  .theme-toggle { margin-left: auto; }
   .site-nav-link { padding: 0.35rem 0.45rem; }
   .page-main {
     margin-bottom: var(--space-lg);

@@ -28,9 +28,8 @@ import Layout from "../layouts/Layout.astro";
   <script>
     (async () => {
       const cell = (count: number, max: number) => {
-        const levels = ["#ececec", "#c8c8c8", "#a3a3a3", "#4d4d4d", "#000000"];
         const idx = count === 0 ? 0 : Math.max(1, Math.min(4, Math.round((count / max) * 4)));
-        return `<div title="${count} visitors" style="width:14px;height:14px;border-radius:0;background:${levels[idx]};flex-shrink:0;"></div>`;
+        return `<div class="stats-cell" data-level="${idx}" title="${count} visitors"></div>`;
       };
 
       try {

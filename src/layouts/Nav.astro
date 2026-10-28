@@ -15,19 +15,19 @@ const isActive = (href) => path !== "/" && (path === href || path.startsWith(hre
 <header class="site-header">
   <a href="/" class="site-brand" aria-label="Amro's Blog — home">
     <svg class="brand-mark" width="67" height="18" viewBox="0 0 67 18" aria-hidden="true">
-      <g fill="#c8c8c8"><rect x="0" y="3" width="12" height="12" /></g>
-      <g fill="#a3a3a3">
-        <line x1="12.5" x2="18" y1="9" y2="9" stroke="#a3a3a3" stroke-width="1" />
+      <g fill="var(--brand-1)"><rect x="0" y="3" width="12" height="12" /></g>
+      <g fill="var(--brand-2)">
+        <line x1="12.5" x2="18" y1="9" y2="9" stroke="var(--brand-2)" stroke-width="1" />
         <polygon points="21,9 18,7 18,11" />
         <rect x="22" y="3" width="12" height="12" rx="2" />
       </g>
-      <g fill="#4d4d4d">
-        <line x1="34.5" x2="40" y1="9" y2="9" stroke="#4d4d4d" stroke-width="1" />
+      <g fill="var(--brand-3)">
+        <line x1="34.5" x2="40" y1="9" y2="9" stroke="var(--brand-3)" stroke-width="1" />
         <polygon points="43,9 40,7 40,11" />
         <polygon points="50,2 57,9 50,16 43,9" />
       </g>
-      <g fill="#000000">
-        <line x1="57.5" x2="61" y1="9" y2="9" stroke="#000000" stroke-width="1" />
+      <g fill="var(--brand-4)">
+        <line x1="57.5" x2="61" y1="9" y2="9" stroke="var(--brand-4)" stroke-width="1" />
         <circle cx="63" cy="9" r="4" />
       </g>
     </svg>
@@ -45,6 +45,10 @@ const isActive = (href) => path !== "/" && (path === href || path.startsWith(hre
       </a>
     ))}
   </nav>
+
+  <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+    <span data-theme-label>Dark</span>
+  </button>
 
   <div class="site-social" aria-label="Elsewhere">
     <a href="https://github.com/amrelhusseiny" target="_blank" rel="noreferrer noopener me" aria-label="GitHub" class="site-social-link">

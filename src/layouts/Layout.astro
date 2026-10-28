@@ -18,7 +18,7 @@ const pageTitle = title ? `${title} // ${siteTitle}` : siteTitle;
 const desc = description ?? "Network engineer and automation advocate. Writing about networks, Linux, AI, and automation.";
 ---
 <!doctype html>
-<html lang="en-us">
+<html lang="en-us" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +26,17 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <meta name="author" content="Amro El Husseini" />
     <meta name="description" content={desc} />
     <meta name="theme-color" content="#ececec" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("amro_blog_theme");
+          if (t !== "dark" && t !== "light") t = "light";
+          document.documentElement.setAttribute("data-theme", t);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", t === "dark" ? "#0c0c0c" : "#ececec");
+        } catch (e) {}
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
