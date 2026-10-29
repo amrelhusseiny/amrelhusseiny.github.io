@@ -3,17 +3,18 @@
 Live site: **https://amroelhusseini.vercel.app/**
 
 A personal technical blog covering networks, Linux, AI, and automation.
-Built with **Astro 7 + Tailwind CSS v4**, flat monochrome Material Design 3 aesthetic.
+Built with **Astro 7** and a hand-rolled **printed-catalog** design system:
+square boxes, hard offset shadows, dotted rules, and monospace labels.
 
 ## Stack
 
 | Layer | Technology |
 |-------|-----------|
 | Static site generator | Astro 7 (static output) |
-| Styling | Tailwind CSS v4 (monochrome M3 tokens) |
+| Styling | Hand-written CSS (printed-catalog tokens in `src/styles/global.css`) |
 | Hosting | Vercel (auto-deploy on push to main) |
 | Analytics | GoatCounter (privacy-friendly, /stats heatmap) |
-| Fonts | Source Serif 4 (headings) + Inter (body) + JetBrains Mono (code) |
+| Fonts | Geist Mono (self-hosted, used site-wide) |
 
 ## Writing content
 

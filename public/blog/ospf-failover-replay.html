@@ -5,13 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OSPF vs Agent Failover Replay</title>
 <style>
-  @font-face {
-    font-family: "Source Code Pro";
-    src: url("fonts/SourceCodePro-var.woff2") format("woff2");
-    font-weight: 400 700;
-    font-display: swap;
-  }
-  
   /* GRAPHITE Rule 2: Zero border-radius, strictly sharp corners everywhere */
   * {
     box-sizing: border-box;
@@ -20,11 +13,11 @@
     border-radius: 0 !important;
   }
 
-  /* GRAPHITE Rule 1b: Canvas/page background strictly #FFFFFF in light mode */
+  /* GRAPHITE Rule 1b: Canvas/page background strictly #ffffff in light mode */
   body {
-    background: #FFFFFF;
-    color: #232323;
-    font-family: "Source Code Pro", monospace;
+    background: #ffffff;
+    color: #000000;
+    font-family: "Geist Mono", monospace;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,14 +32,14 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    border: 1px solid #C6C6C6;
+    border: 1px solid #000000;
   }
 
   /* GRAPHITE Rule 4: Flat single box, 1px hairline border, no shadow or blur */
   .canvas-wrapper {
     position: relative;
     width: 100%;
-    background: #FFFFFF;
+    background: #ffffff;
     overflow: hidden;
   }
 
@@ -62,18 +55,18 @@
     align-items: center;
     gap: 8px;
     padding: 12px 16px;
-    background: #FFFFFF;
-    border-top: 1px solid #C6C6C6;
+    background: #ffffff;
+    border-top: 1px solid #000000;
   }
 
   .btn {
-    font-family: "Source Code Pro", monospace;
+    font-family: "Geist Mono", monospace;
     font-size: 11px;
     font-weight: 700;
     padding: 8px 16px;
-    background: #FFFFFF;
-    color: #232323;
-    border: 1px solid #C6C6C6;
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -81,13 +74,13 @@
   }
 
   .btn:hover {
-    background: #F5F5F5;
+    background: #f3f3f3;
   }
 
   .btn.active {
-    background: #232323;
-    color: #FFFFFF;
-    border-color: #232323;
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
   .speed-group {
@@ -100,9 +93,31 @@
   .speed-label {
     font-size: 11px;
     font-weight: 700;
-    color: #8A8A8A;
+    color: #4d4d4d;
     margin-right: 4px;
   }
+</style>
+<style id="catalog-font">
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-400.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-500.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-700.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+</style>
+<style id="catalog-skin">
+#themeToggleBtn{display:none!important}
+*{transition:none!important;animation:none!important}
+:root{--color-bg:#fff;--color-surface:#f3f3f3;--color-border:#000;--color-text-primary:#000;--color-text-muted:#4d4d4d;--color-invert-bg:#000;--color-invert-text:#fff;--gray-0:#fff;--gray-50:#f3f3f3;--gray-100:#ececec;--gray-200:#000;--gray-300:#a3a3a3;--gray-400:#4d4d4d;--gray-500:#4d4d4d;--gray-600:#4d4d4d;--gray-700:#000;--gray-800:#000;--gray-900:#000;--black:#000}
+[data-theme="dark"]{--color-bg:#1a1a1a;--color-surface:#242424;--color-border:#d0d0d0;--color-text-primary:#f2f2f2;--color-text-muted:#b0b0b0;--color-invert-bg:#f2f2f2;--color-invert-text:#1a1a1a;--gray-0:#1a1a1a;--gray-50:#242424;--gray-100:#3d3d3d;--gray-200:#d0d0d0;--gray-300:#a3a3a3;--gray-400:#b0b0b0;--gray-500:#b0b0b0;--gray-600:#d0d0d0;--gray-700:#f2f2f2;--gray-800:#f2f2f2;--gray-900:#ffffff;--black:#1a1a1a}
+[data-theme="dark"] body{background:#1a1a1a;color:#f2f2f2}
+[data-theme="dark"] .container{border-color:#d0d0d0}
+[data-theme="dark"] .canvas-wrapper{background:#1a1a1a}
+[data-theme="dark"] .controls-bar{background:#1a1a1a;border-top-color:#d0d0d0}
+[data-theme="dark"] .btn{background:#1a1a1a;color:#f2f2f2;border-color:#d0d0d0}
+[data-theme="dark"] .btn:hover{background:#242424}
+[data-theme="dark"] .btn.active{background:#f2f2f2;color:#1a1a1a;border-color:#f2f2f2}
+[data-theme="dark"] .speed-label{color:#b0b0b0}
 </style>
 </head>
 <body>
@@ -154,14 +169,14 @@ var AGT = {
 };
 
 // GRAPHITE Pure Neutral Grayscale Palette (R=G=B)
-var C_G0   = "#FFFFFF"; // Light Canvas BG
-var C_G50  = "#F5F5F5"; // Panel Surface
-var C_G100 = "#ECECEC"; // Light Hairline Fill
-var C_G200 = "#C6C6C6"; // Default Hairline Border
-var C_G400 = "#8A8A8A"; // Subtle Labels
-var C_G600 = "#545454"; // Secondary Text
-var C_G800 = "#232323"; // Primary Text / Active Fill
-var C_G900 = "#121212"; // Deep Accent / Packets
+var C_G0   = "#ffffff"; // Light Canvas BG
+var C_G50  = "#f3f3f3"; // Panel Surface
+var C_G100 = "#ececec"; // Light Hairline Fill
+var C_G200 = "#000000"; // Default Hairline Border
+var C_G400 = "#4d4d4d"; // Subtle Labels
+var C_G600 = "#4d4d4d"; // Secondary Text
+var C_G800 = "#000000"; // Primary Text / Active Fill
+var C_G900 = "#000000"; // Deep Accent / Packets
 
 
 // Topology Geometry (Symmetrical Diamond Layout inside 564px container)
@@ -194,7 +209,7 @@ var SEG0 = [
 var CUT = [220, TY];
 
 
-function F_(s, w) { return (w || 400) + " " + s + "px \"Source Code Pro\", monospace"; }
+function F_(s, w) { return (w || 400) + " " + s + "px \"Geist Mono\", monospace"; }
 
 function T(g, s, x, y, z, c, w, a) {
   g.font = F_(z, w);
@@ -534,5 +549,26 @@ requestAnimationFrame(loop);
     setTimeout(fit, 120);
   })();
   </script>
+<script id="catalog-theme-sync">
+(function () {
+  var light = { G0:'#ffffff', G50:'#f3f3f3', G100:'#ececec', G200:'#000000', G400:'#4d4d4d', G600:'#4d4d4d', G800:'#000000', G900:'#000000' };
+  var dark = { G0:'#1a1a1a', G50:'#242424', G100:'#3d3d3d', G200:'#d0d0d0', G400:'#b0b0b0', G600:'#d0d0d0', G800:'#f2f2f2', G900:'#ffffff' };
+  function apply() {
+    var isDark = false;
+    try { isDark = window.parent.document.documentElement.getAttribute('data-theme') === 'dark'; } catch (e) {}
+    var next = isDark ? 'dark' : 'light';
+    if (document.documentElement.getAttribute('data-theme') !== next) {
+      document.documentElement.setAttribute('data-theme', next);
+    }
+    var p = isDark ? dark : light;
+    C_G0=p.G0; C_G50=p.G50; C_G100=p.G100; C_G200=p.G200;
+    C_G400=p.G400; C_G600=p.G600; C_G800=p.G800; C_G900=p.G900;
+  }
+  apply();
+  try {
+    new MutationObserver(apply).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

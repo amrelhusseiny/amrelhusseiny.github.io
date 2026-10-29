@@ -6,8 +6,9 @@ const total = drawings.length;
 const startIndex = total > 0 ? 1 : 0;
 ---
 <Layout title="Drawings" description="A gallery of drawings and sketches.">
-  <div class="gallery" data-reveal>
+  <div class="gallery">
     <header class="gallery-head">
+      <p class="kicker">{String(total).padStart(2, "0")} works on file</p>
       <h1 class="gallery-title">Drawings</h1>
       <p class="gallery-sub">A quiet place for sketches &mdash; click the arrows or use your keyboard.</p>
     </header>

@@ -6,26 +6,22 @@
   <title>Jev Structured Models Diagram</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <style>
+<style>
     /* GRAPHITE DESIGN SYSTEM - ZERO HUE, STRICT MONOSPACE, ZERO RADIUS */
     :root {
-      --font-mono: 'Source Code Pro', monospace;
+      --font-mono: 'Geist Mono', monospace;
 
-      --gray-0: #FFFFFF;
-      --gray-50: #F5F5F5;
-      --gray-100: #ECECEC;
-      --gray-200: #C6C6C6;
-      --gray-300: #A8A8A8;
-      --gray-400: #8A8A8A;
-      --gray-500: #6F6F6F;
-      --gray-600: #545454;
-      --gray-700: #3B3B3B;
-      --gray-800: #232323;
-      --gray-900: #121212;
+      --gray-0: #ffffff;
+      --gray-50: #f3f3f3;
+      --gray-100: #ececec;
+      --gray-200: #000000;
+      --gray-300: #a3a3a3;
+      --gray-400: #4d4d4d;
+      --gray-500: #4d4d4d;
+      --gray-600: #4d4d4d;
+      --gray-700: #000000;
+      --gray-800: #000000;
+      --gray-900: #000000;
       --black: #000000;
 
       --color-bg: var(--gray-0);
@@ -81,6 +77,20 @@
       main.grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
   </style>
+<style id="catalog-font">
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-400.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-400.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-500.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:500;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-500.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/geist-mono/geist-mono-latin-700.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Geist Mono';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/geist-mono/geist-mono-symbols2-700.woff2') format('woff2');unicode-range:U+2000-2001,U+2004-2008,U+200A,U+23B8-23BD,U+2500-259F}
+</style>
+<style id="catalog-skin">
+#themeToggleBtn{display:none!important}
+*{transition:none!important;animation:none!important}
+:root{--color-bg:#fff;--color-surface:#f3f3f3;--color-border:#000;--color-text-primary:#000;--color-text-muted:#4d4d4d;--color-invert-bg:#000;--color-invert-text:#fff;--gray-0:#fff;--gray-50:#f3f3f3;--gray-100:#ececec;--gray-200:#000;--gray-300:#a3a3a3;--gray-400:#4d4d4d;--gray-500:#4d4d4d;--gray-600:#4d4d4d;--gray-700:#000;--gray-800:#000;--gray-900:#000;--black:#000}
+[data-theme="dark"]{--color-bg:#1a1a1a;--color-surface:#242424;--color-border:#d0d0d0;--color-text-primary:#f2f2f2;--color-text-muted:#b0b0b0;--color-invert-bg:#f2f2f2;--color-invert-text:#1a1a1a;--gray-0:#1a1a1a;--gray-50:#242424;--gray-100:#3d3d3d;--gray-200:#d0d0d0;--gray-300:#a3a3a3;--gray-400:#b0b0b0;--gray-500:#b0b0b0;--gray-600:#d0d0d0;--gray-700:#f2f2f2;--gray-800:#f2f2f2;--gray-900:#ffffff;--black:#1a1a1a}
+</style>
 </head>
 <body class="m-0 p-0 bg-[var(--color-bg)]">
 
@@ -155,11 +165,11 @@
     function getThemeColors() {
       const isDark = state.theme === 'dark';
       return {
-        border: isDark ? '#3B3B3B' : '#C6C6C6',
-        textPrimary: isDark ? '#F5F5F5' : '#232323',
-        textMuted: isDark ? '#8A8A8A' : '#8A8A8A',
-        invertBg: isDark ? '#ECECEC' : '#232323',
-        invertText: isDark ? '#121212' : '#FFFFFF'
+        border: isDark ? '#d0d0d0' : '#000000',
+        textPrimary: isDark ? '#f2f2f2' : '#000000',
+        textMuted: isDark ? '#b0b0b0' : '#4d4d4d',
+        invertBg: isDark ? '#f2f2f2' : '#000000',
+        invertText: isDark ? '#1a1a1a' : '#ffffff'
       };
     }
 
@@ -200,13 +210,13 @@
           ctx.fillStyle = colors.invertBg;
           ctx.fillRect(8, y + 4, width - 16, rowH - 8);
           ctx.fillStyle = colors.invertText;
-          ctx.font = 'bold 10px "Source Code Pro", monospace';
+          ctx.font = 'bold 10px "Geist Mono", monospace';
           document.getElementById('outputChoice').innerText = `["${item}"]`;
         } else {
           ctx.strokeStyle = colors.border;
           ctx.strokeRect(8, y + 4, width - 16, rowH - 8);
           ctx.fillStyle = colors.textMuted;
-          ctx.font = '10px "Source Code Pro", monospace';
+          ctx.font = '10px "Geist Mono", monospace';
         }
 
         ctx.fillText(item, 18, y + rowH / 2 + 3.5);
@@ -246,7 +256,7 @@
         ctx.fillRect(ptrX - 12, trackY - 8, 24, 16);
 
         ctx.fillStyle = colors.invertText;
-        ctx.font = 'bold 9px "Source Code Pro", monospace';
+        ctx.font = 'bold 9px "Geist Mono", monospace';
         ctx.textAlign = 'center';
         ctx.fillText(val, ptrX, trackY + 3);
         ctx.textAlign = 'left';
@@ -281,14 +291,14 @@
           ctx.fillStyle = colors.invertBg;
           ctx.fillRect(boxX, boxY, 70, 20);
           ctx.fillStyle = colors.invertText;
-          ctx.font = 'bold 9px "Source Code Pro", monospace';
+          ctx.font = 'bold 9px "Geist Mono", monospace';
           ctx.fillText("[ TRUE ]", boxX + 13, boxY + 13);
         } else {
           ctx.strokeStyle = colors.textPrimary;
           ctx.lineWidth = 1;
           ctx.strokeRect(boxX, boxY, 70, 20);
           ctx.fillStyle = colors.textPrimary;
-          ctx.font = 'bold 9px "Source Code Pro", monospace';
+          ctx.font = 'bold 9px "Geist Mono", monospace';
           ctx.fillText("[FALSE]", boxX + 13, boxY + 13);
         }
       }
@@ -330,5 +340,22 @@
       setTimeout(fit, 150);
     })();
   </script>
+<script id="catalog-theme-sync">
+(function () {
+  function apply() {
+    var dark = false;
+    try { dark = window.parent.document.documentElement.getAttribute('data-theme') === 'dark'; } catch (e) {}
+    var next = dark ? 'dark' : 'light';
+    if (document.documentElement.getAttribute('data-theme') !== next) {
+      document.documentElement.setAttribute('data-theme', next);
+    }
+    if (typeof state !== 'undefined') state.theme = next;
+  }
+  apply();
+  try {
+    new MutationObserver(apply).observe(window.parent.document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>

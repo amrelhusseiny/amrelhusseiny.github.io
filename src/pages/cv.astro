@@ -1,9 +1,13 @@
 ---
-// CV — Letter layout, Noto Sans, bilingual (EN/DE), dark mode, self-hosted fonts.
+// CV — Letter layout, printed-catalog styling, bilingual (EN/DE).
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/600.css";
+import "@fontsource/geist-mono/700.css";
 import { cvJsonLd } from "../lib/cvMarkdown";
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +21,7 @@ import { cvJsonLd } from "../lib/cvMarkdown";
 <script>
   (function () {
     try {
-      var t = localStorage.getItem('cv-theme');
+      var t = localStorage.getItem('amro_blog_theme');
       if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
       var l = localStorage.getItem('cv-lang');
       if (l === 'de' || l === 'en') document.documentElement.setAttribute('data-lang', l);
@@ -25,51 +29,55 @@ import { cvJsonLd } from "../lib/cvMarkdown";
   })();
 </script>
 <style>
-/* ==========================================================
-   CV stylesheet — matched to the reference CV (Letter-style
-   layout: Noto Sans body, grey boxed section headings,
-   bold caps employer + right-aligned dates).
-   Edit the variables below to restyle everything.
-   ========================================================== */
-
-@font-face {
-  font-family: "Noto Sans";
-  src: url("/fonts/NotoSans-VF.ttf") format("truetype");
-  font-weight: 100 900; font-style: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("/fonts/NotoSans-Italic-VF.ttf") format("truetype");
-  font-weight: 100 900; font-style: italic;
-}
-
 :root {
-  --sans:  "Noto Sans", "Open Sans", Arial, sans-serif;
-  --serif: "Liberation Serif", "Times New Roman", Times, serif;
-  --body-size: 11pt;          /* body text                      */
-  --summary-size: 15pt;       /* large centred lines            */
-  --name-size: 14pt;
-  --heading-size: 10pt;       /* text inside the grey boxes     */
-  --small-size: 8.5pt;        /* small serif lines in header    */
-  --box-bg: #808080;          /* grey section heading box       */
+  --sans:  "Geist Mono", monospace;
+  --mono:  "Geist Mono", monospace;
+  --serif: var(--mono);
+  --body-size: 10.5pt;        /* body text                      */
+  --summary-size: 14pt;       /* large centred lines            */
+  --name-size: 16pt;
+  --heading-size: 9pt;        /* text inside the section boxes  */
+  --small-size: 8pt;          /* small mono lines in header     */
+  --box-bg: #f3f3f3;          /* tinted section heading box     */
   --box-border: #000;
-  --link: #0000ee;
+  --link: #0047ab;
+  --ink: #000;
+  --muted: #4d4d4d;
+  --desk: #ececec;
+  --paper: #ffffff;
+  --shade: #a3a3a3;
   --margin-x: 0.5in;
   --margin-top: 0.55in;
   --margin-bottom: 0.5in;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #f2f2f2;
+  --muted: #b0b0b0;
+  --desk: #0c0c0c;
+  --paper: #1a1a1a;
+  --shade: #000000;
+  --box-bg: #242424;
+  --box-border: #d0d0d0;
+  --link: #8ab4ff;
+  background: var(--desk);
 }
 
 /* Change A4 -> Letter here if you prefer the reference page size */
 @page { size: Letter; margin: var(--margin-top) var(--margin-x) var(--margin-bottom); }
 
 * { box-sizing: border-box; }
-html { background: #cfcfcf; }
+html { background: var(--desk); }
 body {
   font-family: var(--sans);
   font-size: var(--body-size);
-  line-height: 1.362;             /* Noto Sans "normal" line height */
-  color: #000;
+  line-height: 1.42;
+  color: var(--ink);
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
 
@@ -78,17 +86,20 @@ body {
   width: 8.5in; min-height: 11in;
   margin: 10mm auto;
   padding: var(--margin-top) var(--margin-x) var(--margin-bottom);
-  background: #fff;
-  box-shadow: 0 0 6px rgba(0,0,0,.3);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shade);
 }
 @media print {
   html { background: none; }
-  .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+  .page { width: auto; min-height: 0; margin: 0; padding: 0; border: 0; box-shadow: none; }
 }
 
 p { margin: 0; }
 p + p { margin-top: 6pt; }
-a { color: var(--link); text-decoration: underline; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+::selection { background: #fff3a8; color: #000; }
 
 /* ---------- Header (centred) ---------- */
 header { text-align: center; }
@@ -96,22 +107,25 @@ header h1 { font-size: var(--name-size); font-weight: 700; margin: 0; line-heigh
 header .role { font-size: 12pt; margin: 0; }
 header .email { font-size: 12pt; margin: 0; }
 header .small {
-  font-family: var(--serif); font-size: var(--small-size);
-  line-height: 1.15; margin: 0;
+  font-family: var(--mono); font-size: var(--small-size);
+  letter-spacing: 0.01em;
+  line-height: 1.35; margin: 0;
 }
 header p + p { margin-top: 0; }
 
 /* ---------- Section heading boxes ---------- */
 h2 {
+  font-family: var(--mono);
   font-size: var(--heading-size);
   font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-align: center;
   line-height: 1.25;
   margin: 14pt 0 18pt;
-  padding: 1.5pt 4pt;
+  padding: 3pt 4pt;
   background: var(--box-bg);
-  border: 1.2px solid var(--box-border);
+  border: 1px solid var(--box-border);
   break-after: avoid;
 }
 /* content sits slightly inside the box edges (table-cell padding) */
@@ -133,7 +147,7 @@ h2 + .in > .entry:first-child { margin-top: 0; padding-top: 21pt; }
 }
 .org { font-weight: 700; text-transform: uppercase; }
 .loc { font-weight: 400; text-transform: none; }
-.dates { white-space: nowrap; font-weight: 400; }
+.dates { white-space: nowrap; font-weight: 400; font-family: var(--mono); font-size: 8.5pt; }
 .job-title { font-weight: 700; font-style: italic; break-after: avoid; }
 h4 { font-size: var(--body-size); font-weight: 700; margin: 6pt 0 0; break-after: avoid; }
 
@@ -150,8 +164,9 @@ ul ul > li::before { content: "\2013"; }
 .project h4 { margin-top: 0; }
 
 footer {
-  margin-top: 20pt; text-align: center; font-style: italic;
-  font-size: 8.5pt; color: #555;
+  margin-top: 20pt; text-align: center; font-style: normal;
+  font-family: var(--mono);
+  font-size: 8pt; color: var(--muted);
 }
 
 /* ==========================================================
@@ -171,26 +186,31 @@ img.qr {
 .cv-utility {
   display: flex; justify-content: center; align-items: center;
   gap: 8px; padding: 12px 12px 0;
-  font-family: var(--sans);
+  font-family: var(--mono);
 }
 .cv-back {
-  font-size: 10pt; line-height: 1.2;
-  text-decoration: none; color: inherit;
-  border-bottom: 1px solid currentColor;
+  font-size: 9pt; line-height: 1.2;
+  text-decoration: none; color: var(--ink);
+  border-bottom: 1px dotted var(--ink);
   padding-bottom: 1px;
   white-space: nowrap;
 }
-.cv-back:hover { opacity: .7; }
+.cv-back:hover { background: var(--box-bg); text-decoration: none; }
 .cv-utility button {
-  font-family: var(--sans); font-size: 10pt; line-height: 1.2;
+  font-family: var(--mono); font-size: 9pt; line-height: 1.2;
   padding: 5px 13px;
-  border: 1px solid #6d6d6d;
-  background: transparent; color: inherit;
+  border: 1px solid var(--ink);
+  background: var(--paper); color: var(--ink);
+  box-shadow: 2px 2px 0 var(--shade);
   cursor: pointer;
 }
-.cv-utility button:hover { background: rgba(128,128,128,.22); }
+.cv-utility button:hover { background: var(--box-bg); }
+.cv-utility button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
 .cv-utility button[aria-pressed="true"] {
-  background: #333; color: #fff; border-color: #333;
+  background: #fff3a8; color: #000000; border-color: var(--ink);
 }
 .cv-utility .spacer { width: 10px; }
 
@@ -199,36 +219,45 @@ img.qr {
 html[data-lang="de"] .lang-en { display: none; }
 html[data-lang="de"] .lang-de { display: block; }
 
-/* ---------- Dark theme ----------
-   Select the root as html[data-theme=...], never [data-theme=...] html —
-   the latter is a descendant selector and can never match <html>. */
-html[data-theme="dark"] {
-  --box-bg: #343434;
-  --box-border: #d9d9d9;
-  --link: #8ab4ff;
-  background: #0c0c0c;
-}
-html[data-theme="dark"] body { color: #e8e8e8; }
-html[data-theme="dark"] .page { background: #151515; box-shadow: 0 0 6px rgba(0,0,0,.65); }
-html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
-  background: #e2e2e2; color: #111; border-color: #e2e2e2;
+/* ---------- Screen: keep the sheet usable on narrow viewports ---------- */
+@media screen and (max-width: 900px) {
+  body { padding: 0 12px; }
+  .cv-utility { flex-wrap: wrap; padding: 12px 0 8px; }
+  .cv-utility button, .cv-back { white-space: nowrap; }
+  .page {
+    width: auto;
+    min-height: 0;
+    margin: 0 auto 16px;
+    padding: 18px 16px 28px;
+  }
+  header .small { overflow-wrap: anywhere; }
+  .entry-head { flex-direction: column; gap: 2pt; }
+  .dates { white-space: normal; }
+  .qr { width: 14mm; height: 14mm; }
 }
 
-/* ---------- Print: always the light document ---------- */
+/* ---------- Print ---------- */
 @media print {
-  .cv-utility { display: none; }
   html[data-theme="dark"] {
-    --box-bg: #808080; --box-border: #000; --link: #0000ee;
+    --ink: #000000;
+    --muted: #4d4d4d;
+    --desk: #ffffff;
+    --paper: #ffffff;
+    --shade: #a3a3a3;
+    --box-bg: #f3f3f3;
+    --box-border: #000000;
+    --link: #0047ab;
   }
-  html[data-theme="dark"] body { background: #fff; color: #000; }
-  html[data-theme="dark"] .page { background: #fff; color: #000; }
+  html, body { background: #ffffff; color: #000000; }
+  .cv-utility { display: none; }
+  .page { background: #fff; color: #000; }
 }
 </style>
 </head>
 <body>
 
 <div class="cv-utility">
-  <a class="cv-back" href="/blog/">&larr; Back to blog</a>
+  <a class="cv-back" href="/blog/">&lt;- Back to blog</a>
   <span class="spacer"></span>
   <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
   <button class="lang-btn" data-lang="de" type="button" aria-pressed="false">Deutsch</button>
@@ -577,15 +606,6 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
   (function () {
     var root = document.documentElement;
     var langBtns = document.querySelectorAll('.lang-btn');
-    var themeBtn = document.getElementById('theme-toggle');
-
-    function syncThemeLabel() {
-      var dark = root.getAttribute('data-theme') === 'dark';
-      var de = root.getAttribute('data-lang') === 'de';
-      themeBtn.textContent = dark
-        ? (de ? 'Hellmodus' : 'Light mode')
-        : (de ? 'Dunkelmodus' : 'Dark mode');
-    }
 
     function setLang(lang) {
       root.setAttribute('data-lang', lang);
@@ -595,7 +615,6 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
         b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
       });
       try { localStorage.setItem('cv-lang', lang); } catch (e) {}
-      syncThemeLabel();
     }
 
     langBtns.forEach(function (b) {
@@ -604,15 +623,20 @@ html[data-theme="dark"] .cv-utility button[aria-pressed="true"] {
 
     setLang(root.getAttribute('data-lang') === 'de' ? 'de' : 'en');
 
-    themeBtn.addEventListener('click', function () {
+    var themeBtn = document.getElementById('theme-toggle');
+    function syncTheme() {
       var dark = root.getAttribute('data-theme') === 'dark';
-      if (dark) root.removeAttribute('data-theme');
-      else root.setAttribute('data-theme', 'dark');
-      try { localStorage.setItem('cv-theme', dark ? 'light' : 'dark'); } catch (e) {}
-      syncThemeLabel();
+      themeBtn.textContent = dark ? 'Light mode' : 'Dark mode';
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+      themeBtn.setAttribute('aria-pressed', String(dark));
+    }
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('amro_blog_theme', next); } catch (e) {}
+      syncTheme();
     });
-
-    syncThemeLabel();
+    syncTheme();
 
     document.getElementById('print-btn').addEventListener('click', function () { window.print(); });
   })();

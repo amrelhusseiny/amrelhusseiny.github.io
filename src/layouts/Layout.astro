@@ -1,5 +1,9 @@
 ---
 import "../styles/global.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/600.css";
+import "@fontsource/geist-mono/700.css";
 import Nav from "./Nav.astro";
 import Analytics from "@vercel/analytics/astro";
 
@@ -21,7 +25,18 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <title>{pageTitle}</title>
     <meta name="author" content="Amro El Husseini" />
     <meta name="description" content={desc} />
-    <meta name="theme-color" content="#101010" />
+    <meta name="theme-color" content="#ececec" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("amro_blog_theme");
+          if (t !== "dark" && t !== "light") t = "light";
+          document.documentElement.setAttribute("data-theme", t);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", t === "dark" ? "#0c0c0c" : "#ececec");
+        } catch (e) {}
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -30,28 +45,6 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
-    <!-- Theme init (no FOUC) -->
-    <script is:inline>
-      (function () {
-        var t = localStorage.getItem("amro_blog_theme") || "light";
-        document.documentElement.setAttribute("data-theme", t);
-        document.querySelector('meta[name="theme-color"]')
-          .setAttribute("content", t === "dark" ? "#101010" : "#ffffff");
-      })();
-    </script>
-
-    <!-- Fonts: non-render-blocking -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
-      media="print" onload="this.media='all'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
-    </noscript>
 
     <!-- Speculation Rules: prerender likely-next navigations -->
     <script type="speculationrules">
@@ -69,7 +62,6 @@ const desc = description ?? "Network engineer and automation advocate. Writing a
     <script is:inline data-goatcounter="https://amro.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </head>
   <body class={bodyClass}>
-    <div class="progress-bar" data-progress aria-hidden="true"></div>
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <Nav />

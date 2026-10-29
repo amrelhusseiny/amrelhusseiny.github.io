@@ -1,5 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import { readingMinutes } from "../lib/format";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
+
+const sections = [
+  { href: "/blog/", label: "Blog", desc: "Long-form technical articles" },
+  { href: "/notes/", label: "Notes", desc: "Short observations and diagrams" },
+  { href: "/drawings/", label: "Drawings", desc: "Sketches, collected" },
+  { href: "/about/", label: "About", desc: "Profile and experience" },
+  { href: "/cv/", label: "CV", desc: "Curriculum vitae" },
+];
 ---
 <Layout
   title="Amro's Blog"
@@ -7,35 +21,58 @@ import Layout from "../layouts/Layout.astro";
   bodyClass="home-page"
 >
   <section class="home-hero" aria-label="Welcome">
-    <div class="home-hero-content">
-      <p class="home-eyebrow">Amro El Husseini</p>
-      <h1 class="home-title">Amro's Blog</h1>
-      <p class="home-tagline">Networks, Linux, AI &amp; automation &mdash; and the occasional sketch.</p>
-
-      <nav class="home-links" aria-label="Site sections">
-        <a class="home-link" href="/blog/">Blog</a>
-        <a class="home-link" href="/notes/">Notes</a>
-        <a class="home-link" href="/drawings/">Drawings</a>
-        <a class="home-link" href="/about/">About</a>
-        <a class="home-link" href="/cv/">CV</a>
-      </nav>
-    </div>
-
-    <img
-      class="home-hero-art home-hero-art--light"
-      src="/home-bg.webp"
-      alt=""
-      aria-hidden="true"
-      loading="eager"
-      decoding="async"
-    />
-    <img
-      class="home-hero-art home-hero-art--dark"
-      src="/home-bg-dark.webp"
-      alt=""
-      aria-hidden="true"
-      loading="eager"
-      decoding="async"
-    />
+    <p class="home-eyebrow">Amro El Husseini · Technical notebook</p>
+    <h1 class="home-title">Networks, Linux, AI &amp; automation.</h1>
+    <p class="home-tagline">
+      Practical labs, implementation notes, and field observations from a network
+      engineer's desk &mdash; plus the occasional sketch.
+    </p>
+    <nav class="home-links" aria-label="Site sections">
+      <a class="btn" href="/blog/">Blog</a>
+      <a class="btn" href="/notes/">Notes</a>
+      <a class="btn" href="/drawings/">Drawings</a>
+      <a class="btn" href="/about/">About</a>
+      <a class="btn" href="/cv/">CV</a>
+    </nav>
   </section>
+
+  <section class="home-index" aria-labelledby="index-heading">
+    <div class="section-head">
+      <h2 id="index-heading">Section index</h2>
+      <span class="more-link">05 entries</span>
+    </div>
+    <ol class="index-list">
+      {sections.map((s, i) => (
+        <li class="index-item">
+          <a class="index-link" href={s.href}>
+            <span class="index-num">{String(i + 1).padStart(2, "0")}</span>
+            <span class="index-label">{s.label}</span>
+            <span class="index-desc">{s.desc}</span>
+            <span class="index-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {posts.length > 0 && (
+    <section class="home-recent" aria-labelledby="recent-heading">
+      <div class="section-head">
+        <h2 id="recent-heading">Latest entries</h2>
+        <a class="more-link" href="/blog/">All entries &gt;</a>
+      </div>
+      <div class="entry-list">
+        {posts.map((post) => (
+          <a class="entry-row" href={`/blog/${post.id}/`}>
+            <span class="entry-meta">
+              {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+              &middot; {readingMinutes(post.body)} min
+            </span>
+            <span class="entry-title">{post.data.title}</span>
+            <span class="entry-tag">{post.data.tags?.[0] ? `#${post.data.tags[0]}` : ">"}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </Layout>
