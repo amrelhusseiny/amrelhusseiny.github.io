@@ -15,9 +15,7 @@ export const cv = {
   },
   "contact_print": {
     "email": "amroashram@hotmail.com",
-    "phone": "(+49) 15225176681",
-    "whatsapp": "+4915225176681",
-    "location": "Konstanzer Str. 40, 60386 Frankfurt am Main, Germany",
+    "location": "Frankfurt am Main, Germany",
     "dob": "01/12/1991",
     "nationality": "Egyptian"
   },

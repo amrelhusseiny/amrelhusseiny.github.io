@@ -329,15 +329,14 @@ export const cvMarkdown = `# Curriculum Vitae — Amro ElHusseini
 - **Name:** Amro ElHusseini
 - **Current title:** Senior Private Cloud Engineer (Networks)
 - **Current employer:** Hyundai Autoever Europe GmbH
-- **Location:** Konstanzer Str. 40, 60386 Frankfurt am Main, Germany
-- **Phone / WhatsApp:** +49 152 2517 6681
+- **Location:** Frankfurt am Main, Germany
 - **Email:** amroashram@hotmail.com
 - **Website:** https://amroelhusseini.vercel.app
 - **LinkedIn:** https://www.linkedin.com/in/amro-elhusseini-2a330456/
 - **GitHub:** https://github.com/amrelhusseiny
 - **Date of birth:** 1991-12-01
 - **Nationality:** Egyptian
-- **Residence permit:** Niederlassungserlaubnis (YZ7M3MK5V), Germany
+- **Residence permit:** Niederlassungserlaubnis, Germany
 - **Work permit:** Germany
 - **Driving licence:** Category B, German, issued 2025-02-18
 - **Last updated:** ${new Date().toISOString().slice(0, 10)}
@@ -361,12 +360,10 @@ export const cvJsonLd = {
   jobTitle: "Senior Private Cloud Engineer (Networks)",
   url: "https://amroelhusseini.vercel.app/cv/",
   email: "mailto:amroashram@hotmail.com",
-  telephone: "+49 152 2517 6681",
   birthDate: "1991-12-01",
   nationality: { "@type": "Country", name: "Egypt" },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Konstanzer Str. 40",
     postalCode: "60386",
     addressLocality: "Frankfurt am Main",
     addressCountry: "DE",
