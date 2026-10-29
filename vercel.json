@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/cv", "destination": "/", "permanent": true },
+    { "source": "/cv/", "destination": "/", "permanent": true },
+    { "source": "/cv.md", "destination": "/", "permanent": true },
+    { "source": "/AmroElhusseini_Resume.pdf", "destination": "/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",
